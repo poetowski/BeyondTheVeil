@@ -2,9 +2,12 @@ import os
 import uuid
 
 import pytest
+from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
 
+from app.core.db import get_db
+from app.main import app
 from app.models.base import Base
 from app.models.hero import Hero
 from app.models.user import User
@@ -42,6 +45,21 @@ def db_session(engine):
     session.close()
     trans.rollback()
     connection.close()
+
+
+@pytest.fixture()
+def client(db_session):
+    """TestClient whose requests run inside this test's db_session transaction,
+    so anything an endpoint commits is still rolled back by db_session's teardown.
+    """
+
+    def _override_get_db():
+        yield db_session
+
+    app.dependency_overrides[get_db] = _override_get_db
+    with TestClient(app) as test_client:
+        yield test_client
+    app.dependency_overrides.clear()
 
 
 @pytest.fixture()

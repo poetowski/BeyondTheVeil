@@ -8,4 +8,5 @@ into a PvE encounter; results are revealed once the run's timer elapses.
 
 - `backend/` — FastAPI + PostgreSQL (SQLAlchemy + Alembic). See
   `backend/README.md` for setup.
-- `frontend/` — React (not yet started).
+- `frontend/` — React + Vite + TypeScript: login/signup and an authenticated
+  shell (Hero / The Veil / Concept). See `frontend/README.md` for setup.

@@ -8,7 +8,6 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
 from app.models.hero import Hero
-from app.models.item import ItemInstance
 from app.models.veil_run import VeilRun, VeilRunStatus
 from app.services import hero_service
 from app.services.combat import engine as combat_engine
@@ -28,16 +27,7 @@ def enter_veil(db: Session, hero: Hero) -> VeilRun:
     if existing is not None:
         return existing
 
-    equipped_items = (
-        db.execute(
-            select(ItemInstance).where(
-                ItemInstance.owner_hero_id == hero.id,
-                ItemInstance.equipped_slot.is_not(None),
-            )
-        )
-        .scalars()
-        .all()
-    )
+    equipped_items = hero_service.get_equipped_items(db, hero)
     effective_stats = hero_service.compute_effective_stats(hero, equipped_items)
 
     seed = random.getrandbits(63)

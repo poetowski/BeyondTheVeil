@@ -1,0 +1,39 @@
+export interface TokenResponse {
+  access_token: string;
+  token_type: string;
+}
+
+export interface UserOut {
+  id: string;
+  email: string;
+}
+
+export interface HeroOut {
+  id: string;
+  name: string;
+  level: number;
+  xp: number;
+  strength: number;
+  dexterity: number;
+  vitality: number;
+  agility: number;
+  intelligence: number;
+  spirit: number;
+  max_hp: number;
+}
+
+export interface UserMeResponse {
+  user: UserOut;
+  hero: HeroOut;
+}
+
+export interface SignupRequest {
+  email: string;
+  password: string;
+  hero_name: string;
+}
+
+export interface LoginRequest {
+  email: string;
+  password: string;
+}

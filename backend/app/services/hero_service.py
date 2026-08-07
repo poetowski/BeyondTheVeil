@@ -1,3 +1,6 @@
+from sqlalchemy import select
+from sqlalchemy.orm import Session
+
 from app.models.hero import Hero
 from app.models.item import ItemInstance
 
@@ -5,6 +8,7 @@ STAT_NAMES = ("strength", "dexterity", "vitality", "agility", "intelligence", "s
 
 HP_PER_VITALITY = 10
 BASE_HP = 50
+BASELINE_STAT_VALUE = 5
 
 
 def compute_effective_stats(hero: Hero, equipped_items: list[ItemInstance]) -> dict[str, int]:
@@ -25,3 +29,16 @@ def compute_effective_stats(hero: Hero, equipped_items: list[ItemInstance]) -> d
 def compute_max_hp(effective_vitality: int) -> int:
     """Placeholder formula; combat balance is a separate future task."""
     return BASE_HP + effective_vitality * HP_PER_VITALITY
+
+
+def get_equipped_items(db: Session, hero: Hero) -> list[ItemInstance]:
+    return (
+        db.execute(
+            select(ItemInstance).where(
+                ItemInstance.owner_hero_id == hero.id,
+                ItemInstance.equipped_slot.is_not(None),
+            )
+        )
+        .scalars()
+        .all()
+    )

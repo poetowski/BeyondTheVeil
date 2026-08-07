@@ -1,0 +1,88 @@
+.app-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.sidebar {
+  width: 220px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  background: #1b1522;
+  color: #e8e2f0;
+  padding: 1.5rem 1rem;
+  box-sizing: border-box;
+}
+
+.sidebar-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-bottom: 2rem;
+}
+
+.sidebar-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.sidebar-hero-name {
+  font-size: 0.85rem;
+  color: #b6a6d6;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex-grow: 1;
+}
+
+.sidebar-nav-link {
+  display: block;
+  padding: 0.6rem 0.75rem;
+  border-radius: 6px;
+  color: inherit;
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+
+.sidebar-nav-link:hover {
+  background: #2a2036;
+}
+
+.sidebar-nav-link.active {
+  background: #3d2f57;
+  font-weight: 600;
+}
+
+.sidebar-logout {
+  margin-top: auto;
+  padding: 0.6rem 0.75rem;
+  background: transparent;
+  border: 1px solid #4a3d63;
+  border-radius: 6px;
+  color: #e8e2f0;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.sidebar-logout:hover {
+  background: #2a2036;
+}
+
+.app-content {
+  flex-grow: 1;
+  padding: 2.5rem;
+  box-sizing: border-box;
+}
+
+.full-page-status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  font-size: 1rem;
+  color: #666;
+}
