@@ -7,12 +7,11 @@ from sqlalchemy import select, update
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
+from app.core.config import settings
 from app.models.hero import Hero
 from app.models.veil_run import VeilRun, VeilRunStatus
 from app.services import hero_service
 from app.services.combat import engine as combat_engine
-
-DEFAULT_DURATION_SECONDS = 5 * 60
 
 
 def enter_veil(db: Session, hero: Hero) -> VeilRun:
@@ -32,7 +31,8 @@ def enter_veil(db: Session, hero: Hero) -> VeilRun:
 
     seed = random.getrandbits(63)
     started_at = datetime.now(timezone.utc)
-    resolves_at = started_at + timedelta(seconds=DEFAULT_DURATION_SECONDS)
+    duration_seconds = settings.veil_duration_seconds
+    resolves_at = started_at + timedelta(seconds=duration_seconds)
 
     # encounter generation (which monsters/loot pool appear) is procedural-generation
     # content out of scope for the core data model; {} is a placeholder encounter.
@@ -43,7 +43,7 @@ def enter_veil(db: Session, hero: Hero) -> VeilRun:
         seed=seed,
         status=VeilRunStatus.IN_PROGRESS,
         started_at=started_at,
-        duration_seconds=DEFAULT_DURATION_SECONDS,
+        duration_seconds=duration_seconds,
         resolves_at=resolves_at,
         result_payload=dataclasses.asdict(result),
     )
@@ -68,20 +68,24 @@ def get_active_run(db: Session, hero: Hero) -> VeilRun | None:
     ).scalar_one_or_none()
 
 
-def claim_run(db: Session, run_id: uuid.UUID) -> VeilRun:
+def claim_run(db: Session, run_id: uuid.UUID, hero_id: uuid.UUID) -> VeilRun:
     """Idempotently transition a resolved run to completed and apply its rewards.
 
     The conditional UPDATE (status='in_progress' AND resolves_at<=now) is the
     actual concurrency guarantee: only the caller whose UPDATE flips a row
     applies XP/loot, so two concurrent claims (e.g. two open tabs) never
     double-credit. A claim attempted before resolves_at simply updates 0 rows
-    and returns the still-in-progress run unchanged.
+    and returns the still-in-progress run unchanged. hero_id is folded into
+    the same WHERE clause (not checked separately) so "you can't claim
+    someone else's run" is a property of this function, not something every
+    caller has to remember to check first.
     """
     now = datetime.now(timezone.utc)
     updated = db.execute(
         update(VeilRun)
         .where(
             VeilRun.id == run_id,
+            VeilRun.hero_id == hero_id,
             VeilRun.status == VeilRunStatus.IN_PROGRESS,
             VeilRun.resolves_at <= now,
         )

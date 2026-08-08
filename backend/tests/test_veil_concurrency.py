@@ -52,7 +52,7 @@ def test_claim_before_resolves_at_is_a_noop(db_session, hero_factory):
     db_session.add(run)
     db_session.commit()
 
-    claimed = veil_service.claim_run(db_session, run.id)
+    claimed = veil_service.claim_run(db_session, run.id, hero.id)
 
     assert claimed.status == VeilRunStatus.IN_PROGRESS
     assert db_session.get(Hero, hero.id).xp == 0
@@ -64,13 +64,27 @@ def test_claim_is_idempotent(db_session, hero_factory):
     db_session.add(run)
     db_session.commit()
 
-    first = veil_service.claim_run(db_session, run.id)
+    first = veil_service.claim_run(db_session, run.id, hero.id)
     assert first.status == VeilRunStatus.COMPLETED
     assert db_session.get(Hero, hero.id).xp == 42
 
-    second = veil_service.claim_run(db_session, run.id)
+    second = veil_service.claim_run(db_session, run.id, hero.id)
     assert second.status == VeilRunStatus.COMPLETED
     assert db_session.get(Hero, hero.id).xp == 42, "reward must not be applied twice"
+
+
+def test_claim_run_rejects_a_different_heros_id(db_session, hero_factory):
+    owner = hero_factory(xp=0)
+    other = hero_factory(xp=0)
+    run = _make_run(owner, resolves_delta_seconds=-1, xp_awarded=42)
+    db_session.add(run)
+    db_session.commit()
+
+    claimed = veil_service.claim_run(db_session, run.id, other.id)
+
+    assert claimed.status == VeilRunStatus.IN_PROGRESS, "wrong-hero claim must be a no-op"
+    assert db_session.get(Hero, owner.id).xp == 0
+    assert db_session.get(Hero, other.id).xp == 0
 
 
 def test_concurrent_claim_race_only_one_applies_reward(engine):
@@ -106,7 +120,7 @@ def test_concurrent_claim_race_only_one_applies_reward(engine):
     def worker():
         session = SessionFactory()
         barrier.wait()
-        claimed = veil_service.claim_run(session, run_id)
+        claimed = veil_service.claim_run(session, run_id, hero_id)
         statuses.append(claimed.status)
         session.close()
 

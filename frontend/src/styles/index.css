@@ -31,9 +31,41 @@ h2 {
   margin: 0 0 0.9rem;
 }
 
+.page button {
+  padding: 0.55rem 1.1rem;
+  font-size: 0.95rem;
+  border: none;
+  border-radius: 6px;
+  background: #3d2f57;
+  color: #fff;
+  cursor: pointer;
+}
+
 .hero-meta {
   color: #666;
   margin-bottom: 1rem;
+}
+
+.veil-countdown {
+  font-size: 2rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  margin: 0.5rem 0 1.5rem;
+}
+
+.veil-victory {
+  color: #1b7a3a;
+  font-weight: 600;
+}
+
+.veil-defeat {
+  color: #b3261e;
+  font-weight: 600;
+}
+
+.veil-loot-note {
+  color: #666;
+  margin-bottom: 1.5rem;
 }
 
 .stat-table {

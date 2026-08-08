@@ -37,3 +37,18 @@ export interface LoginRequest {
   email: string;
   password: string;
 }
+
+export interface VeilRunResultOut {
+  victory: boolean;
+  log: Record<string, unknown>[];
+  loot: Record<string, unknown>[];
+  xp_awarded: number;
+}
+
+export interface VeilRunOut {
+  id: string;
+  status: "in_progress" | "completed";
+  started_at: string;
+  resolves_at: string;
+  result: VeilRunResultOut | null;
+}
