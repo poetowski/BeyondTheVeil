@@ -54,3 +54,16 @@ def get_equipped_items(db: Session, hero: Hero) -> list[ItemInstance]:
         .scalars()
         .all()
     )
+
+
+def get_owned_items(db: Session, hero: Hero) -> list[ItemInstance]:
+    """Everything the hero owns, equipped or not (i.e. the full backpack)."""
+    return (
+        db.execute(
+            select(ItemInstance)
+            .where(ItemInstance.owner_hero_id == hero.id)
+            .order_by(ItemInstance.acquired_at.desc())
+        )
+        .scalars()
+        .all()
+    )

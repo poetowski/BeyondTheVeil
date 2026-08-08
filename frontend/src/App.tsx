@@ -1,6 +1,7 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import { RequireAuth } from "./auth/RequireAuth";
 import { AppLayout } from "./layout/AppLayout";
+import { BackpackPage } from "./pages/BackpackPage";
 import { ConceptPage } from "./pages/ConceptPage";
 import { HeroPage } from "./pages/HeroPage";
 import { LoginPage } from "./pages/LoginPage";
@@ -16,6 +17,7 @@ function App() {
       <Route element={<RequireAuth />}>
         <Route element={<AppLayout />}>
           <Route path="/hero" element={<HeroPage />} />
+          <Route path="/backpack" element={<BackpackPage />} />
           <Route path="/veil" element={<VeilPage />} />
           <Route path="/concept" element={<ConceptPage />} />
         </Route>

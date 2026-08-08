@@ -64,3 +64,18 @@ export interface VeilRunOut {
   resolves_at: string;
   result: VeilRunResultOut | null;
 }
+
+export type EquipmentSlot = "weapon" | "helmet" | "shield" | "armor" | "amulet" | "spell_skill";
+
+export type ItemRarity = "common" | "uncommon" | "rare" | "epic" | "legendary";
+
+export interface ItemInstanceOut {
+  id: string;
+  name: string;
+  slot: EquipmentSlot;
+  rarity: ItemRarity;
+  base_stats: Record<string, number>;
+  rolled_stats: Record<string, number> | null;
+  equipped_slot: EquipmentSlot | null;
+  acquired_at: string;
+}
