@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 
 from app.models.hero import Hero
 from app.models.item import ItemInstance
+from app.models.material import MaterialInstance
 
 STAT_NAMES = ("strength", "dexterity", "intelligence", "vitality", "agility", "spirit")
 
@@ -63,6 +64,19 @@ def get_owned_items(db: Session, hero: Hero) -> list[ItemInstance]:
             select(ItemInstance)
             .where(ItemInstance.owner_hero_id == hero.id)
             .order_by(ItemInstance.acquired_at.desc())
+        )
+        .scalars()
+        .all()
+    )
+
+
+def get_owned_materials(db: Session, hero: Hero) -> list[MaterialInstance]:
+    """Every crafting-material stack the hero owns."""
+    return (
+        db.execute(
+            select(MaterialInstance)
+            .where(MaterialInstance.owner_hero_id == hero.id)
+            .order_by(MaterialInstance.acquired_at.desc())
         )
         .scalars()
         .all()

@@ -5,6 +5,7 @@ import { BackpackPage } from "./pages/BackpackPage";
 import { ConceptPage } from "./pages/ConceptPage";
 import { HeroPage } from "./pages/HeroPage";
 import { LoginPage } from "./pages/LoginPage";
+import { MaterialsPage } from "./pages/MaterialsPage";
 import { SignupPage } from "./pages/SignupPage";
 import { VeilPage } from "./pages/VeilPage";
 
@@ -18,6 +19,7 @@ function App() {
         <Route element={<AppLayout />}>
           <Route path="/hero" element={<HeroPage />} />
           <Route path="/backpack" element={<BackpackPage />} />
+          <Route path="/materials" element={<MaterialsPage />} />
           <Route path="/veil" element={<VeilPage />} />
           <Route path="/concept" element={<ConceptPage />} />
         </Route>

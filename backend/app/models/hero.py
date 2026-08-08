@@ -41,4 +41,7 @@ class Hero(UUIDPKMixin, TimestampMixin, Base):
     item_instances: Mapped[list["ItemInstance"]] = relationship(
         back_populates="owner_hero", foreign_keys="ItemInstance.owner_hero_id"
     )
+    material_instances: Mapped[list["MaterialInstance"]] = relationship(
+        back_populates="owner_hero", foreign_keys="MaterialInstance.owner_hero_id"
+    )
     veil_runs: Mapped[list["VeilRun"]] = relationship(back_populates="hero")

@@ -2,11 +2,21 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
 
 const NAV_ITEMS = [
-  { to: "/hero", label: "Hero" },
-  { to: "/backpack", label: "Backpack" },
+  {
+    to: "/hero",
+    label: "Hero",
+    children: [
+      { to: "/backpack", label: "Backpack" },
+      { to: "/materials", label: "Materials" },
+    ],
+  },
   { to: "/veil", label: "The Veil" },
   { to: "/concept", label: "Concept" },
 ];
+
+function navLinkClass({ isActive }: { isActive: boolean }): string {
+  return "sidebar-nav-link" + (isActive ? " active" : "");
+}
 
 export function Sidebar() {
   const { hero, logout } = useAuth();
@@ -26,13 +36,20 @@ export function Sidebar() {
 
       <nav className="sidebar-nav">
         {NAV_ITEMS.map((item) => (
-          <NavLink
-            key={item.to}
-            to={item.to}
-            className={({ isActive }) => "sidebar-nav-link" + (isActive ? " active" : "")}
-          >
-            {item.label}
-          </NavLink>
+          <div key={item.to} className="sidebar-nav-group">
+            <NavLink to={item.to} className={navLinkClass} end={!!item.children}>
+              {item.label}
+            </NavLink>
+            {item.children && (
+              <div className="sidebar-subnav">
+                {item.children.map((child) => (
+                  <NavLink key={child.to} to={child.to} className={navLinkClass}>
+                    {child.label}
+                  </NavLink>
+                ))}
+              </div>
+            )}
+          </div>
         ))}
       </nav>
 

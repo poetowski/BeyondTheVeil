@@ -80,3 +80,11 @@ export interface ItemInstanceOut {
   equipped_slot: EquipmentSlot | null;
   acquired_at: string;
 }
+
+export interface MaterialInstanceOut {
+  id: string;
+  name: string;
+  description: string | null;
+  quantity: number;
+  acquired_at: string;
+}
