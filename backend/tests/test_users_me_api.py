@@ -1,4 +1,4 @@
-from app.services.hero_service import BASE_HP, BASELINE_STAT_VALUE, HP_PER_VITALITY
+from app.services.hero_service import BASE_HP, BASELINE_STAT_VALUE, HP_PER_VITALITY, STAT_NAMES
 
 
 def _signup(client, email="me@test.com", hero_name="Elowen"):
@@ -34,3 +34,8 @@ def test_get_me_returns_hero_and_user(client):
     assert body["hero"]["xp"] == 0
     expected_max_hp = BASE_HP + BASELINE_STAT_VALUE * HP_PER_VITALITY
     assert body["hero"]["max_hp"] == expected_max_hp
+
+    for stat in STAT_NAMES:
+        assert body["hero"][stat] == BASELINE_STAT_VALUE
+        assert body["hero"][f"base_{stat}"] == BASELINE_STAT_VALUE
+        assert body["hero"][f"bonus_{stat}"] == 0

@@ -72,12 +72,34 @@ h2 {
   border-collapse: collapse;
 }
 
+.stat-table th,
 .stat-table td {
   padding: 0.3rem 1.2rem 0.3rem 0;
+  text-align: left;
+}
+
+.stat-table th {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
 }
 
 .stat-table td:last-child {
   font-weight: 600;
+}
+
+.stat-bonus-positive {
+  color: #1b7a3a;
+}
+
+.stat-bonus-negative {
+  color: #b3261e;
+}
+
+.stat-bonus-zero {
+  color: #666;
 }
 
 .equipment-list {

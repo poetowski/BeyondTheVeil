@@ -19,6 +19,18 @@ export interface HeroOut {
   agility: number;
   intelligence: number;
   spirit: number;
+  base_strength: number;
+  base_dexterity: number;
+  base_vitality: number;
+  base_agility: number;
+  base_intelligence: number;
+  base_spirit: number;
+  bonus_strength: number;
+  bonus_dexterity: number;
+  bonus_vitality: number;
+  bonus_agility: number;
+  bonus_intelligence: number;
+  bonus_spirit: number;
   max_hp: number;
 }
 

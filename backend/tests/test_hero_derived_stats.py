@@ -28,6 +28,24 @@ def test_compute_effective_stats_sums_equipped_item_bonuses():
     assert effective["dexterity"] == 5
 
 
+def test_base_plus_bonus_equals_effective_for_every_stat():
+    hero = Hero(strength=10, dexterity=10, vitality=10, agility=10, intelligence=10, spirit=10)
+    template = ItemTemplate(
+        slug="sword", name="Sword", slot=EquipmentSlot.WEAPON, base_stats={"strength": 3}
+    )
+    weapon = ItemInstance(equipped_slot=EquipmentSlot.WEAPON, rolled_stats={"strength": 1})
+    weapon.template = template
+
+    base = hero_service.compute_base_stats(hero)
+    bonus = hero_service.compute_stat_bonuses(hero, [weapon])
+    effective = hero_service.compute_effective_stats(hero, [weapon])
+
+    for stat in hero_service.STAT_NAMES:
+        assert base[stat] + bonus[stat] == effective[stat]
+    assert bonus["strength"] == 4
+    assert bonus["vitality"] == 0
+
+
 def test_compute_max_hp_derives_from_effective_vitality():
     assert hero_service.compute_max_hp(0) == hero_service.BASE_HP
     assert (

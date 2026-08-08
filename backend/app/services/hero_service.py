@@ -8,12 +8,17 @@ STAT_NAMES = ("strength", "dexterity", "vitality", "agility", "intelligence", "s
 
 HP_PER_VITALITY = 10
 BASE_HP = 50
-BASELINE_STAT_VALUE = 5
+BASELINE_STAT_VALUE = 10
 
 
-def compute_effective_stats(hero: Hero, equipped_items: list[ItemInstance]) -> dict[str, int]:
-    """Base hero stats plus bonuses from every currently-equipped item."""
-    effective = {stat: getattr(hero, stat) for stat in STAT_NAMES}
+def compute_base_stats(hero: Hero) -> dict[str, int]:
+    return {stat: getattr(hero, stat) for stat in STAT_NAMES}
+
+
+def compute_stat_bonuses(hero: Hero, equipped_items: list[ItemInstance]) -> dict[str, int]:
+    """Bonuses from every currently-equipped item (weapon, armor, spell skill, etc.),
+    isolated from base stats so base + bonus == effective by construction."""
+    bonuses = {stat: 0 for stat in STAT_NAMES}
     for item in equipped_items:
         if item.equipped_slot is None:
             continue
@@ -21,9 +26,16 @@ def compute_effective_stats(hero: Hero, equipped_items: list[ItemInstance]) -> d
             if not source:
                 continue
             for stat, bonus in source.items():
-                if stat in effective:
-                    effective[stat] += bonus
-    return effective
+                if stat in bonuses:
+                    bonuses[stat] += bonus
+    return bonuses
+
+
+def compute_effective_stats(hero: Hero, equipped_items: list[ItemInstance]) -> dict[str, int]:
+    """Base hero stats plus bonuses from every currently-equipped item."""
+    base = compute_base_stats(hero)
+    bonuses = compute_stat_bonuses(hero, equipped_items)
+    return {stat: base[stat] + bonuses[stat] for stat in STAT_NAMES}
 
 
 def compute_max_hp(effective_vitality: int) -> int:

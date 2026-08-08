@@ -71,12 +71,12 @@ def hero_factory(db_session):
         defaults = dict(
             user_id=user.id,
             name="Test Hero",
-            strength=5,
-            dexterity=5,
-            vitality=5,
-            agility=5,
-            intelligence=5,
-            spirit=5,
+            strength=10,
+            dexterity=10,
+            vitality=10,
+            agility=10,
+            intelligence=10,
+            spirit=10,
         )
         defaults.update(overrides)
         hero = Hero(**defaults)

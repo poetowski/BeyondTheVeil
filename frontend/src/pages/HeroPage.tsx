@@ -1,15 +1,28 @@
 import { useAuth } from "../auth/AuthContext";
+import type { HeroOut } from "../api/types";
 
 const EQUIPMENT_SLOTS = ["Weapon", "Helmet", "Shield", "Armor", "Amulet", "Spell Skill"];
 
-const STAT_ROWS: { label: string; key: "strength" | "dexterity" | "vitality" | "agility" | "intelligence" | "spirit" }[] = [
-  { label: "Strength", key: "strength" },
-  { label: "Dexterity", key: "dexterity" },
-  { label: "Vitality", key: "vitality" },
-  { label: "Agility", key: "agility" },
-  { label: "Intelligence", key: "intelligence" },
-  { label: "Spirit", key: "spirit" },
+const STAT_ROWS: { label: string; totalKey: keyof HeroOut; baseKey: keyof HeroOut; bonusKey: keyof HeroOut }[] = [
+  { label: "Strength", totalKey: "strength", baseKey: "base_strength", bonusKey: "bonus_strength" },
+  { label: "Dexterity", totalKey: "dexterity", baseKey: "base_dexterity", bonusKey: "bonus_dexterity" },
+  { label: "Vitality", totalKey: "vitality", baseKey: "base_vitality", bonusKey: "bonus_vitality" },
+  { label: "Agility", totalKey: "agility", baseKey: "base_agility", bonusKey: "bonus_agility" },
+  { label: "Intelligence", totalKey: "intelligence", baseKey: "base_intelligence", bonusKey: "bonus_intelligence" },
+  { label: "Spirit", totalKey: "spirit", baseKey: "base_spirit", bonusKey: "bonus_spirit" },
 ];
+
+function formatSigned(n: number): string {
+  if (n > 0) return `+${n}`;
+  if (n < 0) return `${n}`;
+  return "+0";
+}
+
+function bonusClass(n: number): string {
+  if (n > 0) return "stat-bonus-positive";
+  if (n < 0) return "stat-bonus-negative";
+  return "stat-bonus-zero";
+}
 
 export function HeroPage() {
   const { hero } = useAuth();
@@ -27,13 +40,26 @@ export function HeroPage() {
 
       <h2>Stats</h2>
       <table className="stat-table">
+        <thead>
+          <tr>
+            <th>Stat</th>
+            <th>Base</th>
+            <th>Bonus</th>
+            <th>Total</th>
+          </tr>
+        </thead>
         <tbody>
-          {STAT_ROWS.map((row) => (
-            <tr key={row.key}>
-              <td>{row.label}</td>
-              <td>{hero[row.key]}</td>
-            </tr>
-          ))}
+          {STAT_ROWS.map((row) => {
+            const bonus = hero[row.bonusKey] as number;
+            return (
+              <tr key={row.label}>
+                <td>{row.label}</td>
+                <td>{hero[row.baseKey] as number}</td>
+                <td className={bonusClass(bonus)}>{formatSigned(bonus)}</td>
+                <td>{hero[row.totalKey] as number}</td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
 

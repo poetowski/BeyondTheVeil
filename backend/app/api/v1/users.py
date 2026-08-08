@@ -17,7 +17,9 @@ def get_me(
 ) -> UserMeResponse:
     hero = current_user.hero
     equipped_items = hero_service.get_equipped_items(db, hero)
-    effective = hero_service.compute_effective_stats(hero, equipped_items)
+    base = hero_service.compute_base_stats(hero)
+    bonus = hero_service.compute_stat_bonuses(hero, equipped_items)
+    effective = {stat: base[stat] + bonus[stat] for stat in hero_service.STAT_NAMES}
     max_hp = hero_service.compute_max_hp(effective["vitality"])
 
     return UserMeResponse(
@@ -29,5 +31,7 @@ def get_me(
             xp=hero.xp,
             max_hp=max_hp,
             **effective,
+            **{f"base_{stat}": value for stat, value in base.items()},
+            **{f"bonus_{stat}": value for stat, value in bonus.items()},
         ),
     )
