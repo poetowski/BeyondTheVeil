@@ -29,6 +29,7 @@ def get_me(
             name=hero.name,
             level=hero.level,
             xp=hero.xp,
+            gold=hero.gold,
             max_hp=max_hp,
             **effective,
             **{f"base_{stat}": value for stat, value in base.items()},

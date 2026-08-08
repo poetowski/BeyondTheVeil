@@ -35,7 +35,7 @@ export function HeroPage() {
     <div className="page hero-page">
       <h1>{hero.name}</h1>
       <p className="hero-meta">
-        Level {hero.level} · {hero.xp} XP · {hero.max_hp} max HP
+        Level {hero.level} · {hero.xp} XP · {hero.max_hp} max HP · {hero.gold} gold
       </p>
 
       <h2>Stats</h2>

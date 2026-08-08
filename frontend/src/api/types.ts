@@ -13,6 +13,7 @@ export interface HeroOut {
   name: string;
   level: number;
   xp: number;
+  gold: number;
   strength: number;
   dexterity: number;
   intelligence: number;
@@ -96,4 +97,16 @@ export interface MonsterTemplateOut {
   level_range_min: number;
   level_range_max: number;
   flavor_text: string | null;
+}
+
+export type CampaignNodeStatus = "locked" | "available" | "cleared";
+
+export interface CampaignNodeOut {
+  id: string;
+  order_index: number;
+  name: string;
+  required_level: number;
+  gold_cost: number;
+  monster_name: string;
+  status: CampaignNodeStatus;
 }

@@ -10,7 +10,7 @@ from app.models.monster import MonsterLootEntry, MonsterTemplate
 
 
 def select_encounter(db: Session, hero: Hero, seed: int) -> dict[str, Any] | None:
-    """Picks a monster eligible for the hero's level and its loot pool.
+    """Picks a monster eligible for the hero's level and builds its encounter payload.
 
     Uses a second, independent random.Random(seed) instance (not a shared RNG
     threaded into combat_engine.resolve) so monster selection stays
@@ -32,7 +32,15 @@ def select_encounter(db: Session, hero: Hero, seed: int) -> dict[str, Any] | Non
         return None
 
     monster = random.Random(seed).choice(templates)
+    return build_encounter(db, monster)
 
+
+def build_encounter(db: Session, monster: MonsterTemplate) -> dict[str, Any]:
+    """Builds the encounter payload (stats + loot pool) for a specific monster.
+
+    Shared by random veil-run selection above and by campaign nodes, which
+    pin a fixed MonsterTemplate instead of picking one.
+    """
     loot_entries = (
         db.execute(
             select(MonsterLootEntry, ItemTemplate)

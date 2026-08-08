@@ -5,6 +5,7 @@ Run with: python -m scripts.seed_dev_data
 """
 
 from app.core.db import SessionLocal
+from app.models.campaign import CampaignNode
 from app.models.item import EquipmentSlot, ItemRarity, ItemTemplate
 from app.models.monster import MonsterLootEntry, MonsterTemplate
 
@@ -35,6 +36,34 @@ MONSTER_TEMPLATES = [
         level_range_max=6,
         base_stats={"strength": 5, "dexterity": 4, "vitality": 8, "agility": 5, "intelligence": 1, "spirit": 1},
     ),
+    dict(
+        slug="hollow-warden",
+        name="Hollow Warden",
+        level_range_min=6,
+        level_range_max=9,
+        base_stats={"strength": 8, "dexterity": 6, "vitality": 14, "agility": 6, "intelligence": 3, "spirit": 3},
+    ),
+    dict(
+        slug="veil-sovereign",
+        name="Veil Sovereign",
+        level_range_min=10,
+        level_range_max=14,
+        base_stats={"strength": 12, "dexterity": 9, "vitality": 20, "agility": 9, "intelligence": 5, "spirit": 5},
+    ),
+]
+
+# Fixed, sequential battle nodes for the Campaign track. Only the first is
+# reachable today (required_level=1, gold_cost=0) — gold has no earn source
+# yet and leveling doesn't exist, so nodes 2+ are legitimately unreachable
+# until those systems land, matching the same "real system, empty for now"
+# pattern used for Materials.
+CAMPAIGN_NODES = [
+    dict(slug="campaign-01-wisp-threshold", order_index=1, name="The Wisp Threshold", required_level=1, gold_cost=0, monster_slug="veil-wisp"),
+    dict(slug="campaign-02-wisp-hollow", order_index=2, name="Wisp Hollow", required_level=2, gold_cost=10, monster_slug="veil-wisp"),
+    dict(slug="campaign-03-stalkers-approach", order_index=3, name="Stalker's Approach", required_level=3, gold_cost=25, monster_slug="fragment-stalker"),
+    dict(slug="campaign-04-fragment-maze", order_index=4, name="Fragment Maze", required_level=5, gold_cost=50, monster_slug="fragment-stalker"),
+    dict(slug="campaign-05-hollow-wardens-gate", order_index=5, name="Hollow Warden's Gate", required_level=7, gold_cost=100, monster_slug="hollow-warden"),
+    dict(slug="campaign-06-veil-sovereign", order_index=6, name="The Veil Sovereign", required_level=10, gold_cost=200, monster_slug="veil-sovereign"),
 ]
 
 # Dev/placeholder drop tables, not final balance. spark-cantrip is deliberately
@@ -83,6 +112,23 @@ def seed() -> None:
                     monster_template_id=monster.id,
                     item_template_id=item.id,
                     drop_weight=entry["drop_weight"],
+                )
+            )
+
+        db.flush()
+
+        for data in CAMPAIGN_NODES:
+            if db.query(CampaignNode).filter_by(slug=data["slug"]).first():
+                continue
+            monster = db.query(MonsterTemplate).filter_by(slug=data["monster_slug"]).first()
+            db.add(
+                CampaignNode(
+                    slug=data["slug"],
+                    order_index=data["order_index"],
+                    name=data["name"],
+                    required_level=data["required_level"],
+                    gold_cost=data["gold_cost"],
+                    monster_template_id=monster.id,
                 )
             )
 

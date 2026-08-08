@@ -1,4 +1,5 @@
 from app.models.base import Base
+from app.models.campaign import CampaignNode
 from app.models.hero import Hero
 from app.models.item import EquipmentSlot, ItemInstance, ItemRarity, ItemTemplate
 from app.models.material import MaterialInstance, MaterialTemplate
@@ -18,6 +19,7 @@ __all__ = [
     "MaterialInstance",
     "MonsterTemplate",
     "MonsterLootEntry",
+    "CampaignNode",
     "VeilRun",
     "VeilRunStatus",
 ]

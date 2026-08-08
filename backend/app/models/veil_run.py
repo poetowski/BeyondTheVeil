@@ -45,6 +45,9 @@ class VeilRun(UUIDPKMixin, TimestampMixin, Base):
     hero_id: Mapped[uuid.UUID] = mapped_column(
         UUID(as_uuid=True), ForeignKey("heroes.id", ondelete="CASCADE"), nullable=False
     )
+    campaign_node_id: Mapped[uuid.UUID | None] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("campaign_nodes.id", ondelete="SET NULL"), nullable=True
+    )
     seed: Mapped[int] = mapped_column(BigInteger, nullable=False)
     status: Mapped[VeilRunStatus] = mapped_column(
         veil_run_status_enum, nullable=False, default=VeilRunStatus.IN_PROGRESS

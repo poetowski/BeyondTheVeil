@@ -8,6 +8,7 @@ class HeroOut(BaseModel):
     name: str
     level: int
     xp: int
+    gold: int
     strength: int
     dexterity: int
     intelligence: int

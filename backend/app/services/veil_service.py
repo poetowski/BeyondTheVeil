@@ -2,12 +2,14 @@ import dataclasses
 import random
 import uuid
 from datetime import datetime, timedelta, timezone
+from typing import Any
 
 from sqlalchemy import select, update
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
 from app.core.config import settings
+from app.models.campaign import CampaignNode
 from app.models.hero import Hero
 from app.models.item import ItemInstance, ItemTemplate
 from app.models.veil_run import VeilRun, VeilRunStatus
@@ -17,8 +19,9 @@ from app.services.combat import engine as combat_engine
 
 
 def enter_veil(db: Session, hero: Hero) -> VeilRun:
-    """Start a veil run, resolving combat immediately but revealing nothing
-    until `resolves_at` has passed (see schemas.veil_run.is_visible).
+    """Start a veil run against a randomly selected monster, resolving combat
+    immediately but revealing nothing until `resolves_at` has passed (see
+    schemas.veil_run.is_visible).
 
     Safe under a double-submit: the partial unique index on
     veil_runs(hero_id) WHERE status='in_progress' is the actual guarantee;
@@ -28,22 +31,51 @@ def enter_veil(db: Session, hero: Hero) -> VeilRun:
     if existing is not None:
         return existing
 
+    seed = random.getrandbits(63)
+    encounter = encounter_service.select_encounter(db, hero, seed)
+    return _start_run(db, hero, seed=seed, encounter=encounter, campaign_node_id=None)
+
+
+def enter_campaign_encounter(
+    db: Session, hero: Hero, encounter: dict[str, Any], campaign_node_id: uuid.UUID
+) -> VeilRun:
+    """Starts a run against a fixed (already-resolved) campaign-node monster.
+
+    Mirrors enter_veil's immediate-resolve-but-hidden behavior; the caller
+    (campaign_service) is responsible for eligibility checks and gold
+    deduction before calling this.
+    """
+    existing = get_active_run(db, hero)
+    if existing is not None:
+        return existing
+
+    seed = random.getrandbits(63)
+    return _start_run(db, hero, seed=seed, encounter=encounter, campaign_node_id=campaign_node_id)
+
+
+def _start_run(
+    db: Session,
+    hero: Hero,
+    *,
+    seed: int,
+    encounter: dict[str, Any] | None,
+    campaign_node_id: uuid.UUID | None,
+) -> VeilRun:
     equipped_items = hero_service.get_equipped_items(db, hero)
     effective_stats = hero_service.compute_effective_stats(hero, equipped_items)
     base_stats = hero_service.compute_base_stats(hero)
 
-    seed = random.getrandbits(63)
     started_at = datetime.now(timezone.utc)
     duration_seconds = settings.veil_duration_seconds
     resolves_at = started_at + timedelta(seconds=duration_seconds)
 
-    encounter = encounter_service.select_encounter(db, hero, seed)
     result = combat_engine.resolve(
         seed=seed, hero_snapshot=effective_stats, hero_base_stats=base_stats, encounter=encounter
     )
 
     run = VeilRun(
         hero_id=hero.id,
+        campaign_node_id=campaign_node_id,
         seed=seed,
         status=VeilRunStatus.IN_PROGRESS,
         started_at=started_at,
@@ -114,6 +146,11 @@ def _apply_rewards(db: Session, run: VeilRun) -> None:
     payload = run.result_payload or {}
     hero = db.get(Hero, run.hero_id)
     hero.xp += payload.get("xp_awarded", 0)
+
+    if run.campaign_node_id is not None and payload.get("victory"):
+        node = db.get(CampaignNode, run.campaign_node_id)
+        if node is not None and node.order_index == hero.campaign_progress + 1:
+            hero.campaign_progress = node.order_index
 
     for entry in payload.get("loot", []):
         slug = entry.get("item_template_slug")

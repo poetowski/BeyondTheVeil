@@ -3,6 +3,7 @@ import { RequireAuth } from "./auth/RequireAuth";
 import { AppLayout } from "./layout/AppLayout";
 import { BackpackPage } from "./pages/BackpackPage";
 import { BestiaryPage } from "./pages/BestiaryPage";
+import { CampaignPage } from "./pages/CampaignPage";
 import { ConceptPage } from "./pages/ConceptPage";
 import { HeroPage } from "./pages/HeroPage";
 import { LoginPage } from "./pages/LoginPage";
@@ -22,6 +23,7 @@ function App() {
           <Route path="/backpack" element={<BackpackPage />} />
           <Route path="/materials" element={<MaterialsPage />} />
           <Route path="/veil" element={<VeilPage />} />
+          <Route path="/campaign" element={<CampaignPage />} />
           <Route path="/bestiary" element={<BestiaryPage />} />
           <Route path="/concept" element={<ConceptPage />} />
         </Route>

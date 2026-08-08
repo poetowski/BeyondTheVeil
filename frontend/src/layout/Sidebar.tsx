@@ -13,7 +13,10 @@ const NAV_ITEMS = [
   {
     to: "/veil",
     label: "The Veil",
-    children: [{ to: "/bestiary", label: "Bestiary" }],
+    children: [
+      { to: "/campaign", label: "Campaign" },
+      { to: "/bestiary", label: "Bestiary" },
+    ],
   },
   { to: "/concept", label: "Concept" },
 ];
