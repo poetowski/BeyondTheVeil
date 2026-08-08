@@ -1,5 +1,15 @@
 # Beyond the Veil — Agent Instructions
 
+## Stat order
+
+The six hero/monster stats are **always** listed, declared, and displayed in
+this exact order: **strength, dexterity, intelligence, vitality, agility,
+spirit**. This applies everywhere a full stat list appears or is iterated for
+display/serialization — API schemas (`HeroOut` and friends), the canonical
+`STAT_NAMES` tuple in `hero_service.py`, frontend stat tables/types, and the
+`Hero` SQLAlchemy model's column declaration order. Follow this strictly and
+persistently on every change that touches stats, not just when reminded.
+
 ## Verification
 
 - **Backend-only changes**: verify with tests and direct checks (pytest, `curl`/API calls, `alembic check`) and report the results — no screenshot needed.

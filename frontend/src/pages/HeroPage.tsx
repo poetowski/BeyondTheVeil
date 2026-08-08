@@ -6,9 +6,9 @@ const EQUIPMENT_SLOTS = ["Weapon", "Helmet", "Shield", "Armor", "Amulet", "Spell
 const STAT_ROWS: { label: string; totalKey: keyof HeroOut; baseKey: keyof HeroOut; bonusKey: keyof HeroOut }[] = [
   { label: "Strength", totalKey: "strength", baseKey: "base_strength", bonusKey: "bonus_strength" },
   { label: "Dexterity", totalKey: "dexterity", baseKey: "base_dexterity", bonusKey: "bonus_dexterity" },
+  { label: "Intelligence", totalKey: "intelligence", baseKey: "base_intelligence", bonusKey: "bonus_intelligence" },
   { label: "Vitality", totalKey: "vitality", baseKey: "base_vitality", bonusKey: "bonus_vitality" },
   { label: "Agility", totalKey: "agility", baseKey: "base_agility", bonusKey: "bonus_agility" },
-  { label: "Intelligence", totalKey: "intelligence", baseKey: "base_intelligence", bonusKey: "bonus_intelligence" },
   { label: "Spirit", totalKey: "spirit", baseKey: "base_spirit", bonusKey: "bonus_spirit" },
 ];
 

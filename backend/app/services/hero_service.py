@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from app.models.hero import Hero
 from app.models.item import ItemInstance
 
-STAT_NAMES = ("strength", "dexterity", "vitality", "agility", "intelligence", "spirit")
+STAT_NAMES = ("strength", "dexterity", "intelligence", "vitality", "agility", "spirit")
 
 HP_PER_VITALITY = 10
 BASE_HP = 50

@@ -14,9 +14,9 @@ class Hero(UUIDPKMixin, TimestampMixin, Base):
         CheckConstraint("xp >= 0", name="xp_gte_0"),
         CheckConstraint("strength >= 0", name="strength_gte_0"),
         CheckConstraint("dexterity >= 0", name="dexterity_gte_0"),
+        CheckConstraint("intelligence >= 0", name="intelligence_gte_0"),
         CheckConstraint("vitality >= 0", name="vitality_gte_0"),
         CheckConstraint("agility >= 0", name="agility_gte_0"),
-        CheckConstraint("intelligence >= 0", name="intelligence_gte_0"),
         CheckConstraint("spirit >= 0", name="spirit_gte_0"),
     )
 
@@ -32,9 +32,9 @@ class Hero(UUIDPKMixin, TimestampMixin, Base):
 
     strength: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
     dexterity: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    intelligence: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
     vitality: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
     agility: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
-    intelligence: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
     spirit: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
 
     user: Mapped["User"] = relationship(back_populates="hero")
