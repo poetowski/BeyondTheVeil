@@ -88,3 +88,12 @@ export interface MaterialInstanceOut {
   quantity: number;
   acquired_at: string;
 }
+
+export interface MonsterTemplateOut {
+  id: string;
+  slug: string;
+  name: string;
+  level_range_min: number;
+  level_range_max: number;
+  flavor_text: string | null;
+}

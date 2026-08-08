@@ -119,6 +119,41 @@ h2 {
   color: #999;
 }
 
+.bestiary-list {
+  list-style: none;
+  padding: 0;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.bestiary-entry {
+  border-bottom: 1px solid #e5e5e5;
+  padding-bottom: 0.9rem;
+}
+
+.bestiary-entry-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.bestiary-entry-name {
+  font-weight: 600;
+}
+
+.bestiary-entry-level {
+  color: #999;
+  font-size: 0.85rem;
+}
+
+.bestiary-entry-flavor {
+  color: #666;
+  margin: 0.3rem 0 0;
+  font-style: italic;
+}
+
 .auth-page {
   min-height: 100vh;
   display: flex;

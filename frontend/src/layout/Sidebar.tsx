@@ -10,7 +10,11 @@ const NAV_ITEMS = [
       { to: "/materials", label: "Materials" },
     ],
   },
-  { to: "/veil", label: "The Veil" },
+  {
+    to: "/veil",
+    label: "The Veil",
+    children: [{ to: "/bestiary", label: "Bestiary" }],
+  },
   { to: "/concept", label: "Concept" },
 ];
 
