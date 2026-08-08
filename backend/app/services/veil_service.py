@@ -146,6 +146,7 @@ def _apply_rewards(db: Session, run: VeilRun) -> None:
     payload = run.result_payload or {}
     hero = db.get(Hero, run.hero_id)
     hero.xp += payload.get("xp_awarded", 0)
+    hero_service.apply_level_ups(hero)
 
     if run.campaign_node_id is not None and payload.get("victory"):
         node = db.get(CampaignNode, run.campaign_node_id)

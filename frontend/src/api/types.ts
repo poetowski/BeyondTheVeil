@@ -13,6 +13,9 @@ export interface HeroOut {
   name: string;
   level: number;
   xp: number;
+  xp_into_level: number;
+  xp_for_next_level: number;
+  available_stat_points: number;
   gold: number;
   strength: number;
   dexterity: number;
@@ -110,3 +113,5 @@ export interface CampaignNodeOut {
   monster_name: string;
   status: CampaignNodeStatus;
 }
+
+export type StatName = "strength" | "dexterity" | "intelligence" | "vitality" | "agility" | "spirit";
