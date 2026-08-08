@@ -52,6 +52,7 @@ export interface LoginRequest {
 
 export interface VeilRunResultOut {
   victory: boolean;
+  monster_name: string | null;
   log: Record<string, unknown>[];
   loot: Record<string, unknown>[];
   xp_awarded: number;

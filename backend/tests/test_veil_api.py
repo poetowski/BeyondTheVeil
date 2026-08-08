@@ -1,6 +1,8 @@
-from datetime import timedelta
+import uuid
+from datetime import datetime, timedelta, timezone
 
-from app.models.veil_run import VeilRun
+from app.models.item import EquipmentSlot, ItemTemplate
+from app.models.veil_run import VeilRun, VeilRunStatus
 
 
 def _signup(client, email="veil@test.com", hero_name="Bramble"):
@@ -120,3 +122,42 @@ def test_claim_of_nonexistent_run_is_rejected(client):
     )
 
     assert response.status_code == 404
+
+
+def test_claiming_loot_materializes_an_item_instance_in_the_backpack(client, db_session):
+    token = _signup(client, email="looter@test.com")
+    me = client.get("/api/v1/users/me", headers=_auth(token)).json()
+    hero_id = me["hero"]["id"]
+
+    template = ItemTemplate(
+        slug="test-loot-sword", name="Test Loot Sword", slot=EquipmentSlot.WEAPON, base_stats={}
+    )
+    db_session.add(template)
+    db_session.flush()
+
+    now = datetime.now(timezone.utc)
+    run = VeilRun(
+        hero_id=uuid.UUID(hero_id),
+        seed=1,
+        status=VeilRunStatus.IN_PROGRESS,
+        started_at=now - timedelta(seconds=10),
+        duration_seconds=5,
+        resolves_at=now - timedelta(seconds=5),
+        result_payload={
+            "victory": True,
+            "monster_name": "Test Monster",
+            "log": [],
+            "loot": [{"item_template_slug": "test-loot-sword", "item_name": "Test Loot Sword"}],
+            "xp_awarded": 5,
+        },
+    )
+    db_session.add(run)
+    db_session.commit()
+
+    claimed = client.post(f"/api/v1/veil/{run.id}/claim", headers=_auth(token)).json()
+    assert claimed["status"] == "completed"
+
+    inventory = client.get("/api/v1/inventory", headers=_auth(token)).json()
+    assert len(inventory) == 1
+    assert inventory[0]["name"] == "Test Loot Sword"
+    assert inventory[0]["equipped_slot"] is None

@@ -14,6 +14,7 @@ def is_visible(run: VeilRun, *, now: datetime | None = None) -> bool:
 
 class VeilRunResultOut(BaseModel):
     victory: bool
+    monster_name: str | None = None
     log: list[dict]
     loot: list[dict]
     xp_awarded: int

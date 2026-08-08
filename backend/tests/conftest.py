@@ -10,6 +10,7 @@ from app.core.db import get_db
 from app.main import app
 from app.models.base import Base
 from app.models.hero import Hero
+from app.models.monster import MonsterTemplate
 from app.models.user import User
 
 TEST_DATABASE_URL = os.environ.get(
@@ -23,6 +24,29 @@ def engine():
     eng = create_engine(TEST_DATABASE_URL, future=True)
     Base.metadata.drop_all(eng)
     Base.metadata.create_all(eng)
+
+    # Broad-coverage monster so any test calling enter_veil() end-to-end has an
+    # eligible encounter, regardless of hero level. Inserted once, outside any
+    # per-test transaction, so it persists across every test's rollback.
+    with Session(bind=eng) as setup_session:
+        setup_session.add(
+            MonsterTemplate(
+                slug="test-fixture-monster",
+                name="Test Fixture Monster",
+                level_range_min=1,
+                level_range_max=99,
+                base_stats={
+                    "strength": 5,
+                    "dexterity": 5,
+                    "vitality": 5,
+                    "agility": 5,
+                    "intelligence": 5,
+                    "spirit": 5,
+                },
+            )
+        )
+        setup_session.commit()
+
     yield eng
     eng.dispose()
 

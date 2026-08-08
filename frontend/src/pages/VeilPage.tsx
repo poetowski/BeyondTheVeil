@@ -35,6 +35,10 @@ function errorMessage(err: unknown, fallback: string): string {
   return err instanceof ApiError ? err.message : fallback;
 }
 
+function lootItemName(entry: Record<string, unknown>): string {
+  return typeof entry.item_name === "string" ? entry.item_name : "an item";
+}
+
 export function VeilPage() {
   const { token, refetch } = useAuth();
   const [state, setState] = useState<State>({ kind: "loading" });
@@ -193,13 +197,17 @@ function VeilBody({
 
     case "resolved": {
       const result = state.run.result!;
+      const monsterLabel = result.monster_name ?? "something in the veil";
       return (
         <>
           <p className={result.victory ? "veil-victory" : "veil-defeat"}>
-            {result.victory ? "Victory." : "Defeat."} You gained {result.xp_awarded} XP.
+            {result.victory ? "Victory" : "Defeat"} against {monsterLabel}. You gained{" "}
+            {result.xp_awarded} XP.
           </p>
           <p className="veil-loot-note">
-            {result.loot.length === 0 ? "No loot this time." : `${result.loot.length} item(s) found.`}
+            {result.loot.length === 0
+              ? "No loot this time."
+              : `You found: ${result.loot.map(lootItemName).join(", ")}.`}
           </p>
           <button type="button" onClick={onEnter}>
             Enter the Veil Again

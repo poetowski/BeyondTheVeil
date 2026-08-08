@@ -9,8 +9,10 @@ from sqlalchemy.orm import Session
 
 from app.core.config import settings
 from app.models.hero import Hero
+from app.models.item import ItemInstance, ItemTemplate
 from app.models.veil_run import VeilRun, VeilRunStatus
 from app.services import hero_service
+from app.services.combat import encounter as encounter_service
 from app.services.combat import engine as combat_engine
 
 
@@ -28,15 +30,17 @@ def enter_veil(db: Session, hero: Hero) -> VeilRun:
 
     equipped_items = hero_service.get_equipped_items(db, hero)
     effective_stats = hero_service.compute_effective_stats(hero, equipped_items)
+    base_stats = hero_service.compute_base_stats(hero)
 
     seed = random.getrandbits(63)
     started_at = datetime.now(timezone.utc)
     duration_seconds = settings.veil_duration_seconds
     resolves_at = started_at + timedelta(seconds=duration_seconds)
 
-    # encounter generation (which monsters/loot pool appear) is procedural-generation
-    # content out of scope for the core data model; {} is a placeholder encounter.
-    result = combat_engine.resolve(seed=seed, hero_snapshot=effective_stats, encounter={})
+    encounter = encounter_service.select_encounter(db, hero, seed)
+    result = combat_engine.resolve(
+        seed=seed, hero_snapshot=effective_stats, hero_base_stats=base_stats, encounter=encounter
+    )
 
     run = VeilRun(
         hero_id=hero.id,
@@ -110,6 +114,19 @@ def _apply_rewards(db: Session, run: VeilRun) -> None:
     payload = run.result_payload or {}
     hero = db.get(Hero, run.hero_id)
     hero.xp += payload.get("xp_awarded", 0)
-    # Materializing `loot` entries into ItemInstance rows depends on procedural
-    # loot-generation internals that are out of scope for the core data model;
-    # this is the integration point future work plugs into.
+
+    for entry in payload.get("loot", []):
+        slug = entry.get("item_template_slug")
+        template = db.execute(
+            select(ItemTemplate).where(ItemTemplate.slug == slug)
+        ).scalar_one_or_none()
+        if template is None:
+            continue  # content may have been renamed/removed since the run resolved
+        db.add(
+            ItemInstance(
+                template_id=template.id,
+                owner_hero_id=run.hero_id,
+                equipped_slot=None,
+                source_veil_run_id=run.id,
+            )
+        )
