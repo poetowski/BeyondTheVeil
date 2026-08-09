@@ -42,6 +42,8 @@ MONSTER_TEMPLATES = [
         base_stats={"strength": 9, "dexterity": 11, "intelligence": 7, "vitality": 8, "agility": 10, "spirit": 10},
         flavor_text="Not quite a year old, and still testing its speed.",
         no_drop_weight=45,
+        gold_min=8,
+        gold_max=20,
     ),
 ]
 for _monster in MONSTER_TEMPLATES:
