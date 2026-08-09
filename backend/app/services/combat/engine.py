@@ -14,6 +14,7 @@ DAMAGE_VARIANCE = (0.8, 1.2)
 MAX_ROUNDS = 30
 DROP_CHANCE = 0.5
 GOLD_PER_VICTORY = 10
+SPELL_DAMAGE_MULTIPLIER = 3  # intelligence contributes 3x the damage per point that strength does
 
 
 @dataclass
@@ -38,10 +39,11 @@ def resolve(
     encounter: dict[str, Any] | None,
 ) -> CombatResult:
     """Deterministic, seed-reproducible combat in two phases: an opening
-    spell exchange (intelligence for damage, spirit-vs-spirit for hit
-    chance — mirrors the physical formulas below with magic's stat pair),
-    then physical-only rounds (strength for damage, dexterity-vs-agility
-    for hit chance). Vitality drives HP throughout.
+    spell exchange (intelligence for damage — at SPELL_DAMAGE_MULTIPLIER
+    per point vs. strength's 1x, spirit-vs-spirit for hit chance — mirrors
+    the physical hit-chance formula with magic's stat pair), then
+    physical-only rounds (strength for damage, dexterity-vs-agility for hit
+    chance). Vitality drives HP throughout.
 
     Turn order (initiative) is decided once, from *base* stats only (no item
     bonuses) — hero_base_stats vs the monster's stats (monsters have no
@@ -88,7 +90,9 @@ def resolve(
         hit = attacker_intelligence > 0 and rng.random() < _hit_chance(attacker_spirit, defender_spirit)
         damage = 0
         if hit:
-            damage = max(1, math.floor(attacker_intelligence * rng.uniform(*DAMAGE_VARIANCE)))
+            damage = max(
+                1, math.floor(attacker_intelligence * SPELL_DAMAGE_MULTIPLIER * rng.uniform(*DAMAGE_VARIANCE))
+            )
             if actor == "hero":
                 monster_hp = max(0, monster_hp - damage)
             else:

@@ -139,6 +139,32 @@ def test_spell_exchange_uses_intelligence_for_damage_not_strength():
         assert hero_spell_entry["damage"] >= 1
 
 
+def test_spell_damage_scales_at_3x_strength_per_point(monkeypatch):
+    # Pin out randomness: guaranteed hits, no damage-roll variance, so
+    # damage is exactly attacker_stat * multiplier.
+    monkeypatch.setattr(engine, "_hit_chance", lambda attacker, defender: 1.0)
+    monkeypatch.setattr(engine, "DAMAGE_VARIANCE", (1.0, 1.0))
+
+    equal_stats_hero = {**WEAK_HERO, "strength": 20, "intelligence": 20}
+    # Huge monster vitality so it survives the spell phase and forces
+    # physical rounds too, letting us compare both formulas' output.
+    tough_encounter = _encounter(monster_stats={**MONSTER, "vitality": 100_000})
+    result = engine.resolve(
+        seed=1, hero_snapshot=equal_stats_hero, hero_base_stats=equal_stats_hero, encounter=tough_encounter
+    )
+
+    hero_spell_damage = next(
+        e["damage"] for e in result.log if e["phase"] == "spell" and e["actor"] == "hero"
+    )
+    hero_physical_damage = next(
+        e["damage"] for e in result.log if e["phase"] == "physical" and e["actor"] == "hero"
+    )
+
+    assert hero_spell_damage == 20 * engine.SPELL_DAMAGE_MULTIPLIER
+    assert hero_physical_damage == 20
+    assert hero_spell_damage == hero_physical_damage * engine.SPELL_DAMAGE_MULTIPLIER
+
+
 def test_a_lethal_spell_cast_ends_combat_before_physical_rounds():
     # Hero acts first (higher initiative) with an overwhelming intelligence
     # stat; ~90% hit chance means most seeds one-shot the monster in the
