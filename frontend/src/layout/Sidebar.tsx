@@ -5,13 +5,14 @@ interface NavItem {
   to: string;
   label: string;
   children?: NavItem[];
-  /** False for group headers that have no page of their own (e.g. "Crafting"
-   * only organizes Alchemy/Forge) - rendered as plain text instead of a link. */
-  hasPage?: boolean;
   /** Visually distinguishes this one link from the rest of the nav. */
   highlight?: boolean;
 }
 
+// Hero is the only top-level item with a dedicated screen of its own -
+// The Veil and Crafting instead forward straight to their first sub-tab
+// (Campaign, Alchemy) when clicked, same as clicking a folder opens the
+// first thing inside it.
 const NAV_ITEMS: NavItem[] = [
   {
     to: "/hero",
@@ -22,7 +23,7 @@ const NAV_ITEMS: NavItem[] = [
     ],
   },
   {
-    to: "/veil",
+    to: "/campaign",
     label: "The Veil",
     highlight: true,
     children: [
@@ -31,9 +32,8 @@ const NAV_ITEMS: NavItem[] = [
     ],
   },
   {
-    to: "/crafting",
+    to: "/alchemy",
     label: "Crafting",
-    hasPage: false,
     children: [
       { to: "/alchemy", label: "Alchemy" },
       { to: "/forge", label: "Forge" },
@@ -66,17 +66,9 @@ export function Sidebar() {
       <nav className="sidebar-nav">
         {NAV_ITEMS.map((item) => (
           <div key={item.to} className="sidebar-nav-group">
-            {item.hasPage === false ? (
-              <span
-                className={"sidebar-nav-group-label" + (item.highlight ? " veil-highlight" : "")}
-              >
-                {item.label}
-              </span>
-            ) : (
-              <NavLink to={item.to} className={navLinkClass(item.highlight)} end={!!item.children}>
-                {item.label}
-              </NavLink>
-            )}
+            <NavLink to={item.to} className={navLinkClass(item.highlight)} end={!!item.children}>
+              {item.label}
+            </NavLink>
             {item.children && (
               <div className="sidebar-subnav">
                 {item.children.map((child) => (
