@@ -4,6 +4,7 @@ from datetime import datetime, timezone
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
+from app.models.consumable import ConsumableInstance
 from app.models.hero import Hero
 from app.models.item import ItemInstance
 from app.models.material import MaterialInstance
@@ -228,6 +229,19 @@ def get_owned_materials(db: Session, hero: Hero) -> list[MaterialInstance]:
             select(MaterialInstance)
             .where(MaterialInstance.owner_hero_id == hero.id)
             .order_by(MaterialInstance.acquired_at.desc())
+        )
+        .scalars()
+        .all()
+    )
+
+
+def get_owned_consumables(db: Session, hero: Hero) -> list[ConsumableInstance]:
+    """Every consumable (e.g. elixir) stack the hero owns."""
+    return (
+        db.execute(
+            select(ConsumableInstance)
+            .where(ConsumableInstance.owner_hero_id == hero.id)
+            .order_by(ConsumableInstance.acquired_at.desc())
         )
         .scalars()
         .all()

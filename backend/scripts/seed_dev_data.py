@@ -8,6 +8,8 @@ import re
 
 from app.core.db import SessionLocal
 from app.models.campaign import CampaignNode
+from app.models.consumable import ConsumableTemplate
+from app.models.crafting import CraftingCategory, CraftingRecipe, CraftingRecipeIngredient
 from app.models.item import EquipmentSlot, ItemRarity, ItemTemplate
 from app.models.material import MaterialTemplate
 from app.models.monster import MonsterLootEntry, MonsterMaterialLootEntry, MonsterTemplate
@@ -48,6 +50,26 @@ MATERIAL_TEMPLATES = [
 ]
 for _material in MATERIAL_TEMPLATES:
     _material["slug"] = slugify(_material["name"])
+
+CONSUMABLE_TEMPLATES = [
+    dict(name="Minor Healing Elixir", description="A quick brew that mends shallow wounds.", heal_amount_fraction=0.3),
+]
+for _consumable in CONSUMABLE_TEMPLATES:
+    _consumable["slug"] = slugify(_consumable["name"])
+
+# One worked example Alchemy recipe, craftable from level 1.
+CRAFTING_RECIPES = [
+    dict(
+        name="Minor Healing Elixir",
+        category=CraftingCategory.ALCHEMY,
+        level_requirement=1,
+        output_consumable_slug=slugify("Minor Healing Elixir"),
+        output_quantity=1,
+        ingredients=[dict(material_slug=slugify("Wisp Residue"), quantity_required=3)],
+    ),
+]
+for _recipe in CRAFTING_RECIPES:
+    _recipe["slug"] = slugify(_recipe["name"])
 
 # Fixed, sequential battle nodes for the Campaign track. Slugs are hand-typed
 # here (unlike items/monsters above) because they encode sequence order, not
@@ -90,6 +112,11 @@ def seed() -> None:
                 continue
             db.add(MaterialTemplate(**data))
 
+        for data in CONSUMABLE_TEMPLATES:
+            if db.query(ConsumableTemplate).filter_by(slug=data["slug"]).first():
+                continue
+            db.add(ConsumableTemplate(**data))
+
         db.flush()
 
         for entry in MONSTER_LOOT_ENTRIES:
@@ -131,6 +158,36 @@ def seed() -> None:
                     drop_weight=entry["drop_weight"],
                 )
             )
+
+        for data in CRAFTING_RECIPES:
+            if db.query(CraftingRecipe).filter_by(slug=data["slug"]).first():
+                continue
+            output_consumable = (
+                db.query(ConsumableTemplate).filter_by(slug=data["output_consumable_slug"]).first()
+            )
+            if output_consumable is None:
+                continue
+            recipe = CraftingRecipe(
+                slug=data["slug"],
+                name=data["name"],
+                category=data["category"],
+                level_requirement=data["level_requirement"],
+                output_consumable_template_id=output_consumable.id,
+                output_quantity=data["output_quantity"],
+            )
+            db.add(recipe)
+            db.flush()
+            for ingredient in data["ingredients"]:
+                material = db.query(MaterialTemplate).filter_by(slug=ingredient["material_slug"]).first()
+                if material is None:
+                    continue
+                db.add(
+                    CraftingRecipeIngredient(
+                        recipe_id=recipe.id,
+                        material_template_id=material.id,
+                        quantity_required=ingredient["quantity_required"],
+                    )
+                )
 
         db.flush()
 

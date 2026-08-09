@@ -1,5 +1,7 @@
 from app.models.base import Base
 from app.models.campaign import CampaignNode
+from app.models.consumable import ConsumableInstance, ConsumableTemplate
+from app.models.crafting import CraftingCategory, CraftingRecipe, CraftingRecipeIngredient
 from app.models.hero import Hero
 from app.models.item import EquipmentSlot, ItemInstance, ItemRarity, ItemTemplate
 from app.models.material import MaterialInstance, MaterialTemplate
@@ -17,6 +19,11 @@ __all__ = [
     "ItemRarity",
     "MaterialTemplate",
     "MaterialInstance",
+    "ConsumableTemplate",
+    "ConsumableInstance",
+    "CraftingCategory",
+    "CraftingRecipe",
+    "CraftingRecipeIngredient",
     "MonsterTemplate",
     "MonsterLootEntry",
     "MonsterMaterialLootEntry",
