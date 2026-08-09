@@ -15,6 +15,7 @@ MAX_ROUNDS = 30
 DROP_CHANCE = 0.5
 GOLD_PER_VICTORY = 10
 SPELL_DAMAGE_MULTIPLIER = 3  # intelligence contributes 3x the damage per point that strength does
+MONSTER_STAT_VARIANCE = (0.85, 1.15)
 
 
 @dataclass
@@ -32,6 +33,16 @@ def _hit_chance(attacker_stat: int, defender_stat: int) -> float:
     return min(HIT_CHANCE_MAX, max(HIT_CHANCE_MIN, chance))
 
 
+def _roll_monster_stats(rng: random.Random, base_stats: dict[str, int]) -> dict[str, int]:
+    """Instances a monster's stats from its template, rolling each of the 6
+    stats independently within MONSTER_STAT_VARIANCE so no two spawns of the
+    same template play out identically."""
+    return {
+        stat: max(1, round(value * rng.uniform(*MONSTER_STAT_VARIANCE)))
+        for stat, value in base_stats.items()
+    }
+
+
 def resolve(
     seed: int,
     hero_snapshot: dict[str, int],
@@ -45,9 +56,16 @@ def resolve(
     physical-only rounds (strength for damage, dexterity-vs-agility for hit
     chance). Vitality drives HP throughout.
 
+    The monster's 6 stats are rolled once at the top of this function (see
+    _roll_monster_stats), independently varying each stat within
+    MONSTER_STAT_VARIANCE around the template's base_stats — so two spawns
+    of the same MonsterTemplate are never identical. This roll consumes rng
+    before any combat rolls below, so it's still fully reproducible from
+    `seed`.
+
     Turn order (initiative) is decided once, from *base* stats only (no item
-    bonuses) — hero_base_stats vs the monster's stats (monsters have no
-    equipment, so theirs are inherently base already). Whoever's
+    bonuses) — hero_base_stats vs the monster's (rolled) stats (monsters have
+    no equipment, so theirs are inherently base already). Whoever's
     dexterity+agility sum is higher acts first, in both the spell exchange
     and the physical rounds that follow. Physical rounds alternate every
     single attack, one full round = each side attacks once.
@@ -56,7 +74,7 @@ def resolve(
         return CombatResult(victory=True, log=[{"message": "no monsters found for hero's level"}])
 
     rng = random.Random(seed)
-    monster_stats = encounter["monster_stats"]
+    monster_stats = _roll_monster_stats(rng, encounter["monster_stats"])
 
     hero_max_hp = compute_max_hp(hero_snapshot["vitality"])
     monster_max_hp = monster_stats["vitality"] * HP_PER_VITALITY

@@ -83,12 +83,41 @@ def test_monster_initiative_wins_when_monster_base_stats_are_higher():
     assert result.log[0]["actor"] == "monster"
 
 
-def test_hero_wins_initiative_ties():
+def test_hero_wins_initiative_ties(monkeypatch):
+    # Monster stats are rolled with variance before combat starts (see
+    # _roll_monster_stats), so pin that to the identity to keep this test's
+    # tie genuinely exact rather than incidental to a particular seed's roll.
+    monkeypatch.setattr(engine, "_roll_monster_stats", lambda rng, base_stats: dict(base_stats))
     tied_hero = {**WEAK_HERO, "dexterity": MONSTER["dexterity"], "agility": MONSTER["agility"]}
     result = engine.resolve(
         seed=7, hero_snapshot=tied_hero, hero_base_stats=tied_hero, encounter=_encounter()
     )
     assert result.log[0]["actor"] == "hero"
+
+
+def test_roll_monster_stats_stays_within_variance_bounds():
+    lo, hi = engine.MONSTER_STAT_VARIANCE
+    for seed in range(200):
+        rolled = engine._roll_monster_stats(engine.random.Random(seed), MONSTER)
+        for stat, base_value in MONSTER.items():
+            assert max(1, round(base_value * lo)) <= rolled[stat] <= round(base_value * hi)
+
+
+def test_roll_monster_stats_varies_across_seeds():
+    rolls = {
+        tuple(engine._roll_monster_stats(engine.random.Random(seed), MONSTER).items())
+        for seed in range(20)
+    }
+    assert len(rolls) > 1
+
+
+def test_resolve_rolls_monster_stats_deterministically_from_seed():
+    # Same seed -> same rolled monster stats -> same combat outcome (already
+    # covered by test_resolve_is_deterministic_for_a_fixed_seed); this
+    # asserts the rolled stats themselves are reproducible in isolation.
+    first = engine._roll_monster_stats(engine.random.Random(99), MONSTER)
+    second = engine._roll_monster_stats(engine.random.Random(99), MONSTER)
+    assert first == second
 
 
 def test_hit_chance_and_damage_bounds_hold_across_many_seeds():
@@ -200,6 +229,7 @@ def test_loot_only_drops_on_victory_and_is_drawn_from_the_pool():
 
 def test_round_cap_tie_break_uses_higher_remaining_hp_percentage(monkeypatch):
     monkeypatch.setattr(engine, "MAX_ROUNDS", 1)
+    monkeypatch.setattr(engine, "_roll_monster_stats", lambda rng, base_stats: dict(base_stats))
     # A single round where both sides survive (very tough monster, weak hero):
     tough_monster = _encounter(
         monster_stats={"strength": 1, "dexterity": 1, "vitality": 1000, "agility": 1, "intelligence": 1, "spirit": 1}
