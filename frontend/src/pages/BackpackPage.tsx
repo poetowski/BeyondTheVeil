@@ -91,32 +91,63 @@ export function BackpackPage() {
       {state.kind === "loaded" && (
         <>
           {actionError && <p className="auth-error">{actionError}</p>}
-          {usedCapacity === 0 ? (
-            <p>Your backpack is empty.</p>
-          ) : (
-            <>
-              <p className="backpack-capacity">
-                {usedCapacity} / {hero.inventory_capacity} items
-              </p>
 
-              <details className="backpack-panel" open>
-                <summary className="backpack-panel-summary">Consumables ({consumableCount})</summary>
-                {state.consumables.length === 0 ? (
-                  <p className="backpack-panel-empty">No consumables.</p>
+          <p className="backpack-capacity">
+            {usedCapacity} / {hero.inventory_capacity} items
+          </p>
+
+          <details className="backpack-panel" open>
+            <summary className="backpack-panel-summary">Consumables ({consumableCount})</summary>
+            {state.consumables.length === 0 ? (
+              <p className="backpack-panel-empty">No consumables.</p>
+            ) : (
+              <ul className="equipment-list">
+                {state.consumables.map((consumable) => (
+                  <li key={consumable.id}>
+                    <span className="equipment-slot-label">{consumable.name}</span>
+                    <span className="equipment-slot-filled">
+                      <span className="equipment-slot-value">×{consumable.quantity}</span>
+                      <button
+                        type="button"
+                        className="small-button"
+                        disabled={pendingId === consumable.id}
+                        onClick={() => handleUseConsumable(consumable.id)}
+                      >
+                        Use
+                      </button>
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </details>
+
+          {EQUIPMENT_SLOTS.map(({ key, label }) => {
+            const slotItems = state.items.filter((item) => item.slot === key);
+            return (
+              <details key={key} className="backpack-panel" open>
+                <summary className="backpack-panel-summary">
+                  {label} ({slotItems.length})
+                </summary>
+                {slotItems.length === 0 ? (
+                  <p className="backpack-panel-empty">No {label.toLowerCase()} items.</p>
                 ) : (
                   <ul className="equipment-list">
-                    {state.consumables.map((consumable) => (
-                      <li key={consumable.id}>
-                        <span className="equipment-slot-label">{consumable.name}</span>
+                    {slotItems.map((item) => (
+                      <li key={item.id}>
+                        <span className="equipment-slot-label">{item.name}</span>
                         <span className="equipment-slot-filled">
-                          <span className="equipment-slot-value">×{consumable.quantity}</span>
+                          <span className="equipment-slot-value">
+                            {item.rarity}
+                            {item.equipped_slot !== null ? " · equipped" : ""}
+                          </span>
                           <button
                             type="button"
                             className="small-button"
-                            disabled={pendingId === consumable.id}
-                            onClick={() => handleUseConsumable(consumable.id)}
+                            disabled={pendingId === item.id}
+                            onClick={() => handleToggleEquip(item)}
                           >
-                            Use
+                            {item.equipped_slot === null ? "Equip" : "Unequip"}
                           </button>
                         </span>
                       </li>
@@ -124,44 +155,8 @@ export function BackpackPage() {
                   </ul>
                 )}
               </details>
-
-              {EQUIPMENT_SLOTS.map(({ key, label }) => {
-                const slotItems = state.items.filter((item) => item.slot === key);
-                return (
-                  <details key={key} className="backpack-panel" open>
-                    <summary className="backpack-panel-summary">
-                      {label} ({slotItems.length})
-                    </summary>
-                    {slotItems.length === 0 ? (
-                      <p className="backpack-panel-empty">No {label.toLowerCase()} items.</p>
-                    ) : (
-                      <ul className="equipment-list">
-                        {slotItems.map((item) => (
-                          <li key={item.id}>
-                            <span className="equipment-slot-label">{item.name}</span>
-                            <span className="equipment-slot-filled">
-                              <span className="equipment-slot-value">
-                                {item.rarity}
-                                {item.equipped_slot !== null ? " · equipped" : ""}
-                              </span>
-                              <button
-                                type="button"
-                                className="small-button"
-                                disabled={pendingId === item.id}
-                                onClick={() => handleToggleEquip(item)}
-                              >
-                                {item.equipped_slot === null ? "Equip" : "Unequip"}
-                              </button>
-                            </span>
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-                  </details>
-                );
-              })}
-            </>
-          )}
+            );
+          })}
         </>
       )}
     </div>

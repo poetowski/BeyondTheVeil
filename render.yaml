@@ -25,11 +25,11 @@ services:
     env: python
     plan: free
     buildCommand: "cd frontend && npm install && npm run build && cd ../backend && pip install -e ."
-    # Migrations run on every start, not just first deploy - alembic
-    # upgrades are idempotent (a no-op once already applied), so this is
-    # safe on restarts and simpler than relying on a separate pre-deploy
-    # hook.
-    startCommand: "cd backend && alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port $PORT"
+    # Migrations and reference-data seeding run on every start, not just
+    # first deploy - both are idempotent (a no-op once already applied/
+    # present), so this is safe on restarts and simpler than relying on a
+    # separate pre-deploy hook.
+    startCommand: "cd backend && alembic upgrade head && python -m scripts.seed_dev_data && uvicorn app.main:app --host 0.0.0.0 --port $PORT"
     healthCheckPath: /health
     envVars:
       - key: DATABASE_URL
