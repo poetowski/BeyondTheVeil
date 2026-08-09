@@ -1,7 +1,18 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
 
-const NAV_ITEMS = [
+interface NavItem {
+  to: string;
+  label: string;
+  children?: NavItem[];
+  /** False for group headers that have no page of their own (e.g. "Crafting"
+   * only organizes Alchemy/Forge) - rendered as plain text instead of a link. */
+  hasPage?: boolean;
+  /** Visually distinguishes this one link from the rest of the nav. */
+  highlight?: boolean;
+}
+
+const NAV_ITEMS: NavItem[] = [
   {
     to: "/hero",
     label: "Hero",
@@ -13,16 +24,27 @@ const NAV_ITEMS = [
   {
     to: "/veil",
     label: "The Veil",
+    highlight: true,
     children: [
       { to: "/campaign", label: "Campaign" },
       { to: "/bestiary", label: "Bestiary" },
     ],
   },
+  {
+    to: "/crafting",
+    label: "Crafting",
+    hasPage: false,
+    children: [
+      { to: "/alchemy", label: "Alchemy" },
+      { to: "/forge", label: "Forge" },
+    ],
+  },
   { to: "/concept", label: "Concept" },
 ];
 
-function navLinkClass({ isActive }: { isActive: boolean }): string {
-  return "sidebar-nav-link" + (isActive ? " active" : "");
+function navLinkClass(highlight?: boolean) {
+  return ({ isActive }: { isActive: boolean }): string =>
+    "sidebar-nav-link" + (isActive ? " active" : "") + (highlight ? " veil-highlight" : "");
 }
 
 export function Sidebar() {
@@ -44,13 +66,21 @@ export function Sidebar() {
       <nav className="sidebar-nav">
         {NAV_ITEMS.map((item) => (
           <div key={item.to} className="sidebar-nav-group">
-            <NavLink to={item.to} className={navLinkClass} end={!!item.children}>
-              {item.label}
-            </NavLink>
+            {item.hasPage === false ? (
+              <span
+                className={"sidebar-nav-group-label" + (item.highlight ? " veil-highlight" : "")}
+              >
+                {item.label}
+              </span>
+            ) : (
+              <NavLink to={item.to} className={navLinkClass(item.highlight)} end={!!item.children}>
+                {item.label}
+              </NavLink>
+            )}
             {item.children && (
               <div className="sidebar-subnav">
                 {item.children.map((child) => (
-                  <NavLink key={child.to} to={child.to} className={navLinkClass}>
+                  <NavLink key={child.to} to={child.to} className={navLinkClass(child.highlight)}>
                     {child.label}
                   </NavLink>
                 ))}

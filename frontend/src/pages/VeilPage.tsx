@@ -43,6 +43,10 @@ function lootItemSlug(entry: Record<string, unknown>): unknown {
   return entry.item_template_slug;
 }
 
+function materialLootName(entry: Record<string, unknown>): string {
+  return typeof entry.material_name === "string" ? entry.material_name : "a material";
+}
+
 export function VeilPage() {
   const { token, refetch } = useAuth();
   const [state, setState] = useState<State>({ kind: "loading" });
@@ -218,6 +222,11 @@ function VeilBody({
           {result.loot_skipped.length > 0 && (
             <p className="veil-loot-note">
               Your backpack was full — you left behind: {result.loot_skipped.map(lootItemName).join(", ")}.
+            </p>
+          )}
+          {result.material_loot.length > 0 && (
+            <p className="veil-loot-note">
+              You also gathered: {result.material_loot.map(materialLootName).join(", ")}.
             </p>
           )}
           <button type="button" onClick={onEnter}>

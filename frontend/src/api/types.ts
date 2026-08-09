@@ -34,6 +34,7 @@ export interface HeroOut {
   bonus_vitality: number;
   bonus_agility: number;
   bonus_spirit: number;
+  current_hp: number;
   max_hp: number;
   train_costs: Record<StatName, number>;
 }
@@ -60,6 +61,7 @@ export interface VeilRunResultOut {
   log: Record<string, unknown>[];
   loot: Record<string, unknown>[];
   loot_skipped: Record<string, unknown>[];
+  material_loot: Record<string, unknown>[];
   xp_awarded: number;
   gold_awarded: number;
 }
@@ -116,4 +118,33 @@ export interface CampaignNodeOut {
   gold_cost: number;
   monster_name: string;
   status: CampaignNodeStatus;
+}
+
+export interface ConsumableInstanceOut {
+  id: string;
+  name: string;
+  description: string | null;
+  quantity: number;
+  acquired_at: string;
+}
+
+export type CraftingCategory = "alchemy" | "forge";
+
+export interface RecipeIngredientOut {
+  material_name: string;
+  material_template_slug: string;
+  quantity_required: number;
+  quantity_owned: number;
+}
+
+export interface CraftingRecipeOut {
+  id: string;
+  slug: string;
+  name: string;
+  category: CraftingCategory;
+  level_requirement: number;
+  output_consumable_name: string;
+  output_quantity: number;
+  ingredients: RecipeIngredientOut[];
+  craftable: boolean;
 }

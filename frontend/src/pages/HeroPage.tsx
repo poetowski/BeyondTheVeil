@@ -99,8 +99,17 @@ export function HeroPage() {
     <div className="page hero-page">
       <h1>{hero.name}</h1>
       <p className="hero-meta">
-        Level {hero.level} · {hero.xp}/{hero.xp_to_next_level} XP · {hero.max_hp} max HP · {hero.gold} gold
+        Level {hero.level} · {hero.xp}/{hero.xp_to_next_level} XP · {hero.gold} gold
       </p>
+      <p className="hero-meta">
+        {hero.current_hp}/{hero.max_hp} HP
+      </p>
+      <div className="hp-bar">
+        <div
+          className="hp-bar-fill"
+          style={{ width: `${Math.max(0, Math.min(100, (hero.current_hp / hero.max_hp) * 100))}%` }}
+        />
+      </div>
       {actionError && <p className="auth-error">{actionError}</p>}
 
       <h2>Stats</h2>

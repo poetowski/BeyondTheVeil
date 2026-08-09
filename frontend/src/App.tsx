@@ -1,10 +1,12 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import { RequireAuth } from "./auth/RequireAuth";
 import { AppLayout } from "./layout/AppLayout";
+import { AlchemyPage } from "./pages/AlchemyPage";
 import { BackpackPage } from "./pages/BackpackPage";
 import { BestiaryPage } from "./pages/BestiaryPage";
 import { CampaignPage } from "./pages/CampaignPage";
 import { ConceptPage } from "./pages/ConceptPage";
+import { ForgePage } from "./pages/ForgePage";
 import { HeroPage } from "./pages/HeroPage";
 import { LoginPage } from "./pages/LoginPage";
 import { MaterialsPage } from "./pages/MaterialsPage";
@@ -22,6 +24,8 @@ function App() {
           <Route path="/hero" element={<HeroPage />} />
           <Route path="/backpack" element={<BackpackPage />} />
           <Route path="/materials" element={<MaterialsPage />} />
+          <Route path="/alchemy" element={<AlchemyPage />} />
+          <Route path="/forge" element={<ForgePage />} />
           <Route path="/veil" element={<VeilPage />} />
           <Route path="/campaign" element={<CampaignPage />} />
           <Route path="/bestiary" element={<BestiaryPage />} />
