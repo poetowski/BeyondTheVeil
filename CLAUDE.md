@@ -10,6 +10,17 @@ display/serialization — API schemas (`HeroOut` and friends), the canonical
 `Hero` SQLAlchemy model's column declaration order. Follow this strictly and
 persistently on every change that touches stats, not just when reminded.
 
+## Content additions require explicit permission
+
+Never add, invent, or propose new game content (items, monsters,
+materials, consumables, recipes, campaign nodes, loot entries, flavor
+text, descriptions, etc.) unless the user has explicitly asked for it in
+that turn. If a task seems to call for new content but none was given,
+stop and ask what the content should be rather than filling it in
+yourself. This applies even when the surrounding task is otherwise
+clearly scoped (e.g. "add the mechanic for X" does not imply permission
+to also invent sample content for X).
+
 ## Verification
 
 - **Backend-only changes**: verify with tests and direct checks (pytest, `curl`/API calls, `alembic check`) and report the results — no screenshot needed.
