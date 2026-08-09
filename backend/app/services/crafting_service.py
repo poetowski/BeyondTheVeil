@@ -135,8 +135,11 @@ def use_consumable(db: Session, hero: Hero, consumable_instance_id: uuid.UUID) -
 
     equipped_items = hero_service.get_equipped_items(db, hero)
     effective_stats = hero_service.compute_effective_stats(hero, equipped_items)
-    max_hp = hero_service.compute_max_hp(effective_stats["vitality"])
-    current_hp = hero_service.compute_current_hp(hero, effective_stats["vitality"])
+    bonus_max_hp = hero_service.compute_bonus_max_hp(equipped_items)
+    max_hp = hero_service.compute_max_hp(effective_stats["vitality"], bonus_max_hp)
+    current_hp = hero_service.compute_current_hp(
+        hero, effective_stats["vitality"], bonus_max_hp=bonus_max_hp
+    )
     heal_amount = round(consumable.template.heal_amount_fraction * max_hp)
 
     hero.current_hp = min(max_hp, current_hp + heal_amount)

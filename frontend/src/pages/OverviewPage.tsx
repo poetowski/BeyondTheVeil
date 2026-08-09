@@ -5,6 +5,7 @@ import { getInventory, unequipItem } from "../api/inventory";
 import type { HeroOut, ItemInstanceOut, StatName } from "../api/types";
 import { useAuth } from "../auth/AuthContext";
 import { EQUIPMENT_SLOTS } from "../constants/equipmentSlots";
+import { formatItemStats } from "../utils/formatItemStats";
 
 const STAT_ROWS: {
   label: string;
@@ -152,12 +153,14 @@ export function OverviewPage() {
       <ul className="equipment-list">
         {EQUIPMENT_SLOTS.map(({ key, label }) => {
           const item = equippedBySlot.get(key);
+          const stats = item ? formatItemStats(item) : "";
           return (
             <li key={key}>
               <span className="equipment-slot-label">{label}</span>
               {item ? (
                 <span className="equipment-slot-filled">
                   {item.name}
+                  {stats && <span className="equipment-slot-value"> ({stats})</span>}
                   <button
                     type="button"
                     className="small-button"

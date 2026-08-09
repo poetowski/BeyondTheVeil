@@ -17,6 +17,12 @@ MATERIAL_DROP_CHANCE = 0.5
 GOLD_PER_VICTORY = 10
 SPELL_DAMAGE_MULTIPLIER = 3  # intelligence contributes 3x the damage per point that strength does
 MONSTER_STAT_VARIANCE = (0.85, 1.15)
+# Hit-zone mechanic: only rolled when the monster hits the hero (monsters have
+# no equipment to target zones on). Headshot always multiplies damage - it's
+# not a chance-based crit, just a guaranteed consequence of the roll landing
+# on the helmet zone.
+ZONE_WEIGHTS = {"shield": 0.50, "armor": 0.35, "helmet": 0.15}
+HEADSHOT_MULTIPLIER = 3
 
 
 @dataclass
@@ -52,6 +58,9 @@ def resolve(
     hero_base_stats: dict[str, int],
     encounter: dict[str, Any] | None,
     hero_current_hp: int | None = None,
+    hero_weapon_damage_range: tuple[int, int] | None = None,
+    hero_zone_defense: dict[str, int] | None = None,
+    hero_bonus_max_hp: int = 0,
 ) -> CombatResult:
     """Deterministic, seed-reproducible combat in two phases: an opening
     spell exchange (intelligence for damage — at SPELL_DAMAGE_MULTIPLIER
@@ -76,6 +85,15 @@ def resolve(
     dexterity+agility sum is higher acts first, in both the spell exchange
     and the physical rounds that follow. Physical rounds alternate every
     single attack, one full round = each side attacks once.
+
+    Gear affects physical damage asymmetrically, since only the hero can be
+    equipped: when the hero lands a physical hit, hero_weapon_damage_range
+    (if set) adds a random roll on top of the strength-based damage. When the
+    monster lands a physical hit on the hero, a hit zone is rolled (see
+    ZONE_WEIGHTS) and hero_zone_defense mitigates the damage for that zone;
+    a helmet-zone hit always multiplies damage by HEADSHOT_MULTIPLIER before
+    defense is subtracted. All three default to "no gear equipped" so every
+    existing caller is unaffected.
     """
     if encounter is None:
         return CombatResult(victory=True, log=[{"message": "no monsters found for hero's level"}])
@@ -83,7 +101,8 @@ def resolve(
     rng = random.Random(seed)
     monster_stats = _roll_monster_stats(rng, encounter["monster_stats"])
 
-    hero_max_hp = compute_max_hp(hero_snapshot["vitality"])
+    hero_max_hp = compute_max_hp(hero_snapshot["vitality"], hero_bonus_max_hp)
+    zone_defense = hero_zone_defense or {"shield": 0, "armor": 0, "helmet": 0}
     monster_max_hp = monster_stats["vitality"] * HP_PER_VITALITY
     hero_hp = hero_max_hp if hero_current_hp is None else min(hero_current_hp, hero_max_hp)
     monster_hp = monster_max_hp
@@ -152,8 +171,18 @@ def resolve(
 
             hit = rng.random() < _hit_chance(attacker_stat, defender_stat)
             damage = 0
+            zone_hit = None
             if hit:
                 damage = max(1, math.floor(attacker_strength * rng.uniform(*DAMAGE_VARIANCE)))
+                if actor == "hero" and hero_weapon_damage_range is not None:
+                    damage += rng.randint(*hero_weapon_damage_range)
+                if actor == "monster":
+                    zone_hit = rng.choices(
+                        list(ZONE_WEIGHTS.keys()), weights=list(ZONE_WEIGHTS.values()), k=1
+                    )[0]
+                    if zone_hit == "helmet":
+                        damage *= HEADSHOT_MULTIPLIER
+                    damage = max(1, damage - zone_defense.get(zone_hit, 0))
                 if actor == "hero":
                     monster_hp = max(0, monster_hp - damage)
                 else:
@@ -166,6 +195,7 @@ def resolve(
                     "actor": actor,
                     "hit": hit,
                     "damage": damage,
+                    "zone": zone_hit,
                     "defender_hp_remaining": monster_hp if actor == "hero" else hero_hp,
                 }
             )

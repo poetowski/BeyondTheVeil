@@ -49,8 +49,11 @@ def to_out(hero: Hero, equipped_items: list[ItemInstance]) -> HeroOut:
     base = hero_service.compute_base_stats(hero)
     bonus = hero_service.compute_stat_bonuses(hero, equipped_items)
     effective = {stat: base[stat] + bonus[stat] for stat in hero_service.STAT_NAMES}
-    max_hp = hero_service.compute_max_hp(effective["vitality"])
-    current_hp = hero_service.compute_current_hp(hero, effective["vitality"])
+    bonus_max_hp = hero_service.compute_bonus_max_hp(equipped_items)
+    max_hp = hero_service.compute_max_hp(effective["vitality"], bonus_max_hp)
+    current_hp = hero_service.compute_current_hp(
+        hero, effective["vitality"], bonus_max_hp=bonus_max_hp
+    )
     train_costs = {stat: hero_service.train_stat_cost(base[stat]) for stat in hero_service.STAT_NAMES}
 
     return HeroOut(

@@ -29,6 +29,13 @@ ITEM_TEMPLATES = [
     dict(name="Fragment-Stitched Vest", slot=EquipmentSlot.ARMOR, rarity=ItemRarity.COMMON, level_requirement=1, base_stats={"vitality": 3}),
     dict(name="Drifting Charm", slot=EquipmentSlot.AMULET, rarity=ItemRarity.COMMON, level_requirement=1, base_stats={"spirit": 2}),
     dict(name="Wisp Spark", slot=EquipmentSlot.SPELL_SKILL, rarity=ItemRarity.COMMON, level_requirement=1, base_stats={"intelligence": 2}),
+    # Tier1 gear set: defined through the weapon-damage/defense/bonus-HP
+    # mechanics instead of flat stat bonuses (base_stats={}).
+    dict(name="Wooden Stick", slot=EquipmentSlot.WEAPON, rarity=ItemRarity.COMMON, level_requirement=1, base_stats={}, damage_min=2, damage_max=6),
+    dict(name="Wooden Shield", slot=EquipmentSlot.SHIELD, rarity=ItemRarity.COMMON, level_requirement=1, base_stats={}, defense=3),
+    dict(name="Leather Helm", slot=EquipmentSlot.HELMET, rarity=ItemRarity.COMMON, level_requirement=1, base_stats={}, defense=2),
+    dict(name="Leather Robe", slot=EquipmentSlot.ARMOR, rarity=ItemRarity.COMMON, level_requirement=1, base_stats={}, defense=1),
+    dict(name="Old Ring", slot=EquipmentSlot.AMULET, rarity=ItemRarity.COMMON, level_requirement=1, base_stats={}, bonus_max_hp=20),
 ]
 for _item in ITEM_TEMPLATES:
     _item["slug"] = slugify(_item["name"])

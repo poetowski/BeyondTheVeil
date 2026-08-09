@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 
 from app.models.consumable import ConsumableInstance
 from app.models.hero import Hero
-from app.models.item import ItemInstance
+from app.models.item import EquipmentSlot, ItemInstance
 from app.models.material import MaterialInstance
 
 STAT_NAMES = ("strength", "dexterity", "intelligence", "vitality", "agility", "spirit")
@@ -75,21 +75,55 @@ def compute_effective_stats(hero: Hero, equipped_items: list[ItemInstance]) -> d
     return {stat: base[stat] + bonuses[stat] for stat in STAT_NAMES}
 
 
-def compute_max_hp(effective_vitality: int) -> int:
-    """Placeholder formula; combat balance is a separate future task."""
-    return BASE_HP + effective_vitality * HP_PER_VITALITY
+def compute_max_hp(effective_vitality: int, bonus_max_hp: int = 0) -> int:
+    """Placeholder formula; combat balance is a separate future task.
+    bonus_max_hp is a flat addition from equipped gear (e.g. a ring),
+    separate from vitality-derived HP - defaults to 0 so every pre-existing
+    caller that doesn't track gear bonuses is unaffected."""
+    return BASE_HP + effective_vitality * HP_PER_VITALITY + bonus_max_hp
 
 
-def compute_current_hp(hero: Hero, effective_vitality: int, *, now: datetime | None = None) -> int:
+def compute_current_hp(
+    hero: Hero, effective_vitality: int, *, bonus_max_hp: int = 0, now: datetime | None = None
+) -> int:
     """Lazily regenerated HP: no background job, just derives the current
     value from the last-persisted current_hp/hp_updated_at plus elapsed
     time. Read-only — callers that want to persist the regenerated value
     must do so explicitly (see veil_service._apply_rewards)."""
     now = now or datetime.now(timezone.utc)
-    max_hp = compute_max_hp(effective_vitality)
+    max_hp = compute_max_hp(effective_vitality, bonus_max_hp)
     elapsed_seconds = max(0.0, (now - hero.hp_updated_at).total_seconds())
     regen_per_second = max_hp / HP_REGEN_SECONDS_TO_FULL
     return min(max_hp, round(hero.current_hp + elapsed_seconds * regen_per_second))
+
+
+def compute_weapon_damage_range(equipped_items: list[ItemInstance]) -> tuple[int, int] | None:
+    """The equipped weapon's (damage_min, damage_max), or None if unarmed or
+    the equipped weapon has no damage range set."""
+    for item in equipped_items:
+        if item.equipped_slot != EquipmentSlot.WEAPON:
+            continue
+        template = item.template
+        if template.damage_min is not None and template.damage_max is not None:
+            return (template.damage_min, template.damage_max)
+    return None
+
+
+def compute_zone_defense(equipped_items: list[ItemInstance]) -> dict[str, int]:
+    """Flat physical-damage defense per hit zone, from whatever's equipped
+    in the shield/armor/helmet slots. Zero for an empty slot."""
+    defense = {"shield": 0, "armor": 0, "helmet": 0}
+    for item in equipped_items:
+        slot = item.equipped_slot.value if item.equipped_slot else None
+        if slot in defense:
+            defense[slot] += item.template.defense
+    return defense
+
+
+def compute_bonus_max_hp(equipped_items: list[ItemInstance]) -> int:
+    """Flat max-HP bonus summed across every equipped item (not
+    slot-restricted, so it isn't tied to amulets specifically)."""
+    return sum(item.template.bonus_max_hp for item in equipped_items if item.equipped_slot is not None)
 
 
 def xp_required_for_level(level: int) -> int:

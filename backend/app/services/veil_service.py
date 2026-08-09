@@ -34,7 +34,10 @@ def check_not_too_wounded(db: Session, hero: Hero) -> None:
     node's gold cost rather than after."""
     equipped_items = hero_service.get_equipped_items(db, hero)
     effective_stats = hero_service.compute_effective_stats(hero, equipped_items)
-    current_hp = hero_service.compute_current_hp(hero, effective_stats["vitality"])
+    bonus_max_hp = hero_service.compute_bonus_max_hp(equipped_items)
+    current_hp = hero_service.compute_current_hp(
+        hero, effective_stats["vitality"], bonus_max_hp=bonus_max_hp
+    )
     if current_hp <= 0:
         raise HeroTooWoundedError("hero is too wounded to enter the veil")
 
@@ -87,13 +90,16 @@ def _start_run(
     equipped_items = hero_service.get_equipped_items(db, hero)
     effective_stats = hero_service.compute_effective_stats(hero, equipped_items)
     base_stats = hero_service.compute_base_stats(hero)
+    bonus_max_hp = hero_service.compute_bonus_max_hp(equipped_items)
+    weapon_damage_range = hero_service.compute_weapon_damage_range(equipped_items)
+    zone_defense = hero_service.compute_zone_defense(equipped_items)
 
     started_at = datetime.now(timezone.utc)
     duration_seconds = settings.veil_duration_seconds
     resolves_at = started_at + timedelta(seconds=duration_seconds)
 
     hero_current_hp = hero_service.compute_current_hp(
-        hero, effective_stats["vitality"], now=started_at
+        hero, effective_stats["vitality"], bonus_max_hp=bonus_max_hp, now=started_at
     )
     result = combat_engine.resolve(
         seed=seed,
@@ -101,6 +107,9 @@ def _start_run(
         hero_base_stats=base_stats,
         encounter=encounter,
         hero_current_hp=hero_current_hp,
+        hero_weapon_damage_range=weapon_damage_range,
+        hero_zone_defense=zone_defense,
+        hero_bonus_max_hp=bonus_max_hp,
     )
 
     run = VeilRun(

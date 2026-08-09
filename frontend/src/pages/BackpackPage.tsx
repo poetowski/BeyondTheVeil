@@ -5,6 +5,7 @@ import { equipItem, getInventory, unequipItem } from "../api/inventory";
 import type { ConsumableInstanceOut, ItemInstanceOut } from "../api/types";
 import { useAuth } from "../auth/AuthContext";
 import { EQUIPMENT_SLOTS } from "../constants/equipmentSlots";
+import { formatItemStats } from "../utils/formatItemStats";
 
 type State =
   | { kind: "loading" }
@@ -133,25 +134,29 @@ export function BackpackPage() {
                   <p className="backpack-panel-empty">No {label.toLowerCase()} items.</p>
                 ) : (
                   <ul className="equipment-list">
-                    {slotItems.map((item) => (
-                      <li key={item.id}>
-                        <span className="equipment-slot-label">{item.name}</span>
-                        <span className="equipment-slot-filled">
-                          <span className="equipment-slot-value">
-                            {item.rarity}
-                            {item.equipped_slot !== null ? " · equipped" : ""}
+                    {slotItems.map((item) => {
+                      const stats = formatItemStats(item);
+                      return (
+                        <li key={item.id}>
+                          <span className="equipment-slot-label">{item.name}</span>
+                          <span className="equipment-slot-filled">
+                            <span className="equipment-slot-value">
+                              {item.rarity}
+                              {stats ? ` · ${stats}` : ""}
+                              {item.equipped_slot !== null ? " · equipped" : ""}
+                            </span>
+                            <button
+                              type="button"
+                              className="small-button"
+                              disabled={pendingId === item.id}
+                              onClick={() => handleToggleEquip(item)}
+                            >
+                              {item.equipped_slot === null ? "Equip" : "Unequip"}
+                            </button>
                           </span>
-                          <button
-                            type="button"
-                            className="small-button"
-                            disabled={pendingId === item.id}
-                            onClick={() => handleToggleEquip(item)}
-                          >
-                            {item.equipped_slot === null ? "Equip" : "Unequip"}
-                          </button>
-                        </span>
-                      </li>
-                    ))}
+                        </li>
+                      );
+                    })}
                   </ul>
                 )}
               </details>

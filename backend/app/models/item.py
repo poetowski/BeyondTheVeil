@@ -45,6 +45,14 @@ item_rarity_enum = SAEnum(
 
 class ItemTemplate(UUIDPKMixin, TimestampMixin, Base):
     __tablename__ = "item_templates"
+    __table_args__ = (
+        CheckConstraint(
+            "damage_max IS NULL OR damage_min IS NULL OR damage_max >= damage_min",
+            name="damage_range_valid",
+        ),
+        CheckConstraint("defense >= 0", name="defense_non_negative"),
+        CheckConstraint("bonus_max_hp >= 0", name="bonus_max_hp_non_negative"),
+    )
 
     slug: Mapped[str] = mapped_column(String(64), unique=True, nullable=False)
     name: Mapped[str] = mapped_column(String(100), nullable=False)
@@ -55,6 +63,10 @@ class ItemTemplate(UUIDPKMixin, TimestampMixin, Base):
     base_stats: Mapped[dict] = mapped_column(JSONB, nullable=False, default=dict)
     level_requirement: Mapped[int] = mapped_column(Integer, nullable=False, default=1)
     description: Mapped[str | None] = mapped_column(Text, nullable=True)
+    damage_min: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    damage_max: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    defense: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    bonus_max_hp: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
 
     item_instances: Mapped[list["ItemInstance"]] = relationship(back_populates="template")
 

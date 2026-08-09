@@ -14,6 +14,10 @@ class ItemInstanceOut(BaseModel):
     base_stats: dict[str, int]
     rolled_stats: dict[str, int] | None
     equipped_slot: EquipmentSlot | None
+    damage_min: int | None
+    damage_max: int | None
+    defense: int
+    bonus_max_hp: int
     acquired_at: datetime
 
 
@@ -26,5 +30,9 @@ def to_out(item: ItemInstance) -> ItemInstanceOut:
         base_stats=item.template.base_stats,
         rolled_stats=item.rolled_stats,
         equipped_slot=item.equipped_slot,
+        damage_min=item.template.damage_min,
+        damage_max=item.template.damage_max,
+        defense=item.template.defense,
+        bonus_max_hp=item.template.bonus_max_hp,
         acquired_at=item.acquired_at,
     )

@@ -88,6 +88,10 @@ export interface ItemInstanceOut {
   base_stats: Record<string, number>;
   rolled_stats: Record<string, number> | null;
   equipped_slot: EquipmentSlot | null;
+  damage_min: number | null;
+  damage_max: number | null;
+  defense: number;
+  bonus_max_hp: number;
   acquired_at: string;
 }
 
