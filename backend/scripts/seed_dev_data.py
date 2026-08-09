@@ -9,7 +9,7 @@ import re
 from app.core.db import SessionLocal
 from app.models.campaign import CampaignNode
 from app.models.consumable import ConsumableTemplate
-from app.models.crafting import CraftingCategory, CraftingRecipe, CraftingRecipeIngredient
+from app.models.crafting import CraftingRecipe, CraftingRecipeIngredient
 from app.models.item import EquipmentSlot, ItemRarity, ItemTemplate
 from app.models.material import MaterialTemplate
 from app.models.monster import MonsterLootEntry, MonsterMaterialLootEntry, MonsterTemplate
@@ -38,13 +38,7 @@ MONSTER_TEMPLATES = []
 for _monster in MONSTER_TEMPLATES:
     _monster["slug"] = slugify(_monster["name"])
 
-MATERIAL_TEMPLATES = [
-    dict(
-        name="Wisp Residue",
-        description="A faintly luminous residue left behind when a Veil Wisp is struck down.",
-        category=CraftingCategory.ALCHEMY,
-    ),
-]
+MATERIAL_TEMPLATES = []
 for _material in MATERIAL_TEMPLATES:
     _material["slug"] = slugify(_material["name"])
 
@@ -54,17 +48,10 @@ CONSUMABLE_TEMPLATES = [
 for _consumable in CONSUMABLE_TEMPLATES:
     _consumable["slug"] = slugify(_consumable["name"])
 
-# One worked example Alchemy recipe, craftable from level 1.
-CRAFTING_RECIPES = [
-    dict(
-        name="Minor Healing Elixir",
-        category=CraftingCategory.ALCHEMY,
-        level_requirement=1,
-        output_consumable_slug=slugify("Minor Healing Elixir"),
-        output_quantity=1,
-        ingredients=[dict(material_slug=slugify("Wisp Residue"), quantity_required=3)],
-    ),
-]
+# Empty for now - its only recipe (Minor Healing Elixir) needed Wisp Residue,
+# which was removed. The consumable itself is untouched; it's just
+# uncraftable until a new recipe/material replaces this one.
+CRAFTING_RECIPES = []
 for _recipe in CRAFTING_RECIPES:
     _recipe["slug"] = slugify(_recipe["name"])
 
