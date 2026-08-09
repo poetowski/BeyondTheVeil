@@ -3,7 +3,7 @@ from app.models.campaign import CampaignNode
 from app.models.hero import Hero
 from app.models.item import EquipmentSlot, ItemInstance, ItemRarity, ItemTemplate
 from app.models.material import MaterialInstance, MaterialTemplate
-from app.models.monster import MonsterLootEntry, MonsterTemplate
+from app.models.monster import MonsterLootEntry, MonsterMaterialLootEntry, MonsterTemplate
 from app.models.user import User
 from app.models.veil_run import VeilRun, VeilRunStatus
 
@@ -19,6 +19,7 @@ __all__ = [
     "MaterialInstance",
     "MonsterTemplate",
     "MonsterLootEntry",
+    "MonsterMaterialLootEntry",
     "CampaignNode",
     "VeilRun",
     "VeilRunStatus",

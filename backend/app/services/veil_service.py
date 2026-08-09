@@ -12,6 +12,7 @@ from app.core.config import settings
 from app.models.campaign import CampaignNode
 from app.models.hero import Hero
 from app.models.item import ItemInstance, ItemTemplate
+from app.models.material import MaterialInstance, MaterialTemplate
 from app.models.veil_run import VeilRun, VeilRunStatus
 from app.services import hero_service
 from app.services.combat import encounter as encounter_service
@@ -181,3 +182,35 @@ def _apply_rewards(db: Session, run: VeilRun) -> None:
         # Reassign (don't mutate result_payload in place) so SQLAlchemy
         # detects the JSONB column as dirty.
         run.result_payload = {**payload, "loot_skipped": loot_skipped}
+
+    material_loot_entries = payload.get("material_loot", [])
+    for entry in material_loot_entries:
+        slug = entry.get("material_template_slug")
+        quantity = entry.get("quantity", 1)
+        template = db.execute(
+            select(MaterialTemplate).where(MaterialTemplate.slug == slug)
+        ).scalar_one_or_none()
+        if template is None:
+            continue  # content may have been renamed/removed since the run resolved
+        existing_stack = (
+            db.execute(
+                select(MaterialInstance).where(
+                    MaterialInstance.owner_hero_id == hero.id,
+                    MaterialInstance.template_id == template.id,
+                )
+            )
+            .scalars()
+            .first()
+        )
+        if existing_stack is not None:
+            existing_stack.quantity += quantity
+            db.add(existing_stack)
+        else:
+            db.add(
+                MaterialInstance(
+                    template_id=template.id,
+                    owner_hero_id=hero.id,
+                    quantity=quantity,
+                    source_veil_run_id=run.id,
+                )
+            )

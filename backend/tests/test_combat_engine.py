@@ -16,6 +16,10 @@ LOOT_POOL = [
     {"item_template_slug": "wooden-buckler", "item_name": "Wooden Buckler", "drop_weight": 5},
 ]
 
+MATERIAL_POOL = [
+    {"material_template_slug": "wisp-residue", "material_name": "Wisp Residue", "drop_weight": 5},
+]
+
 
 def _encounter(**overrides):
     encounter = {
@@ -225,6 +229,52 @@ def test_loot_only_drops_on_victory_and_is_drawn_from_the_pool():
             assert result.loot == []
         for item in result.loot:
             assert item["item_template_slug"] in valid_slugs
+
+
+def test_material_loot_only_drops_on_victory_and_is_drawn_from_the_pool():
+    valid_slugs = {entry["material_template_slug"] for entry in MATERIAL_POOL}
+    for seed in range(200):
+        result = engine.resolve(
+            seed=seed,
+            hero_snapshot=WEAK_HERO,
+            hero_base_stats=WEAK_HERO,
+            encounter=_encounter(material_pool=[dict(entry) for entry in MATERIAL_POOL]),
+        )
+        if not result.victory:
+            assert result.material_loot == []
+        for material in result.material_loot:
+            assert material["material_template_slug"] in valid_slugs
+            assert material["quantity"] == 1
+
+
+def test_no_material_pool_means_no_material_loot_ever():
+    for seed in range(50):
+        result = engine.resolve(
+            seed=seed, hero_snapshot=WEAK_HERO, hero_base_stats=WEAK_HERO, encounter=_encounter()
+        )
+        assert result.material_loot == []
+
+
+def test_absent_material_pool_does_not_perturb_the_rng_stream():
+    # An encounter with no material_pool key must produce byte-identical
+    # results to one with an empty material_pool list - the material-loot
+    # roll is gated on the pool being non-empty, so it must never consume
+    # `rng` when there's nothing to drop (this is what keeps every
+    # pre-existing encounter fixture and seeded monster RNG-stream-compatible
+    # with this feature being added).
+    for seed in range(50):
+        without_key = engine.resolve(
+            seed=seed, hero_snapshot=WEAK_HERO, hero_base_stats=WEAK_HERO, encounter=_encounter()
+        )
+        with_empty_pool = engine.resolve(
+            seed=seed,
+            hero_snapshot=WEAK_HERO,
+            hero_base_stats=WEAK_HERO,
+            encounter=_encounter(material_pool=[]),
+        )
+        assert without_key.log == with_empty_pool.log
+        assert without_key.loot == with_empty_pool.loot
+        assert without_key.xp_awarded == with_empty_pool.xp_awarded
 
 
 def test_round_cap_tie_break_uses_higher_remaining_hp_percentage(monkeypatch):

@@ -9,7 +9,8 @@ import re
 from app.core.db import SessionLocal
 from app.models.campaign import CampaignNode
 from app.models.item import EquipmentSlot, ItemRarity, ItemTemplate
-from app.models.monster import MonsterLootEntry, MonsterTemplate
+from app.models.material import MaterialTemplate
+from app.models.monster import MonsterLootEntry, MonsterMaterialLootEntry, MonsterTemplate
 
 
 def slugify(name: str) -> str:
@@ -42,6 +43,12 @@ MONSTER_TEMPLATES = [
 for _monster in MONSTER_TEMPLATES:
     _monster["slug"] = slugify(_monster["name"])
 
+MATERIAL_TEMPLATES = [
+    dict(name="Wisp Residue", description="A faintly luminous residue left behind when a Veil Wisp is struck down."),
+]
+for _material in MATERIAL_TEMPLATES:
+    _material["slug"] = slugify(_material["name"])
+
 # Fixed, sequential battle nodes for the Campaign track. Slugs are hand-typed
 # here (unlike items/monsters above) because they encode sequence order, not
 # just the node name - slugify(name) alone would lose that.
@@ -60,6 +67,10 @@ MONSTER_LOOT_ENTRIES = [
     dict(monster_slug=slugify("Veil Wisp"), item_slug=slugify("Wisp Spark"), drop_weight=3),
 ]
 
+MONSTER_MATERIAL_LOOT_ENTRIES = [
+    dict(monster_slug=slugify("Veil Wisp"), material_slug=slugify("Wisp Residue"), drop_weight=5),
+]
+
 
 def seed() -> None:
     db = SessionLocal()
@@ -73,6 +84,11 @@ def seed() -> None:
             if db.query(MonsterTemplate).filter_by(slug=data["slug"]).first():
                 continue
             db.add(MonsterTemplate(**data))
+
+        for data in MATERIAL_TEMPLATES:
+            if db.query(MaterialTemplate).filter_by(slug=data["slug"]).first():
+                continue
+            db.add(MaterialTemplate(**data))
 
         db.flush()
 
@@ -92,6 +108,26 @@ def seed() -> None:
                 MonsterLootEntry(
                     monster_template_id=monster.id,
                     item_template_id=item.id,
+                    drop_weight=entry["drop_weight"],
+                )
+            )
+
+        for entry in MONSTER_MATERIAL_LOOT_ENTRIES:
+            monster = db.query(MonsterTemplate).filter_by(slug=entry["monster_slug"]).first()
+            material = db.query(MaterialTemplate).filter_by(slug=entry["material_slug"]).first()
+            if monster is None or material is None:
+                continue
+            exists = (
+                db.query(MonsterMaterialLootEntry)
+                .filter_by(monster_template_id=monster.id, material_template_id=material.id)
+                .first()
+            )
+            if exists:
+                continue
+            db.add(
+                MonsterMaterialLootEntry(
+                    monster_template_id=monster.id,
+                    material_template_id=material.id,
                     drop_weight=entry["drop_weight"],
                 )
             )

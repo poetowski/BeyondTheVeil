@@ -20,6 +20,9 @@ class MonsterTemplate(UUIDPKMixin, TimestampMixin, Base):
     loot_entries: Mapped[list["MonsterLootEntry"]] = relationship(
         back_populates="monster_template"
     )
+    material_loot_entries: Mapped[list["MonsterMaterialLootEntry"]] = relationship(
+        back_populates="monster_template"
+    )
 
 
 class MonsterLootEntry(UUIDPKMixin, Base):
@@ -34,3 +37,19 @@ class MonsterLootEntry(UUIDPKMixin, Base):
     drop_weight: Mapped[float] = mapped_column(Numeric, nullable=False)
 
     monster_template: Mapped["MonsterTemplate"] = relationship(back_populates="loot_entries")
+
+
+class MonsterMaterialLootEntry(UUIDPKMixin, Base):
+    __tablename__ = "monster_material_loot_entries"
+
+    monster_template_id: Mapped[uuid.UUID] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("monster_templates.id", ondelete="CASCADE"), nullable=False
+    )
+    material_template_id: Mapped[uuid.UUID] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("material_templates.id", ondelete="CASCADE"), nullable=False
+    )
+    drop_weight: Mapped[float] = mapped_column(Numeric, nullable=False)
+
+    monster_template: Mapped["MonsterTemplate"] = relationship(
+        back_populates="material_loot_entries"
+    )

@@ -13,6 +13,7 @@ HIT_CHANCE_MAX = 0.90
 DAMAGE_VARIANCE = (0.8, 1.2)
 MAX_ROUNDS = 30
 DROP_CHANCE = 0.5
+MATERIAL_DROP_CHANCE = 0.5
 GOLD_PER_VICTORY = 10
 SPELL_DAMAGE_MULTIPLIER = 3  # intelligence contributes 3x the damage per point that strength does
 MONSTER_STAT_VARIANCE = (0.85, 1.15)
@@ -24,6 +25,7 @@ class CombatResult:
     monster_name: str | None = None
     log: list[dict[str, Any]] = field(default_factory=list)
     loot: list[dict[str, Any]] = field(default_factory=list)
+    material_loot: list[dict[str, Any]] = field(default_factory=list)
     xp_awarded: int = 0
     gold_awarded: int = 0
 
@@ -184,11 +186,26 @@ def resolve(
             {"item_template_slug": chosen["item_template_slug"], "item_name": chosen["item_name"]}
         )
 
+    material_loot: list[dict[str, Any]] = []
+    material_pool = encounter.get("material_pool") or []
+    if victory and material_pool and rng.random() < MATERIAL_DROP_CHANCE:
+        chosen_material = rng.choices(
+            material_pool, weights=[entry["drop_weight"] for entry in material_pool], k=1
+        )[0]
+        material_loot.append(
+            {
+                "material_template_slug": chosen_material["material_template_slug"],
+                "material_name": chosen_material["material_name"],
+                "quantity": 1,
+            }
+        )
+
     return CombatResult(
         victory=victory,
         monster_name=encounter["monster_name"],
         log=log,
         loot=loot,
+        material_loot=material_loot,
         xp_awarded=xp_awarded,
         gold_awarded=gold_awarded,
     )

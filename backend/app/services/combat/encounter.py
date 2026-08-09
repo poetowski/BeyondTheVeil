@@ -6,7 +6,8 @@ from sqlalchemy.orm import Session
 
 from app.models.hero import Hero
 from app.models.item import ItemTemplate
-from app.models.monster import MonsterLootEntry, MonsterTemplate
+from app.models.material import MaterialTemplate
+from app.models.monster import MonsterLootEntry, MonsterMaterialLootEntry, MonsterTemplate
 
 
 def select_encounter(db: Session, hero: Hero, seed: int) -> dict[str, Any] | None:
@@ -36,7 +37,7 @@ def select_encounter(db: Session, hero: Hero, seed: int) -> dict[str, Any] | Non
 
 
 def build_encounter(db: Session, monster: MonsterTemplate) -> dict[str, Any]:
-    """Builds the encounter payload (stats + loot pool) for a specific monster.
+    """Builds the encounter payload (stats + loot pools) for a specific monster.
 
     Shared by random veil-run selection above and by campaign nodes, which
     pin a fixed MonsterTemplate instead of picking one.
@@ -47,6 +48,16 @@ def build_encounter(db: Session, monster: MonsterTemplate) -> dict[str, Any]:
             .join(ItemTemplate, MonsterLootEntry.item_template_id == ItemTemplate.id)
             .where(MonsterLootEntry.monster_template_id == monster.id)
             .order_by(ItemTemplate.slug)
+        )
+        .all()
+    )
+
+    material_loot_entries = (
+        db.execute(
+            select(MonsterMaterialLootEntry, MaterialTemplate)
+            .join(MaterialTemplate, MonsterMaterialLootEntry.material_template_id == MaterialTemplate.id)
+            .where(MonsterMaterialLootEntry.monster_template_id == monster.id)
+            .order_by(MaterialTemplate.slug)
         )
         .all()
     )
@@ -62,5 +73,13 @@ def build_encounter(db: Session, monster: MonsterTemplate) -> dict[str, Any]:
                 "drop_weight": float(entry.drop_weight),
             }
             for entry, item in loot_entries
+        ],
+        "material_pool": [
+            {
+                "material_template_slug": material.slug,
+                "material_name": material.name,
+                "drop_weight": float(entry.drop_weight),
+            }
+            for entry, material in material_loot_entries
         ],
     }
