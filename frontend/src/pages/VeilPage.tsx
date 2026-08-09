@@ -201,8 +201,8 @@ function VeilBody({
       return (
         <>
           <p className={result.victory ? "veil-victory" : "veil-defeat"}>
-            {result.victory ? "Victory" : "Defeat"} against {monsterLabel}. You gained{" "}
-            {result.xp_awarded} XP.
+            {result.victory ? "Victory" : "Defeat"} against {monsterLabel}. You gained {result.xp_awarded} XP
+            {result.gold_awarded > 0 ? ` and ${result.gold_awarded} gold` : ""}.
           </p>
           <p className="veil-loot-note">
             {result.loot.length === 0

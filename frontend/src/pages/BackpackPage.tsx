@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { ApiError } from "../api/client";
-import { getInventory } from "../api/inventory";
+import { equipItem, getInventory, unequipItem } from "../api/inventory";
 import type { ItemInstanceOut } from "../api/types";
 import { useAuth } from "../auth/AuthContext";
 
@@ -10,8 +10,10 @@ type State =
   | { kind: "error"; message: string };
 
 export function BackpackPage() {
-  const { token } = useAuth();
+  const { token, refetch } = useAuth();
   const [state, setState] = useState<State>({ kind: "loading" });
+  const [pendingId, setPendingId] = useState<string | null>(null);
+  const [actionError, setActionError] = useState<string | null>(null);
 
   const load = useCallback(async () => {
     if (!token) return;
@@ -31,6 +33,24 @@ export function BackpackPage() {
     load();
   }, [load]);
 
+  async function handleToggleEquip(item: ItemInstanceOut) {
+    if (!token) return;
+    setActionError(null);
+    setPendingId(item.id);
+    try {
+      if (item.equipped_slot === null) {
+        await equipItem(token, item.id);
+      } else {
+        await unequipItem(token, item.id);
+      }
+      await Promise.all([load(), refetch()]);
+    } catch (err) {
+      setActionError(err instanceof ApiError ? err.message : "Failed to update equipment.");
+    } finally {
+      setPendingId(null);
+    }
+  }
+
   return (
     <div className="page">
       <h1>Backpack</h1>
@@ -45,6 +65,7 @@ export function BackpackPage() {
       )}
       {state.kind === "loaded" && (
         <>
+          {actionError && <p className="auth-error">{actionError}</p>}
           {state.items.length === 0 ? (
             <p>Your backpack is empty.</p>
           ) : (
@@ -52,9 +73,19 @@ export function BackpackPage() {
               {state.items.map((item) => (
                 <li key={item.id}>
                   <span className="equipment-slot-label">{item.name}</span>
-                  <span className="equipment-slot-value">
-                    {item.rarity} · {item.slot}
-                    {item.equipped_slot !== null ? " · equipped" : ""}
+                  <span className="equipment-slot-filled">
+                    <span className="equipment-slot-value">
+                      {item.rarity} · {item.slot}
+                      {item.equipped_slot !== null ? " · equipped" : ""}
+                    </span>
+                    <button
+                      type="button"
+                      className="small-button"
+                      disabled={pendingId === item.id}
+                      onClick={() => handleToggleEquip(item)}
+                    >
+                      {item.equipped_slot === null ? "Equip" : "Unequip"}
+                    </button>
                   </span>
                 </li>
               ))}

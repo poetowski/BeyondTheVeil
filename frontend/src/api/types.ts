@@ -13,6 +13,7 @@ export interface HeroOut {
   name: string;
   level: number;
   xp: number;
+  xp_to_next_level: number;
   gold: number;
   strength: number;
   dexterity: number;
@@ -57,6 +58,7 @@ export interface VeilRunResultOut {
   log: Record<string, unknown>[];
   loot: Record<string, unknown>[];
   xp_awarded: number;
+  gold_awarded: number;
 }
 
 export interface VeilRunOut {
@@ -68,6 +70,8 @@ export interface VeilRunOut {
 }
 
 export type EquipmentSlot = "weapon" | "helmet" | "shield" | "armor" | "amulet" | "spell_skill";
+
+export type StatName = "strength" | "dexterity" | "intelligence" | "vitality" | "agility" | "spirit";
 
 export type ItemRarity = "common" | "uncommon" | "rare" | "epic" | "legendary";
 

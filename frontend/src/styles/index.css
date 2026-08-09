@@ -119,6 +119,22 @@ h2 {
   color: #999;
 }
 
+.equipment-slot-filled {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.small-button {
+  padding: 0.25rem 0.6rem !important;
+  font-size: 0.8rem !important;
+}
+
+.small-button:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
 .bestiary-list {
   list-style: none;
   padding: 0;
