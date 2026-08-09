@@ -1,26 +1,26 @@
 import { useCallback, useEffect, useState } from "react";
-import { craftRecipe, getConsumables, getRecipes, useConsumable as consumeConsumable } from "../api/alchemy";
+import { craftRecipe, getRecipes } from "../api/alchemy";
 import { ApiError } from "../api/client";
-import type { ConsumableInstanceOut, CraftingRecipeOut } from "../api/types";
+import type { CraftingRecipeOut } from "../api/types";
 import { useAuth } from "../auth/AuthContext";
 
 type State =
   | { kind: "loading" }
-  | { kind: "loaded"; recipes: CraftingRecipeOut[]; consumables: ConsumableInstanceOut[] }
+  | { kind: "loaded"; recipes: CraftingRecipeOut[] }
   | { kind: "error"; message: string };
 
 export function AlchemyPage() {
-  const { token, refetch } = useAuth();
+  const { token } = useAuth();
   const [state, setState] = useState<State>({ kind: "loading" });
-  const [pendingId, setPendingId] = useState<string | null>(null);
+  const [pendingSlug, setPendingSlug] = useState<string | null>(null);
   const [actionError, setActionError] = useState<string | null>(null);
 
   const load = useCallback(async () => {
     if (!token) return;
     setState({ kind: "loading" });
     try {
-      const [recipes, consumables] = await Promise.all([getRecipes(token), getConsumables(token)]);
-      setState({ kind: "loaded", recipes, consumables });
+      const recipes = await getRecipes(token);
+      setState({ kind: "loaded", recipes });
     } catch (err) {
       setState({
         kind: "error",
@@ -36,28 +36,14 @@ export function AlchemyPage() {
   async function handleBrew(recipeSlug: string) {
     if (!token) return;
     setActionError(null);
-    setPendingId(recipeSlug);
+    setPendingSlug(recipeSlug);
     try {
       await craftRecipe(token, recipeSlug);
       await load();
     } catch (err) {
       setActionError(err instanceof ApiError ? err.message : "Failed to brew that recipe.");
     } finally {
-      setPendingId(null);
-    }
-  }
-
-  async function handleUse(consumableId: string) {
-    if (!token) return;
-    setActionError(null);
-    setPendingId(consumableId);
-    try {
-      await consumeConsumable(token, consumableId);
-      await Promise.all([load(), refetch()]);
-    } catch (err) {
-      setActionError(err instanceof ApiError ? err.message : "Failed to use that item.");
-    } finally {
-      setPendingId(null);
+      setPendingSlug(null);
     }
   }
 
@@ -94,7 +80,7 @@ export function AlchemyPage() {
                     <button
                       type="button"
                       className="small-button"
-                      disabled={!recipe.craftable || pendingId === recipe.slug}
+                      disabled={!recipe.craftable || pendingSlug === recipe.slug}
                       onClick={() => handleBrew(recipe.slug)}
                     >
                       Brew
@@ -104,30 +90,7 @@ export function AlchemyPage() {
               ))}
             </ul>
           )}
-
-          <h2>Your Elixirs</h2>
-          {state.consumables.length === 0 ? (
-            <p>You aren't carrying any elixirs.</p>
-          ) : (
-            <ul className="equipment-list">
-              {state.consumables.map((consumable) => (
-                <li key={consumable.id}>
-                  <span className="equipment-slot-label">{consumable.name}</span>
-                  <span className="equipment-slot-filled">
-                    <span className="equipment-slot-value">×{consumable.quantity}</span>
-                    <button
-                      type="button"
-                      className="small-button"
-                      disabled={pendingId === consumable.id}
-                      onClick={() => handleUse(consumable.id)}
-                    >
-                      Use
-                    </button>
-                  </span>
-                </li>
-              ))}
-            </ul>
-          )}
+          <p className="backpack-panel-empty">Brewed elixirs go straight to your Backpack.</p>
         </>
       )}
     </div>

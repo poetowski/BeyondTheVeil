@@ -1,6 +1,7 @@
 import uuid
 from datetime import datetime, timedelta, timezone
 
+from app.models.consumable import ConsumableInstance, ConsumableTemplate
 from app.models.hero import Hero
 from app.models.item import EquipmentSlot, ItemInstance, ItemTemplate
 from app.models.veil_run import VeilRun, VeilRunStatus
@@ -78,6 +79,46 @@ def test_loot_is_skipped_when_backpack_is_full(client, db_session):
     inventory = client.get("/api/v1/inventory", headers=_auth(token)).json()
     assert len(inventory) == 1, "the loot item must not have been added once the backpack was full"
     assert inventory[0]["name"] == "Blocker"
+
+
+def test_loot_is_skipped_when_owned_consumables_fill_the_backpack(client, db_session):
+    token = _signup(client, email="potionfull@test.com")
+    hero_id = _hero_id(client, token)
+
+    hero = db_session.get(Hero, hero_id)
+    hero.inventory_capacity = 2
+    db_session.flush()
+
+    consumable_template = ConsumableTemplate(
+        slug="capacity-elixir", name="Capacity Elixir", heal_amount_fraction=0.1
+    )
+    db_session.add(consumable_template)
+    db_session.flush()
+    # A single stack of 2 potions already uses up the whole (quantity-based) cap.
+    db_session.add(
+        ConsumableInstance(template_id=consumable_template.id, owner_hero_id=hero_id, quantity=2)
+    )
+    db_session.flush()
+
+    loot_template = ItemTemplate(
+        slug="capacity-potion-blocked-sword", name="Potion Blocked Sword", slot=EquipmentSlot.WEAPON, base_stats={}
+    )
+    db_session.add(loot_template)
+    db_session.flush()
+
+    run = _make_claimable_run(hero_id, "capacity-potion-blocked-sword")
+    db_session.add(run)
+    db_session.commit()
+
+    claimed = client.post(f"/api/v1/veil/{run.id}/claim", headers=_auth(token)).json()
+
+    # _make_claimable_run hardcodes item_name to "Capacity Sword" regardless
+    # of the template passed in (see its `loot` literal above).
+    assert claimed["result"]["loot_skipped"] == [
+        {"item_template_slug": "capacity-potion-blocked-sword", "item_name": "Capacity Sword"}
+    ]
+    inventory = client.get("/api/v1/inventory", headers=_auth(token)).json()
+    assert inventory == [], "owned consumables must count toward capacity and block item loot"
 
 
 def test_loot_is_added_when_capacity_available(client, db_session):

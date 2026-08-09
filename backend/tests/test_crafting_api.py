@@ -3,6 +3,7 @@ import uuid
 from app.models.consumable import ConsumableInstance, ConsumableTemplate
 from app.models.crafting import CraftingCategory, CraftingRecipe, CraftingRecipeIngredient
 from app.models.hero import Hero
+from app.models.item import EquipmentSlot, ItemInstance, ItemTemplate
 from app.models.material import MaterialInstance, MaterialTemplate
 
 
@@ -115,6 +116,60 @@ def test_craft_deducts_materials_and_grants_consumable(client, db_session):
     consumables = client.get("/api/v1/consumables", headers=_auth(token)).json()
     assert len(consumables) == 1
     assert consumables[0]["quantity"] == 1
+
+
+def test_craft_rejected_when_backpack_is_full(client, db_session):
+    token = _signup(client, email="fullbackpack@test.com")
+    hero_id = _get_hero_id(client, token)
+    hero = db_session.get(Hero, hero_id)
+    hero.inventory_capacity = 1
+    db_session.flush()
+
+    recipe, material, _ = _make_recipe(db_session, slug="test-recipe-9", quantity_required=1)
+    db_session.add(MaterialInstance(template_id=material.id, owner_hero_id=hero_id, quantity=5))
+    db_session.flush()
+
+    # Fill the single backpack slot with an unrelated item first.
+    blocker_template = ItemTemplate(
+        slug="test-recipe-9-blocker", name="Blocker", slot=EquipmentSlot.HELMET, base_stats={}
+    )
+    db_session.add(blocker_template)
+    db_session.flush()
+    db_session.add(
+        ItemInstance(template_id=blocker_template.id, owner_hero_id=hero_id, equipped_slot=None)
+    )
+    db_session.flush()
+
+    response = client.post("/api/v1/crafting/craft/test-recipe-9", headers=_auth(token))
+    assert response.status_code == 409
+
+    materials = client.get("/api/v1/materials", headers=_auth(token)).json()
+    assert materials[0]["quantity"] == 5, "materials must not be deducted when craft is rejected for space"
+    assert client.get("/api/v1/consumables", headers=_auth(token)).json() == []
+
+
+def test_craft_rejected_when_existing_consumables_fill_the_backpack(client, db_session):
+    token = _signup(client, email="fullofpotions@test.com")
+    hero_id = _get_hero_id(client, token)
+    hero = db_session.get(Hero, hero_id)
+    hero.inventory_capacity = 2
+    db_session.flush()
+
+    recipe, material, consumable_template = _make_recipe(
+        db_session, slug="test-recipe-10", quantity_required=1
+    )
+    db_session.add(MaterialInstance(template_id=material.id, owner_hero_id=hero_id, quantity=5))
+    # Already carrying 2 of this potion - exactly at the (quantity-based) cap.
+    db_session.add(
+        ConsumableInstance(template_id=consumable_template.id, owner_hero_id=hero_id, quantity=2)
+    )
+    db_session.flush()
+
+    response = client.post("/api/v1/crafting/craft/test-recipe-10", headers=_auth(token))
+    assert response.status_code == 409
+
+    materials = client.get("/api/v1/materials", headers=_auth(token)).json()
+    assert materials[0]["quantity"] == 5, "materials must not be deducted when craft is rejected for space"
 
 
 def test_craft_twice_stacks_the_consumable(client, db_session):

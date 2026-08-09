@@ -27,6 +27,10 @@ class InsufficientMaterialsError(CraftingServiceError):
     pass
 
 
+class InventoryFullError(CraftingServiceError):
+    pass
+
+
 class ConsumableNotFoundError(CraftingServiceError):
     pass
 
@@ -54,6 +58,10 @@ def craft(db: Session, hero: Hero, recipe_slug: str) -> ConsumableInstance:
         raise RecipeNotFoundError(f"recipe {recipe_slug!r} not found")
     if hero.level < recipe.level_requirement:
         raise LevelRequirementNotMetError("hero level is too low for this recipe")
+
+    used_capacity = hero_service.get_backpack_used_capacity(db, hero)
+    if used_capacity + recipe.output_quantity > hero.inventory_capacity:
+        raise InventoryFullError("not enough backpack space to hold the result")
 
     owned_by_template: dict[uuid.UUID, list[MaterialInstance]] = {}
     for ingredient in recipe.ingredients:

@@ -248,6 +248,15 @@ def get_owned_consumables(db: Session, hero: Hero) -> list[ConsumableInstance]:
     )
 
 
+def get_backpack_used_capacity(db: Session, hero: Hero) -> int:
+    """How much of hero.inventory_capacity is currently used. Items are
+    one-slot-each; consumables count by quantity (a stack of 5 elixirs
+    uses 5 slots, not 1) - both share the same cap."""
+    items_count = len(get_owned_items(db, hero))
+    consumables_count = sum(c.quantity for c in get_owned_consumables(db, hero))
+    return items_count + consumables_count
+
+
 def get_leaderboard(db: Session, limit: int = 10) -> list[Hero]:
     """Top heroes by level, highest first. Ties broken by xp (the rolling
     progress-to-next-level counter) so heroes closer to their next level

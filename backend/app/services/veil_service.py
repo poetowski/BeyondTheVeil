@@ -194,7 +194,7 @@ def _apply_rewards(db: Session, run: VeilRun) -> None:
     loot_entries = payload.get("loot", [])
     loot_skipped: list[dict] = []
     if loot_entries:
-        current_count = len(hero_service.get_owned_items(db, hero))
+        current_count = hero_service.get_backpack_used_capacity(db, hero)
         for entry in loot_entries:
             slug = entry.get("item_template_slug")
             template = db.execute(
