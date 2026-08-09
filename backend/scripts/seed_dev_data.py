@@ -10,12 +10,36 @@ from app.models.item import EquipmentSlot, ItemRarity, ItemTemplate
 from app.models.monster import MonsterLootEntry, MonsterTemplate
 
 ITEM_TEMPLATES = [
-    dict(slug="rusty-sword", name="Rusty Sword", slot=EquipmentSlot.WEAPON, base_stats={"strength": 2}),
-    dict(slug="leather-cap", name="Leather Cap", slot=EquipmentSlot.HELMET, base_stats={"vitality": 1}),
-    dict(slug="wooden-buckler", name="Wooden Buckler", slot=EquipmentSlot.SHIELD, base_stats={"agility": 1}),
-    dict(slug="padded-armor", name="Padded Armor", slot=EquipmentSlot.ARMOR, base_stats={"vitality": 3}),
-    dict(slug="copper-amulet", name="Copper Amulet", slot=EquipmentSlot.AMULET, base_stats={"spirit": 2}),
-    dict(slug="spark-cantrip", name="Spark Cantrip", slot=EquipmentSlot.SPELL_SKILL, base_stats={"intelligence": 2}),
+    # Tier 1 - Fragment-born (common, veil-wisp drops)
+    dict(slug="fragment-shard-blade", name="Fragment Shard Blade", slot=EquipmentSlot.WEAPON, rarity=ItemRarity.COMMON, level_requirement=1, base_stats={"strength": 2}),
+    dict(slug="wisp-touched-hood", name="Wisp-Touched Hood", slot=EquipmentSlot.HELMET, rarity=ItemRarity.COMMON, level_requirement=1, base_stats={"vitality": 1}),
+    dict(slug="threshold-buckler", name="Threshold Buckler", slot=EquipmentSlot.SHIELD, rarity=ItemRarity.COMMON, level_requirement=1, base_stats={"agility": 1}),
+    dict(slug="fragment-stitched-vest", name="Fragment-Stitched Vest", slot=EquipmentSlot.ARMOR, rarity=ItemRarity.COMMON, level_requirement=1, base_stats={"vitality": 3}),
+    dict(slug="drifting-charm", name="Drifting Charm", slot=EquipmentSlot.AMULET, rarity=ItemRarity.COMMON, level_requirement=1, base_stats={"spirit": 2}),
+    dict(slug="wisp-spark", name="Wisp Spark", slot=EquipmentSlot.SPELL_SKILL, rarity=ItemRarity.COMMON, level_requirement=1, base_stats={"intelligence": 2}),
+    # Tier 2 - Hollowed (uncommon, fragment-stalker drops)
+    dict(slug="hollow-fang", name="Hollow Fang", slot=EquipmentSlot.WEAPON, rarity=ItemRarity.UNCOMMON, level_requirement=3, base_stats={"strength": 4}),
+    dict(slug="stalkers-mask", name="Stalker's Mask", slot=EquipmentSlot.HELMET, rarity=ItemRarity.UNCOMMON, level_requirement=3, base_stats={"vitality": 2}),
+    dict(slug="splintered-ward", name="Splintered Ward", slot=EquipmentSlot.SHIELD, rarity=ItemRarity.UNCOMMON, level_requirement=3, base_stats={"agility": 2}),
+    dict(slug="husk-plate", name="Husk Plate", slot=EquipmentSlot.ARMOR, rarity=ItemRarity.UNCOMMON, level_requirement=3, base_stats={"vitality": 5}),
+    dict(slug="echo-loop", name="Echo Loop", slot=EquipmentSlot.AMULET, rarity=ItemRarity.UNCOMMON, level_requirement=3, base_stats={"spirit": 4}),
+    dict(slug="fracture-rune", name="Fracture Rune", slot=EquipmentSlot.SPELL_SKILL, rarity=ItemRarity.UNCOMMON, level_requirement=3, base_stats={"intelligence": 4}),
+    # Tier 3 - Warden-forged (rare, hollow-warden drops)
+    dict(slug="wardens-greatblade", name="Warden's Greatblade", slot=EquipmentSlot.WEAPON, rarity=ItemRarity.RARE, level_requirement=6, base_stats={"strength": 7}),
+    dict(slug="sentinel-crown", name="Sentinel Crown", slot=EquipmentSlot.HELMET, rarity=ItemRarity.RARE, level_requirement=6, base_stats={"vitality": 4}),
+    dict(slug="bastion-aegis", name="Bastion Aegis", slot=EquipmentSlot.SHIELD, rarity=ItemRarity.RARE, level_requirement=6, base_stats={"agility": 4}),
+    dict(slug="wardplate", name="Wardplate", slot=EquipmentSlot.ARMOR, rarity=ItemRarity.RARE, level_requirement=6, base_stats={"vitality": 9}),
+    dict(slug="vigil-sigil", name="Vigil Sigil", slot=EquipmentSlot.AMULET, rarity=ItemRarity.RARE, level_requirement=6, base_stats={"spirit": 7}),
+    dict(slug="wardens-grimoire", name="Warden's Grimoire", slot=EquipmentSlot.SPELL_SKILL, rarity=ItemRarity.RARE, level_requirement=6, base_stats={"intelligence": 7}),
+    # Tier 4 - Sovereign (epic, veil-sovereign drops)
+    dict(slug="sovereigns-edge", name="Sovereign's Edge", slot=EquipmentSlot.WEAPON, rarity=ItemRarity.EPIC, level_requirement=10, base_stats={"strength": 10}),
+    dict(slug="crown-of-the-unmade", name="Crown of the Unmade", slot=EquipmentSlot.HELMET, rarity=ItemRarity.EPIC, level_requirement=10, base_stats={"vitality": 6}),
+    dict(slug="absolute-ward", name="Absolute Ward", slot=EquipmentSlot.SHIELD, rarity=ItemRarity.EPIC, level_requirement=10, base_stats={"agility": 6}),
+    dict(slug="sovereign-carapace", name="Sovereign Carapace", slot=EquipmentSlot.ARMOR, rarity=ItemRarity.EPIC, level_requirement=10, base_stats={"vitality": 13}),
+    dict(slug="seal-of-the-veil", name="Seal of the Veil", slot=EquipmentSlot.AMULET, rarity=ItemRarity.EPIC, level_requirement=10, base_stats={"spirit": 10}),
+    dict(slug="sovereigns-cataclysm", name="Sovereign's Cataclysm", slot=EquipmentSlot.SPELL_SKILL, rarity=ItemRarity.EPIC, level_requirement=10, base_stats={"intelligence": 10}),
+    # Legendary capstone - veil-sovereign exclusive, low drop weight
+    dict(slug="heartshard-of-the-veil", name="Heartshard of the Veil", slot=EquipmentSlot.WEAPON, rarity=ItemRarity.LEGENDARY, level_requirement=10, base_stats={"strength": 14, "intelligence": 6}),
 ]
 
 MONSTER_TEMPLATES = [
@@ -25,6 +49,7 @@ MONSTER_TEMPLATES = [
         level_range_min=1,
         level_range_max=3,
         base_stats={"strength": 2, "dexterity": 3, "vitality": 4, "agility": 3, "intelligence": 2, "spirit": 2},
+        flavor_text="A guttering flicker of the Veil's edge - more startled than hostile, until it isn't.",
     ),
     dict(
         slug="fragment-stalker",
@@ -32,6 +57,7 @@ MONSTER_TEMPLATES = [
         level_range_min=3,
         level_range_max=6,
         base_stats={"strength": 5, "dexterity": 4, "vitality": 8, "agility": 5, "intelligence": 1, "spirit": 1},
+        flavor_text="It moves like something assembled in a hurry, all borrowed angles, hunting because that's what the fragment remembers being for.",
     ),
     dict(
         slug="hollow-warden",
@@ -39,6 +65,7 @@ MONSTER_TEMPLATES = [
         level_range_min=6,
         level_range_max=9,
         base_stats={"strength": 8, "dexterity": 6, "vitality": 14, "agility": 6, "intelligence": 3, "spirit": 3},
+        flavor_text="Whatever it was guarding is long gone. It hasn't noticed yet.",
     ),
     dict(
         slug="veil-sovereign",
@@ -46,6 +73,7 @@ MONSTER_TEMPLATES = [
         level_range_min=10,
         level_range_max=14,
         base_stats={"strength": 12, "dexterity": 9, "vitality": 20, "agility": 9, "intelligence": 5, "spirit": 5},
+        flavor_text="Not a ruler of anything - just the shape the Veil takes when a fragment refuses to end.",
     ),
 ]
 
@@ -59,17 +87,35 @@ CAMPAIGN_NODES = [
     dict(slug="campaign-06-veil-sovereign", order_index=6, name="The Veil Sovereign", required_level=10, gold_cost=200, monster_slug="veil-sovereign"),
 ]
 
-# Dev/placeholder drop tables, not final balance.
+# Dev drop tables, not final balance. Each monster drops the full gear set of
+# its matching tier; the veil-sovereign additionally has a rare chance at the
+# legendary capstone weapon.
 MONSTER_LOOT_ENTRIES = [
-    dict(monster_slug="veil-wisp", item_slug="leather-cap", drop_weight=5),
-    dict(monster_slug="veil-wisp", item_slug="wooden-buckler", drop_weight=5),
-    dict(monster_slug="veil-wisp", item_slug="rusty-sword", drop_weight=2),
-    dict(monster_slug="veil-wisp", item_slug="spark-cantrip", drop_weight=2),
-    dict(monster_slug="fragment-stalker", item_slug="padded-armor", drop_weight=4),
-    dict(monster_slug="fragment-stalker", item_slug="rusty-sword", drop_weight=3),
-    dict(monster_slug="fragment-stalker", item_slug="copper-amulet", drop_weight=2),
-    dict(monster_slug="fragment-stalker", item_slug="leather-cap", drop_weight=1),
-    dict(monster_slug="fragment-stalker", item_slug="spark-cantrip", drop_weight=2),
+    dict(monster_slug="veil-wisp", item_slug="fragment-shard-blade", drop_weight=5),
+    dict(monster_slug="veil-wisp", item_slug="wisp-touched-hood", drop_weight=5),
+    dict(monster_slug="veil-wisp", item_slug="threshold-buckler", drop_weight=4),
+    dict(monster_slug="veil-wisp", item_slug="fragment-stitched-vest", drop_weight=3),
+    dict(monster_slug="veil-wisp", item_slug="drifting-charm", drop_weight=3),
+    dict(monster_slug="veil-wisp", item_slug="wisp-spark", drop_weight=3),
+    dict(monster_slug="fragment-stalker", item_slug="hollow-fang", drop_weight=5),
+    dict(monster_slug="fragment-stalker", item_slug="stalkers-mask", drop_weight=4),
+    dict(monster_slug="fragment-stalker", item_slug="splintered-ward", drop_weight=4),
+    dict(monster_slug="fragment-stalker", item_slug="husk-plate", drop_weight=3),
+    dict(monster_slug="fragment-stalker", item_slug="echo-loop", drop_weight=3),
+    dict(monster_slug="fragment-stalker", item_slug="fracture-rune", drop_weight=3),
+    dict(monster_slug="hollow-warden", item_slug="wardens-greatblade", drop_weight=5),
+    dict(monster_slug="hollow-warden", item_slug="sentinel-crown", drop_weight=4),
+    dict(monster_slug="hollow-warden", item_slug="bastion-aegis", drop_weight=4),
+    dict(monster_slug="hollow-warden", item_slug="wardplate", drop_weight=3),
+    dict(monster_slug="hollow-warden", item_slug="vigil-sigil", drop_weight=3),
+    dict(monster_slug="hollow-warden", item_slug="wardens-grimoire", drop_weight=3),
+    dict(monster_slug="veil-sovereign", item_slug="sovereigns-edge", drop_weight=5),
+    dict(monster_slug="veil-sovereign", item_slug="crown-of-the-unmade", drop_weight=4),
+    dict(monster_slug="veil-sovereign", item_slug="absolute-ward", drop_weight=4),
+    dict(monster_slug="veil-sovereign", item_slug="sovereign-carapace", drop_weight=3),
+    dict(monster_slug="veil-sovereign", item_slug="seal-of-the-veil", drop_weight=3),
+    dict(monster_slug="veil-sovereign", item_slug="sovereigns-cataclysm", drop_weight=3),
+    dict(monster_slug="veil-sovereign", item_slug="heartshard-of-the-veil", drop_weight=1),
 ]
 
 
@@ -79,7 +125,7 @@ def seed() -> None:
         for data in ITEM_TEMPLATES:
             if db.query(ItemTemplate).filter_by(slug=data["slug"]).first():
                 continue
-            db.add(ItemTemplate(rarity=ItemRarity.COMMON, **data))
+            db.add(ItemTemplate(**data))
 
         for data in MONSTER_TEMPLATES:
             if db.query(MonsterTemplate).filter_by(slug=data["slug"]).first():
