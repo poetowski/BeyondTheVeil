@@ -23,11 +23,6 @@ def slugify(name: str) -> str:
 # table) for the user to extend. Slugs are always derived from `name` via
 # slugify() - never hand-typed.
 ITEM_TEMPLATES = [
-    dict(name="Fragment Shard Blade", slot=EquipmentSlot.WEAPON, rarity=ItemRarity.COMMON, level_requirement=1, base_stats={"strength": 2}),
-    dict(name="Wisp-Touched Hood", slot=EquipmentSlot.HELMET, rarity=ItemRarity.COMMON, level_requirement=1, base_stats={"vitality": 1}),
-    dict(name="Threshold Buckler", slot=EquipmentSlot.SHIELD, rarity=ItemRarity.COMMON, level_requirement=1, base_stats={"agility": 1}),
-    dict(name="Fragment-Stitched Vest", slot=EquipmentSlot.ARMOR, rarity=ItemRarity.COMMON, level_requirement=1, base_stats={"vitality": 3}),
-    dict(name="Drifting Charm", slot=EquipmentSlot.AMULET, rarity=ItemRarity.COMMON, level_requirement=1, base_stats={"spirit": 2}),
     dict(name="Wisp Spark", slot=EquipmentSlot.SPELL_SKILL, rarity=ItemRarity.COMMON, level_requirement=1, base_stats={"intelligence": 2}),
     # Tier1 gear set: defined through the weapon-damage/defense/bonus-HP
     # mechanics instead of flat stat bonuses (base_stats={}).
@@ -90,13 +85,9 @@ CAMPAIGN_NODES = [
     dict(slug="campaign-02-wisp-hollow", order_index=2, name="Wisp Hollow", required_level=2, gold_cost=10, monster_slug=slugify("Veil Wisp")),
 ]
 
-# Dev drop table - Veil Wisp drops its full level-1 gear set.
+# Dev drop table - only Wisp Spark for now; the tier1 gear set above isn't
+# wired into any loot table yet.
 MONSTER_LOOT_ENTRIES = [
-    dict(monster_slug=slugify("Veil Wisp"), item_slug=slugify("Fragment Shard Blade"), drop_weight=5),
-    dict(monster_slug=slugify("Veil Wisp"), item_slug=slugify("Wisp-Touched Hood"), drop_weight=5),
-    dict(monster_slug=slugify("Veil Wisp"), item_slug=slugify("Threshold Buckler"), drop_weight=4),
-    dict(monster_slug=slugify("Veil Wisp"), item_slug=slugify("Fragment-Stitched Vest"), drop_weight=3),
-    dict(monster_slug=slugify("Veil Wisp"), item_slug=slugify("Drifting Charm"), drop_weight=3),
     dict(monster_slug=slugify("Veil Wisp"), item_slug=slugify("Wisp Spark"), drop_weight=3),
 ]
 
