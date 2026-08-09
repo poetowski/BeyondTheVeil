@@ -14,7 +14,7 @@ STAT_NAMES = ("strength", "dexterity", "intelligence", "vitality", "agility", "s
 HP_PER_VITALITY = 10
 BASE_HP = 50
 BASELINE_STAT_VALUE = 10
-HP_REGEN_SECONDS_TO_FULL = 2700  # ~45 minutes; placeholder, same spirit as combat's other constants
+HP_REGEN_SECONDS_TO_FULL = 180 * 60  # 180 minutes; placeholder, same spirit as combat's other constants
 
 # Placeholder curve/costs — balance pass pending, same spirit as the combat
 # engine's placeholder constants.
