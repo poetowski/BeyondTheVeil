@@ -8,6 +8,7 @@ import { CampaignPage } from "./pages/CampaignPage";
 import { ConceptPage } from "./pages/ConceptPage";
 import { ForgePage } from "./pages/ForgePage";
 import { HeroPage } from "./pages/HeroPage";
+import { LeaderboardPage } from "./pages/LeaderboardPage";
 import { LoginPage } from "./pages/LoginPage";
 import { MaterialsPage } from "./pages/MaterialsPage";
 import { SignupPage } from "./pages/SignupPage";
@@ -29,6 +30,7 @@ function App() {
           <Route path="/veil" element={<VeilPage />} />
           <Route path="/campaign" element={<CampaignPage />} />
           <Route path="/bestiary" element={<BestiaryPage />} />
+          <Route path="/leaderboard" element={<LeaderboardPage />} />
           <Route path="/concept" element={<ConceptPage />} />
         </Route>
       </Route>

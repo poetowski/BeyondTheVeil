@@ -39,6 +39,7 @@ const NAV_ITEMS: NavItem[] = [
       { to: "/forge", label: "Forge" },
     ],
   },
+  { to: "/leaderboard", label: "Leaderboard" },
   { to: "/concept", label: "Concept" },
 ];
 

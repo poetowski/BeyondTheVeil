@@ -8,6 +8,7 @@ from app.api.v1 import (
     crafting,
     hero,
     inventory,
+    leaderboard,
     materials,
     users,
     veil,
@@ -24,3 +25,4 @@ api_router.include_router(crafting.router)
 api_router.include_router(consumables.router)
 api_router.include_router(bestiary.router)
 api_router.include_router(campaign.router)
+api_router.include_router(leaderboard.router)

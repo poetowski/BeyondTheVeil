@@ -246,3 +246,16 @@ def get_owned_consumables(db: Session, hero: Hero) -> list[ConsumableInstance]:
         .scalars()
         .all()
     )
+
+
+def get_leaderboard(db: Session, limit: int = 10) -> list[Hero]:
+    """Top heroes by level, highest first. Ties broken by xp (the rolling
+    progress-to-next-level counter) so heroes closer to their next level
+    rank above ones further behind at the same level."""
+    return (
+        db.execute(
+            select(Hero).order_by(Hero.level.desc(), Hero.xp.desc()).limit(limit)
+        )
+        .scalars()
+        .all()
+    )

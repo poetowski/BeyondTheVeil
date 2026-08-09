@@ -148,3 +148,9 @@ export interface CraftingRecipeOut {
   ingredients: RecipeIngredientOut[];
   craftable: boolean;
 }
+
+export interface LeaderboardEntryOut {
+  rank: number;
+  name: string;
+  level: number;
+}
