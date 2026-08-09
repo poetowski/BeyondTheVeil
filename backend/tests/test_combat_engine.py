@@ -27,6 +27,8 @@ def _encounter(**overrides):
         "monster_name": "Veil Wisp",
         "monster_stats": dict(MONSTER),
         "loot_pool": [dict(entry) for entry in LOOT_POOL],
+        "gold_min": 5,
+        "gold_max": 15,
     }
     encounter.update(overrides)
     return encounter
@@ -98,12 +100,13 @@ def test_hero_current_hp_is_capped_at_max_hp():
 
 
 def test_gold_is_only_awarded_on_victory():
+    encounter = _encounter()
     for seed in range(50):
         result = engine.resolve(
-            seed=seed, hero_snapshot=WEAK_HERO, hero_base_stats=WEAK_HERO, encounter=_encounter()
+            seed=seed, hero_snapshot=WEAK_HERO, hero_base_stats=WEAK_HERO, encounter=encounter
         )
         if result.victory:
-            assert result.gold_awarded == engine.GOLD_PER_VICTORY
+            assert encounter["gold_min"] <= result.gold_awarded <= encounter["gold_max"]
         else:
             assert result.gold_awarded == 0
 

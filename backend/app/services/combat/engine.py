@@ -13,7 +13,6 @@ HIT_CHANCE_MAX = 0.90
 DAMAGE_VARIANCE = (0.8, 1.2)
 MAX_ROUNDS = 30
 MATERIAL_DROP_CHANCE = 0.5
-GOLD_PER_VICTORY = 10
 SPELL_DAMAGE_MULTIPLIER = 3  # intelligence contributes 3x the damage per point that strength does
 MONSTER_STAT_VARIANCE = (0.85, 1.15)
 # Hit-zone mechanic: only rolled when the monster hits the hero (monsters have
@@ -208,7 +207,7 @@ def resolve(
         victory = (hero_hp / hero_max_hp) >= (monster_hp / monster_max_hp)
 
     xp_awarded = sum(monster_stats.values()) if victory else 0
-    gold_awarded = GOLD_PER_VICTORY if victory else 0
+    gold_awarded = rng.randint(encounter.get("gold_min", 0), encounter.get("gold_max", 0)) if victory else 0
 
     loot: list[dict[str, Any]] = []
     loot_pool = encounter.get("loot_pool") or []
