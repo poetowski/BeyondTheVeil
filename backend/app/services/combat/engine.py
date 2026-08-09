@@ -13,6 +13,7 @@ HIT_CHANCE_MAX = 0.90
 DAMAGE_VARIANCE = (0.8, 1.2)
 MAX_ROUNDS = 30
 DROP_CHANCE = 0.5
+GOLD_PER_VICTORY = 10
 
 
 @dataclass
@@ -22,6 +23,7 @@ class CombatResult:
     log: list[dict[str, Any]] = field(default_factory=list)
     loot: list[dict[str, Any]] = field(default_factory=list)
     xp_awarded: int = 0
+    gold_awarded: int = 0
 
 
 def _hit_chance(attacker_stat: int, defender_stat: int) -> float:
@@ -105,6 +107,7 @@ def resolve(
         victory = (hero_hp / hero_max_hp) >= (monster_hp / monster_max_hp)
 
     xp_awarded = sum(monster_stats.values()) if victory else 0
+    gold_awarded = GOLD_PER_VICTORY if victory else 0
 
     loot: list[dict[str, Any]] = []
     loot_pool = encounter.get("loot_pool") or []
@@ -122,4 +125,5 @@ def resolve(
         log=log,
         loot=loot,
         xp_awarded=xp_awarded,
+        gold_awarded=gold_awarded,
     )

@@ -50,6 +50,17 @@ def test_encounter_none_is_an_automatic_uneventful_victory():
     assert result.loot == []
 
 
+def test_gold_is_only_awarded_on_victory():
+    for seed in range(50):
+        result = engine.resolve(
+            seed=seed, hero_snapshot=WEAK_HERO, hero_base_stats=WEAK_HERO, encounter=_encounter()
+        )
+        if result.victory:
+            assert result.gold_awarded == engine.GOLD_PER_VICTORY
+        else:
+            assert result.gold_awarded == 0
+
+
 def test_hero_initiative_wins_when_base_stats_favor_hero():
     strong_initiative_hero = {**WEAK_HERO, "dexterity": 20, "agility": 20}
     result = engine.resolve(

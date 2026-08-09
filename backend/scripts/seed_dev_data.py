@@ -29,9 +29,6 @@ MONSTER_TEMPLATES = [
     dict(
         slug="fragment-stalker",
         name="Fragment Stalker",
-        # Unreachable content until a leveling system exists (nothing increments
-        # Hero.level anywhere today, so every hero is level 1) — seeded anyway
-        # for forward-compat, not scope creep into building leveling now.
         level_range_min=3,
         level_range_max=6,
         base_stats={"strength": 5, "dexterity": 4, "vitality": 8, "agility": 5, "intelligence": 1, "spirit": 1},
@@ -52,11 +49,7 @@ MONSTER_TEMPLATES = [
     ),
 ]
 
-# Fixed, sequential battle nodes for the Campaign track. Only the first is
-# reachable today (required_level=1, gold_cost=0) — gold has no earn source
-# yet and leveling doesn't exist, so nodes 2+ are legitimately unreachable
-# until those systems land, matching the same "real system, empty for now"
-# pattern used for Materials.
+# Fixed, sequential battle nodes for the Campaign track.
 CAMPAIGN_NODES = [
     dict(slug="campaign-01-wisp-threshold", order_index=1, name="The Wisp Threshold", required_level=1, gold_cost=0, monster_slug="veil-wisp"),
     dict(slug="campaign-02-wisp-hollow", order_index=2, name="Wisp Hollow", required_level=2, gold_cost=10, monster_slug="veil-wisp"),

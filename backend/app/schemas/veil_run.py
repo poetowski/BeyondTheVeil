@@ -18,6 +18,7 @@ class VeilRunResultOut(BaseModel):
     log: list[dict]
     loot: list[dict]
     xp_awarded: int
+    gold_awarded: int = 0
 
 
 class VeilRunOut(BaseModel):

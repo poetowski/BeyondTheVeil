@@ -1,4 +1,6 @@
-from fastapi import APIRouter, Depends
+import uuid
+
+from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
 from app.api.deps import get_current_user
@@ -16,3 +18,35 @@ def get_inventory(
 ) -> list[ItemInstanceOut]:
     items = hero_service.get_owned_items(db, current_user.hero)
     return [to_out(item) for item in items]
+
+
+@router.post("/{item_id}/equip", response_model=ItemInstanceOut)
+def equip_item(
+    item_id: uuid.UUID,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+) -> ItemInstanceOut:
+    try:
+        item = hero_service.equip_item(db, current_user.hero, item_id)
+    except hero_service.ItemNotFoundError as exc:
+        raise HTTPException(status.HTTP_404_NOT_FOUND, detail=str(exc)) from exc
+    except hero_service.ItemNotOwnedError as exc:
+        raise HTTPException(status.HTTP_403_FORBIDDEN, detail=str(exc)) from exc
+    except hero_service.LevelRequirementNotMetError as exc:
+        raise HTTPException(status.HTTP_409_CONFLICT, detail=str(exc)) from exc
+    return to_out(item)
+
+
+@router.post("/{item_id}/unequip", response_model=ItemInstanceOut)
+def unequip_item(
+    item_id: uuid.UUID,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+) -> ItemInstanceOut:
+    try:
+        item = hero_service.unequip_item(db, current_user.hero, item_id)
+    except hero_service.ItemNotFoundError as exc:
+        raise HTTPException(status.HTTP_404_NOT_FOUND, detail=str(exc)) from exc
+    except hero_service.ItemNotOwnedError as exc:
+        raise HTTPException(status.HTTP_403_FORBIDDEN, detail=str(exc)) from exc
+    return to_out(item)
