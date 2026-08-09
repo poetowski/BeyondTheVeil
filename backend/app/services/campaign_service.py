@@ -31,6 +31,10 @@ class ActiveRunConflictError(CampaignError):
     pass
 
 
+class HeroTooWoundedError(CampaignError):
+    pass
+
+
 def list_nodes(db: Session) -> list[CampaignNode]:
     return (
         db.execute(
@@ -61,6 +65,10 @@ def enter_campaign_node(db: Session, hero: Hero, node_id: uuid.UUID) -> VeilRun:
         raise NodeLockedError("hero level is too low for this node")
     if hero.gold < node.gold_cost:
         raise InsufficientGoldError("not enough gold to enter this node")
+    try:
+        veil_service.check_not_too_wounded(db, hero)
+    except veil_service.HeroTooWoundedError as exc:
+        raise HeroTooWoundedError(str(exc)) from exc
 
     monster = db.get(MonsterTemplate, node.monster_template_id)
     if monster is None:

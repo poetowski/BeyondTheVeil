@@ -1,6 +1,7 @@
 import uuid
+from datetime import datetime
 
-from sqlalchemy import BigInteger, CheckConstraint, ForeignKey, Integer, String
+from sqlalchemy import BigInteger, CheckConstraint, DateTime, ForeignKey, Integer, String, func
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
@@ -21,6 +22,7 @@ class Hero(UUIDPKMixin, TimestampMixin, Base):
         CheckConstraint("gold >= 0", name="gold_gte_0"),
         CheckConstraint("campaign_progress >= 0", name="campaign_progress_gte_0"),
         CheckConstraint("inventory_capacity >= 1", name="inventory_capacity_gte_1"),
+        CheckConstraint("current_hp >= 0", name="current_hp_gte_0"),
     )
 
     user_id: Mapped[uuid.UUID] = mapped_column(
@@ -35,6 +37,10 @@ class Hero(UUIDPKMixin, TimestampMixin, Base):
     gold: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
     campaign_progress: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
     inventory_capacity: Mapped[int] = mapped_column(Integer, nullable=False, default=20)
+    current_hp: Mapped[int] = mapped_column(Integer, nullable=False)
+    hp_updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), nullable=False, server_default=func.now()
+    )
 
     strength: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
     dexterity: Mapped[int] = mapped_column(Integer, nullable=False, default=0)

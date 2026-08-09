@@ -12,6 +12,7 @@ from app.models.base import Base
 from app.models.hero import Hero
 from app.models.monster import MonsterTemplate
 from app.models.user import User
+from app.services import hero_service
 
 TEST_DATABASE_URL = os.environ.get(
     "TEST_DATABASE_URL",
@@ -103,6 +104,7 @@ def hero_factory(db_session):
             spirit=10,
         )
         defaults.update(overrides)
+        defaults.setdefault("current_hp", hero_service.compute_max_hp(defaults["vitality"]))
         hero = Hero(**defaults)
         db_session.add(hero)
         db_session.flush()

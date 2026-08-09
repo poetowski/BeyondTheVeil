@@ -19,6 +19,26 @@ from app.services.combat import encounter as encounter_service
 from app.services.combat import engine as combat_engine
 
 
+class VeilServiceError(Exception):
+    """Base class for veil-entry failures."""
+
+
+class HeroTooWoundedError(VeilServiceError):
+    pass
+
+
+def check_not_too_wounded(db: Session, hero: Hero) -> None:
+    """Raises HeroTooWoundedError if the hero's regenerated current HP is
+    <= 0. Public: called both internally (enter_veil/enter_campaign_encounter)
+    and by campaign_service, which needs to check this *before* deducting a
+    node's gold cost rather than after."""
+    equipped_items = hero_service.get_equipped_items(db, hero)
+    effective_stats = hero_service.compute_effective_stats(hero, equipped_items)
+    current_hp = hero_service.compute_current_hp(hero, effective_stats["vitality"])
+    if current_hp <= 0:
+        raise HeroTooWoundedError("hero is too wounded to enter the veil")
+
+
 def enter_veil(db: Session, hero: Hero) -> VeilRun:
     """Start a veil run against a randomly selected monster, resolving combat
     immediately but revealing nothing until `resolves_at` has passed (see
@@ -31,6 +51,7 @@ def enter_veil(db: Session, hero: Hero) -> VeilRun:
     existing = get_active_run(db, hero)
     if existing is not None:
         return existing
+    check_not_too_wounded(db, hero)
 
     seed = random.getrandbits(63)
     encounter = encounter_service.select_encounter(db, hero, seed)
@@ -49,6 +70,7 @@ def enter_campaign_encounter(
     existing = get_active_run(db, hero)
     if existing is not None:
         return existing
+    check_not_too_wounded(db, hero)
 
     seed = random.getrandbits(63)
     return _start_run(db, hero, seed=seed, encounter=encounter, campaign_node_id=campaign_node_id)
@@ -70,8 +92,15 @@ def _start_run(
     duration_seconds = settings.veil_duration_seconds
     resolves_at = started_at + timedelta(seconds=duration_seconds)
 
+    hero_current_hp = hero_service.compute_current_hp(
+        hero, effective_stats["vitality"], now=started_at
+    )
     result = combat_engine.resolve(
-        seed=seed, hero_snapshot=effective_stats, hero_base_stats=base_stats, encounter=encounter
+        seed=seed,
+        hero_snapshot=effective_stats,
+        hero_base_stats=base_stats,
+        encounter=encounter,
+        hero_current_hp=hero_current_hp,
     )
 
     run = VeilRun(
@@ -148,6 +177,14 @@ def _apply_rewards(db: Session, run: VeilRun) -> None:
     hero = db.get(Hero, run.hero_id)
     hero_service.apply_xp(hero, payload.get("xp_awarded", 0))
     hero.gold += payload.get("gold_awarded", 0)
+
+    if "hero_hp_after" in payload:
+        # Anchored to when combat actually concluded (resolves_at), not
+        # whenever the player happens to claim - otherwise a late claim
+        # would grant bonus free regen for the delay. Guarded by key
+        # presence so runs created before this field existed don't crash.
+        hero.current_hp = payload["hero_hp_after"]
+        hero.hp_updated_at = run.resolves_at
 
     if run.campaign_node_id is not None and payload.get("victory"):
         node = db.get(CampaignNode, run.campaign_node_id)

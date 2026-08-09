@@ -17,7 +17,10 @@ router = APIRouter(prefix="/veil", tags=["veil"])
 def enter_veil(
     current_user: User = Depends(get_current_user), db: Session = Depends(get_db)
 ) -> VeilRunOut:
-    run = veil_service.enter_veil(db, current_user.hero)
+    try:
+        run = veil_service.enter_veil(db, current_user.hero)
+    except veil_service.HeroTooWoundedError as exc:
+        raise HTTPException(status.HTTP_409_CONFLICT, detail=str(exc)) from exc
     return to_out(run)
 
 

@@ -1,4 +1,5 @@
 import uuid
+from datetime import datetime, timezone
 
 from sqlalchemy import select
 from sqlalchemy.orm import Session
@@ -12,6 +13,7 @@ STAT_NAMES = ("strength", "dexterity", "intelligence", "vitality", "agility", "s
 HP_PER_VITALITY = 10
 BASE_HP = 50
 BASELINE_STAT_VALUE = 10
+HP_REGEN_SECONDS_TO_FULL = 2700  # ~45 minutes; placeholder, same spirit as combat's other constants
 
 # Placeholder curve/costs — balance pass pending, same spirit as the combat
 # engine's placeholder constants.
@@ -75,6 +77,18 @@ def compute_effective_stats(hero: Hero, equipped_items: list[ItemInstance]) -> d
 def compute_max_hp(effective_vitality: int) -> int:
     """Placeholder formula; combat balance is a separate future task."""
     return BASE_HP + effective_vitality * HP_PER_VITALITY
+
+
+def compute_current_hp(hero: Hero, effective_vitality: int, *, now: datetime | None = None) -> int:
+    """Lazily regenerated HP: no background job, just derives the current
+    value from the last-persisted current_hp/hp_updated_at plus elapsed
+    time. Read-only — callers that want to persist the regenerated value
+    must do so explicitly (see veil_service._apply_rewards)."""
+    now = now or datetime.now(timezone.utc)
+    max_hp = compute_max_hp(effective_vitality)
+    elapsed_seconds = max(0.0, (now - hero.hp_updated_at).total_seconds())
+    regen_per_second = max_hp / HP_REGEN_SECONDS_TO_FULL
+    return min(max_hp, round(hero.current_hp + elapsed_seconds * regen_per_second))
 
 
 def xp_required_for_level(level: int) -> int:

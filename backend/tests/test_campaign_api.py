@@ -111,6 +111,23 @@ def test_entering_node_with_active_veil_run_is_rejected(client, db_session):
     assert response.status_code == 409
 
 
+def test_entering_node_while_too_wounded_is_rejected_and_does_not_charge_gold(client, db_session):
+    token = _signup(client, email="woundedcamp@test.com")
+    hero_id = _get_hero_id(client, token)
+    hero = db_session.get(Hero, hero_id)
+    hero.gold = 50
+    hero.current_hp = 0
+    db_session.flush()
+
+    node = _make_node(db_session, slug="camp-wounded-1", order_index=1, gold_cost=20)
+
+    response = client.post(f"/api/v1/campaign/nodes/{node.id}/enter", headers=_auth(token))
+    assert response.status_code == 409
+
+    db_session.refresh(hero)
+    assert hero.gold == 50, "gold must not be charged when entry is rejected as too wounded"
+
+
 def test_entering_nonexistent_node_returns_404(client):
     token = _signup(client, email="missing@test.com")
     response = client.post(

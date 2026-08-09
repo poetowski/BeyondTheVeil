@@ -28,6 +28,7 @@ class CombatResult:
     material_loot: list[dict[str, Any]] = field(default_factory=list)
     xp_awarded: int = 0
     gold_awarded: int = 0
+    hero_hp_after: int = 0
 
 
 def _hit_chance(attacker_stat: int, defender_stat: int) -> float:
@@ -50,13 +51,17 @@ def resolve(
     hero_snapshot: dict[str, int],
     hero_base_stats: dict[str, int],
     encounter: dict[str, Any] | None,
+    hero_current_hp: int | None = None,
 ) -> CombatResult:
     """Deterministic, seed-reproducible combat in two phases: an opening
     spell exchange (intelligence for damage — at SPELL_DAMAGE_MULTIPLIER
     per point vs. strength's 1x, spirit-vs-spirit for hit chance — mirrors
     the physical hit-chance formula with magic's stat pair), then
     physical-only rounds (strength for damage, dexterity-vs-agility for hit
-    chance). Vitality drives HP throughout.
+    chance). Vitality drives max HP throughout; the hero may start below max
+    if `hero_current_hp` reflects unhealed damage from a previous fight
+    (None means "start at full HP", used by every caller that doesn't track
+    persistent HP).
 
     The monster's 6 stats are rolled once at the top of this function (see
     _roll_monster_stats), independently varying each stat within
@@ -80,7 +85,7 @@ def resolve(
 
     hero_max_hp = compute_max_hp(hero_snapshot["vitality"])
     monster_max_hp = monster_stats["vitality"] * HP_PER_VITALITY
-    hero_hp = hero_max_hp
+    hero_hp = hero_max_hp if hero_current_hp is None else min(hero_current_hp, hero_max_hp)
     monster_hp = monster_max_hp
 
     hero_initiative = hero_base_stats["dexterity"] + hero_base_stats["agility"]
@@ -208,4 +213,5 @@ def resolve(
         material_loot=material_loot,
         xp_awarded=xp_awarded,
         gold_awarded=gold_awarded,
+        hero_hp_after=hero_hp,
     )

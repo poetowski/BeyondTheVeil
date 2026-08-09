@@ -8,7 +8,7 @@ from sqlalchemy.orm import sessionmaker
 from app.models.hero import Hero
 from app.models.user import User
 from app.models.veil_run import VeilRun, VeilRunStatus
-from app.services import veil_service
+from app.services import hero_service, veil_service
 
 
 def _make_run(hero, *, resolves_delta_seconds: int, xp_awarded: int = 42) -> VeilRun:
@@ -104,6 +104,7 @@ def test_concurrent_claim_race_only_one_applies_reward(engine):
         intelligence=1,
         spirit=1,
         xp=0,
+        current_hp=hero_service.compute_max_hp(1),
     )
     setup_session.add(hero)
     setup_session.flush()

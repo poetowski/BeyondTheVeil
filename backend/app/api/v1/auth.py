@@ -8,7 +8,7 @@ from app.core.security import create_access_token, hash_password, verify_passwor
 from app.models.hero import Hero
 from app.models.user import User
 from app.schemas.auth import LoginRequest, SignupRequest, TokenResponse
-from app.services.hero_service import BASELINE_STAT_VALUE, STAT_NAMES
+from app.services.hero_service import BASELINE_STAT_VALUE, STAT_NAMES, compute_max_hp
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
@@ -31,6 +31,7 @@ def signup(payload: SignupRequest, db: Session = Depends(get_db)) -> TokenRespon
         user_id=user.id,
         name=payload.hero_name,
         **{stat: BASELINE_STAT_VALUE for stat in STAT_NAMES},
+        current_hp=compute_max_hp(BASELINE_STAT_VALUE),
     )
     db.add(hero)
 

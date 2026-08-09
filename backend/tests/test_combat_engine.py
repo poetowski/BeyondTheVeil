@@ -54,6 +54,49 @@ def test_encounter_none_is_an_automatic_uneventful_victory():
     assert result.loot == []
 
 
+def test_default_hero_current_hp_is_full_hp():
+    # hero_current_hp defaults to None, meaning "start at full HP" - every
+    # pre-existing caller/test that doesn't pass it must be unaffected.
+    result = engine.resolve(
+        seed=5, hero_snapshot=WEAK_HERO, hero_base_stats=WEAK_HERO, encounter=_encounter()
+    )
+    hero_max_hp = engine.compute_max_hp(WEAK_HERO["vitality"])
+    total_damage_to_hero = sum(
+        e["damage"] for e in result.log if e["hit"] and e["actor"] == "monster"
+    )
+    assert result.hero_hp_after == max(0, hero_max_hp - total_damage_to_hero)
+
+
+def test_hero_current_hp_below_max_starts_combat_already_wounded():
+    hero_max_hp = engine.compute_max_hp(WEAK_HERO["vitality"])
+    wounded_result = engine.resolve(
+        seed=5,
+        hero_snapshot=WEAK_HERO,
+        hero_base_stats=WEAK_HERO,
+        encounter=_encounter(),
+        hero_current_hp=1,
+    )
+    full_result = engine.resolve(
+        seed=5, hero_snapshot=WEAK_HERO, hero_base_stats=WEAK_HERO, encounter=_encounter()
+    )
+    # Same seed, same rolls, but the wounded hero enters with only 1 HP - any
+    # hit at all should down them, whereas the full-HP hero can tank longer.
+    assert wounded_result.hero_hp_after <= full_result.hero_hp_after
+    assert wounded_result.hero_hp_after < hero_max_hp
+
+
+def test_hero_current_hp_is_capped_at_max_hp():
+    hero_max_hp = engine.compute_max_hp(WEAK_HERO["vitality"])
+    result = engine.resolve(
+        seed=1,
+        hero_snapshot=WEAK_HERO,
+        hero_base_stats=WEAK_HERO,
+        encounter=_encounter(),
+        hero_current_hp=hero_max_hp + 10_000,
+    )
+    assert result.hero_hp_after <= hero_max_hp
+
+
 def test_gold_is_only_awarded_on_victory():
     for seed in range(50):
         result = engine.resolve(

@@ -1,6 +1,7 @@
 import uuid
 from datetime import datetime, timedelta, timezone
 
+from app.models.hero import Hero
 from app.models.item import EquipmentSlot, ItemTemplate
 from app.models.veil_run import VeilRun, VeilRunStatus
 
@@ -161,3 +162,46 @@ def test_claiming_loot_materializes_an_item_instance_in_the_backpack(client, db_
     assert len(inventory) == 1
     assert inventory[0]["name"] == "Test Loot Sword"
     assert inventory[0]["equipped_slot"] is None
+
+
+def test_claiming_a_run_persists_hero_hp_after(client, db_session):
+    token = _signup(client, email="wounded@test.com")
+    me = client.get("/api/v1/users/me", headers=_auth(token)).json()
+    hero_id = me["hero"]["id"]
+
+    now = datetime.now(timezone.utc)
+    run = VeilRun(
+        hero_id=uuid.UUID(hero_id),
+        seed=1,
+        status=VeilRunStatus.IN_PROGRESS,
+        started_at=now - timedelta(seconds=10),
+        duration_seconds=5,
+        resolves_at=now - timedelta(seconds=5),
+        result_payload={
+            "victory": False,
+            "monster_name": "Test Monster",
+            "log": [],
+            "loot": [],
+            "xp_awarded": 0,
+            "hero_hp_after": 7,
+        },
+    )
+    db_session.add(run)
+    db_session.commit()
+
+    client.post(f"/api/v1/veil/{run.id}/claim", headers=_auth(token))
+
+    me_after = client.get("/api/v1/users/me", headers=_auth(token)).json()
+    assert me_after["hero"]["current_hp"] == 7
+
+
+def test_entering_veil_while_too_wounded_is_rejected(client, db_session):
+    token = _signup(client, email="toowounded@test.com")
+    me = client.get("/api/v1/users/me", headers=_auth(token)).json()
+    hero = db_session.get(Hero, uuid.UUID(me["hero"]["id"]))
+    hero.current_hp = 0
+    db_session.flush()
+
+    response = client.post("/api/v1/veil/enter", headers=_auth(token))
+
+    assert response.status_code == 409

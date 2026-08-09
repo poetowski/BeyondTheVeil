@@ -1,3 +1,5 @@
+from datetime import datetime, timedelta, timezone
+
 from app.models.hero import Hero
 from app.models.item import EquipmentSlot, ItemInstance, ItemTemplate
 from app.services import hero_service
@@ -52,6 +54,40 @@ def test_compute_max_hp_derives_from_effective_vitality():
         hero_service.compute_max_hp(10)
         == hero_service.BASE_HP + 10 * hero_service.HP_PER_VITALITY
     )
+
+
+def test_compute_current_hp_regenerates_linearly_over_time():
+    # Regen is linear in absolute HP (max_hp / HP_REGEN_SECONDS_TO_FULL per
+    # second), not proportional to the remaining gap to max - after half the
+    # full-regen duration, exactly half of max_hp's worth of HP should have
+    # been restored, regardless of the starting value (as long as the total
+    # doesn't overshoot max_hp).
+    vitality = 10
+    max_hp = hero_service.compute_max_hp(vitality)
+    started_at = datetime.now(timezone.utc)
+    hero = Hero(vitality=vitality, current_hp=1, hp_updated_at=started_at)
+
+    halfway_through_regen = started_at + timedelta(seconds=hero_service.HP_REGEN_SECONDS_TO_FULL / 2)
+    current = hero_service.compute_current_hp(hero, vitality, now=halfway_through_regen)
+    assert current == round(1 + max_hp / 2)
+
+
+def test_compute_current_hp_never_exceeds_max_hp():
+    vitality = 10
+    max_hp = hero_service.compute_max_hp(vitality)
+    started_at = datetime.now(timezone.utc)
+    hero = Hero(vitality=vitality, current_hp=max_hp, hp_updated_at=started_at)
+
+    long_after_full_regen = started_at + timedelta(seconds=hero_service.HP_REGEN_SECONDS_TO_FULL * 10)
+    current = hero_service.compute_current_hp(hero, vitality, now=long_after_full_regen)
+    assert current == max_hp
+
+
+def test_compute_current_hp_with_no_elapsed_time_is_unchanged():
+    vitality = 10
+    now = datetime.now(timezone.utc)
+    hero = Hero(vitality=vitality, current_hp=5, hp_updated_at=now)
+    assert hero_service.compute_current_hp(hero, vitality, now=now) == 5
 
 
 def test_xp_required_for_level_uses_the_steeper_curve():
