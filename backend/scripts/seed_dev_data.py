@@ -42,15 +42,10 @@ MATERIAL_TEMPLATES = []
 for _material in MATERIAL_TEMPLATES:
     _material["slug"] = slugify(_material["name"])
 
-CONSUMABLE_TEMPLATES = [
-    dict(name="Minor Healing Elixir", description="A quick brew that mends shallow wounds.", heal_amount_fraction=0.3),
-]
+CONSUMABLE_TEMPLATES = []
 for _consumable in CONSUMABLE_TEMPLATES:
     _consumable["slug"] = slugify(_consumable["name"])
 
-# Empty for now - its only recipe (Minor Healing Elixir) needed Wisp Residue,
-# which was removed. The consumable itself is untouched; it's just
-# uncraftable until a new recipe/material replaces this one.
 CRAFTING_RECIPES = []
 for _recipe in CRAFTING_RECIPES:
     _recipe["slug"] = slugify(_recipe["name"])
