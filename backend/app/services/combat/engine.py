@@ -37,15 +37,18 @@ def resolve(
     hero_base_stats: dict[str, int],
     encounter: dict[str, Any] | None,
 ) -> CombatResult:
-    """Deterministic, seed-reproducible physical combat: strength for damage,
-    dexterity-vs-agility for hit chance, vitality for HP. Magic/intelligence/
-    spirit stay dormant until spell-equipping exists — see the plan doc.
+    """Deterministic, seed-reproducible combat in two phases: an opening
+    spell exchange (intelligence for damage, spirit-vs-spirit for hit
+    chance — mirrors the physical formulas below with magic's stat pair),
+    then physical-only rounds (strength for damage, dexterity-vs-agility
+    for hit chance). Vitality drives HP throughout.
 
     Turn order (initiative) is decided once, from *base* stats only (no item
     bonuses) — hero_base_stats vs the monster's stats (monsters have no
     equipment, so theirs are inherently base already). Whoever's
-    dexterity+agility sum is higher attacks first; the two sides then
-    alternate every single attack, one full round = each side attacks once.
+    dexterity+agility sum is higher acts first, in both the spell exchange
+    and the physical rounds that follow. Physical rounds alternate every
+    single attack, one full round = each side attacks once.
     """
     if encounter is None:
         return CombatResult(victory=True, log=[{"message": "no monsters found for hero's level"}])
@@ -63,6 +66,45 @@ def resolve(
     order = ("hero", "monster") if hero_initiative >= monster_initiative else ("monster", "hero")
 
     log: list[dict[str, Any]] = []
+
+    # Opening spell exchange: each side casts exactly once, in initiative
+    # order, before any physical rounds begin. Intelligence is the magic
+    # damage stat (mirrors strength), spirit is the magic accuracy/
+    # resistance stat (mirrors dexterity/agility) — reuses the same
+    # _hit_chance/DAMAGE_VARIANCE formulas as the physical loop below.
+    for actor in order:
+        if hero_hp <= 0 or monster_hp <= 0:
+            break
+
+        if actor == "hero":
+            attacker_intelligence = hero_snapshot["intelligence"]
+            attacker_spirit = hero_snapshot["spirit"]
+            defender_spirit = monster_stats["spirit"]
+        else:
+            attacker_intelligence = monster_stats["intelligence"]
+            attacker_spirit = monster_stats["spirit"]
+            defender_spirit = hero_snapshot["spirit"]
+
+        hit = attacker_intelligence > 0 and rng.random() < _hit_chance(attacker_spirit, defender_spirit)
+        damage = 0
+        if hit:
+            damage = max(1, math.floor(attacker_intelligence * rng.uniform(*DAMAGE_VARIANCE)))
+            if actor == "hero":
+                monster_hp = max(0, monster_hp - damage)
+            else:
+                hero_hp = max(0, hero_hp - damage)
+
+        log.append(
+            {
+                "round": 0,
+                "phase": "spell",
+                "actor": actor,
+                "hit": hit,
+                "damage": damage,
+                "defender_hp_remaining": monster_hp if actor == "hero" else hero_hp,
+            }
+        )
+
     round_number = 0
     while hero_hp > 0 and monster_hp > 0 and round_number < MAX_ROUNDS:
         round_number += 1
@@ -91,6 +133,7 @@ def resolve(
             log.append(
                 {
                     "round": round_number,
+                    "phase": "physical",
                     "actor": actor,
                     "hit": hit,
                     "damage": damage,

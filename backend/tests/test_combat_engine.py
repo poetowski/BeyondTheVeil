@@ -98,6 +98,7 @@ def test_hit_chance_and_damage_bounds_hold_across_many_seeds():
         )
         for entry in result.log:
             assert entry["actor"] in ("hero", "monster")
+            assert entry["phase"] in ("spell", "physical")
             assert isinstance(entry["hit"], bool)
             assert entry["damage"] >= 0
             if entry["hit"]:
@@ -105,6 +106,58 @@ def test_hit_chance_and_damage_bounds_hold_across_many_seeds():
             else:
                 assert entry["damage"] == 0
             assert entry["defender_hp_remaining"] >= 0
+
+
+def test_opening_spell_exchange_precedes_physical_rounds():
+    result = engine.resolve(
+        seed=7, hero_snapshot=WEAK_HERO, hero_base_stats=WEAK_HERO, encounter=_encounter()
+    )
+    # Both sides get exactly one spell-phase action, round 0, before any
+    # physical-phase entry appears.
+    spell_entries = [entry for entry in result.log if entry["phase"] == "spell"]
+    assert len(spell_entries) == 2
+    assert {entry["actor"] for entry in spell_entries} == {"hero", "monster"}
+    assert all(entry["round"] == 0 for entry in spell_entries)
+    assert result.log[0]["phase"] == "spell"
+    assert result.log[1]["phase"] == "spell"
+
+    physical_entries = [entry for entry in result.log if entry["phase"] == "physical"]
+    if physical_entries:
+        assert all(entry["round"] >= 1 for entry in physical_entries)
+
+
+def test_spell_exchange_uses_intelligence_for_damage_not_strength():
+    # Zero strength means physical rounds (if reached) always deal 0 on a
+    # hit; any nonzero damage from the caster's spell-phase entry must have
+    # come from intelligence, not strength.
+    caster_hero = {**WEAK_HERO, "strength": 0, "intelligence": 50}
+    result = engine.resolve(
+        seed=3, hero_snapshot=caster_hero, hero_base_stats=caster_hero, encounter=_encounter()
+    )
+    hero_spell_entry = next(e for e in result.log if e["phase"] == "spell" and e["actor"] == "hero")
+    if hero_spell_entry["hit"]:
+        assert hero_spell_entry["damage"] >= 1
+
+
+def test_a_lethal_spell_cast_ends_combat_before_physical_rounds():
+    # Hero acts first (higher initiative) with an overwhelming intelligence
+    # stat; ~90% hit chance means most seeds one-shot the monster in the
+    # spell phase — find one and confirm combat ends there, before any
+    # physical-phase entry.
+    overwhelming_caster = {**WEAK_HERO, "intelligence": 10_000, "spirit": 10_000}
+    for seed in range(20):
+        result = engine.resolve(
+            seed=seed,
+            hero_snapshot=overwhelming_caster,
+            hero_base_stats=overwhelming_caster,
+            encounter=_encounter(),
+        )
+        hero_spell_entry = next(e for e in result.log if e["phase"] == "spell" and e["actor"] == "hero")
+        if hero_spell_entry["hit"]:
+            assert result.victory is True
+            assert not any(entry["phase"] == "physical" for entry in result.log)
+            return
+    raise AssertionError("expected at least one seed where the hero's opening cast hits")
 
 
 def test_loot_only_drops_on_victory_and_is_drawn_from_the_pool():

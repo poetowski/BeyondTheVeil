@@ -59,17 +59,17 @@ CAMPAIGN_NODES = [
     dict(slug="campaign-06-veil-sovereign", order_index=6, name="The Veil Sovereign", required_level=10, gold_cost=200, monster_slug="veil-sovereign"),
 ]
 
-# Dev/placeholder drop tables, not final balance. spark-cantrip is deliberately
-# excluded from both — intelligence is dormant in v1 physical-only combat, so a
-# spell drop would be dead flavor right now.
+# Dev/placeholder drop tables, not final balance.
 MONSTER_LOOT_ENTRIES = [
     dict(monster_slug="veil-wisp", item_slug="leather-cap", drop_weight=5),
     dict(monster_slug="veil-wisp", item_slug="wooden-buckler", drop_weight=5),
     dict(monster_slug="veil-wisp", item_slug="rusty-sword", drop_weight=2),
+    dict(monster_slug="veil-wisp", item_slug="spark-cantrip", drop_weight=2),
     dict(monster_slug="fragment-stalker", item_slug="padded-armor", drop_weight=4),
     dict(monster_slug="fragment-stalker", item_slug="rusty-sword", drop_weight=3),
     dict(monster_slug="fragment-stalker", item_slug="copper-amulet", drop_weight=2),
     dict(monster_slug="fragment-stalker", item_slug="leather-cap", drop_weight=1),
+    dict(monster_slug="fragment-stalker", item_slug="spark-cantrip", drop_weight=2),
 ]
 
 
