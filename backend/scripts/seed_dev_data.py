@@ -41,6 +41,7 @@ MONSTER_TEMPLATES = [
         level_range_max=3,
         base_stats={"strength": 9, "dexterity": 11, "intelligence": 7, "vitality": 8, "agility": 10, "spirit": 10},
         flavor_text="Not quite a year old, and still testing its speed.",
+        no_drop_weight=45,
     ),
 ]
 for _monster in MONSTER_TEMPLATES:
@@ -65,9 +66,15 @@ for _recipe in CRAFTING_RECIPES:
 # the user's first real enemy.
 CAMPAIGN_NODES = []
 
-# Empty for now - depended on Veil Wisp, which was removed pending the
-# user's first real enemy.
-MONSTER_LOOT_ENTRIES = []
+# Young Wolf: each item weight 3 (sum 15), no_drop_weight 45 -> 75% nothing,
+# 5% each item.
+MONSTER_LOOT_ENTRIES = [
+    dict(monster_slug=slugify("Young Wolf"), item_slug=slugify("Leather Helm"), drop_weight=3),
+    dict(monster_slug=slugify("Young Wolf"), item_slug=slugify("Leather Robe"), drop_weight=3),
+    dict(monster_slug=slugify("Young Wolf"), item_slug=slugify("Wooden Shield"), drop_weight=3),
+    dict(monster_slug=slugify("Young Wolf"), item_slug=slugify("Wooden Stick"), drop_weight=3),
+    dict(monster_slug=slugify("Young Wolf"), item_slug=slugify("Old Ring"), drop_weight=3),
+]
 
 MONSTER_MATERIAL_LOOT_ENTRIES = []
 
