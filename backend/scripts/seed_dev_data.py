@@ -34,7 +34,15 @@ ITEM_TEMPLATES = [
 for _item in ITEM_TEMPLATES:
     _item["slug"] = slugify(_item["name"])
 
-MONSTER_TEMPLATES = []
+MONSTER_TEMPLATES = [
+    dict(
+        name="Young Wolf",
+        level_range_min=1,
+        level_range_max=3,
+        base_stats={"strength": 9, "dexterity": 11, "intelligence": 7, "vitality": 8, "agility": 10, "spirit": 10},
+        flavor_text="Not quite a year old, and still testing its speed.",
+    ),
+]
 for _monster in MONSTER_TEMPLATES:
     _monster["slug"] = slugify(_monster["name"])
 
