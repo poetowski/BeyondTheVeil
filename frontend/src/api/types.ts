@@ -15,6 +15,7 @@ export interface HeroOut {
   xp: number;
   xp_to_next_level: number;
   gold: number;
+  inventory_capacity: number;
   strength: number;
   dexterity: number;
   intelligence: number;
@@ -58,6 +59,7 @@ export interface VeilRunResultOut {
   monster_name: string | null;
   log: Record<string, unknown>[];
   loot: Record<string, unknown>[];
+  loot_skipped: Record<string, unknown>[];
   xp_awarded: number;
   gold_awarded: number;
 }

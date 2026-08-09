@@ -17,6 +17,7 @@ class VeilRunResultOut(BaseModel):
     monster_name: str | None = None
     log: list[dict]
     loot: list[dict]
+    loot_skipped: list[dict] = []
     xp_awarded: int
     gold_awarded: int = 0
 

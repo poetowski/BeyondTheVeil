@@ -39,6 +39,10 @@ function lootItemName(entry: Record<string, unknown>): string {
   return typeof entry.item_name === "string" ? entry.item_name : "an item";
 }
 
+function lootItemSlug(entry: Record<string, unknown>): unknown {
+  return entry.item_template_slug;
+}
+
 export function VeilPage() {
   const { token, refetch } = useAuth();
   const [state, setState] = useState<State>({ kind: "loading" });
@@ -198,6 +202,8 @@ function VeilBody({
     case "resolved": {
       const result = state.run.result!;
       const monsterLabel = result.monster_name ?? "something in the veil";
+      const skippedSlugs = new Set(result.loot_skipped.map(lootItemSlug));
+      const keptLoot = result.loot.filter((entry) => !skippedSlugs.has(lootItemSlug(entry)));
       return (
         <>
           <p className={result.victory ? "veil-victory" : "veil-defeat"}>
@@ -205,10 +211,15 @@ function VeilBody({
             {result.gold_awarded > 0 ? ` and ${result.gold_awarded} gold` : ""}.
           </p>
           <p className="veil-loot-note">
-            {result.loot.length === 0
+            {keptLoot.length === 0
               ? "No loot this time."
-              : `You found: ${result.loot.map(lootItemName).join(", ")}.`}
+              : `You found: ${keptLoot.map(lootItemName).join(", ")}.`}
           </p>
+          {result.loot_skipped.length > 0 && (
+            <p className="veil-loot-note">
+              Your backpack was full — you left behind: {result.loot_skipped.map(lootItemName).join(", ")}.
+            </p>
+          )}
           <button type="button" onClick={onEnter}>
             Enter the Veil Again
           </button>

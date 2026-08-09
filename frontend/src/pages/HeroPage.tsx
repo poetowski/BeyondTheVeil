@@ -2,17 +2,9 @@ import { useCallback, useEffect, useState } from "react";
 import { ApiError } from "../api/client";
 import { trainStat } from "../api/hero";
 import { getInventory, unequipItem } from "../api/inventory";
-import type { EquipmentSlot, HeroOut, ItemInstanceOut, StatName } from "../api/types";
+import type { HeroOut, ItemInstanceOut, StatName } from "../api/types";
 import { useAuth } from "../auth/AuthContext";
-
-const EQUIPMENT_SLOTS: { key: EquipmentSlot; label: string }[] = [
-  { key: "weapon", label: "Weapon" },
-  { key: "helmet", label: "Helmet" },
-  { key: "shield", label: "Shield" },
-  { key: "armor", label: "Armor" },
-  { key: "amulet", label: "Amulet" },
-  { key: "spell_skill", label: "Spell Skill" },
-];
+import { EQUIPMENT_SLOTS } from "../constants/equipmentSlots";
 
 const STAT_ROWS: {
   label: string;

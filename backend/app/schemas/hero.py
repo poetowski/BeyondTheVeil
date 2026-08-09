@@ -21,6 +21,7 @@ class HeroOut(BaseModel):
     xp: int
     xp_to_next_level: int
     gold: int
+    inventory_capacity: int
     strength: int
     dexterity: int
     intelligence: int
@@ -57,6 +58,7 @@ def to_out(hero: Hero, equipped_items: list[ItemInstance]) -> HeroOut:
         xp=hero.xp,
         xp_to_next_level=hero_service.xp_required_for_level(hero.level),
         gold=hero.gold,
+        inventory_capacity=hero.inventory_capacity,
         max_hp=max_hp,
         train_costs=train_costs,
         **effective,

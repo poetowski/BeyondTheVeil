@@ -3,6 +3,7 @@ import { ApiError } from "../api/client";
 import { equipItem, getInventory, unequipItem } from "../api/inventory";
 import type { ItemInstanceOut } from "../api/types";
 import { useAuth } from "../auth/AuthContext";
+import { EQUIPMENT_SLOTS } from "../constants/equipmentSlots";
 
 type State =
   | { kind: "loading" }
@@ -10,7 +11,7 @@ type State =
   | { kind: "error"; message: string };
 
 export function BackpackPage() {
-  const { token, refetch } = useAuth();
+  const { token, hero, refetch } = useAuth();
   const [state, setState] = useState<State>({ kind: "loading" });
   const [pendingId, setPendingId] = useState<string | null>(null);
   const [actionError, setActionError] = useState<string | null>(null);
@@ -51,6 +52,10 @@ export function BackpackPage() {
     }
   }
 
+  if (!hero) {
+    return <p>Loading hero…</p>;
+  }
+
   return (
     <div className="page">
       <h1>Backpack</h1>
@@ -66,30 +71,47 @@ export function BackpackPage() {
       {state.kind === "loaded" && (
         <>
           {actionError && <p className="auth-error">{actionError}</p>}
+          <p className="backpack-capacity">
+            {state.items.length} / {hero.inventory_capacity} items
+          </p>
           {state.items.length === 0 ? (
             <p>Your backpack is empty.</p>
           ) : (
-            <ul className="equipment-list">
-              {state.items.map((item) => (
-                <li key={item.id}>
-                  <span className="equipment-slot-label">{item.name}</span>
-                  <span className="equipment-slot-filled">
-                    <span className="equipment-slot-value">
-                      {item.rarity} · {item.slot}
-                      {item.equipped_slot !== null ? " · equipped" : ""}
-                    </span>
-                    <button
-                      type="button"
-                      className="small-button"
-                      disabled={pendingId === item.id}
-                      onClick={() => handleToggleEquip(item)}
-                    >
-                      {item.equipped_slot === null ? "Equip" : "Unequip"}
-                    </button>
-                  </span>
-                </li>
-              ))}
-            </ul>
+            EQUIPMENT_SLOTS.map(({ key, label }) => {
+              const slotItems = state.items.filter((item) => item.slot === key);
+              return (
+                <details key={key} className="backpack-panel" open>
+                  <summary className="backpack-panel-summary">
+                    {label} ({slotItems.length})
+                  </summary>
+                  {slotItems.length === 0 ? (
+                    <p className="backpack-panel-empty">No {label.toLowerCase()} items.</p>
+                  ) : (
+                    <ul className="equipment-list">
+                      {slotItems.map((item) => (
+                        <li key={item.id}>
+                          <span className="equipment-slot-label">{item.name}</span>
+                          <span className="equipment-slot-filled">
+                            <span className="equipment-slot-value">
+                              {item.rarity}
+                              {item.equipped_slot !== null ? " · equipped" : ""}
+                            </span>
+                            <button
+                              type="button"
+                              className="small-button"
+                              disabled={pendingId === item.id}
+                              onClick={() => handleToggleEquip(item)}
+                            >
+                              {item.equipped_slot === null ? "Equip" : "Unequip"}
+                            </button>
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </details>
+              );
+            })
           )}
         </>
       )}

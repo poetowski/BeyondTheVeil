@@ -153,18 +153,31 @@ def _apply_rewards(db: Session, run: VeilRun) -> None:
         if node is not None and node.order_index == hero.campaign_progress + 1:
             hero.campaign_progress = node.order_index
 
-    for entry in payload.get("loot", []):
-        slug = entry.get("item_template_slug")
-        template = db.execute(
-            select(ItemTemplate).where(ItemTemplate.slug == slug)
-        ).scalar_one_or_none()
-        if template is None:
-            continue  # content may have been renamed/removed since the run resolved
-        db.add(
-            ItemInstance(
-                template_id=template.id,
-                owner_hero_id=run.hero_id,
-                equipped_slot=None,
-                source_veil_run_id=run.id,
+    loot_entries = payload.get("loot", [])
+    loot_skipped: list[dict] = []
+    if loot_entries:
+        current_count = len(hero_service.get_owned_items(db, hero))
+        for entry in loot_entries:
+            slug = entry.get("item_template_slug")
+            template = db.execute(
+                select(ItemTemplate).where(ItemTemplate.slug == slug)
+            ).scalar_one_or_none()
+            if template is None:
+                continue  # content may have been renamed/removed since the run resolved
+            if current_count >= hero.inventory_capacity:
+                loot_skipped.append(entry)
+                continue
+            db.add(
+                ItemInstance(
+                    template_id=template.id,
+                    owner_hero_id=run.hero_id,
+                    equipped_slot=None,
+                    source_veil_run_id=run.id,
+                )
             )
-        )
+            current_count += 1
+
+    if loot_skipped:
+        # Reassign (don't mutate result_payload in place) so SQLAlchemy
+        # detects the JSONB column as dirty.
+        run.result_payload = {**payload, "loot_skipped": loot_skipped}

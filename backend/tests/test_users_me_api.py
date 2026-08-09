@@ -32,6 +32,7 @@ def test_get_me_returns_hero_and_user(client):
     assert body["hero"]["name"] == "Elowen"
     assert body["hero"]["level"] == 1
     assert body["hero"]["xp"] == 0
+    assert body["hero"]["inventory_capacity"] == 20
     expected_max_hp = BASE_HP + BASELINE_STAT_VALUE * HP_PER_VITALITY
     assert body["hero"]["max_hp"] == expected_max_hp
 

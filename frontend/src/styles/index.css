@@ -135,6 +135,33 @@ h2 {
   cursor: default;
 }
 
+.backpack-capacity {
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.backpack-panel {
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  padding: 0.6rem 1rem;
+  margin-bottom: 0.9rem;
+  max-width: 480px;
+}
+
+.backpack-panel-summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.backpack-panel .equipment-list {
+  margin-top: 0.6rem;
+}
+
+.backpack-panel-empty {
+  color: #999;
+  margin: 0.5rem 0 0;
+}
+
 .bestiary-list {
   list-style: none;
   padding: 0;

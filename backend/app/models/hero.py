@@ -20,6 +20,7 @@ class Hero(UUIDPKMixin, TimestampMixin, Base):
         CheckConstraint("spirit >= 0", name="spirit_gte_0"),
         CheckConstraint("gold >= 0", name="gold_gte_0"),
         CheckConstraint("campaign_progress >= 0", name="campaign_progress_gte_0"),
+        CheckConstraint("inventory_capacity >= 1", name="inventory_capacity_gte_1"),
     )
 
     user_id: Mapped[uuid.UUID] = mapped_column(
@@ -33,6 +34,7 @@ class Hero(UUIDPKMixin, TimestampMixin, Base):
     xp: Mapped[int] = mapped_column(BigInteger, nullable=False, default=0)
     gold: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
     campaign_progress: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    inventory_capacity: Mapped[int] = mapped_column(Integer, nullable=False, default=20)
 
     strength: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
     dexterity: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
