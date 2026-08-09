@@ -34,6 +34,7 @@ export interface HeroOut {
   bonus_agility: number;
   bonus_spirit: number;
   max_hp: number;
+  train_costs: Record<StatName, number>;
 }
 
 export interface UserMeResponse {

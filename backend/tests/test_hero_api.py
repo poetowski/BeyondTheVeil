@@ -46,3 +46,6 @@ def test_train_stat_spends_gold_and_returns_the_updated_hero(client, db_session)
     assert body["strength"] == 11
     assert body["base_strength"] == 11
     assert body["gold"] == 100 - hero_service.TRAIN_STAT_BASE_COST
+    # Training strength again should now cost more (power curve, not flat).
+    assert body["train_costs"]["strength"] == hero_service.train_stat_cost(11)
+    assert body["train_costs"]["strength"] > hero_service.TRAIN_STAT_BASE_COST

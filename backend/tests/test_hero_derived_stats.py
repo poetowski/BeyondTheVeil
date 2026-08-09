@@ -93,10 +93,26 @@ def test_leveling_does_not_change_base_stats():
         assert getattr(hero, stat) == 10, "level is a pure content gate, not a stat source"
 
 
-def test_train_stat_cost_scales_up_from_baseline():
+def test_train_stat_cost_at_baseline_is_the_base_cost():
     base = hero_service.BASELINE_STAT_VALUE
     assert hero_service.train_stat_cost(base) == hero_service.TRAIN_STAT_BASE_COST
-    assert hero_service.train_stat_cost(base + 1) == hero_service.TRAIN_STAT_BASE_COST * 2
+
+
+def test_train_stat_cost_follows_the_power_curve_above_baseline():
+    base = hero_service.BASELINE_STAT_VALUE
+    assert hero_service.train_stat_cost(base + 1) == round(
+        hero_service.TRAIN_STAT_BASE_COST * 2**hero_service.TRAIN_STAT_EXPONENT
+    )
+    assert hero_service.train_stat_cost(base + 4) == round(
+        hero_service.TRAIN_STAT_BASE_COST * 5**hero_service.TRAIN_STAT_EXPONENT
+    )
+
+
+def test_train_stat_cost_grows_steeply_not_linearly():
+    base = hero_service.BASELINE_STAT_VALUE
+    first_step = hero_service.train_stat_cost(base + 1) - hero_service.train_stat_cost(base)
+    later_step = hero_service.train_stat_cost(base + 5) - hero_service.train_stat_cost(base + 4)
+    assert later_step > first_step, "each successive point should cost more than the last"
 
 
 def test_train_stat_spends_gold_and_increments_the_stat(db_session, hero_factory):

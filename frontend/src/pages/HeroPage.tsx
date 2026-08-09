@@ -138,7 +138,7 @@ export function HeroPage() {
                     disabled={pendingAction === row.stat}
                     onClick={() => handleTrain(row.stat)}
                   >
-                    Train +1
+                    Train ({hero.train_costs[row.stat]} gold)
                   </button>
                 </td>
               </tr>

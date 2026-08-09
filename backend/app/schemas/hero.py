@@ -40,6 +40,7 @@ class HeroOut(BaseModel):
     bonus_agility: int
     bonus_spirit: int
     max_hp: int
+    train_costs: dict[StatName, int]
 
 
 def to_out(hero: Hero, equipped_items: list[ItemInstance]) -> HeroOut:
@@ -47,6 +48,7 @@ def to_out(hero: Hero, equipped_items: list[ItemInstance]) -> HeroOut:
     bonus = hero_service.compute_stat_bonuses(hero, equipped_items)
     effective = {stat: base[stat] + bonus[stat] for stat in hero_service.STAT_NAMES}
     max_hp = hero_service.compute_max_hp(effective["vitality"])
+    train_costs = {stat: hero_service.train_stat_cost(base[stat]) for stat in hero_service.STAT_NAMES}
 
     return HeroOut(
         id=hero.id,
@@ -56,6 +58,7 @@ def to_out(hero: Hero, equipped_items: list[ItemInstance]) -> HeroOut:
         xp_to_next_level=hero_service.xp_required_for_level(hero.level),
         gold=hero.gold,
         max_hp=max_hp,
+        train_costs=train_costs,
         **effective,
         **{f"base_{stat}": value for stat, value in base.items()},
         **{f"bonus_{stat}": value for stat, value in bonus.items()},

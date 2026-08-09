@@ -18,6 +18,7 @@ BASELINE_STAT_VALUE = 10
 XP_CURVE_BASE = 100
 XP_CURVE_EXPONENT = 1.5
 TRAIN_STAT_BASE_COST = 10
+TRAIN_STAT_EXPONENT = 1.8
 
 
 class HeroServiceError(Exception):
@@ -98,9 +99,16 @@ def apply_xp(hero: Hero, xp_gained: int) -> int:
 
 
 def train_stat_cost(current_value: int) -> int:
-    """Gold cost to raise a stat by one point from its current value. Costs
-    scale up the further a stat has already been trained above baseline."""
-    return TRAIN_STAT_BASE_COST * max(1, current_value - BASELINE_STAT_VALUE + 1)
+    """Gold cost to raise a stat by one point from its current value.
+
+    A power curve, not a linear one: each point already trained above
+    baseline raises the cost of the next by TRAIN_STAT_EXPONENT, so early
+    points are cheap but late ones become a serious gold sink rather than a
+    grind (e.g. base cost 10: 10, 35, 72, 121, 182, ... for points 0-4 above
+    baseline).
+    """
+    points_above_baseline = max(0, current_value - BASELINE_STAT_VALUE)
+    return round(TRAIN_STAT_BASE_COST * (points_above_baseline + 1) ** TRAIN_STAT_EXPONENT)
 
 
 def train_stat(db: Session, hero: Hero, stat: str) -> Hero:
@@ -143,6 +151,14 @@ def equip_item(db: Session, hero: Hero, item_id: uuid.UUID) -> ItemInstance:
     if currently_equipped is not None and currently_equipped.id != item.id:
         currently_equipped.equipped_slot = None
         db.add(currently_equipped)
+        # Flush the clear before setting the new slot: SQLAlchemy's unit of
+        # work does not guarantee these two UPDATEs hit the DB in the order
+        # their attributes were set (it may batch same-table UPDATEs via
+        # executemany in an unspecified order), and the partial unique index
+        # is checked immediately (not deferrable) — so without this, the new
+        # item's UPDATE can occasionally be sent before the old item's clear
+        # and collide with it.
+        db.flush()
 
     item.equipped_slot = slot
     db.add(item)
