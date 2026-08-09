@@ -1,4 +1,5 @@
-# Render Blueprint for Beyond the Veil.
+# Render Blueprint for Beyond the Veil - one web service, serving both
+# the API and the built frontend, backed by an external Neon database.
 #
 # This is a starting point, not a guarantee - verify field names/behavior
 # against Render's current Blueprint docs (render.com/docs/blueprint-spec)
@@ -6,23 +7,29 @@
 # `sync: false` must be set manually in the Render dashboard (never commit
 # real secrets or a real database URL here).
 #
-# Database: this repo is deploying to Neon, not Render's own Postgres, so
-# there is no `databases:` section here - create the Neon project/branch
-# yourself and paste its connection string (with `?sslmode=require`) into
-# the backend service's DATABASE_URL below.
+# Database: deploying to Neon, not Render's own Postgres, so there is no
+# `databases:` section here - create the Neon project/branch yourself and
+# paste its connection string (with `?sslmode=require`) into DATABASE_URL
+# below.
+#
+# Single-service layout: the build step compiles the frontend first, then
+# installs the backend; at runtime, app/main.py serves the built frontend
+# assets directly (falling back to index.html for client-side routes) so
+# one process/one URL handles everything. FRONTEND_ORIGIN/CORS isn't
+# needed here since the frontend and API now share an origin - it's still
+# used for local dev, where they run as two separate dev servers.
 
 services:
   - type: web
-    name: beyondtheveil-backend
+    name: beyondtheveil
     env: python
     plan: free
-    rootDir: backend
-    buildCommand: "pip install -e ."
+    buildCommand: "cd frontend && npm install && npm run build && cd ../backend && pip install -e ."
     # Migrations run on every start, not just first deploy - alembic
     # upgrades are idempotent (a no-op once already applied), so this is
     # safe on restarts and simpler than relying on a separate pre-deploy
     # hook.
-    startCommand: "alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port $PORT"
+    startCommand: "cd backend && alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port $PORT"
     healthCheckPath: /health
     envVars:
       - key: DATABASE_URL
@@ -35,15 +42,5 @@ services:
         value: "1440"
       - key: VEIL_DURATION_SECONDS
         value: "300"
-      - key: FRONTEND_ORIGIN
-        sync: false # set to the frontend service's URL once it's deployed
-
-  - type: web
-    name: beyondtheveil-frontend
-    env: static
-    rootDir: frontend
-    buildCommand: "npm install && npm run build"
-    staticPublishPath: dist
-    envVars:
       - key: VITE_API_BASE_URL
-        sync: false # set to the backend service's URL once it's deployed
+        value: "" # empty = same-origin relative requests, since it's all one service
