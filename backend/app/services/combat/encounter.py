@@ -66,6 +66,7 @@ def build_encounter(db: Session, monster: MonsterTemplate) -> dict[str, Any]:
         "monster_slug": monster.slug,
         "monster_name": monster.name,
         "monster_stats": dict(monster.base_stats),
+        "no_drop_weight": monster.no_drop_weight,
         "loot_pool": [
             {
                 "item_template_slug": item.slug,

@@ -12,7 +12,6 @@ HIT_CHANCE_MIN = 0.10
 HIT_CHANCE_MAX = 0.90
 DAMAGE_VARIANCE = (0.8, 1.2)
 MAX_ROUNDS = 30
-DROP_CHANCE = 0.5
 MATERIAL_DROP_CHANCE = 0.5
 GOLD_PER_VICTORY = 10
 SPELL_DAMAGE_MULTIPLIER = 3  # intelligence contributes 3x the damage per point that strength does
@@ -213,13 +212,18 @@ def resolve(
 
     loot: list[dict[str, Any]] = []
     loot_pool = encounter.get("loot_pool") or []
-    if victory and loot_pool and rng.random() < DROP_CHANCE:
-        chosen = rng.choices(
-            loot_pool, weights=[entry["drop_weight"] for entry in loot_pool], k=1
-        )[0]
-        loot.append(
-            {"item_template_slug": chosen["item_template_slug"], "item_name": chosen["item_name"]}
-        )
+    if victory and loot_pool:
+        # "No drop" is just another weighted option (None sentinel) alongside
+        # the pool's items, so drop odds are tunable per monster via
+        # no_drop_weight instead of a fixed global chance.
+        no_drop_weight = encounter.get("no_drop_weight", 0)
+        options: list[dict[str, Any] | None] = [*loot_pool, None]
+        weights = [entry["drop_weight"] for entry in loot_pool] + [no_drop_weight]
+        chosen = rng.choices(options, weights=weights, k=1)[0]
+        if chosen is not None:
+            loot.append(
+                {"item_template_slug": chosen["item_template_slug"], "item_name": chosen["item_name"]}
+            )
 
     material_loot: list[dict[str, Any]] = []
     material_pool = encounter.get("material_pool") or []
