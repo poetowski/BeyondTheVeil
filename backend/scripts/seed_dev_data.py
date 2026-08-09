@@ -23,7 +23,6 @@ def slugify(name: str) -> str:
 # table) for the user to extend. Slugs are always derived from `name` via
 # slugify() - never hand-typed.
 ITEM_TEMPLATES = [
-    dict(name="Wisp Spark", slot=EquipmentSlot.SPELL_SKILL, rarity=ItemRarity.COMMON, level_requirement=1, base_stats={"intelligence": 2}),
     # Tier1 gear set: defined through the weapon-damage/defense/bonus-HP
     # mechanics instead of flat stat bonuses (base_stats={}).
     dict(name="Wooden Stick", slot=EquipmentSlot.WEAPON, rarity=ItemRarity.COMMON, level_requirement=1, base_stats={}, damage_min=2, damage_max=6),
@@ -35,15 +34,7 @@ ITEM_TEMPLATES = [
 for _item in ITEM_TEMPLATES:
     _item["slug"] = slugify(_item["name"])
 
-MONSTER_TEMPLATES = [
-    dict(
-        name="Veil Wisp",
-        level_range_min=1,
-        level_range_max=3,
-        base_stats={"strength": 2, "dexterity": 3, "vitality": 4, "agility": 3, "intelligence": 2, "spirit": 2},
-        flavor_text="A guttering flicker of the Veil's edge - more startled than hostile, until it isn't.",
-    ),
-]
+MONSTER_TEMPLATES = []
 for _monster in MONSTER_TEMPLATES:
     _monster["slug"] = slugify(_monster["name"])
 
@@ -80,20 +71,15 @@ for _recipe in CRAFTING_RECIPES:
 # Fixed, sequential battle nodes for the Campaign track. Slugs are hand-typed
 # here (unlike items/monsters above) because they encode sequence order, not
 # just the node name - slugify(name) alone would lose that.
-CAMPAIGN_NODES = [
-    dict(slug="campaign-01-wisp-threshold", order_index=1, name="The Wisp Threshold", required_level=1, gold_cost=0, monster_slug=slugify("Veil Wisp")),
-    dict(slug="campaign-02-wisp-hollow", order_index=2, name="Wisp Hollow", required_level=2, gold_cost=10, monster_slug=slugify("Veil Wisp")),
-]
+# Empty for now - both nodes pinned to Veil Wisp, which was removed pending
+# the user's first real enemy.
+CAMPAIGN_NODES = []
 
-# Dev drop table - only Wisp Spark for now; the tier1 gear set above isn't
-# wired into any loot table yet.
-MONSTER_LOOT_ENTRIES = [
-    dict(monster_slug=slugify("Veil Wisp"), item_slug=slugify("Wisp Spark"), drop_weight=3),
-]
+# Empty for now - depended on Veil Wisp, which was removed pending the
+# user's first real enemy.
+MONSTER_LOOT_ENTRIES = []
 
-MONSTER_MATERIAL_LOOT_ENTRIES = [
-    dict(monster_slug=slugify("Veil Wisp"), material_slug=slugify("Wisp Residue"), drop_weight=5),
-]
+MONSTER_MATERIAL_LOOT_ENTRIES = []
 
 
 def seed() -> None:
