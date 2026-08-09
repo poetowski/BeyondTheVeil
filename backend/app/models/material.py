@@ -6,6 +6,7 @@ from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.models.base import Base, TimestampMixin, UUIDPKMixin
+from app.models.crafting import CraftingCategory, crafting_category_enum
 
 
 class MaterialTemplate(UUIDPKMixin, TimestampMixin, Base):
@@ -14,6 +15,9 @@ class MaterialTemplate(UUIDPKMixin, TimestampMixin, Base):
     slug: Mapped[str] = mapped_column(String(64), unique=True, nullable=False)
     name: Mapped[str] = mapped_column(String(100), nullable=False)
     description: Mapped[str | None] = mapped_column(Text, nullable=True)
+    category: Mapped[CraftingCategory] = mapped_column(
+        crafting_category_enum, nullable=False, default=CraftingCategory.ALCHEMY
+    )
 
     material_instances: Mapped[list["MaterialInstance"]] = relationship(back_populates="template")
 

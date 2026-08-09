@@ -46,7 +46,11 @@ for _monster in MONSTER_TEMPLATES:
     _monster["slug"] = slugify(_monster["name"])
 
 MATERIAL_TEMPLATES = [
-    dict(name="Wisp Residue", description="A faintly luminous residue left behind when a Veil Wisp is struck down."),
+    dict(
+        name="Wisp Residue",
+        description="A faintly luminous residue left behind when a Veil Wisp is struck down.",
+        category=CraftingCategory.ALCHEMY,
+    ),
 ]
 for _material in MATERIAL_TEMPLATES:
     _material["slug"] = slugify(_material["name"])

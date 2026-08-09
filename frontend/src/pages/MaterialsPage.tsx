@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { ApiError } from "../api/client";
 import { getMaterials } from "../api/materials";
-import type { MaterialInstanceOut } from "../api/types";
+import type { CraftingCategory, MaterialInstanceOut } from "../api/types";
 import { useAuth } from "../auth/AuthContext";
 
 type State =
@@ -45,20 +45,35 @@ export function MaterialsPage() {
       )}
       {state.kind === "loaded" && (
         <>
-          {state.materials.length === 0 ? (
-            <p>You haven't gathered any materials yet.</p>
-          ) : (
-            <ul className="equipment-list">
-              {state.materials.map((material) => (
-                <li key={material.id}>
-                  <span className="equipment-slot-label">{material.name}</span>
-                  <span className="equipment-slot-value">×{material.quantity}</span>
-                </li>
-              ))}
-            </ul>
-          )}
+          {MATERIAL_PANELS.map(({ category, label }) => {
+            const categoryMaterials = state.materials.filter((m) => m.category === category);
+            return (
+              <details key={category} className="backpack-panel" open>
+                <summary className="backpack-panel-summary">
+                  {label} ({categoryMaterials.length})
+                </summary>
+                {categoryMaterials.length === 0 ? (
+                  <p className="backpack-panel-empty">No {label.toLowerCase()}.</p>
+                ) : (
+                  <ul className="equipment-list">
+                    {categoryMaterials.map((material) => (
+                      <li key={material.id}>
+                        <span className="equipment-slot-label">{material.name}</span>
+                        <span className="equipment-slot-value">×{material.quantity}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </details>
+            );
+          })}
         </>
       )}
     </div>
   );
 }
+
+const MATERIAL_PANELS: { category: CraftingCategory; label: string }[] = [
+  { category: "alchemy", label: "Alchemy Reagents" },
+  { category: "forge", label: "Forging Materials" },
+];

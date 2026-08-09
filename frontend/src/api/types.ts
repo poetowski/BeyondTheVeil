@@ -96,6 +96,7 @@ export interface MaterialInstanceOut {
   name: string;
   description: string | null;
   quantity: number;
+  category: CraftingCategory;
   acquired_at: string;
 }
 
