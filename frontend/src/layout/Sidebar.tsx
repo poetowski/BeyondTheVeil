@@ -9,15 +9,15 @@ interface NavItem {
   highlight?: boolean;
 }
 
-// Hero is the only top-level item with a dedicated screen of its own -
-// The Veil and Crafting instead forward straight to their first sub-tab
-// (Campaign, Alchemy) when clicked, same as clicking a folder opens the
-// first thing inside it.
+// Every top-level item forwards straight to its first sub-tab when
+// clicked (Overview, Campaign, Alchemy), same as clicking a folder opens
+// the first thing inside it - none of them own a distinct screen.
 const NAV_ITEMS: NavItem[] = [
   {
-    to: "/hero",
+    to: "/overview",
     label: "Hero",
     children: [
+      { to: "/overview", label: "Overview" },
       { to: "/backpack", label: "Backpack" },
       { to: "/materials", label: "Materials" },
     ],

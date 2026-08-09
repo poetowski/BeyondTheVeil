@@ -7,10 +7,10 @@ import { BestiaryPage } from "./pages/BestiaryPage";
 import { CampaignPage } from "./pages/CampaignPage";
 import { ConceptPage } from "./pages/ConceptPage";
 import { ForgePage } from "./pages/ForgePage";
-import { HeroPage } from "./pages/HeroPage";
 import { LeaderboardPage } from "./pages/LeaderboardPage";
 import { LoginPage } from "./pages/LoginPage";
 import { MaterialsPage } from "./pages/MaterialsPage";
+import { OverviewPage } from "./pages/OverviewPage";
 import { SignupPage } from "./pages/SignupPage";
 import { VeilPage } from "./pages/VeilPage";
 
@@ -22,7 +22,7 @@ function App() {
 
       <Route element={<RequireAuth />}>
         <Route element={<AppLayout />}>
-          <Route path="/hero" element={<HeroPage />} />
+          <Route path="/overview" element={<OverviewPage />} />
           <Route path="/backpack" element={<BackpackPage />} />
           <Route path="/materials" element={<MaterialsPage />} />
           <Route path="/alchemy" element={<AlchemyPage />} />
@@ -35,7 +35,7 @@ function App() {
         </Route>
       </Route>
 
-      <Route path="*" element={<Navigate to="/hero" replace />} />
+      <Route path="*" element={<Navigate to="/overview" replace />} />
     </Routes>
   );
 }

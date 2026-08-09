@@ -18,7 +18,7 @@ export function SignupPage() {
     setSubmitting(true);
     try {
       await signup({ email, password, hero_name: heroName });
-      navigate("/hero", { replace: true });
+      navigate("/overview", { replace: true });
     } catch (err) {
       setError(err instanceof ApiError ? err.message : "Something went wrong. Try again.");
     } finally {

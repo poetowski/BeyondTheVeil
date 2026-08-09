@@ -39,7 +39,7 @@ function bonusClass(n: number): string {
   return "stat-bonus-zero";
 }
 
-export function HeroPage() {
+export function OverviewPage() {
   const { hero, token, refetch } = useAuth();
   const [items, setItems] = useState<ItemInstanceOut[]>([]);
   const [pendingAction, setPendingAction] = useState<string | null>(null);
