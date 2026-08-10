@@ -193,8 +193,29 @@ h2 {
 }
 
 .bestiary-entry {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.9rem;
   border-bottom: 1px solid #e5e5e5;
   padding-bottom: 0.9rem;
+}
+
+.bestiary-entry-image {
+  flex: none;
+  width: 80px;
+  height: 80px;
+  border: 4px solid #000;
+  object-fit: cover;
+  background: #f3f3ee;
+}
+
+.bestiary-entry-image--missing {
+  background: #e5e5e5;
+}
+
+.bestiary-entry-body {
+  flex: 1;
+  min-width: 0;
 }
 
 .bestiary-entry-header {
