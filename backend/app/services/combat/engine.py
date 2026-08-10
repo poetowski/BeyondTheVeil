@@ -11,6 +11,9 @@ HIT_CHANCE_K = 0.04
 HIT_CHANCE_MIN = 0.10
 HIT_CHANCE_MAX = 0.90
 DAMAGE_VARIANCE = (0.8, 1.2)
+# Strength's physical-damage contribution is flat, not rolled: 1 damage per
+# this many strength points (e.g. 5 strength -> 1, 12 strength -> 4).
+STRENGTH_DAMAGE_DIVISOR = 3
 MAX_ROUNDS = 30
 SPELL_DAMAGE_MULTIPLIER = 3  # intelligence contributes 3x the damage per point that strength does
 MONSTER_STAT_VARIANCE = (0.85, 1.15)
@@ -37,14 +40,14 @@ class CombatResult:
 def compute_damage_range(
     strength: int, weapon_damage_range: tuple[int, int] | None
 ) -> tuple[int, int]:
-    """Display-only theoretical min/max physical damage: strength's
-    DAMAGE_VARIANCE spread plus the weapon's roll, if any (0 if unarmed -
-    strength alone still deals damage). Mirrors the per-hit formula in
-    resolve() without consuming rng."""
+    """Display-only physical damage range: strength's flat contribution
+    (see STRENGTH_DAMAGE_DIVISOR and the per-hit formula in resolve()) plus
+    the weapon's roll, if any (0 if unarmed - strength alone still deals
+    damage). min == max unless a weapon with a damage range is equipped,
+    since strength itself is deterministic now, not rolled."""
     weapon_min, weapon_max = weapon_damage_range or (0, 0)
-    strength_min = max(1, math.floor(strength * DAMAGE_VARIANCE[0]))
-    strength_max = max(1, math.floor(strength * DAMAGE_VARIANCE[1]))
-    return (strength_min + weapon_min, strength_max + weapon_max)
+    strength_damage = max(1, strength // STRENGTH_DAMAGE_DIVISOR)
+    return (strength_damage + weapon_min, strength_damage + weapon_max)
 
 
 def _hit_chance(attacker_stat: int, defender_stat: int) -> float:
@@ -73,11 +76,12 @@ def resolve(
     hero_bonus_max_hp: int = 0,
 ) -> CombatResult:
     """Deterministic, seed-reproducible combat in two phases: an opening
-    spell exchange (intelligence for damage — at SPELL_DAMAGE_MULTIPLIER
-    per point vs. strength's 1x, spirit-vs-spirit for hit chance — mirrors
-    the physical hit-chance formula with magic's stat pair), then
-    physical-only rounds (strength for damage, dexterity-vs-agility for hit
-    chance). Vitality drives max HP throughout; the hero may start below max
+    spell exchange (intelligence for damage, rolled within DAMAGE_VARIANCE
+    at SPELL_DAMAGE_MULTIPLIER per point, spirit-vs-spirit for hit chance —
+    mirrors the physical hit-chance formula with magic's stat pair), then
+    physical-only rounds (strength for damage — flat, not rolled: see
+    STRENGTH_DAMAGE_DIVISOR — dexterity-vs-agility for hit chance).
+    Vitality drives max HP throughout; the hero may start below max
     if `hero_current_hp` reflects unhealed damage from a previous fight
     (None means "start at full HP", used by every caller that doesn't track
     persistent HP).
@@ -183,7 +187,7 @@ def resolve(
             damage = 0
             zone_hit = None
             if hit:
-                damage = max(1, math.floor(attacker_strength * rng.uniform(*DAMAGE_VARIANCE)))
+                damage = max(1, attacker_strength // STRENGTH_DAMAGE_DIVISOR)
                 if actor == "hero" and hero_weapon_damage_range is not None:
                     damage += rng.randint(*hero_weapon_damage_range)
                 if actor == "monster":

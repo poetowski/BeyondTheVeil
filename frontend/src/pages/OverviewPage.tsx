@@ -118,9 +118,7 @@ export function OverviewPage() {
         <tbody>
           <tr>
             <td>Damage</td>
-            <td>
-              {hero.damage_min}-{hero.damage_max}
-            </td>
+            <td>{hero.damage_min === hero.damage_max ? hero.damage_min : `${hero.damage_min}-${hero.damage_max}`}</td>
           </tr>
           <tr>
             <td>Shield Defense</td>

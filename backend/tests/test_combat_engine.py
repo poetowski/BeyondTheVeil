@@ -218,15 +218,16 @@ def test_spell_exchange_uses_intelligence_for_damage_not_strength():
         assert hero_spell_entry["damage"] >= 1
 
 
-def test_spell_damage_scales_at_3x_strength_per_point(monkeypatch):
-    # Pin out randomness: guaranteed hits, no damage-roll variance, so
-    # damage is exactly attacker_stat * multiplier.
+def test_spell_scales_at_3x_intelligence_and_physical_uses_flat_strength_formula(monkeypatch):
+    # Pin out randomness: guaranteed hits, no spell damage-roll variance.
+    # Physical damage has no roll at all (see STRENGTH_DAMAGE_DIVISOR), so
+    # only the spell formula needs DAMAGE_VARIANCE pinned.
     monkeypatch.setattr(engine, "_hit_chance", lambda attacker, defender: 1.0)
     monkeypatch.setattr(engine, "DAMAGE_VARIANCE", (1.0, 1.0))
 
     equal_stats_hero = {**WEAK_HERO, "strength": 20, "intelligence": 20}
     # Huge monster vitality so it survives the spell phase and forces
-    # physical rounds too, letting us compare both formulas' output.
+    # physical rounds too, letting us check both formulas' output.
     tough_encounter = _encounter(monster_stats={**MONSTER, "vitality": 100_000})
     result = engine.resolve(
         seed=1, hero_snapshot=equal_stats_hero, hero_base_stats=equal_stats_hero, encounter=tough_encounter
@@ -240,8 +241,7 @@ def test_spell_damage_scales_at_3x_strength_per_point(monkeypatch):
     )
 
     assert hero_spell_damage == 20 * engine.SPELL_DAMAGE_MULTIPLIER
-    assert hero_physical_damage == 20
-    assert hero_spell_damage == hero_physical_damage * engine.SPELL_DAMAGE_MULTIPLIER
+    assert hero_physical_damage == max(1, 20 // engine.STRENGTH_DAMAGE_DIVISOR)
 
 
 def test_a_lethal_spell_cast_ends_combat_before_physical_rounds():
