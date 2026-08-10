@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { enterCampaignNode, getCampaignNodes } from "../api/campaign";
 import { ApiError } from "../api/client";
 import type { CampaignNodeOut } from "../api/types";
 import { useAuth } from "../auth/AuthContext";
+import { useVeilRun } from "../veil/VeilRunContext";
 
 type State =
   | { kind: "loading" }
@@ -23,7 +23,7 @@ function statusLabel(status: CampaignNodeOut["status"]): string {
 
 export function CampaignPage() {
   const { token, hero } = useAuth();
-  const navigate = useNavigate();
+  const { startRun } = useVeilRun();
   const [state, setState] = useState<State>({ kind: "loading" });
   const [entering, setEntering] = useState<string | null>(null);
   const [enterError, setEnterError] = useState<string | null>(null);
@@ -51,10 +51,11 @@ export function CampaignPage() {
     setEnterError(null);
     setEntering(node.id);
     try {
-      await enterCampaignNode(token, node.id);
-      navigate("/veil");
+      const run = await enterCampaignNode(token, node.id);
+      startRun(run);
     } catch (err) {
       setEnterError(err instanceof ApiError ? err.message : "Failed to enter this battle.");
+    } finally {
       setEntering(null);
     }
   }

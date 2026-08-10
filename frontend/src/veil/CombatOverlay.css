@@ -1,0 +1,85 @@
+.combat-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(10, 8, 15, 0.96);
+  color: #e8e2f0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 2rem;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.combat-overlay-timer {
+  font-size: 3.5rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  margin: 0;
+}
+
+.combat-columns {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 2.5rem;
+  width: 100%;
+  max-width: 760px;
+  text-align: left;
+}
+
+.combat-panel {
+  flex: 1;
+  min-width: 0;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  padding: 1.25rem 1.5rem;
+}
+
+.combat-panel h2 {
+  margin: 0 0 0.4rem;
+  font-size: 1.2rem;
+}
+
+.combat-panel .hero-meta {
+  color: #c9bfdd;
+}
+
+.combat-panel .stat-table {
+  margin-top: 0.75rem;
+  width: 100%;
+}
+
+.combat-panel .stat-table td {
+  padding: 0.25rem 0.75rem 0.25rem 0;
+  color: #d8d0e6;
+}
+
+.combat-panel .stat-table td:first-child {
+  color: #a897c4;
+}
+
+.combat-vs {
+  align-self: center;
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #f0c98a;
+  padding-top: 2rem;
+}
+
+.combat-result {
+  max-width: 480px;
+}
+
+.combat-overlay .veil-loot-note {
+  color: #c9bfdd;
+}
+
+.combat-result button {
+  margin-top: 1rem;
+}

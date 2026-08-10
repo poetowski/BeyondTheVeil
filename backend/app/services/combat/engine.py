@@ -32,6 +32,12 @@ class CombatResult:
     xp_awarded: int = 0
     gold_awarded: int = 0
     hero_hp_after: int = 0
+    # The monster's rolled stats/HP for this specific encounter - unlike the
+    # outcome fields above, these are exposed to the client immediately (see
+    # schemas/veil_run.py's ungated `encounter` field) so a combat screen can
+    # show who the hero is fighting before the result reveals.
+    monster_stats: dict[str, int] | None = None
+    monster_max_hp: int = 0
 
 
 def compute_damage_range(
@@ -278,4 +284,6 @@ def resolve(
         xp_awarded=xp_awarded,
         gold_awarded=gold_awarded,
         hero_hp_after=hero_hp,
+        monster_stats=monster_stats,
+        monster_max_hp=monster_max_hp,
     )

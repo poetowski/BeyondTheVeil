@@ -35,6 +35,24 @@ def test_enter_veil_creates_hidden_in_progress_run(client):
     assert body["resolves_at"] > body["started_at"]
 
 
+def test_enter_veil_reveals_the_encounter_but_not_the_outcome(client):
+    # Who the hero is fighting is visible immediately (a combat screen needs
+    # this for the whole countdown); the outcome stays hidden until
+    # resolves_at, same as `result`.
+    token = _signup(client, email="encounter@test.com")
+
+    body = client.post("/api/v1/veil/enter", headers=_auth(token)).json()
+
+    assert body["result"] is None
+    encounter = body["encounter"]
+    assert encounter is not None
+    assert encounter["monster_name"] is not None
+    assert set(encounter["monster_stats"].keys()) == {
+        "strength", "dexterity", "intelligence", "vitality", "agility", "spirit",
+    }
+    assert encounter["monster_max_hp"] > 0
+
+
 def test_enter_veil_is_idempotent(client):
     token = _signup(client)
 
