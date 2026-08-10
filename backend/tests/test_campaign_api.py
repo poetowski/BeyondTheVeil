@@ -1,7 +1,7 @@
 import uuid
 from datetime import datetime, timedelta, timezone
 
-from app.models.campaign import CampaignNode
+from app.models.campaign import CampaignChapter, CampaignNode
 from app.models.hero import Hero
 from app.models.monster import MonsterTemplate
 from app.models.veil_run import VeilRun, VeilRunStatus
@@ -19,7 +19,16 @@ def _auth(token):
     return {"Authorization": f"Bearer {token}"}
 
 
-def _make_node(db_session, *, slug, order_index, required_level=1, gold_cost=0):
+def _get_or_create_chapter(db_session) -> CampaignChapter:
+    chapter = db_session.query(CampaignChapter).filter_by(slug="test-chapter").first()
+    if chapter is None:
+        chapter = CampaignChapter(slug="test-chapter", title="Test Chapter", order_index=1)
+        db_session.add(chapter)
+        db_session.flush()
+    return chapter
+
+
+def _make_node(db_session, *, slug, order_index, required_level=1):
     monster = MonsterTemplate(
         slug=f"{slug}-monster",
         name=f"{slug} Monster",
@@ -41,7 +50,7 @@ def _make_node(db_session, *, slug, order_index, required_level=1, gold_cost=0):
         order_index=order_index,
         name=slug,
         required_level=required_level,
-        gold_cost=gold_cost,
+        chapter_id=_get_or_create_chapter(db_session).id,
         monster_template_id=monster.id,
     )
     db_session.add(node)
@@ -63,6 +72,28 @@ def test_enter_campaign_node_requires_auth(client, db_session):
     node = _make_node(db_session, slug="camp-auth-1", order_index=1)
     response = client.post(f"/api/v1/campaign/nodes/{node.id}/enter")
     assert response.status_code in (401, 403)
+
+
+def test_get_campaign_chapters_requires_auth(client):
+    response = client.get("/api/v1/campaign/chapters")
+    assert response.status_code in (401, 403)
+
+
+def test_get_campaign_chapters_returns_seeded_chapter(client, db_session):
+    token = _signup(client, email="chapters@test.com")
+    node = _make_node(db_session, slug="camp-chapter-1", order_index=1)
+
+    response = client.get("/api/v1/campaign/chapters", headers=_auth(token))
+    assert response.status_code == 200
+    chapters = response.json()
+    by_id = {c["id"]: c for c in chapters}
+    assert str(node.chapter_id) in by_id
+    assert by_id[str(node.chapter_id)]["title"] == "Test Chapter"
+
+    nodes = client.get("/api/v1/campaign/nodes", headers=_auth(token)).json()
+    by_node_id = {n["id"]: n for n in nodes}
+    assert by_node_id[str(node.id)]["chapter_id"] == str(node.chapter_id)
+    assert "gold_cost" not in by_node_id[str(node.id)]
 
 
 def test_campaign_nodes_status_reflects_sequential_progress(client, db_session):
@@ -94,14 +125,6 @@ def test_entering_node_below_required_level_is_rejected(client, db_session):
     assert response.status_code == 409
 
 
-def test_entering_node_without_enough_gold_is_rejected(client, db_session):
-    token = _signup(client, email="gold@test.com")
-    node = _make_node(db_session, slug="camp-gold-1", order_index=1, gold_cost=100)
-
-    response = client.post(f"/api/v1/campaign/nodes/{node.id}/enter", headers=_auth(token))
-    assert response.status_code == 409
-
-
 def test_entering_node_with_active_veil_run_is_rejected(client, db_session):
     token = _signup(client, email="active@test.com")
     node = _make_node(db_session, slug="camp-active-1", order_index=1)
@@ -111,21 +134,17 @@ def test_entering_node_with_active_veil_run_is_rejected(client, db_session):
     assert response.status_code == 409
 
 
-def test_entering_node_while_too_wounded_is_rejected_and_does_not_charge_gold(client, db_session):
+def test_entering_node_while_too_wounded_is_rejected(client, db_session):
     token = _signup(client, email="woundedcamp@test.com")
     hero_id = _get_hero_id(client, token)
     hero = db_session.get(Hero, hero_id)
-    hero.gold = 50
     hero.current_hp = 0
     db_session.flush()
 
-    node = _make_node(db_session, slug="camp-wounded-1", order_index=1, gold_cost=20)
+    node = _make_node(db_session, slug="camp-wounded-1", order_index=1)
 
     response = client.post(f"/api/v1/campaign/nodes/{node.id}/enter", headers=_auth(token))
     assert response.status_code == 409
-
-    db_session.refresh(hero)
-    assert hero.gold == 50, "gold must not be charged when entry is rejected as too wounded"
 
 
 def test_entering_nonexistent_node_returns_404(client):
@@ -136,23 +155,15 @@ def test_entering_nonexistent_node_returns_404(client):
     assert response.status_code == 404
 
 
-def test_entering_an_eligible_node_charges_gold_and_starts_a_hidden_run(client, db_session):
+def test_entering_an_eligible_node_starts_a_hidden_run(client, db_session):
     token = _signup(client, email="enter@test.com")
-    hero_id = _get_hero_id(client, token)
-    hero = db_session.get(Hero, hero_id)
-    hero.gold = 50
-    db_session.flush()
-
-    node = _make_node(db_session, slug="camp-enter-1", order_index=1, gold_cost=20)
+    node = _make_node(db_session, slug="camp-enter-1", order_index=1)
 
     response = client.post(f"/api/v1/campaign/nodes/{node.id}/enter", headers=_auth(token))
     assert response.status_code == 200
     body = response.json()
     assert body["status"] == "in_progress"
     assert body["result"] is None
-
-    me = client.get("/api/v1/users/me", headers=_auth(token)).json()
-    assert me["hero"]["gold"] == 30
 
 
 def test_claiming_a_campaign_run_advances_progress_and_clears_the_node(client, db_session):

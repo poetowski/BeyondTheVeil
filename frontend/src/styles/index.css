@@ -239,6 +239,35 @@ h2 {
   font-style: italic;
 }
 
+.campaign-chapter {
+  max-width: 480px;
+  margin-bottom: 1.2rem;
+}
+
+.campaign-chapter-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  background: none;
+  border: none;
+  border-bottom: 1px solid #e5e5e5;
+  padding: 0.6rem 0;
+  margin-bottom: 0.9rem;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.campaign-chapter-title {
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.campaign-chapter-body {
+  margin-top: 0;
+}
+
 .campaign-list {
   list-style: none;
   padding: 0;

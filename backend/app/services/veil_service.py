@@ -30,8 +30,7 @@ class HeroTooWoundedError(VeilServiceError):
 def check_not_too_wounded(db: Session, hero: Hero) -> None:
     """Raises HeroTooWoundedError if the hero's regenerated current HP is
     <= 0. Public: called both internally (enter_veil/enter_campaign_encounter)
-    and by campaign_service, which needs to check this *before* deducting a
-    node's gold cost rather than after."""
+    and by campaign_service, before starting a campaign-node run."""
     equipped_items = hero_service.get_equipped_items(db, hero)
     effective_stats = hero_service.compute_effective_stats(hero, equipped_items)
     bonus_max_hp = hero_service.compute_bonus_max_hp(equipped_items)

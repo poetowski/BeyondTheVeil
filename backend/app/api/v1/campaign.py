@@ -6,12 +6,20 @@ from sqlalchemy.orm import Session
 from app.api.deps import get_current_user
 from app.core.db import get_db
 from app.models.user import User
-from app.schemas.campaign import CampaignNodeOut, to_out
+from app.schemas.campaign import CampaignChapterOut, CampaignNodeOut, to_chapter_out, to_out
 from app.schemas.veil_run import VeilRunOut
 from app.schemas.veil_run import to_out as veil_run_to_out
 from app.services import campaign_service
 
 router = APIRouter(prefix="/campaign", tags=["campaign"])
+
+
+@router.get("/chapters", response_model=list[CampaignChapterOut])
+def get_campaign_chapters(
+    current_user: User = Depends(get_current_user), db: Session = Depends(get_db)
+) -> list[CampaignChapterOut]:
+    chapters = campaign_service.list_chapters(db)
+    return [to_chapter_out(chapter) for chapter in chapters]
 
 
 @router.get("/nodes", response_model=list[CampaignNodeOut])

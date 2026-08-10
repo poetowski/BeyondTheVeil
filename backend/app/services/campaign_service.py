@@ -3,7 +3,7 @@ import uuid
 from sqlalchemy import select
 from sqlalchemy.orm import Session, joinedload
 
-from app.models.campaign import CampaignNode
+from app.models.campaign import CampaignChapter, CampaignNode
 from app.models.hero import Hero
 from app.models.monster import MonsterTemplate
 from app.models.veil_run import VeilRun
@@ -23,16 +23,16 @@ class NodeLockedError(CampaignError):
     pass
 
 
-class InsufficientGoldError(CampaignError):
-    pass
-
-
 class ActiveRunConflictError(CampaignError):
     pass
 
 
 class HeroTooWoundedError(CampaignError):
     pass
+
+
+def list_chapters(db: Session) -> list[CampaignChapter]:
+    return db.execute(select(CampaignChapter).order_by(CampaignChapter.order_index)).scalars().all()
 
 
 def list_nodes(db: Session) -> list[CampaignNode]:
@@ -48,9 +48,9 @@ def list_nodes(db: Session) -> list[CampaignNode]:
 
 
 def enter_campaign_node(db: Session, hero: Hero, node_id: uuid.UUID) -> VeilRun:
-    """Validates eligibility, charges the node's gold cost, and starts a veil
-    run against the node's fixed monster. Combat resolves immediately but
-    stays hidden until the run's resolves_at, exactly like a random veil run.
+    """Validates eligibility and starts a veil run against the node's fixed
+    monster. Combat resolves immediately but stays hidden until the run's
+    resolves_at, exactly like a random veil run.
     """
     node = db.get(CampaignNode, node_id)
     if node is None:
@@ -63,8 +63,6 @@ def enter_campaign_node(db: Session, hero: Hero, node_id: uuid.UUID) -> VeilRun:
         raise NodeLockedError("previous campaign node has not been cleared yet")
     if hero.level < node.required_level:
         raise NodeLockedError("hero level is too low for this node")
-    if hero.gold < node.gold_cost:
-        raise InsufficientGoldError("not enough gold to enter this node")
     try:
         veil_service.check_not_too_wounded(db, hero)
     except veil_service.HeroTooWoundedError as exc:
@@ -74,8 +72,5 @@ def enter_campaign_node(db: Session, hero: Hero, node_id: uuid.UUID) -> VeilRun:
     if monster is None:
         raise NodeNotFoundError("campaign node's monster template is missing")
     encounter = encounter_service.build_encounter(db, monster)
-
-    hero.gold -= node.gold_cost
-    db.add(hero)
 
     return veil_service.enter_campaign_encounter(db, hero, encounter, node.id)
