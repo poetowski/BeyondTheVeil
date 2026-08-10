@@ -36,8 +36,8 @@ export interface HeroOut {
   bonus_spirit: number;
   current_hp: number;
   max_hp: number;
-  weapon_damage_min: number | null;
-  weapon_damage_max: number | null;
+  damage_min: number;
+  damage_max: number;
   defense_shield: number;
   defense_armor: number;
   defense_helmet: number;

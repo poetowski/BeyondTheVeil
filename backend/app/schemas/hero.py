@@ -6,6 +6,7 @@ from pydantic import BaseModel
 from app.models.hero import Hero
 from app.models.item import ItemInstance
 from app.services import hero_service
+from app.services.combat.engine import compute_damage_range
 
 StatName = Literal["strength", "dexterity", "intelligence", "vitality", "agility", "spirit"]
 
@@ -42,8 +43,8 @@ class HeroOut(BaseModel):
     bonus_spirit: int
     current_hp: int
     max_hp: int
-    weapon_damage_min: int | None
-    weapon_damage_max: int | None
+    damage_min: int
+    damage_max: int
     defense_shield: int
     defense_armor: int
     defense_helmet: int
@@ -62,6 +63,7 @@ def to_out(hero: Hero, equipped_items: list[ItemInstance]) -> HeroOut:
     train_costs = {stat: hero_service.train_stat_cost(base[stat]) for stat in hero_service.STAT_NAMES}
     weapon_range = hero_service.compute_weapon_damage_range(equipped_items)
     zone_defense = hero_service.compute_zone_defense(equipped_items)
+    damage_min, damage_max = compute_damage_range(effective["strength"], weapon_range)
 
     return HeroOut(
         id=hero.id,
@@ -73,8 +75,8 @@ def to_out(hero: Hero, equipped_items: list[ItemInstance]) -> HeroOut:
         inventory_capacity=hero.inventory_capacity,
         current_hp=current_hp,
         max_hp=max_hp,
-        weapon_damage_min=weapon_range[0] if weapon_range else None,
-        weapon_damage_max=weapon_range[1] if weapon_range else None,
+        damage_min=damage_min,
+        damage_max=damage_max,
         defense_shield=zone_defense["shield"],
         defense_armor=zone_defense["armor"],
         defense_helmet=zone_defense["helmet"],

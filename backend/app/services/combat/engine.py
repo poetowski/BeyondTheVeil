@@ -34,6 +34,19 @@ class CombatResult:
     hero_hp_after: int = 0
 
 
+def compute_damage_range(
+    strength: int, weapon_damage_range: tuple[int, int] | None
+) -> tuple[int, int]:
+    """Display-only theoretical min/max physical damage: strength's
+    DAMAGE_VARIANCE spread plus the weapon's roll, if any (0 if unarmed -
+    strength alone still deals damage). Mirrors the per-hit formula in
+    resolve() without consuming rng."""
+    weapon_min, weapon_max = weapon_damage_range or (0, 0)
+    strength_min = max(1, math.floor(strength * DAMAGE_VARIANCE[0]))
+    strength_max = max(1, math.floor(strength * DAMAGE_VARIANCE[1]))
+    return (strength_min + weapon_min, strength_max + weapon_max)
+
+
 def _hit_chance(attacker_stat: int, defender_stat: int) -> float:
     chance = HIT_CHANCE_BASE + (attacker_stat - defender_stat) * HIT_CHANCE_K
     return min(HIT_CHANCE_MAX, max(HIT_CHANCE_MIN, chance))

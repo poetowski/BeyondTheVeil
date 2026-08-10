@@ -117,17 +117,9 @@ export function OverviewPage() {
       <table className="stat-table">
         <tbody>
           <tr>
-            <td>HP</td>
-            <td>
-              {hero.current_hp} / {hero.max_hp}
-            </td>
-          </tr>
-          <tr>
             <td>Damage</td>
             <td>
-              {hero.weapon_damage_min !== null && hero.weapon_damage_max !== null
-                ? `${hero.weapon_damage_min}-${hero.weapon_damage_max}`
-                : "— unarmed —"}
+              {hero.damage_min}-{hero.damage_max}
             </td>
           </tr>
           <tr>
