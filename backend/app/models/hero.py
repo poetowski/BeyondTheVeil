@@ -20,7 +20,6 @@ class Hero(UUIDPKMixin, TimestampMixin, Base):
         CheckConstraint("agility >= 0", name="agility_gte_0"),
         CheckConstraint("spirit >= 0", name="spirit_gte_0"),
         CheckConstraint("gold >= 0", name="gold_gte_0"),
-        CheckConstraint("campaign_progress >= 0", name="campaign_progress_gte_0"),
         CheckConstraint("inventory_capacity >= 1", name="inventory_capacity_gte_1"),
         CheckConstraint("current_hp >= 0", name="current_hp_gte_0"),
     )
@@ -35,7 +34,6 @@ class Hero(UUIDPKMixin, TimestampMixin, Base):
     level: Mapped[int] = mapped_column(Integer, nullable=False, default=1)
     xp: Mapped[int] = mapped_column(BigInteger, nullable=False, default=0)
     gold: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
-    campaign_progress: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
     inventory_capacity: Mapped[int] = mapped_column(Integer, nullable=False, default=20)
     current_hp: Mapped[int] = mapped_column(Integer, nullable=False)
     hp_updated_at: Mapped[datetime] = mapped_column(

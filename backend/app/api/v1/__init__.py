@@ -3,7 +3,6 @@ from fastapi import APIRouter
 from app.api.v1 import (
     auth,
     bestiary,
-    campaign,
     consumables,
     crafting,
     hero,
@@ -24,5 +23,4 @@ api_router.include_router(materials.router)
 api_router.include_router(crafting.router)
 api_router.include_router(consumables.router)
 api_router.include_router(bestiary.router)
-api_router.include_router(campaign.router)
 api_router.include_router(leaderboard.router)

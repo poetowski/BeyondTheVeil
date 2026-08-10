@@ -129,25 +129,6 @@ export interface MonsterTemplateOut {
   flavor_text: string | null;
 }
 
-export type CampaignNodeStatus = "locked" | "available" | "cleared";
-
-export interface CampaignChapterOut {
-  id: string;
-  slug: string;
-  title: string;
-  order_index: number;
-}
-
-export interface CampaignNodeOut {
-  id: string;
-  chapter_id: string;
-  order_index: number;
-  name: string;
-  required_level: number;
-  monster_name: string;
-  status: CampaignNodeStatus;
-}
-
 export interface ConsumableInstanceOut {
   id: string;
   name: string;
