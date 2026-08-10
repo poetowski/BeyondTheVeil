@@ -7,7 +7,7 @@ Run with: python -m scripts.seed_dev_data
 import re
 
 from app.core.db import SessionLocal
-from app.models.campaign import CampaignNode
+from app.models.campaign import CampaignChapter, CampaignNode
 from app.models.consumable import ConsumableTemplate
 from app.models.crafting import CraftingCategory, CraftingRecipe, CraftingRecipeIngredient
 from app.models.item import EquipmentSlot, ItemRarity, ItemTemplate
@@ -93,12 +93,29 @@ CRAFTING_RECIPES = [
 for _recipe in CRAFTING_RECIPES:
     _recipe["slug"] = slugify(_recipe["name"])
 
+# Chapters group campaign nodes into collapsible sections; slug/order_index
+# derived the same way as other content lists.
+CAMPAIGN_CHAPTERS = [
+    dict(title="Chapter I ~ Lost in Woods", order_index=1),
+]
+for _chapter in CAMPAIGN_CHAPTERS:
+    _chapter["slug"] = slugify(_chapter["title"])
+
 # Fixed, sequential battle nodes for the Campaign track. Slugs are hand-typed
 # here (unlike items/monsters above) because they encode sequence order, not
-# just the node name - slugify(name) alone would lose that.
-# Empty for now - both nodes pinned to Veil Wisp, which was removed pending
-# the user's first real enemy.
-CAMPAIGN_NODES = []
+# just the node name - slugify(name) alone would lose that. Campaign battles
+# have no gold cost - they're gated only by required_level and by clearing
+# the previous node.
+CAMPAIGN_NODES = [
+    dict(
+        slug="campaign-01-node-1-1",
+        order_index=1,
+        name="Node 1.1",
+        required_level=1,
+        chapter_slug=slugify("Chapter I ~ Lost in Woods"),
+        monster_slug=slugify("Young Wolf"),
+    ),
+]
 
 # Young Wolf: each item weight 3 (sum 15), no_drop_weight 45 -> 75% nothing,
 # 5% each item.
@@ -140,6 +157,11 @@ def seed() -> None:
             if db.query(ConsumableTemplate).filter_by(slug=data["slug"]).first():
                 continue
             db.add(ConsumableTemplate(**data))
+
+        for data in CAMPAIGN_CHAPTERS:
+            if db.query(CampaignChapter).filter_by(slug=data["slug"]).first():
+                continue
+            db.add(CampaignChapter(**data))
 
         db.flush()
 
@@ -219,13 +241,14 @@ def seed() -> None:
             if db.query(CampaignNode).filter_by(slug=data["slug"]).first():
                 continue
             monster = db.query(MonsterTemplate).filter_by(slug=data["monster_slug"]).first()
+            chapter = db.query(CampaignChapter).filter_by(slug=data["chapter_slug"]).first()
             db.add(
                 CampaignNode(
                     slug=data["slug"],
                     order_index=data["order_index"],
                     name=data["name"],
                     required_level=data["required_level"],
-                    gold_cost=data["gold_cost"],
+                    chapter_id=chapter.id,
                     monster_template_id=monster.id,
                 )
             )

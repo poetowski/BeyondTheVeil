@@ -1,5 +1,5 @@
 from app.models.base import Base
-from app.models.campaign import CampaignNode
+from app.models.campaign import CampaignChapter, CampaignNode
 from app.models.consumable import ConsumableInstance, ConsumableTemplate
 from app.models.crafting import CraftingCategory, CraftingRecipe, CraftingRecipeIngredient
 from app.models.hero import Hero
@@ -27,6 +27,7 @@ __all__ = [
     "MonsterTemplate",
     "MonsterLootEntry",
     "MonsterMaterialLootEntry",
+    "CampaignChapter",
     "CampaignNode",
     "VeilRun",
     "VeilRunStatus",

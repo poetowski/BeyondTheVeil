@@ -1,13 +1,13 @@
 import { useCallback, useEffect, useState } from "react";
-import { enterCampaignNode, getCampaignNodes } from "../api/campaign";
+import { enterCampaignNode, getCampaignChapters, getCampaignNodes } from "../api/campaign";
 import { ApiError } from "../api/client";
-import type { CampaignNodeOut } from "../api/types";
+import type { CampaignChapterOut, CampaignNodeOut } from "../api/types";
 import { useAuth } from "../auth/AuthContext";
 import { useVeilRun } from "../veil/VeilRunContext";
 
 type State =
   | { kind: "loading" }
-  | { kind: "loaded"; nodes: CampaignNodeOut[] }
+  | { kind: "loaded"; chapters: CampaignChapterOut[]; nodes: CampaignNodeOut[] }
   | { kind: "error"; message: string };
 
 function statusLabel(status: CampaignNodeOut["status"]): string {
@@ -27,13 +27,15 @@ export function CampaignPage() {
   const [state, setState] = useState<State>({ kind: "loading" });
   const [entering, setEntering] = useState<string | null>(null);
   const [enterError, setEnterError] = useState<string | null>(null);
+  const [expandedChapters, setExpandedChapters] = useState<Set<string> | null>(null);
 
   const load = useCallback(async () => {
     if (!token) return;
     setState({ kind: "loading" });
     try {
-      const nodes = await getCampaignNodes(token);
-      setState({ kind: "loaded", nodes });
+      const [chapters, nodes] = await Promise.all([getCampaignChapters(token), getCampaignNodes(token)]);
+      setState({ kind: "loaded", chapters, nodes });
+      setExpandedChapters((prev) => prev ?? new Set(chapters.slice(0, 1).map((c) => c.id)));
     } catch (err) {
       setState({
         kind: "error",
@@ -45,6 +47,18 @@ export function CampaignPage() {
   useEffect(() => {
     load();
   }, [load]);
+
+  function toggleChapter(chapterId: string) {
+    setExpandedChapters((prev) => {
+      const next = new Set(prev ?? []);
+      if (next.has(chapterId)) {
+        next.delete(chapterId);
+      } else {
+        next.add(chapterId);
+      }
+      return next;
+    });
+  }
 
   async function handleEnter(node: CampaignNodeOut) {
     if (!token) return;
@@ -74,43 +88,60 @@ export function CampaignPage() {
       )}
       {state.kind === "loaded" && (
         <>
-          {state.nodes.length === 0 ? (
+          {state.chapters.length === 0 ? (
             <p>No campaign battles have been charted yet.</p>
           ) : (
-            <ul className="campaign-list">
-              {state.nodes.map((node) => {
-                const canEnter =
-                  node.status === "available" &&
-                  !!hero &&
-                  hero.level >= node.required_level &&
-                  hero.gold >= node.gold_cost;
-                return (
-                  <li key={node.id} className={`campaign-node campaign-node-${node.status}`}>
-                    <div className="campaign-node-header">
-                      <span className="campaign-node-name">
-                        {node.order_index}. {node.name}
-                      </span>
-                      <span className={`campaign-node-badge campaign-node-badge-${node.status}`}>
-                        {statusLabel(node.status)}
-                      </span>
-                    </div>
-                    <p className="campaign-node-meta">
-                      vs {node.monster_name} · requires level {node.required_level} ·{" "}
-                      {node.gold_cost} gold
-                    </p>
-                    {node.status === "available" && (
-                      <button
-                        type="button"
-                        disabled={!canEnter || entering === node.id}
-                        onClick={() => handleEnter(node)}
-                      >
-                        {entering === node.id ? "Entering…" : "Enter Battle"}
-                      </button>
-                    )}
-                  </li>
-                );
-              })}
-            </ul>
+            state.chapters.map((chapter) => {
+              const nodes = state.nodes
+                .filter((node) => node.chapter_id === chapter.id)
+                .sort((a, b) => a.order_index - b.order_index);
+              const expanded = expandedChapters?.has(chapter.id) ?? false;
+              return (
+                <section key={chapter.id} className="campaign-chapter">
+                  <button
+                    type="button"
+                    className="campaign-chapter-header"
+                    aria-expanded={expanded}
+                    onClick={() => toggleChapter(chapter.id)}
+                  >
+                    <span>{expanded ? "▾" : "▸"}</span>
+                    <span className="campaign-chapter-title">{chapter.title}</span>
+                  </button>
+                  {expanded && (
+                    <ul className="campaign-list campaign-chapter-body">
+                      {nodes.map((node) => {
+                        const canEnter =
+                          node.status === "available" && !!hero && hero.level >= node.required_level;
+                        return (
+                          <li key={node.id} className={`campaign-node campaign-node-${node.status}`}>
+                            <div className="campaign-node-header">
+                              <span className="campaign-node-name">
+                                {node.order_index}. {node.name}
+                              </span>
+                              <span className={`campaign-node-badge campaign-node-badge-${node.status}`}>
+                                {statusLabel(node.status)}
+                              </span>
+                            </div>
+                            <p className="campaign-node-meta">
+                              vs {node.monster_name} · requires level {node.required_level}
+                            </p>
+                            {node.status === "available" && (
+                              <button
+                                type="button"
+                                disabled={!canEnter || entering === node.id}
+                                onClick={() => handleEnter(node)}
+                              >
+                                {entering === node.id ? "Entering…" : "Enter Battle"}
+                              </button>
+                            )}
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  )}
+                </section>
+              );
+            })
           )}
           {enterError && <p className="auth-error">{enterError}</p>}
         </>

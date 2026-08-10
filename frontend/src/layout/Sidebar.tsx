@@ -28,6 +28,7 @@ const NAV_ITEMS: NavItem[] = [
     highlight: true,
     children: [
       { to: "/campaign", label: "Campaign" },
+      { to: "/veil", label: "Jumpins" },
       { to: "/bestiary", label: "Bestiary" },
     ],
   },

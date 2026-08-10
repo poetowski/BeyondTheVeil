@@ -1,5 +1,9 @@
 import { apiFetch } from "./client";
-import type { CampaignNodeOut, VeilRunOut } from "./types";
+import type { CampaignChapterOut, CampaignNodeOut, VeilRunOut } from "./types";
+
+export function getCampaignChapters(token: string): Promise<CampaignChapterOut[]> {
+  return apiFetch<CampaignChapterOut[]>("/api/v1/campaign/chapters", { token });
+}
 
 export function getCampaignNodes(token: string): Promise<CampaignNodeOut[]> {
   return apiFetch<CampaignNodeOut[]>("/api/v1/campaign/nodes", { token });
