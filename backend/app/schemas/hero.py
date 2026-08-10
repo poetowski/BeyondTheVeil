@@ -42,6 +42,11 @@ class HeroOut(BaseModel):
     bonus_spirit: int
     current_hp: int
     max_hp: int
+    weapon_damage_min: int | None
+    weapon_damage_max: int | None
+    defense_shield: int
+    defense_armor: int
+    defense_helmet: int
     train_costs: dict[StatName, int]
 
 
@@ -55,6 +60,8 @@ def to_out(hero: Hero, equipped_items: list[ItemInstance]) -> HeroOut:
         hero, effective["vitality"], bonus_max_hp=bonus_max_hp
     )
     train_costs = {stat: hero_service.train_stat_cost(base[stat]) for stat in hero_service.STAT_NAMES}
+    weapon_range = hero_service.compute_weapon_damage_range(equipped_items)
+    zone_defense = hero_service.compute_zone_defense(equipped_items)
 
     return HeroOut(
         id=hero.id,
@@ -66,6 +73,11 @@ def to_out(hero: Hero, equipped_items: list[ItemInstance]) -> HeroOut:
         inventory_capacity=hero.inventory_capacity,
         current_hp=current_hp,
         max_hp=max_hp,
+        weapon_damage_min=weapon_range[0] if weapon_range else None,
+        weapon_damage_max=weapon_range[1] if weapon_range else None,
+        defense_shield=zone_defense["shield"],
+        defense_armor=zone_defense["armor"],
+        defense_helmet=zone_defense["helmet"],
         train_costs=train_costs,
         **effective,
         **{f"base_{stat}": value for stat, value in base.items()},

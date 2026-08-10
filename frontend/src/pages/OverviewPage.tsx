@@ -4,6 +4,7 @@ import { trainStat } from "../api/hero";
 import { getInventory, unequipItem } from "../api/inventory";
 import type { HeroOut, ItemInstanceOut, StatName } from "../api/types";
 import { useAuth } from "../auth/AuthContext";
+import { ProgressBar } from "../components/ProgressBar";
 import { EQUIPMENT_SLOTS } from "../constants/equipmentSlots";
 import { formatItemStats } from "../utils/formatItemStats";
 
@@ -100,18 +101,49 @@ export function OverviewPage() {
     <div className="page hero-page">
       <h1>{hero.name}</h1>
       <p className="hero-meta">
-        Level {hero.level} · {hero.xp}/{hero.xp_to_next_level} XP · {hero.gold} gold
+        Level {hero.level} · {hero.gold} gold
       </p>
+      <p className="hero-meta">
+        {hero.xp}/{hero.xp_to_next_level} XP
+      </p>
+      <ProgressBar value={hero.xp} max={hero.xp_to_next_level} variant="xp" />
       <p className="hero-meta">
         {hero.current_hp}/{hero.max_hp} HP
       </p>
-      <div className="hp-bar">
-        <div
-          className="hp-bar-fill"
-          style={{ width: `${Math.max(0, Math.min(100, (hero.current_hp / hero.max_hp) * 100))}%` }}
-        />
-      </div>
+      <ProgressBar value={hero.current_hp} max={hero.max_hp} variant="hp" />
       {actionError && <p className="auth-error">{actionError}</p>}
+
+      <h2>Combat</h2>
+      <table className="stat-table">
+        <tbody>
+          <tr>
+            <td>HP</td>
+            <td>
+              {hero.current_hp} / {hero.max_hp}
+            </td>
+          </tr>
+          <tr>
+            <td>Damage</td>
+            <td>
+              {hero.weapon_damage_min !== null && hero.weapon_damage_max !== null
+                ? `${hero.weapon_damage_min}-${hero.weapon_damage_max}`
+                : "— unarmed —"}
+            </td>
+          </tr>
+          <tr>
+            <td>Shield Defense</td>
+            <td>{hero.defense_shield}</td>
+          </tr>
+          <tr>
+            <td>Armor Defense</td>
+            <td>{hero.defense_armor}</td>
+          </tr>
+          <tr>
+            <td>Helmet Defense</td>
+            <td>{hero.defense_helmet}</td>
+          </tr>
+        </tbody>
+      </table>
 
       <h2>Stats</h2>
       <table className="stat-table">
