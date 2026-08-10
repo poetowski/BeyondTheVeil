@@ -24,12 +24,15 @@ def _get_hero_id(client, token) -> uuid.UUID:
     return uuid.UUID(me["hero"]["id"])
 
 
-def _make_recipe(db_session, *, slug, level_requirement=1, quantity_required=2, heal_amount_fraction=0.3):
+def _make_recipe(
+    db_session, *, slug, level_requirement=1, quantity_required=2, heal_flat=20, heal_vitality_multiplier=0
+):
     material = MaterialTemplate(slug=f"{slug}-material", name=f"{slug} Material")
     consumable = ConsumableTemplate(
         slug=f"{slug}-elixir",
         name=f"{slug} Elixir",
-        heal_amount_fraction=heal_amount_fraction,
+        heal_flat=heal_flat,
+        heal_vitality_multiplier=heal_vitality_multiplier,
     )
     db_session.add_all([material, consumable])
     db_session.flush()
@@ -194,7 +197,9 @@ def test_use_consumable_heals_hp_and_depletes_the_stack(client, db_session):
     hero.current_hp = 10
     db_session.flush()
 
-    _, _, consumable_template = _make_recipe(db_session, slug="test-recipe-6", heal_amount_fraction=0.5)
+    _, _, consumable_template = _make_recipe(
+        db_session, slug="test-recipe-6", heal_flat=20, heal_vitality_multiplier=2
+    )
     instance = ConsumableInstance(
         template_id=consumable_template.id, owner_hero_id=hero_id, quantity=1
     )
@@ -204,7 +209,7 @@ def test_use_consumable_heals_hp_and_depletes_the_stack(client, db_session):
     response = client.post(f"/api/v1/consumables/{instance.id}/use", headers=_auth(token))
     assert response.status_code == 200
     body = response.json()
-    expected_heal = round(0.5 * body["max_hp"])
+    expected_heal = round(20 + 2 * body["vitality"])
     assert body["current_hp"] == min(body["max_hp"], 10 + expected_heal)
 
     consumables = client.get("/api/v1/consumables", headers=_auth(token)).json()
@@ -215,7 +220,9 @@ def test_use_consumable_never_exceeds_max_hp(client, db_session):
     token = _signup(client, email="capuse@test.com")
     hero_id = _get_hero_id(client, token)
 
-    _, _, consumable_template = _make_recipe(db_session, slug="test-recipe-7", heal_amount_fraction=1.0)
+    _, _, consumable_template = _make_recipe(
+        db_session, slug="test-recipe-7", heal_flat=100_000, heal_vitality_multiplier=0
+    )
     instance = ConsumableInstance(
         template_id=consumable_template.id, owner_hero_id=hero_id, quantity=1
     )

@@ -10,13 +10,20 @@ from app.models.base import Base, TimestampMixin, UUIDPKMixin
 
 class ConsumableTemplate(UUIDPKMixin, TimestampMixin, Base):
     __tablename__ = "consumable_templates"
+    __table_args__ = (
+        CheckConstraint("heal_flat >= 0", name="heal_flat_non_negative"),
+        CheckConstraint("heal_vitality_multiplier >= 0", name="heal_vitality_multiplier_non_negative"),
+    )
 
     slug: Mapped[str] = mapped_column(String(64), unique=True, nullable=False)
     name: Mapped[str] = mapped_column(String(100), nullable=False)
     description: Mapped[str | None] = mapped_column(Text, nullable=True)
-    # Fraction of max HP restored on use (e.g. 0.3 == 30%), not a flat
-    # number - keeps potions useful at any level without per-level tiers.
-    heal_amount_fraction: Mapped[float] = mapped_column(Numeric(asdecimal=False), nullable=False)
+    # Heal on use = heal_flat + heal_vitality_multiplier * hero's effective
+    # vitality, capped at max HP (see crafting_service.use_consumable).
+    heal_flat: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    heal_vitality_multiplier: Mapped[float] = mapped_column(
+        Numeric(asdecimal=False), nullable=False, default=0
+    )
 
     consumable_instances: Mapped[list["ConsumableInstance"]] = relationship(
         back_populates="template"

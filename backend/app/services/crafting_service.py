@@ -140,7 +140,10 @@ def use_consumable(db: Session, hero: Hero, consumable_instance_id: uuid.UUID) -
     current_hp = hero_service.compute_current_hp(
         hero, effective_stats["vitality"], bonus_max_hp=bonus_max_hp
     )
-    heal_amount = round(consumable.template.heal_amount_fraction * max_hp)
+    heal_amount = round(
+        consumable.template.heal_flat
+        + consumable.template.heal_vitality_multiplier * effective_stats["vitality"]
+    )
 
     hero.current_hp = min(max_hp, current_hp + heal_amount)
     hero.hp_updated_at = datetime.now(timezone.utc)

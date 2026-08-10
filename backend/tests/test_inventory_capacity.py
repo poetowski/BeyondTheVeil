@@ -90,7 +90,7 @@ def test_loot_is_skipped_when_owned_consumables_fill_the_backpack(client, db_ses
     db_session.flush()
 
     consumable_template = ConsumableTemplate(
-        slug="capacity-elixir", name="Capacity Elixir", heal_amount_fraction=0.1
+        slug="capacity-elixir", name="Capacity Elixir", heal_flat=10, heal_vitality_multiplier=0
     )
     db_session.add(consumable_template)
     db_session.flush()

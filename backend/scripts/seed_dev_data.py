@@ -56,11 +56,34 @@ MATERIAL_TEMPLATES = [
 for _material in MATERIAL_TEMPLATES:
     _material["slug"] = slugify(_material["name"])
 
-CONSUMABLE_TEMPLATES = []
+CONSUMABLE_TEMPLATES = [
+    dict(name="Minor Healing Potion", heal_flat=100, heal_vitality_multiplier=2),
+]
 for _consumable in CONSUMABLE_TEMPLATES:
     _consumable["slug"] = slugify(_consumable["name"])
 
-CRAFTING_RECIPES = []
+# Two alternative recipes for the same potion.
+CRAFTING_RECIPES = [
+    dict(
+        name="Minor Healing Potion (Plantago Blend)",
+        category=CraftingCategory.ALCHEMY,
+        level_requirement=1,
+        output_consumable_slug=slugify("Minor Healing Potion"),
+        output_quantity=1,
+        ingredients=[
+            dict(material_slug=slugify("Plantago"), quantity_required=2),
+            dict(material_slug=slugify("Chamomile"), quantity_required=3),
+        ],
+    ),
+    dict(
+        name="Minor Healing Potion (Chamomile Only)",
+        category=CraftingCategory.ALCHEMY,
+        level_requirement=1,
+        output_consumable_slug=slugify("Minor Healing Potion"),
+        output_quantity=1,
+        ingredients=[dict(material_slug=slugify("Chamomile"), quantity_required=6)],
+    ),
+]
 for _recipe in CRAFTING_RECIPES:
     _recipe["slug"] = slugify(_recipe["name"])
 
