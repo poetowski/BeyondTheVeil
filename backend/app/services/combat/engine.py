@@ -1,4 +1,3 @@
-import math
 import random
 from dataclasses import dataclass, field
 from typing import Any
@@ -10,12 +9,10 @@ HIT_CHANCE_BASE = 0.5
 HIT_CHANCE_K = 0.04
 HIT_CHANCE_MIN = 0.10
 HIT_CHANCE_MAX = 0.90
-DAMAGE_VARIANCE = (0.8, 1.2)
 # Strength's physical-damage contribution is flat, not rolled: 1 damage per
 # this many strength points (e.g. 5 strength -> 1, 12 strength -> 4).
 STRENGTH_DAMAGE_DIVISOR = 3
 MAX_ROUNDS = 30
-SPELL_DAMAGE_MULTIPLIER = 3  # intelligence contributes 3x the damage per point that strength does
 MONSTER_STAT_VARIANCE = (0.85, 1.15)
 # Hit-zone mechanic: only rolled when the monster hits the hero (monsters have
 # no equipment to target zones on). Headshot always multiplies damage - it's
@@ -76,10 +73,10 @@ def resolve(
     hero_bonus_max_hp: int = 0,
 ) -> CombatResult:
     """Deterministic, seed-reproducible combat in two phases: an opening
-    spell exchange (intelligence for damage, rolled within DAMAGE_VARIANCE
-    at SPELL_DAMAGE_MULTIPLIER per point, spirit-vs-spirit for hit chance —
-    mirrors the physical hit-chance formula with magic's stat pair), then
-    physical-only rounds (strength for damage — flat, not rolled: see
+    spell exchange (intelligence for damage — flat, not rolled: 1 damage
+    per point of intelligence — spirit-vs-spirit for hit chance, mirrors
+    the physical hit-chance formula with magic's stat pair), then
+    physical-only rounds (strength for damage — also flat: see
     STRENGTH_DAMAGE_DIVISOR — dexterity-vs-agility for hit chance).
     Vitality drives max HP throughout; the hero may start below max
     if `hero_current_hp` reflects unhealed damage from a previous fight
@@ -129,9 +126,9 @@ def resolve(
 
     # Opening spell exchange: each side casts exactly once, in initiative
     # order, before any physical rounds begin. Intelligence is the magic
-    # damage stat (mirrors strength), spirit is the magic accuracy/
-    # resistance stat (mirrors dexterity/agility) — reuses the same
-    # _hit_chance/DAMAGE_VARIANCE formulas as the physical loop below.
+    # damage stat (mirrors strength - flat, not rolled), spirit is the
+    # magic accuracy/resistance stat (mirrors dexterity/agility) — reuses
+    # the same _hit_chance formula as the physical loop below.
     for actor in order:
         if hero_hp <= 0 or monster_hp <= 0:
             break
@@ -148,9 +145,7 @@ def resolve(
         hit = attacker_intelligence > 0 and rng.random() < _hit_chance(attacker_spirit, defender_spirit)
         damage = 0
         if hit:
-            damage = max(
-                1, math.floor(attacker_intelligence * SPELL_DAMAGE_MULTIPLIER * rng.uniform(*DAMAGE_VARIANCE))
-            )
+            damage = max(1, attacker_intelligence)
             if actor == "hero":
                 monster_hp = max(0, monster_hp - damage)
             else:
