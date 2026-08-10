@@ -16,6 +16,8 @@ class ItemInstanceOut(BaseModel):
     equipped_slot: EquipmentSlot | None
     damage_min: int | None
     damage_max: int | None
+    spell_damage_min: int | None
+    spell_damage_max: int | None
     defense: int
     bonus_max_hp: int
     acquired_at: datetime
@@ -32,6 +34,8 @@ def to_out(item: ItemInstance) -> ItemInstanceOut:
         equipped_slot=item.equipped_slot,
         damage_min=item.template.damage_min,
         damage_max=item.template.damage_max,
+        spell_damage_min=item.template.spell_damage_min,
+        spell_damage_max=item.template.spell_damage_max,
         defense=item.template.defense,
         bonus_max_hp=item.template.bonus_max_hp,
         acquired_at=item.acquired_at,

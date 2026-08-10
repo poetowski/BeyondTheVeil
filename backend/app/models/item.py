@@ -50,6 +50,10 @@ class ItemTemplate(UUIDPKMixin, TimestampMixin, Base):
             "damage_max IS NULL OR damage_min IS NULL OR damage_max >= damage_min",
             name="damage_range_valid",
         ),
+        CheckConstraint(
+            "spell_damage_max IS NULL OR spell_damage_min IS NULL OR spell_damage_max >= spell_damage_min",
+            name="spell_damage_range_valid",
+        ),
         CheckConstraint("defense >= 0", name="defense_non_negative"),
         CheckConstraint("bonus_max_hp >= 0", name="bonus_max_hp_non_negative"),
     )
@@ -65,6 +69,8 @@ class ItemTemplate(UUIDPKMixin, TimestampMixin, Base):
     description: Mapped[str | None] = mapped_column(Text, nullable=True)
     damage_min: Mapped[int | None] = mapped_column(Integer, nullable=True)
     damage_max: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    spell_damage_min: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    spell_damage_max: Mapped[int | None] = mapped_column(Integer, nullable=True)
     defense: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
     bonus_max_hp: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
 

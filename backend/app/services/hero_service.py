@@ -109,6 +109,18 @@ def compute_weapon_damage_range(equipped_items: list[ItemInstance]) -> tuple[int
     return None
 
 
+def compute_spell_damage_range(equipped_items: list[ItemInstance]) -> tuple[int, int] | None:
+    """The equipped spell skill's (spell_damage_min, spell_damage_max), or
+    None if none equipped or it has no spell damage range set."""
+    for item in equipped_items:
+        if item.equipped_slot != EquipmentSlot.SPELL_SKILL:
+            continue
+        template = item.template
+        if template.spell_damage_min is not None and template.spell_damage_max is not None:
+            return (template.spell_damage_min, template.spell_damage_max)
+    return None
+
+
 def compute_zone_defense(equipped_items: list[ItemInstance]) -> dict[str, int]:
     """Flat physical-damage defense per hit zone, from whatever's equipped
     in the shield/armor/helmet slots. Zero for an empty slot."""

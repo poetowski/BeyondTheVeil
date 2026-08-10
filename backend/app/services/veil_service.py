@@ -92,6 +92,7 @@ def _start_run(
     base_stats = hero_service.compute_base_stats(hero)
     bonus_max_hp = hero_service.compute_bonus_max_hp(equipped_items)
     weapon_damage_range = hero_service.compute_weapon_damage_range(equipped_items)
+    spell_damage_range = hero_service.compute_spell_damage_range(equipped_items)
     zone_defense = hero_service.compute_zone_defense(equipped_items)
 
     started_at = datetime.now(timezone.utc)
@@ -108,6 +109,7 @@ def _start_run(
         encounter=encounter,
         hero_current_hp=hero_current_hp,
         hero_weapon_damage_range=weapon_damage_range,
+        hero_spell_damage_range=spell_damage_range,
         hero_zone_defense=zone_defense,
         hero_bonus_max_hp=bonus_max_hp,
     )

@@ -38,6 +38,8 @@ export interface HeroOut {
   max_hp: number;
   damage_min: number;
   damage_max: number;
+  spell_damage_min: number;
+  spell_damage_max: number;
   defense_shield: number;
   defense_armor: number;
   defense_helmet: number;
@@ -95,6 +97,8 @@ export interface ItemInstanceOut {
   equipped_slot: EquipmentSlot | null;
   damage_min: number | null;
   damage_max: number | null;
+  spell_damage_min: number | null;
+  spell_damage_max: number | null;
   defense: number;
   bonus_max_hp: number;
   acquired_at: string;

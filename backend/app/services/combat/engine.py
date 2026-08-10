@@ -47,6 +47,19 @@ def compute_damage_range(
     return (strength_damage + weapon_min, strength_damage + weapon_max)
 
 
+def compute_spell_damage_range(
+    intelligence: int, spell_damage_range: tuple[int, int] | None
+) -> tuple[int, int]:
+    """Display-only spell damage range: intelligence's flat contribution
+    (1 damage per point, floored at 1) plus the equipped spell skill's
+    roll, if any (0 if none equipped - intelligence alone still deals
+    damage). min == max unless a spell skill with a damage range is
+    equipped."""
+    spell_min, spell_max = spell_damage_range or (0, 0)
+    intelligence_damage = max(1, intelligence)
+    return (intelligence_damage + spell_min, intelligence_damage + spell_max)
+
+
 def _hit_chance(attacker_stat: int, defender_stat: int) -> float:
     chance = HIT_CHANCE_BASE + (attacker_stat - defender_stat) * HIT_CHANCE_K
     return min(HIT_CHANCE_MAX, max(HIT_CHANCE_MIN, chance))
@@ -69,6 +82,7 @@ def resolve(
     encounter: dict[str, Any] | None,
     hero_current_hp: int | None = None,
     hero_weapon_damage_range: tuple[int, int] | None = None,
+    hero_spell_damage_range: tuple[int, int] | None = None,
     hero_zone_defense: dict[str, int] | None = None,
     hero_bonus_max_hp: int = 0,
 ) -> CombatResult:
@@ -97,14 +111,15 @@ def resolve(
     and the physical rounds that follow. Physical rounds alternate every
     single attack, one full round = each side attacks once.
 
-    Gear affects physical damage asymmetrically, since only the hero can be
-    equipped: when the hero lands a physical hit, hero_weapon_damage_range
-    (if set) adds a random roll on top of the strength-based damage. When the
-    monster lands a physical hit on the hero, a hit zone is rolled (see
-    ZONE_WEIGHTS) and hero_zone_defense mitigates the damage for that zone;
-    a helmet-zone hit always multiplies damage by HEADSHOT_MULTIPLIER before
-    defense is subtracted. All three default to "no gear equipped" so every
-    existing caller is unaffected.
+    Gear affects damage asymmetrically, since only the hero can be equipped:
+    when the hero lands a physical hit, hero_weapon_damage_range (if set)
+    adds a random roll on top of the strength-based damage; when the hero
+    lands a spell hit, hero_spell_damage_range does the same on top of the
+    intelligence-based damage. When the monster lands a physical hit on the
+    hero, a hit zone is rolled (see ZONE_WEIGHTS) and hero_zone_defense
+    mitigates the damage for that zone; a helmet-zone hit always multiplies
+    damage by HEADSHOT_MULTIPLIER before defense is subtracted. All default
+    to "no gear equipped" so every existing caller is unaffected.
     """
     if encounter is None:
         return CombatResult(victory=True, log=[{"message": "no monsters found for hero's level"}])
@@ -146,6 +161,8 @@ def resolve(
         damage = 0
         if hit:
             damage = max(1, attacker_intelligence)
+            if actor == "hero" and hero_spell_damage_range is not None:
+                damage += rng.randint(*hero_spell_damage_range)
             if actor == "hero":
                 monster_hp = max(0, monster_hp - damage)
             else:

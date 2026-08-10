@@ -41,6 +41,10 @@ function bonusClass(n: number): string {
   return "stat-bonus-zero";
 }
 
+function formatRange(min: number, max: number): string {
+  return min === max ? `${min}` : `${min}-${max}`;
+}
+
 export function OverviewPage() {
   const { hero, token, refetch } = useAuth();
   const [items, setItems] = useState<ItemInstanceOut[]>([]);
@@ -118,7 +122,11 @@ export function OverviewPage() {
         <tbody>
           <tr>
             <td>Damage</td>
-            <td>{hero.damage_min === hero.damage_max ? hero.damage_min : `${hero.damage_min}-${hero.damage_max}`}</td>
+            <td>{formatRange(hero.damage_min, hero.damage_max)}</td>
+          </tr>
+          <tr>
+            <td>Spell Damage</td>
+            <td>{formatRange(hero.spell_damage_min, hero.spell_damage_max)}</td>
           </tr>
           <tr>
             <td>Shield Defense</td>

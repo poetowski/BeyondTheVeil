@@ -17,6 +17,9 @@ export function formatItemStats(item: ItemInstanceOut): string {
   if (item.damage_min !== null && item.damage_max !== null) {
     parts.push(`Damage ${item.damage_min}-${item.damage_max}`);
   }
+  if (item.spell_damage_min !== null && item.spell_damage_max !== null) {
+    parts.push(`Spell Damage ${item.spell_damage_min}-${item.spell_damage_max}`);
+  }
   if (item.defense > 0) {
     parts.push(`Defense ${item.defense}`);
   }
