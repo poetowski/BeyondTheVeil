@@ -42,6 +42,7 @@ MONSTER_TEMPLATES = [
         base_stats={"strength": 9, "dexterity": 11, "intelligence": 7, "vitality": 8, "agility": 10, "spirit": 10},
         flavor_text="Not quite a year old, and still testing its speed.",
         no_drop_weight=45,
+        no_material_drop_weight=70,
         gold_min=8,
         gold_max=20,
     ),
@@ -57,7 +58,12 @@ for _material in MATERIAL_TEMPLATES:
     _material["slug"] = slugify(_material["name"])
 
 CONSUMABLE_TEMPLATES = [
-    dict(name="Minor Healing Potion", heal_flat=100, heal_vitality_multiplier=2),
+    dict(
+        name="Minor Healing Potion",
+        description="A cloudy brew of crushed herbs, drunk quickly before it settles.",
+        heal_flat=100,
+        heal_vitality_multiplier=2,
+    ),
 ]
 for _consumable in CONSUMABLE_TEMPLATES:
     _consumable["slug"] = slugify(_consumable["name"])
@@ -104,7 +110,12 @@ MONSTER_LOOT_ENTRIES = [
     dict(monster_slug=slugify("Young Wolf"), item_slug=slugify("Old Ring"), drop_weight=3),
 ]
 
-MONSTER_MATERIAL_LOOT_ENTRIES = []
+# Young Wolf: no_material_drop_weight 70, Chamomile 20, Plantago 10 -> 70%
+# nothing, 20% Chamomile, 10% Plantago.
+MONSTER_MATERIAL_LOOT_ENTRIES = [
+    dict(monster_slug=slugify("Young Wolf"), material_slug=slugify("Chamomile"), drop_weight=20),
+    dict(monster_slug=slugify("Young Wolf"), material_slug=slugify("Plantago"), drop_weight=10),
+]
 
 
 def seed() -> None:

@@ -12,7 +12,6 @@ HIT_CHANCE_MIN = 0.10
 HIT_CHANCE_MAX = 0.90
 DAMAGE_VARIANCE = (0.8, 1.2)
 MAX_ROUNDS = 30
-MATERIAL_DROP_CHANCE = 0.5
 SPELL_DAMAGE_MULTIPLIER = 3  # intelligence contributes 3x the damage per point that strength does
 MONSTER_STAT_VARIANCE = (0.85, 1.15)
 # Hit-zone mechanic: only rolled when the monster hits the hero (monsters have
@@ -226,17 +225,20 @@ def resolve(
 
     material_loot: list[dict[str, Any]] = []
     material_pool = encounter.get("material_pool") or []
-    if victory and material_pool and rng.random() < MATERIAL_DROP_CHANCE:
-        chosen_material = rng.choices(
-            material_pool, weights=[entry["drop_weight"] for entry in material_pool], k=1
-        )[0]
-        material_loot.append(
-            {
-                "material_template_slug": chosen_material["material_template_slug"],
-                "material_name": chosen_material["material_name"],
-                "quantity": 1,
-            }
-        )
+    if victory and material_pool:
+        # Same "no drop" weighted-option approach as the item-loot roll above.
+        no_material_drop_weight = encounter.get("no_material_drop_weight", 0)
+        material_options: list[dict[str, Any] | None] = [*material_pool, None]
+        material_weights = [entry["drop_weight"] for entry in material_pool] + [no_material_drop_weight]
+        chosen_material = rng.choices(material_options, weights=material_weights, k=1)[0]
+        if chosen_material is not None:
+            material_loot.append(
+                {
+                    "material_template_slug": chosen_material["material_template_slug"],
+                    "material_name": chosen_material["material_name"],
+                    "quantity": 1,
+                }
+            )
 
     return CombatResult(
         victory=victory,

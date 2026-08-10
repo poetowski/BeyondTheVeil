@@ -11,6 +11,7 @@ class MonsterTemplate(UUIDPKMixin, TimestampMixin, Base):
     __tablename__ = "monster_templates"
     __table_args__ = (
         CheckConstraint("no_drop_weight >= 0", name="no_drop_weight_non_negative"),
+        CheckConstraint("no_material_drop_weight >= 0", name="no_material_drop_weight_non_negative"),
         CheckConstraint("gold_min >= 0", name="gold_min_non_negative"),
         CheckConstraint("gold_max >= gold_min", name="gold_max_gte_gold_min"),
     )
@@ -26,6 +27,8 @@ class MonsterTemplate(UUIDPKMixin, TimestampMixin, Base):
     # monster instead of a fixed global chance. 0 means always drops
     # something when it has a loot pool at all.
     no_drop_weight: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    # Same idea as no_drop_weight, but for the material-loot roll.
+    no_material_drop_weight: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
     gold_min: Mapped[int] = mapped_column(Integer, nullable=False, default=10)
     gold_max: Mapped[int] = mapped_column(Integer, nullable=False, default=10)
 
