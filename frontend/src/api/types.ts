@@ -73,11 +73,18 @@ export interface VeilRunResultOut {
   gold_awarded: number;
 }
 
+export interface VeilEncounterOut {
+  monster_name: string | null;
+  monster_stats: Record<StatName, number> | null;
+  monster_max_hp: number | null;
+}
+
 export interface VeilRunOut {
   id: string;
   status: "in_progress" | "completed";
   started_at: string;
   resolves_at: string;
+  encounter: VeilEncounterOut | null;
   result: VeilRunResultOut | null;
 }
 

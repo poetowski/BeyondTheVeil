@@ -54,6 +54,17 @@ def test_encounter_none_is_an_automatic_uneventful_victory():
     assert result.victory is True
     assert result.xp_awarded == 0
     assert result.loot == []
+    assert result.monster_stats is None
+    assert result.monster_max_hp == 0
+
+
+def test_resolve_reports_the_rolled_monster_stats_and_max_hp():
+    result = engine.resolve(
+        seed=1, hero_snapshot=WEAK_HERO, hero_base_stats=WEAK_HERO, encounter=_encounter()
+    )
+    expected_stats = engine._roll_monster_stats(engine.random.Random(1), MONSTER)
+    assert result.monster_stats == expected_stats
+    assert result.monster_max_hp == expected_stats["vitality"] * engine.HP_PER_VITALITY
 
 
 def test_default_hero_current_hp_is_full_hp():
