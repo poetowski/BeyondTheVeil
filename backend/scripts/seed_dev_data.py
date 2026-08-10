@@ -9,7 +9,7 @@ import re
 from app.core.db import SessionLocal
 from app.models.campaign import CampaignNode
 from app.models.consumable import ConsumableTemplate
-from app.models.crafting import CraftingRecipe, CraftingRecipeIngredient
+from app.models.crafting import CraftingCategory, CraftingRecipe, CraftingRecipeIngredient
 from app.models.item import EquipmentSlot, ItemRarity, ItemTemplate
 from app.models.material import MaterialTemplate
 from app.models.monster import MonsterLootEntry, MonsterMaterialLootEntry, MonsterTemplate
@@ -49,7 +49,10 @@ MONSTER_TEMPLATES = [
 for _monster in MONSTER_TEMPLATES:
     _monster["slug"] = slugify(_monster["name"])
 
-MATERIAL_TEMPLATES = []
+MATERIAL_TEMPLATES = [
+    dict(name="Plantago", description="Broad leaves, bruised for their sap.", category=CraftingCategory.ALCHEMY),
+    dict(name="Chamomile", description="Daisy-like flowers, dried for their mild sedative properties.", category=CraftingCategory.ALCHEMY),
+]
 for _material in MATERIAL_TEMPLATES:
     _material["slug"] = slugify(_material["name"])
 
