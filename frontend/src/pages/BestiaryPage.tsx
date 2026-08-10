@@ -15,6 +15,23 @@ function levelRangeLabel(monster: MonsterTemplateOut): string {
     : `Level ${monster.level_range_min}–${monster.level_range_max}`;
 }
 
+function BestiaryEntryImage({ monster }: { monster: MonsterTemplateOut }) {
+  const [missing, setMissing] = useState(false);
+
+  if (missing) {
+    return <div className="bestiary-entry-image bestiary-entry-image--missing" aria-hidden="true" />;
+  }
+
+  return (
+    <img
+      className="bestiary-entry-image"
+      src={`/monsters/${monster.slug}.svg`}
+      alt={monster.name}
+      onError={() => setMissing(true)}
+    />
+  );
+}
+
 export function BestiaryPage() {
   const { token } = useAuth();
   const [state, setState] = useState<State>({ kind: "loading" });
@@ -57,13 +74,16 @@ export function BestiaryPage() {
             <ul className="bestiary-list">
               {state.monsters.map((monster) => (
                 <li key={monster.id} className="bestiary-entry">
-                  <div className="bestiary-entry-header">
-                    <span className="bestiary-entry-name">{monster.name}</span>
-                    <span className="bestiary-entry-level">{levelRangeLabel(monster)}</span>
+                  <BestiaryEntryImage monster={monster} />
+                  <div className="bestiary-entry-body">
+                    <div className="bestiary-entry-header">
+                      <span className="bestiary-entry-name">{monster.name}</span>
+                      <span className="bestiary-entry-level">{levelRangeLabel(monster)}</span>
+                    </div>
+                    {monster.flavor_text && (
+                      <p className="bestiary-entry-flavor">{monster.flavor_text}</p>
+                    )}
                   </div>
-                  {monster.flavor_text && (
-                    <p className="bestiary-entry-flavor">{monster.flavor_text}</p>
-                  )}
                 </li>
               ))}
             </ul>
