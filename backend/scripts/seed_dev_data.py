@@ -45,6 +45,16 @@ MONSTER_TEMPLATES = [
         gold_min=8,
         gold_max=20,
     ),
+    dict(
+        name="Veil Wisp",
+        level_range_min=1,
+        level_range_max=3,
+        base_stats={"strength": 5, "dexterity": 9, "intelligence": 12, "vitality": 6, "agility": 11, "spirit": 12},
+        flavor_text="A knot of veil-light that hasn't decided if it's alive. It drifts until something moves too close, then it isn't drifting anymore.",
+        no_material_drop_weight=30,
+        gold_min=15,
+        gold_max=30,
+    ),
 ]
 for _monster in MONSTER_TEMPLATES:
     _monster["slug"] = slugify(_monster["name"])
@@ -104,9 +114,14 @@ MONSTER_LOOT_ENTRIES = [
 
 # Young Wolf: no_material_drop_weight 70, Chamomile 20, Plantago 10 -> 70%
 # nothing, 20% Chamomile, 10% Plantago.
+# Veil Wisp: no_material_drop_weight 30, Chamomile 45, Plantago 25 -> 30%
+# nothing, 45% Chamomile, 25% Plantago (higher than Young Wolf's since Veil
+# Wisp has no item loot table at all).
 MONSTER_MATERIAL_LOOT_ENTRIES = [
     dict(monster_slug=slugify("Young Wolf"), material_slug=slugify("Chamomile"), drop_weight=20),
     dict(monster_slug=slugify("Young Wolf"), material_slug=slugify("Plantago"), drop_weight=10),
+    dict(monster_slug=slugify("Veil Wisp"), material_slug=slugify("Chamomile"), drop_weight=45),
+    dict(monster_slug=slugify("Veil Wisp"), material_slug=slugify("Plantago"), drop_weight=25),
 ]
 
 

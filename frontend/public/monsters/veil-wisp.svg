@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#eef2df"/>
+      <stop offset="100%" stop-color="#dce6c8"/>
+    </linearGradient>
+  </defs>
+
+  <!-- sky -->
+  <rect x="0" y="0" width="512" height="340" fill="url(#sky)"/>
+  <!-- ground -->
+  <rect x="0" y="340" width="512" height="172" fill="#93a06e"/>
+
+  <!-- distant tree line -->
+  <g fill="#7c8f61">
+    <polygon points="60,345 30,300 90,300"/>
+    <polygon points="140,345 108,290 172,290"/>
+    <polygon points="380,345 348,288 412,288"/>
+    <polygon points="452,345 424,300 480,300"/>
+  </g>
+
+  <!-- foreground trees (left) -->
+  <g>
+    <rect x="6" y="250" width="18" height="140" fill="#5b4636"/>
+    <g fill="#4f6b47">
+      <polygon points="15,120 -34,195 64,195"/>
+      <polygon points="15,162 -44,235 74,235"/>
+      <polygon points="15,206 -58,282 88,282"/>
+    </g>
+  </g>
+
+  <!-- foreground trees (right) -->
+  <g>
+    <rect x="488" y="230" width="18" height="160" fill="#5b4636"/>
+    <g fill="#4f6b47">
+      <polygon points="497,100 448,172 546,172"/>
+      <polygon points="497,142 438,214 556,214"/>
+      <polygon points="497,187 423,262 571,262"/>
+    </g>
+  </g>
+
+  <!-- faint ground shadow (it floats, so this stays soft/diffuse) -->
+  <ellipse cx="256" cy="428" rx="70" ry="12" fill="#7c8a5a" opacity="0.35"/>
+
+  <!-- trailing wisps, dissipating below the main body -->
+  <path d="M232,330 Q206,368 224,404 Q214,372 240,344 Z" fill="#6b4fa0" opacity="0.5"/>
+  <path d="M256,340 Q256,388 256,418 Q244,384 256,352 Z" fill="#6b4fa0" opacity="0.4"/>
+  <path d="M282,330 Q310,364 292,400 Q302,368 274,344 Z" fill="#6b4fa0" opacity="0.5"/>
+
+  <!-- outer glow -->
+  <ellipse cx="256" cy="270" rx="118" ry="112" fill="#d7c9f0" opacity="0.3"/>
+  <!-- mid glow -->
+  <ellipse cx="256" cy="270" rx="88" ry="84" fill="#b9a0e3" opacity="0.5"/>
+
+  <!-- body: a flickering knot of veil-light -->
+  <path d="M256,172
+           Q310,182 322,238
+           Q334,282 300,320
+           Q270,352 256,352
+           Q242,352 212,320
+           Q178,282 190,238
+           Q202,182 256,172 Z"
+        fill="#8f6fc4" stroke="#3a352f" stroke-width="5" stroke-linejoin="round"/>
+
+  <!-- shading patch -->
+  <ellipse cx="288" cy="268" rx="42" ry="54" fill="#6b4fa0" opacity="0.85"/>
+
+  <!-- inner light core -->
+  <ellipse cx="248" cy="256" rx="46" ry="50" fill="#f3ecff"/>
+
+  <!-- eyes: pale glowing points, not a face so much as light gathering -->
+  <circle cx="234" cy="252" r="11" fill="#eaffff" stroke="#3a352f" stroke-width="2"/>
+  <circle cx="270" cy="252" r="11" fill="#eaffff" stroke="#3a352f" stroke-width="2"/>
+  <circle cx="234" cy="255" r="5" fill="#2b2823"/>
+  <circle cx="270" cy="255" r="5" fill="#2b2823"/>
+  <circle cx="231" cy="249" r="2" fill="#ffffff" opacity="0.9"/>
+  <circle cx="267" cy="249" r="2" fill="#ffffff" opacity="0.9"/>
+
+  <!-- small drifting motes around it -->
+  <circle cx="170" cy="230" r="5" fill="#d7c9f0" opacity="0.8"/>
+  <circle cx="348" cy="250" r="4" fill="#d7c9f0" opacity="0.7"/>
+  <circle cx="330" cy="196" r="3.5" fill="#d7c9f0" opacity="0.7"/>
+</svg>
