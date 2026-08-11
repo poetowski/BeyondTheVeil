@@ -254,6 +254,62 @@ def test_spell_damage_is_flat_intelligence_and_physical_is_flat_strength(monkeyp
     assert hero_physical_damage == max(1, 20 // engine.STRENGTH_DAMAGE_DIVISOR)
 
 
+def test_monster_weapon_attack_adds_to_its_physical_damage(monkeypatch):
+    # Pin hit chance and monster stat rolling so the only difference between
+    # the two runs is the encounter's weapon_attack range.
+    monkeypatch.setattr(engine, "_hit_chance", lambda attacker, defender: 1.0)
+    monkeypatch.setattr(engine, "_roll_monster_stats", lambda rng, base_stats: dict(base_stats))
+
+    tough_hero = {**WEAK_HERO, "vitality": 100_000}
+    tough_monster_stats = {**MONSTER, "vitality": 100_000}
+
+    unarmed = _encounter(monster_stats=dict(tough_monster_stats))
+    armed = _encounter(
+        monster_stats=dict(tough_monster_stats), weapon_attack_min=10, weapon_attack_max=10
+    )
+
+    unarmed_result = engine.resolve(
+        seed=1, hero_snapshot=tough_hero, hero_base_stats=tough_hero, encounter=unarmed
+    )
+    armed_result = engine.resolve(
+        seed=1, hero_snapshot=tough_hero, hero_base_stats=tough_hero, encounter=armed
+    )
+
+    unarmed_hit = next(
+        e for e in unarmed_result.log if e["phase"] == "physical" and e["actor"] == "monster"
+    )
+    armed_hit = next(
+        e for e in armed_result.log if e["phase"] == "physical" and e["actor"] == "monster"
+    )
+    assert armed_hit["damage"] == unarmed_hit["damage"] + 10
+
+
+def test_monster_defense_reduces_damage_hero_deals(monkeypatch):
+    monkeypatch.setattr(engine, "_hit_chance", lambda attacker, defender: 1.0)
+    monkeypatch.setattr(engine, "_roll_monster_stats", lambda rng, base_stats: dict(base_stats))
+
+    strong_hero = {**WEAK_HERO, "strength": 20, "vitality": 100_000}
+    tough_monster_stats = {**MONSTER, "vitality": 100_000}
+
+    no_defense = _encounter(monster_stats=dict(tough_monster_stats))
+    defended = _encounter(monster_stats=dict(tough_monster_stats), defense=3)
+
+    no_defense_result = engine.resolve(
+        seed=1, hero_snapshot=strong_hero, hero_base_stats=strong_hero, encounter=no_defense
+    )
+    defended_result = engine.resolve(
+        seed=1, hero_snapshot=strong_hero, hero_base_stats=strong_hero, encounter=defended
+    )
+
+    hero_hit_no_defense = next(
+        e for e in no_defense_result.log if e["phase"] == "physical" and e["actor"] == "hero"
+    )
+    hero_hit_defended = next(
+        e for e in defended_result.log if e["phase"] == "physical" and e["actor"] == "hero"
+    )
+    assert hero_hit_defended["damage"] == max(1, hero_hit_no_defense["damage"] - 3)
+
+
 def test_a_lethal_spell_cast_ends_combat_before_physical_rounds():
     # Hero acts first (higher initiative) with an overwhelming intelligence
     # stat; ~90% hit chance means most seeds one-shot the monster in the

@@ -51,6 +51,10 @@ def test_enter_veil_reveals_the_encounter_but_not_the_outcome(client):
         "strength", "dexterity", "intelligence", "vitality", "agility", "spirit",
     }
     assert encounter["monster_max_hp"] > 0
+    assert encounter["monster_slug"] is not None
+    assert encounter["monster_attack_min"] >= 0
+    assert encounter["monster_attack_max"] >= encounter["monster_attack_min"]
+    assert encounter["monster_defense"] >= 0
 
 
 def test_enter_veil_is_idempotent(client):

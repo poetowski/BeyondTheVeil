@@ -39,6 +39,20 @@ function errorMessage(err: unknown, fallback: string): string {
   return err instanceof ApiError ? err.message : fallback;
 }
 
+function formatRange(min: number, max: number): string {
+  return min === max ? `${min}` : `${min}-${max}`;
+}
+
+function CombatPanelArt({ src, alt }: { src: string; alt: string }) {
+  const [missing, setMissing] = useState(false);
+  if (missing) {
+    return <div className="combat-panel-art combat-panel-art--missing" aria-hidden="true" />;
+  }
+  return (
+    <img className="combat-panel-art" src={src} alt={alt} onError={() => setMissing(true)} />
+  );
+}
+
 function lootItemName(entry: Record<string, unknown>): string {
   return typeof entry.item_name === "string" ? entry.item_name : "an item";
 }
@@ -155,6 +169,7 @@ export function CombatOverlay({ run: incomingRun, onExit }: CombatOverlayProps) 
               {hero && (
                 <>
                   <h2>{hero.name}</h2>
+                  <CombatPanelArt src="/heroes/placeholder.svg" alt={hero.name} />
                   <p className="hero-meta">Level {hero.level}</p>
                   <ProgressBar value={hero.current_hp} max={hero.max_hp} variant="hp" />
                   <p className="hero-meta">
@@ -162,6 +177,26 @@ export function CombatOverlay({ run: incomingRun, onExit }: CombatOverlayProps) 
                   </p>
                   <table className="stat-table">
                     <tbody>
+                      <tr>
+                        <td>Damage</td>
+                        <td>{formatRange(hero.damage_min, hero.damage_max)}</td>
+                      </tr>
+                      <tr>
+                        <td>Spell Damage</td>
+                        <td>{formatRange(hero.spell_damage_min, hero.spell_damage_max)}</td>
+                      </tr>
+                      <tr>
+                        <td>Shield Defense</td>
+                        <td>{hero.defense_shield}</td>
+                      </tr>
+                      <tr>
+                        <td>Armor Defense</td>
+                        <td>{hero.defense_armor}</td>
+                      </tr>
+                      <tr>
+                        <td>Helmet Defense</td>
+                        <td>{hero.defense_helmet}</td>
+                      </tr>
                       {STAT_ORDER.map((row) => (
                         <tr key={row.key}>
                           <td>{row.label}</td>
@@ -180,9 +215,26 @@ export function CombatOverlay({ run: incomingRun, onExit }: CombatOverlayProps) 
               {hasEnemy && encounter ? (
                 <>
                   <h2>{encounter.monster_name}</h2>
+                  <CombatPanelArt
+                    src={`/monsters/${encounter.monster_slug}.svg`}
+                    alt={encounter.monster_name ?? "enemy"}
+                  />
                   <p className="hero-meta">{encounter.monster_max_hp} HP</p>
                   <table className="stat-table">
                     <tbody>
+                      <tr>
+                        <td>Attack</td>
+                        <td>
+                          {formatRange(
+                            encounter.monster_attack_min ?? 0,
+                            encounter.monster_attack_max ?? 0,
+                          )}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Defense</td>
+                        <td>{encounter.monster_defense ?? 0}</td>
+                      </tr>
                       {STAT_ORDER.map((row) => (
                         <tr key={row.key}>
                           <td>{row.label}</td>
