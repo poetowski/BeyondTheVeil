@@ -71,6 +71,9 @@ export interface VeilRunResultOut {
   material_loot: Record<string, unknown>[];
   xp_awarded: number;
   gold_awarded: number;
+  hero_hp_before: number | null;
+  hero_hp_after: number | null;
+  monster_hp_after: number | null;
 }
 
 export interface VeilEncounterOut {

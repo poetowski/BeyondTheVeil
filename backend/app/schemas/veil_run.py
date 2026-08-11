@@ -21,6 +21,9 @@ class VeilRunResultOut(BaseModel):
     material_loot: list[dict] = []
     xp_awarded: int
     gold_awarded: int = 0
+    hero_hp_before: int | None = None
+    hero_hp_after: int | None = None
+    monster_hp_after: int | None = None
 
 
 class VeilEncounterOut(BaseModel):

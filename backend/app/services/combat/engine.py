@@ -31,7 +31,13 @@ class CombatResult:
     material_loot: list[dict[str, Any]] = field(default_factory=list)
     xp_awarded: int = 0
     gold_awarded: int = 0
+    # Hero's HP right before this fight started (may be below max_hp if
+    # regen hadn't fully caught up from a previous fight) and right after -
+    # the difference is this fight's damage taken, distinct from the
+    # hero's overall max_hp.
+    hero_hp_before: int = 0
     hero_hp_after: int = 0
+    monster_hp_after: int = 0
     # The monster's rolled stats/HP for this specific encounter - unlike the
     # outcome fields above, these are exposed to the client immediately (see
     # schemas/veil_run.py's ungated `encounter` field) so a combat screen can
@@ -184,6 +190,7 @@ def resolve(
     zone_defense = hero_zone_defense or {"shield": 0, "armor": 0, "helmet": 0}
     monster_max_hp = monster_stats["vitality"] * HP_PER_VITALITY
     hero_hp = hero_max_hp if hero_current_hp is None else min(hero_current_hp, hero_max_hp)
+    hero_hp_before = hero_hp
     monster_hp = monster_max_hp
 
     hero_initiative = hero_base_stats["dexterity"] + hero_base_stats["agility"]
@@ -332,7 +339,9 @@ def resolve(
         material_loot=material_loot,
         xp_awarded=xp_awarded,
         gold_awarded=gold_awarded,
+        hero_hp_before=hero_hp_before,
         hero_hp_after=hero_hp,
+        monster_hp_after=monster_hp,
         monster_stats=monster_stats,
         monster_max_hp=monster_max_hp,
         monster_slug=encounter.get("monster_slug"),
