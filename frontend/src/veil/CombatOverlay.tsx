@@ -25,7 +25,13 @@ function msRemaining(run: VeilRunOut): number {
 }
 
 function nextPhase(run: VeilRunOut): Phase {
-  if (run.result !== null) return "resolved";
+  // `result` can be visible before the run is claimed (see
+  // schemas/veil_run.py's is_visible/to_out) - status is what actually
+  // reflects whether claim_run has run and applied the reward. A run
+  // whose timer already expired but was never claimed (e.g. resumed
+  // after being left open past resolves_at) must still go through
+  // "resolving" so attemptClaim() fires, or its XP/gold/loot never lands.
+  if (run.status === "completed") return "resolved";
   return msRemaining(run) <= 0 ? "resolving" : "waiting";
 }
 
