@@ -8,7 +8,9 @@
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
-  background: #1b1522;
+  background-color: #1b1522;
+  background-image: url("/sidebar-pattern.svg");
+  background-repeat: repeat;
   color: #e8e2f0;
   padding: 1.5rem 1rem;
   box-sizing: border-box;
