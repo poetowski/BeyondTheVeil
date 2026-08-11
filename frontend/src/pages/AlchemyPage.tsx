@@ -69,7 +69,7 @@ export function AlchemyPage() {
           ) : (
             <ul className="equipment-list">
               {state.recipes.map((recipe) => (
-                <li key={recipe.id}>
+                <li key={recipe.id} className="list-row">
                   <span className="equipment-slot-label">{recipe.name}</span>
                   <span className="equipment-slot-filled">
                     <span className="equipment-slot-value">
