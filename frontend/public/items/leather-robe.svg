@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- wooden table -->
+  <rect x="0" y="0" width="512" height="512" fill="#b98956"/>
+  <rect x="0" y="120" width="512" height="6" fill="#a3703f" opacity="0.6"/>
+  <rect x="0" y="260" width="512" height="6" fill="#a3703f" opacity="0.6"/>
+  <rect x="0" y="400" width="512" height="6" fill="#a3703f" opacity="0.6"/>
+  <rect x="40" y="40" width="180" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
+  <rect x="300" y="180" width="150" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
+  <rect x="80" y="320" width="200" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
+  <rect x="250" y="440" width="180" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
+
+  <!-- contact shadow -->
+  <ellipse cx="256" cy="420" rx="140" ry="20" fill="#3a352f" opacity="0.2"/>
+
+  <!-- robe body, laid flat -->
+  <path d="M180,140 L332,140 L360,260 L392,410 L120,410 L152,260 Z"
+        fill="#8a6a45" stroke="#3a352f" stroke-width="5" stroke-linejoin="round"/>
+  <!-- shading patch -->
+  <path d="M256,140 L332,140 L360,260 L392,410 L280,410 Z" fill="#6f5236" opacity="0.75"/>
+  <!-- collar -->
+  <path d="M210,140 Q256,168 302,140 L292,158 Q256,182 220,158 Z" fill="#5b4636" stroke="#3a352f" stroke-width="3"/>
+  <!-- belt -->
+  <rect x="140" y="270" width="232" height="18" fill="#5b4636" stroke="#3a352f" stroke-width="3"/>
+  <circle cx="256" cy="279" r="8" fill="#8a7a52" stroke="#3a352f" stroke-width="2"/>
+  <!-- sleeves -->
+  <path d="M180,150 L120,190 L138,240 L182,206 Z" fill="#7a5a3a" stroke="#3a352f" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M332,150 L392,190 L374,240 L330,206 Z" fill="#7a5a3a" stroke="#3a352f" stroke-width="4" stroke-linejoin="round"/>
+</svg>

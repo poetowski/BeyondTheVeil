@@ -8,6 +8,7 @@ from app.models.consumable import ConsumableInstance
 
 class ConsumableInstanceOut(BaseModel):
     id: uuid.UUID
+    slug: str
     name: str
     description: str | None
     quantity: int
@@ -17,6 +18,7 @@ class ConsumableInstanceOut(BaseModel):
 def to_out(consumable: ConsumableInstance) -> ConsumableInstanceOut:
     return ConsumableInstanceOut(
         id=consumable.id,
+        slug=consumable.template.slug,
         name=consumable.template.name,
         description=consumable.template.description,
         quantity=consumable.quantity,

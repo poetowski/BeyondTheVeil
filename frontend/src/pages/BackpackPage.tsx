@@ -4,6 +4,7 @@ import { ApiError } from "../api/client";
 import { equipItem, getInventory, unequipItem } from "../api/inventory";
 import type { ConsumableInstanceOut, ItemInstanceOut } from "../api/types";
 import { useAuth } from "../auth/AuthContext";
+import { ItemIcon } from "../components/ItemIcon";
 import { EQUIPMENT_SLOTS } from "../constants/equipmentSlots";
 import { formatItemStats } from "../utils/formatItemStats";
 
@@ -11,6 +12,21 @@ type State =
   | { kind: "loading" }
   | { kind: "loaded"; items: ItemInstanceOut[]; consumables: ConsumableInstanceOut[] }
   | { kind: "error"; message: string };
+
+function ConsumableIcon({ slug, name }: { slug: string; name: string }) {
+  const [missing, setMissing] = useState(false);
+  if (missing) {
+    return <div className="item-icon item-icon--missing" aria-hidden="true" />;
+  }
+  return (
+    <img
+      className="item-icon"
+      src={`/consumables/${slug}.svg`}
+      alt={name}
+      onError={() => setMissing(true)}
+    />
+  );
+}
 
 export function BackpackPage() {
   const { token, hero, refetch } = useAuth();
@@ -104,8 +120,9 @@ export function BackpackPage() {
             ) : (
               <ul className="equipment-list">
                 {state.consumables.map((consumable) => (
-                  <li key={consumable.id}>
+                  <li key={consumable.id} className="item-row">
                     <span className="equipment-slot-label">{consumable.name}</span>
+                    <ConsumableIcon slug={consumable.slug} name={consumable.name} />
                     <span className="equipment-slot-filled">
                       <span className="equipment-slot-value">×{consumable.quantity}</span>
                       <button
@@ -137,8 +154,9 @@ export function BackpackPage() {
                     {slotItems.map((item) => {
                       const stats = formatItemStats(item);
                       return (
-                        <li key={item.id}>
+                        <li key={item.id} className="item-row">
                           <span className="equipment-slot-label">{item.name}</span>
+                          <ItemIcon slug={item.slug} name={item.name} />
                           <span className="equipment-slot-filled">
                             <span className="equipment-slot-value">
                               {item.rarity}

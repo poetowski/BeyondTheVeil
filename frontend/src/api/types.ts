@@ -96,6 +96,7 @@ export type ItemRarity = "common" | "uncommon" | "rare" | "epic" | "legendary";
 
 export interface ItemInstanceOut {
   id: string;
+  slug: string;
   name: string;
   slot: EquipmentSlot;
   rarity: ItemRarity;
@@ -132,6 +133,7 @@ export interface MonsterTemplateOut {
 
 export interface ConsumableInstanceOut {
   id: string;
+  slug: string;
   name: string;
   description: string | null;
   quantity: number;
