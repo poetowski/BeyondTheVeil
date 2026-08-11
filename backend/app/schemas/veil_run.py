@@ -32,6 +32,13 @@ class VeilEncounterOut(BaseModel):
     monster_name: str | None = None
     monster_stats: dict[str, int] | None = None
     monster_max_hp: int | None = None
+    monster_slug: str | None = None
+    monster_level: int | None = None
+    monster_damage_min: int | None = None
+    monster_damage_max: int | None = None
+    monster_spell_damage_min: int | None = None
+    monster_spell_damage_max: int | None = None
+    monster_defense: int | None = None
 
 
 class VeilRunOut(BaseModel):
@@ -57,6 +64,13 @@ def to_out(run: VeilRun, *, now: datetime | None = None) -> VeilRunOut:
             monster_name=payload.get("monster_name"),
             monster_stats=payload.get("monster_stats"),
             monster_max_hp=payload.get("monster_max_hp"),
+            monster_slug=payload.get("monster_slug"),
+            monster_level=payload.get("monster_level"),
+            monster_damage_min=payload.get("monster_damage_min"),
+            monster_damage_max=payload.get("monster_damage_max"),
+            monster_spell_damage_min=payload.get("monster_spell_damage_min"),
+            monster_spell_damage_max=payload.get("monster_spell_damage_max"),
+            monster_defense=payload.get("monster_defense"),
         )
     result = None
     if payload is not None and is_visible(run, now=now):

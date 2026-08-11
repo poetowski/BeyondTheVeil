@@ -77,6 +77,13 @@ export interface VeilEncounterOut {
   monster_name: string | null;
   monster_stats: Record<StatName, number> | null;
   monster_max_hp: number | null;
+  monster_slug: string | null;
+  monster_level: number | null;
+  monster_damage_min: number | null;
+  monster_damage_max: number | null;
+  monster_spell_damage_min: number | null;
+  monster_spell_damage_max: number | null;
+  monster_defense: number | null;
 }
 
 export interface VeilRunOut {
