@@ -8,6 +8,7 @@ from app.models.item import EquipmentSlot, ItemInstance, ItemRarity
 
 class ItemInstanceOut(BaseModel):
     id: uuid.UUID
+    slug: str
     name: str
     slot: EquipmentSlot
     rarity: ItemRarity
@@ -26,6 +27,7 @@ class ItemInstanceOut(BaseModel):
 def to_out(item: ItemInstance) -> ItemInstanceOut:
     return ItemInstanceOut(
         id=item.id,
+        slug=item.template.slug,
         name=item.template.name,
         slot=item.template.slot,
         rarity=item.template.rarity,

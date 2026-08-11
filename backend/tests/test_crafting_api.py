@@ -119,6 +119,7 @@ def test_craft_deducts_materials_and_grants_consumable(client, db_session):
     consumables = client.get("/api/v1/consumables", headers=_auth(token)).json()
     assert len(consumables) == 1
     assert consumables[0]["quantity"] == 1
+    assert consumables[0]["slug"] == consumable.slug
 
 
 def test_craft_rejected_when_backpack_is_full(client, db_session):

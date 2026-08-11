@@ -63,7 +63,9 @@ def test_inventory_lists_equipped_and_unequipped_items(client, db_session):
     assert len(body) == 2
     by_name = {item["name"]: item for item in body}
     assert by_name["Rusty Dagger"]["equipped_slot"] == "weapon"
+    assert by_name["Rusty Dagger"]["slug"] == "rusty-dagger"
     assert by_name["Cracked Helm"]["equipped_slot"] is None
+    assert by_name["Cracked Helm"]["slug"] == "cracked-helm"
 
 
 def test_equip_item_sets_equipped_slot_and_boosts_effective_stats(client, db_session):

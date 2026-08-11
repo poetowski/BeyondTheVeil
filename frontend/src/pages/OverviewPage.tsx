@@ -4,6 +4,7 @@ import { trainStat } from "../api/hero";
 import { getInventory, unequipItem } from "../api/inventory";
 import type { HeroOut, ItemInstanceOut, StatName } from "../api/types";
 import { useAuth } from "../auth/AuthContext";
+import { ItemIcon } from "../components/ItemIcon";
 import { ProgressBar } from "../components/ProgressBar";
 import { EQUIPMENT_SLOTS } from "../constants/equipmentSlots";
 import { formatItemStats } from "../utils/formatItemStats";
@@ -185,21 +186,24 @@ export function OverviewPage() {
           const item = equippedBySlot.get(key);
           const stats = item ? formatItemStats(item) : "";
           return (
-            <li key={key}>
+            <li key={key} className="item-row">
               <span className="equipment-slot-label">{label}</span>
               {item ? (
-                <span className="equipment-slot-filled">
-                  {item.name}
-                  {stats && <span className="equipment-slot-value"> ({stats})</span>}
-                  <button
-                    type="button"
-                    className="small-button"
-                    disabled={pendingAction === item.id}
-                    onClick={() => handleUnequip(item.id)}
-                  >
-                    Unequip
-                  </button>
-                </span>
+                <>
+                  <ItemIcon slug={item.slug} name={item.name} />
+                  <span className="equipment-slot-filled">
+                    {item.name}
+                    {stats && <span className="equipment-slot-value"> ({stats})</span>}
+                    <button
+                      type="button"
+                      className="small-button"
+                      disabled={pendingAction === item.id}
+                      onClick={() => handleUnequip(item.id)}
+                    >
+                      Unequip
+                    </button>
+                  </span>
+                </>
               ) : (
                 <span className="equipment-slot-value">— empty —</span>
               )}
