@@ -186,7 +186,7 @@ export function OverviewPage() {
           const item = equippedBySlot.get(key);
           const stats = item ? formatItemStats(item) : "";
           return (
-            <li key={key} className="item-row">
+            <li key={key} className="list-row">
               <span className="equipment-slot-label">{label}</span>
               {item ? (
                 <>

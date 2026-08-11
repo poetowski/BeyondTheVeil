@@ -72,7 +72,7 @@ export function MaterialsPage() {
                 ) : (
                   <ul className="equipment-list">
                     {categoryMaterials.map((material) => (
-                      <li key={material.id} className="material-row">
+                      <li key={material.id} className="list-row">
                         <span className="equipment-slot-label">{material.name}</span>
                         <MaterialIcon material={material} />
                         <span className="equipment-slot-value">×{material.quantity}</span>

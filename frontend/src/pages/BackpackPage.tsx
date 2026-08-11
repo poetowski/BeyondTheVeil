@@ -120,7 +120,7 @@ export function BackpackPage() {
             ) : (
               <ul className="equipment-list">
                 {state.consumables.map((consumable) => (
-                  <li key={consumable.id} className="item-row">
+                  <li key={consumable.id} className="list-row">
                     <span className="equipment-slot-label">{consumable.name}</span>
                     <ConsumableIcon slug={consumable.slug} name={consumable.name} />
                     <span className="equipment-slot-filled">
@@ -154,7 +154,7 @@ export function BackpackPage() {
                     {slotItems.map((item) => {
                       const stats = formatItemStats(item);
                       return (
-                        <li key={item.id} className="item-row">
+                        <li key={item.id} className="list-row">
                           <span className="equipment-slot-label">{item.name}</span>
                           <ItemIcon slug={item.slug} name={item.name} />
                           <span className="equipment-slot-filled">
