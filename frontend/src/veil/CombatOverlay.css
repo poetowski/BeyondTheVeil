@@ -87,14 +87,50 @@
   padding-top: 2rem;
 }
 
-.combat-result {
-  max-width: 480px;
+.combat-log {
+  max-width: 560px;
+  width: 100%;
+  text-align: left;
+}
+
+.combat-log-hp-row {
+  display: flex;
+  gap: 2rem;
+  margin: 1rem 0;
+}
+
+.combat-log-hp-col {
+  flex: 1;
+  min-width: 0;
+}
+
+.combat-log-summary {
+  display: flex;
+  gap: 2rem;
+  color: #d8d0e6;
+  margin-bottom: 1rem;
+}
+
+.combat-log-list {
+  max-height: 220px;
+  overflow-y: auto;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+}
+
+.combat-log-entry {
+  margin: 0.3rem 0;
+  color: #c9bfdd;
+  font-size: 0.9rem;
 }
 
 .combat-overlay .veil-loot-note {
   color: #c9bfdd;
 }
 
-.combat-result button {
+.combat-log button {
   margin-top: 1rem;
 }

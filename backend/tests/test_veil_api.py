@@ -111,6 +111,9 @@ def test_claim_after_resolves_at_reveals_result_and_credits_xp(client, db_sessio
     assert claimed["status"] == "completed"
     assert claimed["result"] is not None
     assert "xp_awarded" in claimed["result"]
+    assert claimed["result"]["hero_hp_before"] is not None
+    assert claimed["result"]["hero_hp_after"] is not None
+    assert claimed["result"]["monster_hp_after"] is not None
 
     me = client.get("/api/v1/users/me", headers=_auth(token)).json()
     assert me["hero"]["xp"] == claimed["result"]["xp_awarded"]

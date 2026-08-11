@@ -134,6 +134,33 @@ def test_hero_current_hp_is_capped_at_max_hp():
     assert result.hero_hp_after <= hero_max_hp
 
 
+def test_hero_hp_before_reflects_starting_hp_not_max_hp():
+    hero_max_hp = engine.compute_max_hp(WEAK_HERO["vitality"])
+    full_result = engine.resolve(
+        seed=5, hero_snapshot=WEAK_HERO, hero_base_stats=WEAK_HERO, encounter=_encounter()
+    )
+    wounded_result = engine.resolve(
+        seed=5,
+        hero_snapshot=WEAK_HERO,
+        hero_base_stats=WEAK_HERO,
+        encounter=_encounter(),
+        hero_current_hp=1,
+    )
+    assert full_result.hero_hp_before == hero_max_hp
+    assert wounded_result.hero_hp_before == 1
+
+
+def test_monster_hp_after_reflects_damage_dealt_by_hero():
+    tough_encounter = _encounter(monster_stats={**MONSTER, "vitality": 100_000})
+    result = engine.resolve(
+        seed=5, hero_snapshot=WEAK_HERO, hero_base_stats=WEAK_HERO, encounter=tough_encounter
+    )
+    total_damage_to_monster = sum(
+        e["damage"] for e in result.log if e["hit"] and e["actor"] == "hero"
+    )
+    assert result.monster_hp_after == result.monster_max_hp - total_damage_to_monster
+
+
 def test_gold_is_only_awarded_on_victory():
     encounter = _encounter()
     for seed in range(50):
