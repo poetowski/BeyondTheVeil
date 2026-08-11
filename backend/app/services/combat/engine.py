@@ -39,11 +39,16 @@ class CombatResult:
     monster_stats: dict[str, int] | None = None
     monster_max_hp: int = 0
     monster_slug: str | None = None
-    # Display range for the monster's physical damage this encounter
-    # (rolled strength's flat contribution + its weapon_attack range) -
-    # same shape as compute_damage_range()'s hero-side output.
-    monster_attack_min: int = 0
-    monster_attack_max: int = 0
+    monster_level_min: int = 0
+    monster_level_max: int = 0
+    # Display ranges for the monster's damage this encounter (rolled
+    # strength/intelligence's flat contribution + its weapon_attack/
+    # spell_attack range) - same shape as compute_damage_range()'s and
+    # compute_spell_damage_range()'s hero-side output.
+    monster_damage_min: int = 0
+    monster_damage_max: int = 0
+    monster_spell_damage_min: int = 0
+    monster_spell_damage_max: int = 0
     monster_defense: int = 0
 
 
@@ -135,17 +140,20 @@ def resolve(
     to "no gear equipped" so every existing caller is unaffected.
 
     Monsters have no equipment, but the encounter dict may carry flat
-    weapon_attack_min/weapon_attack_max and defense numbers (authored
-    directly on MonsterTemplate, not item-derived - see combat/encounter.py)
-    that play the same mechanical role gear plays for the hero: when the
-    monster lands a physical hit, its weapon_attack range adds a roll on top
-    of its strength-based damage, before the zone-defense mitigation above;
-    when the hero lands a physical hit, the monster's flat defense reduces
-    the damage the same way hero_zone_defense does, but unzoned (monsters
-    have no equipment slots to split it across). Both default to 0, so a
-    monster with no authored attack/defense fights exactly as before this
-    was added. Spell damage is untouched by monster defense, matching how
-    hero_zone_defense never mitigates spell damage either.
+    weapon_attack_min/weapon_attack_max, spell_attack_min/spell_attack_max,
+    and defense numbers (authored directly on MonsterTemplate, not
+    item-derived - see combat/encounter.py) that play the same mechanical
+    role gear plays for the hero: when the monster lands a physical hit,
+    its weapon_attack range adds a roll on top of its strength-based
+    damage, before the zone-defense mitigation above; when the monster
+    lands a spell hit, its spell_attack range adds a roll on top of its
+    intelligence-based damage, the same way hero_spell_damage_range does
+    for the hero; when the hero lands a physical hit, the monster's flat
+    defense reduces the damage the same way hero_zone_defense does, but
+    unzoned (monsters have no equipment slots to split it across). All
+    default to 0, so a monster with no authored attack/defense fights
+    exactly as before these were added. Spell damage on either side is
+    untouched by monster defense/hero_zone_defense - neither mitigates it.
     """
     if encounter is None:
         return CombatResult(victory=True, log=[{"message": "no monsters found for hero's level"}])
@@ -155,8 +163,13 @@ def resolve(
     weapon_attack_min = encounter.get("weapon_attack_min", 0)
     weapon_attack_max = encounter.get("weapon_attack_max", 0)
     monster_defense = encounter.get("defense", 0)
-    monster_attack_min, monster_attack_max = compute_damage_range(
+    spell_attack_min = encounter.get("spell_attack_min", 0)
+    spell_attack_max = encounter.get("spell_attack_max", 0)
+    monster_damage_min, monster_damage_max = compute_damage_range(
         monster_stats["strength"], (weapon_attack_min, weapon_attack_max)
+    )
+    monster_spell_damage_min, monster_spell_damage_max = compute_spell_damage_range(
+        monster_stats["intelligence"], (spell_attack_min, spell_attack_max)
     )
 
     hero_max_hp = compute_max_hp(hero_snapshot["vitality"], hero_bonus_max_hp)
@@ -193,11 +206,12 @@ def resolve(
         damage = 0
         if hit:
             damage = max(1, attacker_intelligence)
-            if actor == "hero" and hero_spell_damage_range is not None:
-                damage += rng.randint(*hero_spell_damage_range)
             if actor == "hero":
+                if hero_spell_damage_range is not None:
+                    damage += rng.randint(*hero_spell_damage_range)
                 monster_hp = max(0, monster_hp - damage)
             else:
+                damage += rng.randint(spell_attack_min, spell_attack_max)
                 hero_hp = max(0, hero_hp - damage)
 
         log.append(
@@ -314,7 +328,11 @@ def resolve(
         monster_stats=monster_stats,
         monster_max_hp=monster_max_hp,
         monster_slug=encounter.get("monster_slug"),
-        monster_attack_min=monster_attack_min,
-        monster_attack_max=monster_attack_max,
+        monster_level_min=encounter.get("monster_level_min", 0),
+        monster_level_max=encounter.get("monster_level_max", 0),
+        monster_damage_min=monster_damage_min,
+        monster_damage_max=monster_damage_max,
+        monster_spell_damage_min=monster_spell_damage_min,
+        monster_spell_damage_max=monster_spell_damage_max,
         monster_defense=monster_defense,
     )

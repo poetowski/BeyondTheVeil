@@ -17,6 +17,8 @@ class MonsterTemplate(UUIDPKMixin, TimestampMixin, Base):
         CheckConstraint("weapon_attack_min >= 0", name="weapon_attack_min_non_negative"),
         CheckConstraint("weapon_attack_max >= weapon_attack_min", name="weapon_attack_max_gte_min"),
         CheckConstraint("defense >= 0", name="defense_non_negative"),
+        CheckConstraint("spell_attack_min >= 0", name="spell_attack_min_non_negative"),
+        CheckConstraint("spell_attack_max >= spell_attack_min", name="spell_attack_max_gte_min"),
     )
 
     slug: Mapped[str] = mapped_column(String(64), unique=True, nullable=False)
@@ -37,11 +39,14 @@ class MonsterTemplate(UUIDPKMixin, TimestampMixin, Base):
     # Flat, non-item combat numbers - unlike hero gear, monsters have no
     # equipment to derive these from. weapon_attack adds a roll on top of
     # strength's flat physical-damage contribution (see engine.py);
-    # defense flat-reduces damage the monster takes (unzoned, since
-    # monsters have no equipment slots to split it across).
+    # spell_attack does the same on top of intelligence's flat spell-damage
+    # contribution; defense flat-reduces physical damage the monster takes
+    # (unzoned, since monsters have no equipment slots to split it across).
     weapon_attack_min: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
     weapon_attack_max: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
     defense: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    spell_attack_min: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    spell_attack_max: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
 
     loot_entries: Mapped[list["MonsterLootEntry"]] = relationship(
         back_populates="monster_template"

@@ -33,8 +33,12 @@ class VeilEncounterOut(BaseModel):
     monster_stats: dict[str, int] | None = None
     monster_max_hp: int | None = None
     monster_slug: str | None = None
-    monster_attack_min: int | None = None
-    monster_attack_max: int | None = None
+    monster_level_min: int | None = None
+    monster_level_max: int | None = None
+    monster_damage_min: int | None = None
+    monster_damage_max: int | None = None
+    monster_spell_damage_min: int | None = None
+    monster_spell_damage_max: int | None = None
     monster_defense: int | None = None
 
 
@@ -62,8 +66,12 @@ def to_out(run: VeilRun, *, now: datetime | None = None) -> VeilRunOut:
             monster_stats=payload.get("monster_stats"),
             monster_max_hp=payload.get("monster_max_hp"),
             monster_slug=payload.get("monster_slug"),
-            monster_attack_min=payload.get("monster_attack_min"),
-            monster_attack_max=payload.get("monster_attack_max"),
+            monster_level_min=payload.get("monster_level_min"),
+            monster_level_max=payload.get("monster_level_max"),
+            monster_damage_min=payload.get("monster_damage_min"),
+            monster_damage_max=payload.get("monster_damage_max"),
+            monster_spell_damage_min=payload.get("monster_spell_damage_min"),
+            monster_spell_damage_max=payload.get("monster_spell_damage_max"),
             monster_defense=payload.get("monster_defense"),
         )
     result = None

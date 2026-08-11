@@ -44,9 +44,11 @@ MONSTER_TEMPLATES = [
         no_material_drop_weight=70,
         gold_min=8,
         gold_max=20,
-        weapon_attack_min=0,
-        weapon_attack_max=0,
-        defense=0,
+        weapon_attack_min=2,
+        weapon_attack_max=4,
+        defense=1,
+        spell_attack_min=0,
+        spell_attack_max=1,
     ),
     dict(
         name="Veil Wisp",
@@ -58,8 +60,10 @@ MONSTER_TEMPLATES = [
         gold_min=15,
         gold_max=30,
         weapon_attack_min=0,
-        weapon_attack_max=0,
+        weapon_attack_max=1,
         defense=0,
+        spell_attack_min=2,
+        spell_attack_max=4,
     ),
 ]
 for _monster in MONSTER_TEMPLATES:

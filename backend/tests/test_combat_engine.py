@@ -67,6 +67,21 @@ def test_resolve_reports_the_rolled_monster_stats_and_max_hp():
     assert result.monster_max_hp == expected_stats["vitality"] * engine.HP_PER_VITALITY
 
 
+def test_resolve_reports_monster_level_range_and_damage_ranges():
+    result = engine.resolve(
+        seed=1,
+        hero_snapshot=WEAK_HERO,
+        hero_base_stats=WEAK_HERO,
+        encounter=_encounter(monster_level_min=1, monster_level_max=3),
+    )
+    assert result.monster_level_min == 1
+    assert result.monster_level_max == 3
+    # No weapon_attack/spell_attack set on the encounter - damage ranges
+    # are just the rolled stat's flat contribution, min == max.
+    assert result.monster_damage_min == result.monster_damage_max
+    assert result.monster_spell_damage_min == result.monster_spell_damage_max
+
+
 def test_default_hero_current_hp_is_full_hp():
     # hero_current_hp defaults to None, meaning "start at full HP" - every
     # pre-existing caller/test that doesn't pass it must be unaffected.
@@ -308,6 +323,36 @@ def test_monster_defense_reduces_damage_hero_deals(monkeypatch):
         e for e in defended_result.log if e["phase"] == "physical" and e["actor"] == "hero"
     )
     assert hero_hit_defended["damage"] == max(1, hero_hit_no_defense["damage"] - 3)
+
+
+def test_monster_spell_attack_adds_to_its_spell_damage(monkeypatch):
+    # Same paired before/after approach as the weapon_attack test above, but
+    # for the opening spell exchange.
+    monkeypatch.setattr(engine, "_hit_chance", lambda attacker, defender: 1.0)
+    monkeypatch.setattr(engine, "_roll_monster_stats", lambda rng, base_stats: dict(base_stats))
+
+    tough_hero = {**WEAK_HERO, "vitality": 100_000}
+    tough_monster_stats = {**MONSTER, "vitality": 100_000}
+
+    no_spell_attack = _encounter(monster_stats=dict(tough_monster_stats))
+    with_spell_attack = _encounter(
+        monster_stats=dict(tough_monster_stats), spell_attack_min=7, spell_attack_max=7
+    )
+
+    no_spell_result = engine.resolve(
+        seed=1, hero_snapshot=tough_hero, hero_base_stats=tough_hero, encounter=no_spell_attack
+    )
+    with_spell_result = engine.resolve(
+        seed=1, hero_snapshot=tough_hero, hero_base_stats=tough_hero, encounter=with_spell_attack
+    )
+
+    no_spell_hit = next(
+        e for e in no_spell_result.log if e["phase"] == "spell" and e["actor"] == "monster"
+    )
+    with_spell_hit = next(
+        e for e in with_spell_result.log if e["phase"] == "spell" and e["actor"] == "monster"
+    )
+    assert with_spell_hit["damage"] == no_spell_hit["damage"] + 7
 
 
 def test_a_lethal_spell_cast_ends_combat_before_physical_rounds():

@@ -62,6 +62,8 @@ def build_encounter(db: Session, monster: MonsterTemplate) -> dict[str, Any]:
         "monster_slug": monster.slug,
         "monster_name": monster.name,
         "monster_stats": dict(monster.base_stats),
+        "monster_level_min": monster.level_range_min,
+        "monster_level_max": monster.level_range_max,
         "no_drop_weight": monster.no_drop_weight,
         "no_material_drop_weight": monster.no_material_drop_weight,
         "gold_min": monster.gold_min,
@@ -69,6 +71,8 @@ def build_encounter(db: Session, monster: MonsterTemplate) -> dict[str, Any]:
         "weapon_attack_min": monster.weapon_attack_min,
         "weapon_attack_max": monster.weapon_attack_max,
         "defense": monster.defense,
+        "spell_attack_min": monster.spell_attack_min,
+        "spell_attack_max": monster.spell_attack_max,
         "loot_pool": [
             {
                 "item_template_slug": item.slug,
