@@ -9,7 +9,6 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
 from app.core.config import settings
-from app.models.campaign import CampaignNode
 from app.models.hero import Hero
 from app.models.item import ItemInstance, ItemTemplate
 from app.models.material import MaterialInstance, MaterialTemplate
@@ -29,8 +28,7 @@ class HeroTooWoundedError(VeilServiceError):
 
 def check_not_too_wounded(db: Session, hero: Hero) -> None:
     """Raises HeroTooWoundedError if the hero's regenerated current HP is
-    <= 0. Public: called both internally (enter_veil/enter_campaign_encounter)
-    and by campaign_service, before starting a campaign-node run."""
+    <= 0."""
     equipped_items = hero_service.get_equipped_items(db, hero)
     effective_stats = hero_service.compute_effective_stats(hero, equipped_items)
     bonus_max_hp = hero_service.compute_bonus_max_hp(equipped_items)
@@ -57,25 +55,7 @@ def enter_veil(db: Session, hero: Hero) -> VeilRun:
 
     seed = random.getrandbits(63)
     encounter = encounter_service.select_encounter(db, hero, seed)
-    return _start_run(db, hero, seed=seed, encounter=encounter, campaign_node_id=None)
-
-
-def enter_campaign_encounter(
-    db: Session, hero: Hero, encounter: dict[str, Any], campaign_node_id: uuid.UUID
-) -> VeilRun:
-    """Starts a run against a fixed (already-resolved) campaign-node monster.
-
-    Mirrors enter_veil's immediate-resolve-but-hidden behavior; the caller
-    (campaign_service) is responsible for eligibility checks and gold
-    deduction before calling this.
-    """
-    existing = get_active_run(db, hero)
-    if existing is not None:
-        return existing
-    check_not_too_wounded(db, hero)
-
-    seed = random.getrandbits(63)
-    return _start_run(db, hero, seed=seed, encounter=encounter, campaign_node_id=campaign_node_id)
+    return _start_run(db, hero, seed=seed, encounter=encounter)
 
 
 def _start_run(
@@ -84,7 +64,6 @@ def _start_run(
     *,
     seed: int,
     encounter: dict[str, Any] | None,
-    campaign_node_id: uuid.UUID | None,
 ) -> VeilRun:
     equipped_items = hero_service.get_equipped_items(db, hero)
     effective_stats = hero_service.compute_effective_stats(hero, equipped_items)
@@ -115,7 +94,6 @@ def _start_run(
 
     run = VeilRun(
         hero_id=hero.id,
-        campaign_node_id=campaign_node_id,
         seed=seed,
         status=VeilRunStatus.IN_PROGRESS,
         started_at=started_at,
@@ -195,11 +173,6 @@ def _apply_rewards(db: Session, run: VeilRun) -> None:
         # presence so runs created before this field existed don't crash.
         hero.current_hp = payload["hero_hp_after"]
         hero.hp_updated_at = run.resolves_at
-
-    if run.campaign_node_id is not None and payload.get("victory"):
-        node = db.get(CampaignNode, run.campaign_node_id)
-        if node is not None and node.order_index == hero.campaign_progress + 1:
-            hero.campaign_progress = node.order_index
 
     loot_entries = payload.get("loot", [])
     loot_skipped: list[dict] = []

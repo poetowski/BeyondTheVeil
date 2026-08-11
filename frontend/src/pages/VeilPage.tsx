@@ -18,7 +18,7 @@ export function VeilPage() {
       const run = await enterVeil(token);
       startRun(run);
     } catch (err) {
-      setError(err instanceof ApiError ? err.message : "Failed to start a jump.");
+      setError(err instanceof ApiError ? err.message : "Failed to enter the veil.");
     } finally {
       setEntering(false);
     }
@@ -26,14 +26,14 @@ export function VeilPage() {
 
   return (
     <div className="page">
-      <h1>Jumpins</h1>
+      <h1>The Veil</h1>
       {activeRun ? (
-        <p>Your hero is already mid-jump.</p>
+        <p>Your hero is already inside the veil.</p>
       ) : (
         <>
-          <p>Take a jump when you're ready.</p>
+          <p>The veil is still. Step through when you're ready.</p>
           <button type="button" disabled={entering} onClick={handleEnter}>
-            {entering ? "Jumping…" : "Jump In"}
+            {entering ? "Entering…" : "Enter the Veil"}
           </button>
         </>
       )}

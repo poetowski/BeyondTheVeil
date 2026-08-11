@@ -37,11 +37,7 @@ def select_encounter(db: Session, hero: Hero, seed: int) -> dict[str, Any] | Non
 
 
 def build_encounter(db: Session, monster: MonsterTemplate) -> dict[str, Any]:
-    """Builds the encounter payload (stats + loot pools) for a specific monster.
-
-    Shared by random veil-run selection above and by campaign nodes, which
-    pin a fixed MonsterTemplate instead of picking one.
-    """
+    """Builds the encounter payload (stats + loot pools) for a specific monster."""
     loot_entries = (
         db.execute(
             select(MonsterLootEntry, ItemTemplate)

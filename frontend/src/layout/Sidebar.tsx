@@ -9,28 +9,25 @@ interface NavItem {
   highlight?: boolean;
 }
 
-// Every top-level item forwards straight to its first sub-tab when
-// clicked (Overview, Campaign, Alchemy), same as clicking a folder opens
-// the first thing inside it - none of them own a distinct screen.
+// Most top-level items forward straight to their first sub-tab when clicked
+// (Alchemy), same as clicking a folder opens the first thing inside it -
+// they don't own a distinct screen. Hero and The Veil are exceptions: their
+// own link owns a screen (hero stats/equipment; the veil-entry page) that
+// isn't any of their listed sub-tabs.
 const NAV_ITEMS: NavItem[] = [
   {
     to: "/overview",
     label: "Hero",
     children: [
-      { to: "/overview", label: "Overview" },
       { to: "/backpack", label: "Backpack" },
       { to: "/materials", label: "Materials" },
     ],
   },
   {
-    to: "/campaign",
+    to: "/veil",
     label: "The Veil",
     highlight: true,
-    children: [
-      { to: "/campaign", label: "Campaign" },
-      { to: "/veil", label: "Jumpins" },
-      { to: "/bestiary", label: "Bestiary" },
-    ],
+    children: [{ to: "/bestiary", label: "Bestiary" }],
   },
   {
     to: "/alchemy",
