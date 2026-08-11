@@ -39,8 +39,10 @@ class CombatResult:
     monster_stats: dict[str, int] | None = None
     monster_max_hp: int = 0
     monster_slug: str | None = None
-    monster_level_min: int = 0
-    monster_level_max: int = 0
+    # Flavor only, no mechanical effect - one specific level rolled from the
+    # template's level_range for this encounter (see resolve()), re-rolled
+    # every spawn.
+    monster_level: int = 0
     # Display ranges for the monster's damage this encounter (rolled
     # strength/intelligence's flat contribution + its weapon_attack/
     # spell_attack range) - same shape as compute_damage_range()'s and
@@ -120,7 +122,10 @@ def resolve(
     MONSTER_STAT_VARIANCE around the template's base_stats — so two spawns
     of the same MonsterTemplate are never identical. This roll consumes rng
     before any combat rolls below, so it's still fully reproducible from
-    `seed`.
+    `seed`. Right after, a single monster_level is rolled uniformly from the
+    encounter's monster_level_min/monster_level_max (the template's
+    level_range) - flavor only, it has no effect on stats or combat math,
+    and is re-rolled every spawn just like the 6 stats above.
 
     Turn order (initiative) is decided once, from *base* stats only (no item
     bonuses) — hero_base_stats vs the monster's (rolled) stats (monsters have
@@ -160,6 +165,9 @@ def resolve(
 
     rng = random.Random(seed)
     monster_stats = _roll_monster_stats(rng, encounter["monster_stats"])
+    monster_level_min = encounter.get("monster_level_min", 1)
+    monster_level_max = encounter.get("monster_level_max", monster_level_min)
+    monster_level = rng.randint(monster_level_min, monster_level_max)
     weapon_attack_min = encounter.get("weapon_attack_min", 0)
     weapon_attack_max = encounter.get("weapon_attack_max", 0)
     monster_defense = encounter.get("defense", 0)
@@ -328,8 +336,7 @@ def resolve(
         monster_stats=monster_stats,
         monster_max_hp=monster_max_hp,
         monster_slug=encounter.get("monster_slug"),
-        monster_level_min=encounter.get("monster_level_min", 0),
-        monster_level_max=encounter.get("monster_level_max", 0),
+        monster_level=monster_level,
         monster_damage_min=monster_damage_min,
         monster_damage_max=monster_damage_max,
         monster_spell_damage_min=monster_spell_damage_min,

@@ -52,8 +52,7 @@ def test_enter_veil_reveals_the_encounter_but_not_the_outcome(client):
     }
     assert encounter["monster_max_hp"] > 0
     assert encounter["monster_slug"] is not None
-    assert encounter["monster_level_min"] is not None
-    assert encounter["monster_level_max"] >= encounter["monster_level_min"]
+    assert encounter["monster_level"] is not None
     assert encounter["monster_damage_min"] >= 0
     assert encounter["monster_damage_max"] >= encounter["monster_damage_min"]
     assert encounter["monster_spell_damage_min"] >= 0

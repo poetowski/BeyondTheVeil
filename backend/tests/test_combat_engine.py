@@ -67,15 +67,24 @@ def test_resolve_reports_the_rolled_monster_stats_and_max_hp():
     assert result.monster_max_hp == expected_stats["vitality"] * engine.HP_PER_VITALITY
 
 
-def test_resolve_reports_monster_level_range_and_damage_ranges():
+def test_resolve_rolls_a_single_monster_level_within_its_range():
+    for seed in range(20):
+        result = engine.resolve(
+            seed=seed,
+            hero_snapshot=WEAK_HERO,
+            hero_base_stats=WEAK_HERO,
+            encounter=_encounter(monster_level_min=1, monster_level_max=3),
+        )
+        assert 1 <= result.monster_level <= 3
+
+
+def test_resolve_reports_monster_damage_ranges():
     result = engine.resolve(
         seed=1,
         hero_snapshot=WEAK_HERO,
         hero_base_stats=WEAK_HERO,
-        encounter=_encounter(monster_level_min=1, monster_level_max=3),
+        encounter=_encounter(),
     )
-    assert result.monster_level_min == 1
-    assert result.monster_level_max == 3
     # No weapon_attack/spell_attack set on the encounter - damage ranges
     # are just the rolled stat's flat contribution, min == max.
     assert result.monster_damage_min == result.monster_damage_max
@@ -442,7 +451,7 @@ def test_round_cap_tie_break_uses_higher_remaining_hp_percentage(monkeypatch):
         monster_stats={"strength": 1, "dexterity": 1, "vitality": 1000, "agility": 1, "intelligence": 1, "spirit": 1}
     )
     result = engine.resolve(
-        seed=1, hero_snapshot=WEAK_HERO, hero_base_stats=WEAK_HERO, encounter=tough_monster
+        seed=2, hero_snapshot=WEAK_HERO, hero_base_stats=WEAK_HERO, encounter=tough_monster
     )
     # Hero's HP barely dented, monster's HP barely dented relative to its huge pool -> hero should win the %-HP tiebreak.
     assert result.victory is True

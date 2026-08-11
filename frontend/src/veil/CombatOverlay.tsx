@@ -43,11 +43,6 @@ function formatRange(min: number, max: number): string {
   return min === max ? `${min}` : `${min}-${max}`;
 }
 
-function formatLevelRange(min: number | null, max: number | null): string {
-  if (min === null || max === null) return "—";
-  return min === max ? `Level ${min}` : `Level ${min}–${max}`;
-}
-
 function CombatPanelArt({ src, alt }: { src: string; alt: string }) {
   const [missing, setMissing] = useState(false);
   if (missing) {
@@ -224,9 +219,7 @@ export function CombatOverlay({ run: incomingRun, onExit }: CombatOverlayProps) 
                     src={`/monsters/${encounter.monster_slug}.svg`}
                     alt={encounter.monster_name ?? "enemy"}
                   />
-                  <p className="hero-meta">
-                    {formatLevelRange(encounter.monster_level_min, encounter.monster_level_max)}
-                  </p>
+                  <p className="hero-meta">Level {encounter.monster_level}</p>
                   <ProgressBar
                     value={encounter.monster_max_hp ?? 0}
                     max={encounter.monster_max_hp ?? 0}
@@ -256,16 +249,16 @@ export function CombatOverlay({ run: incomingRun, onExit }: CombatOverlayProps) 
                         </td>
                       </tr>
                       <tr>
-                        <td>Shield Defense</td>
+                        <td>Defense</td>
                         <td>{encounter.monster_defense ?? 0}</td>
                       </tr>
                       <tr>
-                        <td>Armor Defense</td>
-                        <td>—</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
                       </tr>
                       <tr>
-                        <td>Helmet Defense</td>
-                        <td>—</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
                       </tr>
                       {STAT_ORDER.map((row) => (
                         <tr key={row.key}>
