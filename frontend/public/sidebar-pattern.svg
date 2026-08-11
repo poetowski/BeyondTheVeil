@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 380" width="220" height="380">
+  <!-- base fill matches .sidebar's background so tiles are seamless;
+       tile width matches the sidebar's own width so background-repeat
+       never crops a doodle into an invisible column -->
+  <rect x="0" y="0" width="220" height="380" fill="#1b1522"/>
+
+  <g fill="none" stroke="#e8e2f0" stroke-linecap="round" stroke-linejoin="round">
+
+    <!-- sword -->
+    <g opacity="0.16" stroke-width="2.4" stroke-dasharray="5 2 3 4">
+      <path d="M58,152 L122,58"/>
+      <path d="M64,155 L128,61"/>
+      <path d="M84,108 L112,96"/>
+      <path d="M54,158 L44,172"/>
+      <circle cx="42" cy="175" r="4.5"/>
+    </g>
+
+    <!-- bow -->
+    <g opacity="0.14" stroke-width="2.2" stroke-dasharray="4 3 6 2">
+      <path d="M152,60 Q194,100 152,140"/>
+      <path d="M156,62 Q196,100 156,138"/>
+      <path d="M152,62 Q158,100 152,138"/>
+    </g>
+
+    <!-- heater shield -->
+    <g opacity="0.15" stroke-width="2.3" stroke-dasharray="5 3 4 2">
+      <path d="M70,205 Q70,190 100,190 Q130,190 130,205 L130,240 Q130,272 100,288 Q70,272 70,240 Z"/>
+      <path d="M100,198 L100,258"/>
+      <path d="M80,228 L120,228"/>
+    </g>
+
+    <!-- magic sparks -->
+    <g opacity="0.18" stroke-width="2" stroke-dasharray="3 3 5 2">
+      <path d="M165,210 L172,228 L190,235 L172,242 L165,260 L158,242 L140,235 L158,228 Z"/>
+      <path d="M190,198 L193,206 L201,209 L193,212 L190,220 L187,212 L179,209 L187,206 Z"/>
+    </g>
+
+    <!-- rune circle -->
+    <g opacity="0.14" stroke-width="2.2" stroke-dasharray="4 2 6 3">
+      <circle cx="100" cy="325" r="25"/>
+      <path d="M92,332 L100,312 L108,332 Z"/>
+      <path d="M100,296 L100,288"/>
+      <path d="M126,325 L134,325"/>
+      <path d="M100,354 L100,362"/>
+      <path d="M74,325 L66,325"/>
+    </g>
+
+  </g>
+</svg>
