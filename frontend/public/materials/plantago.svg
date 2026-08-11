@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#eef2df"/>
+      <stop offset="100%" stop-color="#dce6c8"/>
+    </linearGradient>
+  </defs>
+
+  <!-- meadow sky -->
+  <rect x="0" y="0" width="512" height="340" fill="url(#sky)"/>
+  <!-- meadow ground -->
+  <rect x="0" y="340" width="512" height="172" fill="#93a06e"/>
+
+  <!-- distant grass tufts -->
+  <g fill="#7c8f61">
+    <polygon points="50,345 40,320 60,320"/>
+    <polygon points="90,345 80,325 100,325"/>
+    <polygon points="420,345 410,322 430,322"/>
+    <polygon points="460,345 450,326 470,326"/>
+  </g>
+
+  <!-- scattered wildflowers -->
+  <g>
+    <circle cx="60" cy="360" r="5" fill="#f3ecff"/>
+    <circle cx="60" cy="360" r="2" fill="#e8b23d"/>
+    <circle cx="452" cy="375" r="5" fill="#f3ecff"/>
+    <circle cx="452" cy="375" r="2" fill="#e8b23d"/>
+    <circle cx="120" cy="400" r="4" fill="#eaffff"/>
+    <circle cx="120" cy="400" r="1.6" fill="#e8b23d"/>
+    <circle cx="400" cy="415" r="4" fill="#eaffff"/>
+    <circle cx="400" cy="415" r="1.6" fill="#e8b23d"/>
+  </g>
+
+  <!-- near grass tufts -->
+  <g fill="#4f6b47">
+    <polygon points="20,390 6,350 34,350"/>
+    <polygon points="492,388 478,346 506,346"/>
+  </g>
+
+  <!-- ground shadow beneath the plant -->
+  <ellipse cx="256" cy="392" rx="120" ry="18" fill="#7c8a5a" opacity="0.5"/>
+
+  <!-- seed spike rising from the center of the rosette -->
+  <rect x="252" y="70" width="8" height="180" rx="4" fill="#5b4636"/>
+  <ellipse cx="256" cy="70" rx="12" ry="34" fill="#8a7a52" stroke="#3a352f" stroke-width="3"/>
+
+  <!-- broad basal leaves, fanned from the root -->
+  <g transform="rotate(-65 256 345)">
+    <ellipse cx="256" cy="200" rx="50" ry="145" fill="#4f7942" stroke="#3a352f" stroke-width="5"/>
+    <ellipse cx="238" cy="190" rx="20" ry="105" fill="#3c5e32" opacity="0.8"/>
+    <ellipse cx="256" cy="190" rx="8" ry="105" fill="#7fa869"/>
+  </g>
+  <g transform="rotate(-39 256 345)">
+    <ellipse cx="256" cy="200" rx="52" ry="150" fill="#4f7942" stroke="#3a352f" stroke-width="5"/>
+    <ellipse cx="238" cy="190" rx="21" ry="108" fill="#3c5e32" opacity="0.8"/>
+    <ellipse cx="256" cy="190" rx="8" ry="108" fill="#7fa869"/>
+  </g>
+  <g transform="rotate(-13 256 345)">
+    <ellipse cx="256" cy="195" rx="54" ry="155" fill="#557f47" stroke="#3a352f" stroke-width="5"/>
+    <ellipse cx="238" cy="185" rx="22" ry="112" fill="#3c5e32" opacity="0.8"/>
+    <ellipse cx="256" cy="185" rx="8" ry="112" fill="#7fa869"/>
+  </g>
+  <g transform="rotate(13 256 345)">
+    <ellipse cx="256" cy="195" rx="54" ry="155" fill="#557f47" stroke="#3a352f" stroke-width="5"/>
+    <ellipse cx="274" cy="185" rx="22" ry="112" fill="#3c5e32" opacity="0.8"/>
+    <ellipse cx="256" cy="185" rx="8" ry="112" fill="#7fa869"/>
+  </g>
+  <g transform="rotate(39 256 345)">
+    <ellipse cx="256" cy="200" rx="52" ry="150" fill="#4f7942" stroke="#3a352f" stroke-width="5"/>
+    <ellipse cx="274" cy="190" rx="21" ry="108" fill="#3c5e32" opacity="0.8"/>
+    <ellipse cx="256" cy="190" rx="8" ry="108" fill="#7fa869"/>
+  </g>
+  <g transform="rotate(65 256 345)">
+    <ellipse cx="256" cy="200" rx="50" ry="145" fill="#4f7942" stroke="#3a352f" stroke-width="5"/>
+    <ellipse cx="274" cy="190" rx="20" ry="105" fill="#3c5e32" opacity="0.8"/>
+    <ellipse cx="256" cy="190" rx="8" ry="105" fill="#7fa869"/>
+  </g>
+</svg>

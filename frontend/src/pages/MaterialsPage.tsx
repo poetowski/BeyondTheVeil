@@ -9,6 +9,21 @@ type State =
   | { kind: "loaded"; materials: MaterialInstanceOut[] }
   | { kind: "error"; message: string };
 
+function MaterialIcon({ material }: { material: MaterialInstanceOut }) {
+  const [missing, setMissing] = useState(false);
+  if (missing) {
+    return <div className="material-icon material-icon--missing" aria-hidden="true" />;
+  }
+  return (
+    <img
+      className="material-icon"
+      src={`/materials/${material.slug}.svg`}
+      alt={material.name}
+      onError={() => setMissing(true)}
+    />
+  );
+}
+
 export function MaterialsPage() {
   const { token } = useAuth();
   const [state, setState] = useState<State>({ kind: "loading" });
@@ -57,8 +72,9 @@ export function MaterialsPage() {
                 ) : (
                   <ul className="equipment-list">
                     {categoryMaterials.map((material) => (
-                      <li key={material.id}>
+                      <li key={material.id} className="material-row">
                         <span className="equipment-slot-label">{material.name}</span>
+                        <MaterialIcon material={material} />
                         <span className="equipment-slot-value">×{material.quantity}</span>
                       </li>
                     ))}

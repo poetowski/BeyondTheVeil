@@ -113,6 +113,7 @@ export interface ItemInstanceOut {
 
 export interface MaterialInstanceOut {
   id: string;
+  slug: string;
   name: string;
   description: string | null;
   quantity: number;

@@ -9,6 +9,7 @@ from app.models.material import MaterialInstance
 
 class MaterialInstanceOut(BaseModel):
     id: uuid.UUID
+    slug: str
     name: str
     description: str | None
     quantity: int
@@ -19,6 +20,7 @@ class MaterialInstanceOut(BaseModel):
 def to_out(material: MaterialInstance) -> MaterialInstanceOut:
     return MaterialInstanceOut(
         id=material.id,
+        slug=material.template.slug,
         name=material.template.name,
         description=material.template.description,
         quantity=material.quantity,

@@ -49,5 +49,6 @@ def test_materials_lists_owned_stacks_with_quantity(client, db_session):
     assert response.status_code == 200
     body = response.json()
     assert len(body) == 1
+    assert body[0]["slug"] == "veil-dust"
     assert body[0]["name"] == "Veil Dust"
     assert body[0]["quantity"] == 3
