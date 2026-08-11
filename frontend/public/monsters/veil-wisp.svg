@@ -1,46 +1,62 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
   <defs>
     <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#eef2df"/>
-      <stop offset="100%" stop-color="#dce6c8"/>
+      <stop offset="0%" stop-color="#141a42"/>
+      <stop offset="100%" stop-color="#3a5fae"/>
     </linearGradient>
   </defs>
 
-  <!-- sky -->
+  <!-- mystic sky -->
   <rect x="0" y="0" width="512" height="340" fill="url(#sky)"/>
-  <!-- ground -->
-  <rect x="0" y="340" width="512" height="172" fill="#93a06e"/>
+  <!-- mystic floor -->
+  <rect x="0" y="340" width="512" height="172" fill="#241f4a"/>
 
-  <!-- distant tree line -->
-  <g fill="#7c8f61">
-    <polygon points="60,345 30,300 90,300"/>
-    <polygon points="140,345 108,290 172,290"/>
-    <polygon points="380,345 348,288 412,288"/>
-    <polygon points="452,345 424,300 480,300"/>
+  <!-- magic-boom starburst, radiating from the wisp -->
+  <g opacity="0.85">
+    <polygon points="256,284 256,256 476,270" fill="#8fd3ff" opacity="0.28"/>
+    <polygon points="242,270 270,270 256,490" fill="#8fd3ff" opacity="0.28"/>
+    <polygon points="256,256 256,284 36,270" fill="#8fd3ff" opacity="0.28"/>
+    <polygon points="270,270 242,270 256,50" fill="#8fd3ff" opacity="0.28"/>
+    <polygon points="246,280 266,260 412,426" fill="#cdb8f5" opacity="0.24"/>
+    <polygon points="246,260 266,280 100,426" fill="#cdb8f5" opacity="0.24"/>
+    <polygon points="266,260 246,280 100,114" fill="#cdb8f5" opacity="0.24"/>
+    <polygon points="266,280 246,260 412,114" fill="#cdb8f5" opacity="0.24"/>
   </g>
 
-  <!-- foreground trees (left) -->
+  <!-- sparkle stars -->
+  <g fill="#eaffff">
+    <circle cx="70" cy="60" r="2.5" opacity="0.85"/>
+    <circle cx="120" cy="130" r="1.8" opacity="0.6"/>
+    <circle cx="60" cy="200" r="2" opacity="0.7"/>
+    <circle cx="160" cy="70" r="1.6" opacity="0.55"/>
+    <circle cx="440" cy="80" r="2.4" opacity="0.8"/>
+    <circle cx="400" cy="150" r="1.8" opacity="0.6"/>
+    <circle cx="460" cy="210" r="2.2" opacity="0.75"/>
+    <circle cx="360" cy="55" r="1.6" opacity="0.5"/>
+    <circle cx="256" cy="40" r="2" opacity="0.7"/>
+    <circle cx="200" cy="120" r="1.5" opacity="0.5"/>
+    <circle cx="310" cy="110" r="1.7" opacity="0.55"/>
+    <circle cx="90" cy="290" r="1.8" opacity="0.5"/>
+    <circle cx="430" cy="290" r="1.8" opacity="0.5"/>
+  </g>
+
+  <!-- crystal shards (left) -->
   <g>
-    <rect x="6" y="250" width="18" height="140" fill="#5b4636"/>
-    <g fill="#4f6b47">
-      <polygon points="15,120 -34,195 64,195"/>
-      <polygon points="15,162 -44,235 74,235"/>
-      <polygon points="15,206 -58,282 88,282"/>
-    </g>
+    <polygon points="10,390 4,270 16,390" fill="#7fb8e8" stroke="#3a352f" stroke-width="3" stroke-linejoin="round"/>
+    <polygon points="27,390 20,308 36,390" fill="#a3c9ee" stroke="#3a352f" stroke-width="3" stroke-linejoin="round"/>
+    <polygon points="42,390 36,332 50,390" fill="#8fd3ff" stroke="#3a352f" stroke-width="3" stroke-linejoin="round"/>
   </g>
 
-  <!-- foreground trees (right) -->
+  <!-- crystal shards (right) -->
   <g>
-    <rect x="488" y="230" width="18" height="160" fill="#5b4636"/>
-    <g fill="#4f6b47">
-      <polygon points="497,100 448,172 546,172"/>
-      <polygon points="497,142 438,214 556,214"/>
-      <polygon points="497,187 423,262 571,262"/>
-    </g>
+    <polygon points="502,390 508,270 496,390" fill="#7fb8e8" stroke="#3a352f" stroke-width="3" stroke-linejoin="round"/>
+    <polygon points="485,390 492,308 476,390" fill="#a3c9ee" stroke="#3a352f" stroke-width="3" stroke-linejoin="round"/>
+    <polygon points="470,390 476,332 462,390" fill="#8fd3ff" stroke="#3a352f" stroke-width="3" stroke-linejoin="round"/>
   </g>
 
-  <!-- faint ground shadow (it floats, so this stays soft/diffuse) -->
-  <ellipse cx="256" cy="428" rx="70" ry="12" fill="#7c8a5a" opacity="0.35"/>
+  <!-- summoning-circle glow on the ground beneath the wisp -->
+  <ellipse cx="256" cy="428" rx="82" ry="14" fill="#8fd3ff" opacity="0.18"/>
+  <ellipse cx="256" cy="428" rx="70" ry="12" fill="none" stroke="#cdb8f5" stroke-width="2" opacity="0.4"/>
 
   <!-- trailing wisps, dissipating below the main body -->
   <path d="M232,330 Q206,368 224,404 Q214,372 240,344 Z" fill="#6b4fa0" opacity="0.5"/>
