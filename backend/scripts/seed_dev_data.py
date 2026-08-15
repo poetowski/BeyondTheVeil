@@ -502,8 +502,9 @@ MONSTER_LOOT_ENTRIES = [
 # ground). Gem drops from all three of Robber/Dire Wolf/Awakened Bear at
 # a shared weight of 12 - the central ingredient for the two craftable
 # Talisman amulets. Silverleaf (level 8, Superior Healing Potion's
-# ingredient) and Ancient Porcelain (level 10) also drop from all three -
-# Robber/Dire Wolf at weight 10 each, Awakened Bear at weight 18.
+# ingredient) drops from all three (Robber/Dire Wolf at weight 10 each,
+# Awakened Bear at weight 18). Ancient Porcelain (level 10) drops from
+# Robber and Awakened Bear only, not Dire Wolf, at the same weights.
 MONSTER_MATERIAL_LOOT_ENTRIES = [
     dict(monster_slug=slugify("Young Wolf"), material_slug=slugify("Chamomile"), drop_weight=20),
     dict(monster_slug=slugify("Young Wolf"), material_slug=slugify("Plantago"), drop_weight=10),
@@ -545,7 +546,6 @@ MONSTER_MATERIAL_LOOT_ENTRIES = [
     dict(monster_slug=slugify("Dire Wolf"), material_slug=slugify("Veil Crystal"), drop_weight=18),
     dict(monster_slug=slugify("Dire Wolf"), material_slug=slugify("Gem"), drop_weight=12),
     dict(monster_slug=slugify("Dire Wolf"), material_slug=slugify("Silverleaf"), drop_weight=10),
-    dict(monster_slug=slugify("Dire Wolf"), material_slug=slugify("Ancient Porcelain"), drop_weight=10),
     dict(monster_slug=slugify("Awakened Bear"), material_slug=slugify("Nettle"), drop_weight=12),
     dict(monster_slug=slugify("Awakened Bear"), material_slug=slugify("Coal"), drop_weight=20),
     dict(monster_slug=slugify("Awakened Bear"), material_slug=slugify("Scrap Metal"), drop_weight=10),
