@@ -1,0 +1,217 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" width="1600" height="1000">
+  <defs>
+    <linearGradient id="bg-sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f7f4ec"/>
+      <stop offset="0.55" stop-color="#f1ead9"/>
+      <stop offset="1" stop-color="#e8ddc4"/>
+    </linearGradient>
+
+    <pattern id="chalk-dust" width="46" height="46" patternUnits="userSpaceOnUse" patternTransform="rotate(12)">
+      <line x1="4" y1="6" x2="9" y2="9" stroke="#5c4d78" stroke-width="1.4"/>
+      <line x1="28" y1="14" x2="32" y2="18" stroke="#5c4d78" stroke-width="1.4"/>
+      <line x1="16" y1="30" x2="19" y2="35" stroke="#5c4d78" stroke-width="1.4"/>
+      <line x1="38" y1="34" x2="41" y2="30" stroke="#5c4d78" stroke-width="1.4"/>
+    </pattern>
+
+    <!-- pine tree, base at local (0,0), tip up -->
+    <g id="pine" fill="none" stroke="#4a3d63" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="-3" y="-18" width="6" height="18"/>
+      <path d="M-22,-18 L22,-18 L0,-38 Z"/>
+      <path d="M-18,-34 L18,-34 L0,-52 Z"/>
+      <path d="M-14,-48 L14,-48 L0,-70 Z"/>
+    </g>
+
+    <!-- cottage, base at local (0,0) -->
+    <g id="hut" fill="none" stroke="#4a3d63" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="-18" y="-24" width="36" height="24"/>
+      <rect x="-6" y="-14" width="12" height="14"/>
+      <path d="M-24,-24 L0,-46 L24,-24 Z"/>
+      <rect x="10" y="-42" width="6" height="14"/>
+      <path d="M13,-42 Q19,-50 13,-58 Q7,-64 14,-70"/>
+    </g>
+
+    <!-- fighter, sword raised, ~24 tall, feet at local (0,0) -->
+    <g id="fighter-sword" fill="none" stroke="#4a3d63" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="0" cy="-22" r="3.5" fill="none"/>
+      <path d="M0,-18.5 L0,-7"/>
+      <path d="M0,-7 L-6,0"/>
+      <path d="M0,-7 L5,-1"/>
+      <path d="M0,-14 L-8,-9"/>
+      <path d="M0,-14 L9,-22"/>
+      <path d="M9,-22 L18,-32"/>
+    </g>
+
+    <!-- fighter, spear thrust, lunging -->
+    <g id="fighter-spear" fill="none" stroke="#4a3d63" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="0" cy="-22" r="3.5" fill="none"/>
+      <path d="M0,-18.5 L1,-7"/>
+      <path d="M1,-7 L-8,1"/>
+      <path d="M1,-7 L9,-3"/>
+      <path d="M-1,-15 L-9,-11"/>
+      <path d="M-1,-15 L16,-16"/>
+      <path d="M16,-16 L26,-17"/>
+    </g>
+
+    <!-- fighter, shield block -->
+    <g id="fighter-shield" fill="none" stroke="#4a3d63" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="0" cy="-22" r="3.5" fill="none"/>
+      <path d="M0,-18.5 L0,-7"/>
+      <path d="M0,-7 L-5,0"/>
+      <path d="M0,-7 L6,-1"/>
+      <ellipse cx="8" cy="-13" rx="4.5" ry="7.5"/>
+      <path d="M0,-14 L-9,-6"/>
+    </g>
+  </defs>
+
+  <!-- base -->
+  <rect x="0" y="0" width="1600" height="1000" fill="url(#bg-sky)"/>
+  <rect x="0" y="0" width="1600" height="1000" fill="url(#chalk-dust)" opacity="0.05"/>
+
+  <!-- sun, faint -->
+  <g opacity="0.14" stroke="#8a6a3d" stroke-width="2" stroke-dasharray="4 3" fill="none">
+    <circle cx="1460" cy="110" r="34"/>
+    <path d="M1460,52 L1460,40 M1460,180 L1460,168 M1402,110 L1390,110 M1518,168 M1402,110"/>
+    <path d="M1518,68 L1508,78 M1412,68 L1422,78"/>
+  </g>
+
+  <!-- birds -->
+  <g opacity="0.16" stroke="#4a3d63" stroke-width="2" fill="none" stroke-linecap="round">
+    <path d="M420,130 Q432,118 444,130 Q456,118 468,130"/>
+    <path d="M1180,190 Q1190,180 1200,190 Q1210,180 1220,190"/>
+    <path d="M300,90 Q308,82 316,90 Q324,82 332,90"/>
+  </g>
+
+  <!-- far mountain haze -->
+  <g fill="none" stroke="#5c4d78" stroke-width="2" stroke-dasharray="7 4" opacity="0.09">
+    <path d="M0,300 Q140,225 300,285 Q460,340 640,270 Q800,210 980,290 Q1160,360 1340,270 Q1470,215 1600,280"/>
+  </g>
+  <g fill="none" stroke="#5c4d78" stroke-width="2" stroke-dasharray="6 3" opacity="0.12">
+    <path d="M0,360 Q180,300 380,350 Q560,395 760,335 Q940,285 1140,345 Q1340,400 1600,340"/>
+  </g>
+
+  <!-- mid hill ridges -->
+  <g fill="none" stroke="#4a3d63" stroke-width="2.4" stroke-dasharray="6 2 3 3" opacity="0.16">
+    <path d="M0,470 Q220,400 460,455 Q700,505 940,440 Q1180,375 1420,450 Q1520,478 1600,450"/>
+  </g>
+  <g fill="none" stroke="#4a3d63" stroke-width="2.4" stroke-dasharray="5 3" opacity="0.13">
+    <path d="M0,560 Q260,505 520,550 Q780,595 1040,545 Q1300,495 1600,555"/>
+  </g>
+
+  <!-- mist band across the hills -->
+  <g opacity="0.06" fill="none" stroke="#f7f4ec" stroke-width="10">
+    <path d="M0,500 Q400,480 800,505 Q1200,530 1600,495"/>
+  </g>
+
+  <!-- left forest -->
+  <g opacity="0.17" stroke-width="2.1">
+    <use href="#pine" x="40" y="600" transform="scale(1.3)" />
+    <use href="#pine" x="95" y="615"/>
+    <use href="#pine" x="150" y="600" transform="scale(1.15)"/>
+    <use href="#pine" x="30" y="560" transform="scale(0.85)"/>
+    <use href="#pine" x="190" y="565" transform="scale(0.8)"/>
+  </g>
+
+  <!-- right forest -->
+  <g opacity="0.17" stroke-width="2.1">
+    <use href="#pine" x="1430" y="610" transform="scale(1.25)"/>
+    <use href="#pine" x="1490" y="600"/>
+    <use href="#pine" x="1545" y="618" transform="scale(1.1)"/>
+    <use href="#pine" x="1400" y="565" transform="scale(0.8)"/>
+    <use href="#pine" x="1580" y="570" transform="scale(0.85)"/>
+  </g>
+
+  <!-- village, nestled among the hills -->
+  <g opacity="0.18" stroke-width="2.1">
+    <use href="#hut" x="330" y="610"/>
+    <use href="#hut" x="400" y="620" transform="scale(1.1)"/>
+    <use href="#hut" x="480" y="608" transform="scale(0.9)"/>
+    <use href="#hut" x="545" y="618"/>
+    <use href="#hut" x="605" y="605" transform="scale(0.85)"/>
+  </g>
+  <!-- village well -->
+  <g opacity="0.16" stroke="#4a3d63" stroke-width="2" fill="none">
+    <circle cx="460" cy="640" r="10"/>
+    <path d="M450,632 L450,618 M470,632 L470,618 M450,618 L470,618"/>
+  </g>
+  <!-- fence line -->
+  <g opacity="0.14" stroke="#4a3d63" stroke-width="1.8" fill="none">
+    <path d="M300,648 L280,648 M280,648 L280,634 M280,634 L300,634 M300,634 L300,648"/>
+    <path d="M660,644 L680,644 M680,644 L680,630 M680,630 L700,630 M700,630 L700,644"/>
+  </g>
+
+  <!-- castle on the far hill -->
+  <g opacity="0.18" stroke="#4a3d63" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <rect x="1120" y="440" width="140" height="90"/>
+    <path d="M1120,440 L1120,424 L1132,424 L1132,440 M1150,440 L1150,424 L1162,424 L1162,440 M1180,440 L1180,424 L1192,424 L1192,440 M1210,440 L1210,424 L1222,424 L1222,440 M1240,440 L1240,424 L1252,424 L1252,440"/>
+    <rect x="1096" y="400" width="34" height="130"/>
+    <path d="M1096,400 L1113,376 L1130,400"/>
+    <rect x="1250" y="380" width="34" height="150"/>
+    <path d="M1250,380 L1267,356 L1284,380"/>
+    <path d="M1267,356 L1267,336"/>
+    <path d="M1267,336 L1290,330 L1267,324 Z"/>
+    <path d="M1150,530 L1150,500 Q1180,486 1210,500 L1210,530"/>
+  </g>
+
+  <!-- dragon, soaring above the hills -->
+  <g stroke="#4a3d63" stroke-linecap="round" stroke-linejoin="round" opacity="0.24">
+    <!-- hind wing hint, mostly tucked behind the body -->
+    <path d="M900,258 L942,300 L903,308 Z" fill="#4a3d63" fill-opacity="0.35" stroke-width="1.8" opacity="0.6"/>
+
+    <!-- body ribbon: tail to chest -->
+    <path d="M680,120 Q740,150 760,200 Q780,250 830,270 Q890,290 940,260 Q975,240 1000,230"
+          fill="none" stroke-width="9"/>
+
+    <!-- tail fin -->
+    <path d="M680,120 L654,97 L648,128 Z" fill="#4a3d63" fill-opacity="0.4" stroke-width="1.8"/>
+
+    <!-- main wing, swept up and back -->
+    <path d="M930,255 L870,140 L820,110 L790,140 L840,210 Z"
+          fill="#4a3d63" fill-opacity="0.09" stroke-width="2.6"/>
+    <path d="M930,255 L820,110" fill="none" stroke-width="1.6" opacity="0.7"/>
+    <path d="M930,255 L790,140" fill="none" stroke-width="1.6" opacity="0.7"/>
+
+    <!-- legs, tucked under the belly -->
+    <path d="M830,270 Q820,290 815,308" fill="none" stroke-width="3"/>
+    <path d="M815,308 L808,314 M815,308 L818,317 M815,308 L823,312" fill="none" stroke-width="1.8"/>
+
+    <!-- head -->
+    <path d="M1000,230 L1055,215 L1035,250 Z" fill="#4a3d63" fill-opacity="0.12" stroke-width="2.6"/>
+    <path d="M1010,222 L1002,200" fill="none" stroke-width="1.8"/>
+    <path d="M1022,218 L1018,196" fill="none" stroke-width="1.8"/>
+    <circle cx="1017" cy="224" r="2.6" fill="#4a3d63" stroke="none"/>
+
+    <!-- flame breath -->
+    <g opacity="0.85" fill="none">
+      <path d="M1055,215 Q1080,205 1095,182" stroke-width="2.2"/>
+      <path d="M1075,200 Q1090,210 1105,195" stroke-width="1.8"/>
+      <path d="M1062,208 Q1074,220 1088,213" stroke-width="1.6"/>
+    </g>
+  </g>
+
+  <!-- battle line: militia and knights clashing, foreground -->
+  <g opacity="0.19" stroke-width="1.9">
+    <use href="#fighter-spear" transform="translate(470,800) scale(2.4)"/>
+    <use href="#fighter-shield" transform="translate(520,800) scale(2.4)"/>
+    <use href="#fighter-spear" transform="translate(568,800) scale(2.4)"/>
+    <use href="#fighter-sword" transform="translate(614,800) scale(2.4)"/>
+    <use href="#fighter-shield" transform="translate(658,800) scale(2.4)"/>
+
+    <use href="#fighter-shield" transform="translate(720,800) scale(-2.4,2.4)"/>
+    <use href="#fighter-sword" transform="translate(764,800) scale(-2.4,2.4)"/>
+    <use href="#fighter-spear" transform="translate(808,800) scale(-2.4,2.4)"/>
+    <use href="#fighter-shield" transform="translate(852,800) scale(-2.4,2.4)"/>
+    <use href="#fighter-sword" transform="translate(896,800) scale(-2.4,2.4)"/>
+    <use href="#fighter-spear" transform="translate(940,800) scale(-2.4,2.4)"/>
+  </g>
+
+  <!-- road winding up toward the village -->
+  <g opacity="0.12" stroke="#4a3d63" stroke-width="3" stroke-dasharray="9 5" fill="none">
+    <path d="M760,1000 Q700,900 640,830 Q580,760 520,690 Q495,660 470,635"/>
+  </g>
+
+  <!-- banner posts flanking the road -->
+  <g opacity="0.15" stroke="#4a3d63" stroke-width="1.8" fill="none">
+    <path d="M600,760 L600,700 L618,706 L600,712"/>
+    <path d="M840,860 L840,796 L858,802 L840,808"/>
+  </g>
+</svg>
