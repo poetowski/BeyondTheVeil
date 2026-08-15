@@ -12,6 +12,7 @@ from app.models.crafting import CraftingCategory, CraftingRecipe, CraftingRecipe
 from app.models.item import EquipmentSlot, ItemRarity, ItemTemplate
 from app.models.material import MaterialTemplate
 from app.models.monster import MonsterLootEntry, MonsterMaterialLootEntry, MonsterTemplate
+from app.models.rune import RuneTemplate
 
 
 def slugify(name: str) -> str:
@@ -72,9 +73,19 @@ for _monster in MONSTER_TEMPLATES:
 MATERIAL_TEMPLATES = [
     dict(name="Plantago", description="Broad leaves, bruised for their sap.", category=CraftingCategory.ALCHEMY),
     dict(name="Chamomile", description="Daisy-like flowers, dried for their mild sedative properties.", category=CraftingCategory.ALCHEMY),
+    dict(name="Iron Ore", description="Rough-smelted lumps, still warm from the earth.", category=CraftingCategory.FORGE),
+    dict(name="Tin Shard", description="Bright, brittle fragments that ring when struck.", category=CraftingCategory.FORGE),
+    dict(name="Ember Dust", description="Fine grey ash from a forge fire, still faintly hot.", category=CraftingCategory.FORGE),
 ]
 for _material in MATERIAL_TEMPLATES:
     _material["slug"] = slugify(_material["name"])
+
+RUNE_TEMPLATES = [
+    dict(name="Rune of Vigor", description="A dull red glyph, warm to the touch.", stat_bonuses={"vitality": 3}),
+    dict(name="Rune of Might", description="A jagged glyph that seems to strain against its own edges.", stat_bonuses={"strength": 3}),
+]
+for _rune in RUNE_TEMPLATES:
+    _rune["slug"] = slugify(_rune["name"])
 
 CONSUMABLE_TEMPLATES = [
     dict(
@@ -108,6 +119,28 @@ CRAFTING_RECIPES = [
         output_quantity=1,
         ingredients=[dict(material_slug=slugify("Chamomile"), quantity_required=6)],
     ),
+    dict(
+        name="Rune of Vigor",
+        category=CraftingCategory.FORGE,
+        level_requirement=1,
+        output_rune_slug=slugify("Rune of Vigor"),
+        output_quantity=1,
+        ingredients=[
+            dict(material_slug=slugify("Iron Ore"), quantity_required=3),
+            dict(material_slug=slugify("Ember Dust"), quantity_required=2),
+        ],
+    ),
+    dict(
+        name="Rune of Might",
+        category=CraftingCategory.FORGE,
+        level_requirement=1,
+        output_rune_slug=slugify("Rune of Might"),
+        output_quantity=1,
+        ingredients=[
+            dict(material_slug=slugify("Tin Shard"), quantity_required=3),
+            dict(material_slug=slugify("Ember Dust"), quantity_required=2),
+        ],
+    ),
 ]
 for _recipe in CRAFTING_RECIPES:
     _recipe["slug"] = slugify(_recipe["name"])
@@ -127,11 +160,20 @@ MONSTER_LOOT_ENTRIES = [
 # Veil Wisp: no_material_drop_weight 30, Chamomile 45, Plantago 25 -> 30%
 # nothing, 45% Chamomile, 25% Plantago (higher than Young Wolf's since Veil
 # Wisp has no item loot table at all).
+# Forge materials (Iron Ore, Tin Shard, Ember Dust) are added to both
+# monsters' tables at weights comparable to their existing Alchemy drops -
+# without a drop source Forge recipes would be craftable in name only.
 MONSTER_MATERIAL_LOOT_ENTRIES = [
     dict(monster_slug=slugify("Young Wolf"), material_slug=slugify("Chamomile"), drop_weight=20),
     dict(monster_slug=slugify("Young Wolf"), material_slug=slugify("Plantago"), drop_weight=10),
+    dict(monster_slug=slugify("Young Wolf"), material_slug=slugify("Iron Ore"), drop_weight=15),
+    dict(monster_slug=slugify("Young Wolf"), material_slug=slugify("Tin Shard"), drop_weight=10),
+    dict(monster_slug=slugify("Young Wolf"), material_slug=slugify("Ember Dust"), drop_weight=8),
     dict(monster_slug=slugify("Veil Wisp"), material_slug=slugify("Chamomile"), drop_weight=45),
     dict(monster_slug=slugify("Veil Wisp"), material_slug=slugify("Plantago"), drop_weight=25),
+    dict(monster_slug=slugify("Veil Wisp"), material_slug=slugify("Iron Ore"), drop_weight=15),
+    dict(monster_slug=slugify("Veil Wisp"), material_slug=slugify("Tin Shard"), drop_weight=12),
+    dict(monster_slug=slugify("Veil Wisp"), material_slug=slugify("Ember Dust"), drop_weight=8),
 ]
 
 
@@ -157,6 +199,11 @@ def seed() -> None:
             if db.query(ConsumableTemplate).filter_by(slug=data["slug"]).first():
                 continue
             db.add(ConsumableTemplate(**data))
+
+        for data in RUNE_TEMPLATES:
+            if db.query(RuneTemplate).filter_by(slug=data["slug"]).first():
+                continue
+            db.add(RuneTemplate(**data))
 
         db.flush()
 
@@ -203,19 +250,26 @@ def seed() -> None:
         for data in CRAFTING_RECIPES:
             if db.query(CraftingRecipe).filter_by(slug=data["slug"]).first():
                 continue
-            output_consumable = (
-                db.query(ConsumableTemplate).filter_by(slug=data["output_consumable_slug"]).first()
-            )
-            if output_consumable is None:
-                continue
-            recipe = CraftingRecipe(
+            recipe_kwargs = dict(
                 slug=data["slug"],
                 name=data["name"],
                 category=data["category"],
                 level_requirement=data["level_requirement"],
-                output_consumable_template_id=output_consumable.id,
                 output_quantity=data["output_quantity"],
             )
+            if "output_rune_slug" in data:
+                output_rune = db.query(RuneTemplate).filter_by(slug=data["output_rune_slug"]).first()
+                if output_rune is None:
+                    continue
+                recipe_kwargs["output_rune_template_id"] = output_rune.id
+            else:
+                output_consumable = (
+                    db.query(ConsumableTemplate).filter_by(slug=data["output_consumable_slug"]).first()
+                )
+                if output_consumable is None:
+                    continue
+                recipe_kwargs["output_consumable_template_id"] = output_consumable.id
+            recipe = CraftingRecipe(**recipe_kwargs)
             db.add(recipe)
             db.flush()
             for ingredient in data["ingredients"]:

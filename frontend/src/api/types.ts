@@ -119,6 +119,20 @@ export interface ItemInstanceOut {
   spell_damage_max: number | null;
   defense: number;
   bonus_max_hp: number;
+  rune_template_id: string | null;
+  rune_slug: string | null;
+  rune_name: string | null;
+  rune_stat_bonuses: Record<string, number> | null;
+  acquired_at: string;
+}
+
+export interface RuneInstanceOut {
+  id: string;
+  slug: string;
+  name: string;
+  description: string | null;
+  stat_bonuses: Record<string, number>;
+  quantity: number;
   acquired_at: string;
 }
 
@@ -165,10 +179,17 @@ export interface CraftingRecipeOut {
   name: string;
   category: CraftingCategory;
   level_requirement: number;
-  output_consumable_name: string;
+  output_name: string;
+  output_type: "consumable" | "rune";
   output_quantity: number;
   ingredients: RecipeIngredientOut[];
   craftable: boolean;
+}
+
+export interface CraftResultOut {
+  output_type: "consumable" | "rune";
+  consumable: ConsumableInstanceOut | null;
+  rune: RuneInstanceOut | null;
 }
 
 export interface LeaderboardEntryOut {

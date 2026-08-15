@@ -1,13 +1,15 @@
 import uuid
+from dataclasses import dataclass
 from datetime import datetime, timezone
 
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from app.models.consumable import ConsumableInstance
-from app.models.crafting import CraftingRecipe
+from app.models.crafting import CraftingCategory, CraftingRecipe
 from app.models.hero import Hero
 from app.models.material import MaterialInstance
+from app.models.rune import RuneInstance
 from app.services import hero_service
 
 
@@ -39,11 +41,20 @@ class ConsumableNotOwnedError(CraftingServiceError):
     pass
 
 
-def list_recipes(db: Session) -> list[CraftingRecipe]:
-    return db.execute(select(CraftingRecipe).order_by(CraftingRecipe.slug)).scalars().all()
+@dataclass
+class CraftResult:
+    consumable: ConsumableInstance | None
+    rune: RuneInstance | None
 
 
-def craft(db: Session, hero: Hero, recipe_slug: str) -> ConsumableInstance:
+def list_recipes(db: Session, category: CraftingCategory | None = None) -> list[CraftingRecipe]:
+    stmt = select(CraftingRecipe).order_by(CraftingRecipe.slug)
+    if category is not None:
+        stmt = stmt.where(CraftingRecipe.category == category)
+    return db.execute(stmt).scalars().all()
+
+
+def craft(db: Session, hero: Hero, recipe_slug: str) -> CraftResult:
     """Deducts a recipe's required materials and grants its output consumable.
 
     Verifies every ingredient is affordable *before* deducting any of them
@@ -96,6 +107,33 @@ def craft(db: Session, hero: Hero, recipe_slug: str) -> ConsumableInstance:
             else:
                 db.add(stack)
 
+    if recipe.output_rune_template_id is not None:
+        existing_rune = (
+            db.execute(
+                select(RuneInstance).where(
+                    RuneInstance.owner_hero_id == hero.id,
+                    RuneInstance.template_id == recipe.output_rune_template_id,
+                )
+            )
+            .scalars()
+            .first()
+        )
+        if existing_rune is not None:
+            existing_rune.quantity += recipe.output_quantity
+            db.add(existing_rune)
+            rune_result = existing_rune
+        else:
+            rune_result = RuneInstance(
+                template_id=recipe.output_rune_template_id,
+                owner_hero_id=hero.id,
+                quantity=recipe.output_quantity,
+            )
+            db.add(rune_result)
+
+        db.commit()
+        db.refresh(rune_result)
+        return CraftResult(consumable=None, rune=rune_result)
+
     existing_consumable = (
         db.execute(
             select(ConsumableInstance).where(
@@ -109,18 +147,18 @@ def craft(db: Session, hero: Hero, recipe_slug: str) -> ConsumableInstance:
     if existing_consumable is not None:
         existing_consumable.quantity += recipe.output_quantity
         db.add(existing_consumable)
-        result = existing_consumable
+        consumable_result = existing_consumable
     else:
-        result = ConsumableInstance(
+        consumable_result = ConsumableInstance(
             template_id=recipe.output_consumable_template_id,
             owner_hero_id=hero.id,
             quantity=recipe.output_quantity,
         )
-        db.add(result)
+        db.add(consumable_result)
 
     db.commit()
-    db.refresh(result)
-    return result
+    db.refresh(consumable_result)
+    return CraftResult(consumable=consumable_result, rune=None)
 
 
 def use_consumable(db: Session, hero: Hero, consumable_instance_id: uuid.UUID) -> Hero:

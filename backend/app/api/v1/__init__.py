@@ -9,6 +9,7 @@ from app.api.v1 import (
     inventory,
     leaderboard,
     materials,
+    runes,
     users,
     veil,
 )
@@ -20,6 +21,7 @@ api_router.include_router(hero.router)
 api_router.include_router(veil.router)
 api_router.include_router(inventory.router)
 api_router.include_router(materials.router)
+api_router.include_router(runes.router)
 api_router.include_router(crafting.router)
 api_router.include_router(consumables.router)
 api_router.include_router(bestiary.router)

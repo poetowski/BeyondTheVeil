@@ -1,16 +1,23 @@
 import { useCallback, useEffect, useState } from "react";
 import { getConsumables, useConsumable as consumeConsumable } from "../api/alchemy";
 import { ApiError } from "../api/client";
-import { equipItem, getInventory, unequipItem } from "../api/inventory";
-import type { ConsumableInstanceOut, ItemInstanceOut } from "../api/types";
+import { applyRune, equipItem, getInventory, unequipItem } from "../api/inventory";
+import { getRunes } from "../api/runes";
+import type { ConsumableInstanceOut, ItemInstanceOut, RuneInstanceOut } from "../api/types";
 import { useAuth } from "../auth/AuthContext";
 import { ItemIcon } from "../components/ItemIcon";
+import { RuneIcon } from "../components/RuneIcon";
 import { EQUIPMENT_SLOTS } from "../constants/equipmentSlots";
 import { formatItemStats } from "../utils/formatItemStats";
 
 type State =
   | { kind: "loading" }
-  | { kind: "loaded"; items: ItemInstanceOut[]; consumables: ConsumableInstanceOut[] }
+  | {
+      kind: "loaded";
+      items: ItemInstanceOut[];
+      consumables: ConsumableInstanceOut[];
+      runes: RuneInstanceOut[];
+    }
   | { kind: "error"; message: string };
 
 function ConsumableIcon({ slug, name }: { slug: string; name: string }) {
@@ -33,13 +40,18 @@ export function BackpackPage() {
   const [state, setState] = useState<State>({ kind: "loading" });
   const [pendingId, setPendingId] = useState<string | null>(null);
   const [actionError, setActionError] = useState<string | null>(null);
+  const [selectedRuneByItem, setSelectedRuneByItem] = useState<Record<string, string>>({});
 
   const load = useCallback(async () => {
     if (!token) return;
     setState({ kind: "loading" });
     try {
-      const [items, consumables] = await Promise.all([getInventory(token), getConsumables(token)]);
-      setState({ kind: "loaded", items, consumables });
+      const [items, consumables, runes] = await Promise.all([
+        getInventory(token),
+        getConsumables(token),
+        getRunes(token),
+      ]);
+      setState({ kind: "loaded", items, consumables, runes });
     } catch (err) {
       setState({
         kind: "error",
@@ -70,6 +82,20 @@ export function BackpackPage() {
     }
   }
 
+  async function handleApplyRune(itemId: string, runeInstanceId: string) {
+    if (!token || !runeInstanceId) return;
+    setActionError(null);
+    setPendingId(itemId);
+    try {
+      await applyRune(token, itemId, runeInstanceId);
+      await Promise.all([load(), refetch()]);
+    } catch (err) {
+      setActionError(err instanceof ApiError ? err.message : "Failed to apply that rune.");
+    } finally {
+      setPendingId(null);
+    }
+  }
+
   async function handleUseConsumable(consumableId: string) {
     if (!token) return;
     setActionError(null);
@@ -90,8 +116,9 @@ export function BackpackPage() {
 
   const consumableCount =
     state.kind === "loaded" ? state.consumables.reduce((sum, c) => sum + c.quantity, 0) : 0;
+  const runeCount = state.kind === "loaded" ? state.runes.reduce((sum, r) => sum + r.quantity, 0) : 0;
   const itemCount = state.kind === "loaded" ? state.items.length : 0;
-  const usedCapacity = itemCount + consumableCount;
+  const usedCapacity = itemCount + consumableCount + runeCount;
 
   return (
     <div className="page">
@@ -140,6 +167,25 @@ export function BackpackPage() {
             )}
           </details>
 
+          <details className="backpack-panel" open>
+            <summary className="backpack-panel-summary">Runes ({runeCount})</summary>
+            {state.runes.length === 0 ? (
+              <p className="backpack-panel-empty">No runes.</p>
+            ) : (
+              <ul className="equipment-list">
+                {state.runes.map((rune) => (
+                  <li key={rune.id} className="list-row">
+                    <span className="equipment-slot-label">{rune.name}</span>
+                    <RuneIcon slug={rune.slug} name={rune.name} />
+                    <span className="equipment-slot-filled">
+                      <span className="equipment-slot-value">×{rune.quantity}</span>
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </details>
+
           {EQUIPMENT_SLOTS.map(({ key, label }) => {
             const slotItems = state.items.filter((item) => item.slot === key);
             return (
@@ -171,6 +217,40 @@ export function BackpackPage() {
                             >
                               {item.equipped_slot === null ? "Equip" : "Unequip"}
                             </button>
+                            {item.rune_name !== null ? (
+                              <span className="equipment-slot-value">Runed: {item.rune_name}</span>
+                            ) : state.runes.length > 0 ? (
+                              <>
+                                <select
+                                  value={selectedRuneByItem[item.id] ?? state.runes[0].id}
+                                  onChange={(e) =>
+                                    setSelectedRuneByItem((prev) => ({
+                                      ...prev,
+                                      [item.id]: e.target.value,
+                                    }))
+                                  }
+                                >
+                                  {state.runes.map((rune) => (
+                                    <option key={rune.id} value={rune.id}>
+                                      {rune.name}
+                                    </option>
+                                  ))}
+                                </select>
+                                <button
+                                  type="button"
+                                  className="small-button"
+                                  disabled={pendingId === item.id}
+                                  onClick={() =>
+                                    handleApplyRune(
+                                      item.id,
+                                      selectedRuneByItem[item.id] ?? state.runes[0].id,
+                                    )
+                                  }
+                                >
+                                  Apply Rune
+                                </button>
+                              </>
+                            ) : null}
                           </span>
                         </li>
                       );

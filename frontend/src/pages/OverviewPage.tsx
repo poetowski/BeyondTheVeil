@@ -6,6 +6,7 @@ import type { HeroOut, ItemInstanceOut, StatName } from "../api/types";
 import { useAuth } from "../auth/AuthContext";
 import { ItemIcon } from "../components/ItemIcon";
 import { ProgressBar } from "../components/ProgressBar";
+import { RuneIcon } from "../components/RuneIcon";
 import { EQUIPMENT_SLOTS } from "../constants/equipmentSlots";
 import { formatItemStats } from "../utils/formatItemStats";
 
@@ -203,6 +204,14 @@ export function OverviewPage() {
                       Unequip
                     </button>
                   </span>
+                  {item.rune_name !== null && item.rune_slug !== null ? (
+                    <span className="equipment-slot-filled">
+                      <RuneIcon slug={item.rune_slug} name={item.rune_name} />
+                      {item.rune_name}
+                    </span>
+                  ) : (
+                    <span className="equipment-slot-value">— no rune —</span>
+                  )}
                 </>
               ) : (
                 <span className="equipment-slot-value">— empty —</span>

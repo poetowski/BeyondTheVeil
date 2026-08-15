@@ -8,6 +8,7 @@ from app.models.consumable import ConsumableInstance
 from app.models.hero import Hero
 from app.models.item import EquipmentSlot, ItemInstance
 from app.models.material import MaterialInstance
+from app.models.rune import RuneInstance
 
 STAT_NAMES = ("strength", "dexterity", "intelligence", "vitality", "agility", "spirit")
 
@@ -48,6 +49,18 @@ class InsufficientGoldError(HeroServiceError):
     pass
 
 
+class RuneNotFoundError(HeroServiceError):
+    pass
+
+
+class RuneNotOwnedError(HeroServiceError):
+    pass
+
+
+class RuneAlreadyAppliedError(HeroServiceError):
+    pass
+
+
 def compute_base_stats(hero: Hero) -> dict[str, int]:
     return {stat: getattr(hero, stat) for stat in STAT_NAMES}
 
@@ -59,7 +72,10 @@ def compute_stat_bonuses(hero: Hero, equipped_items: list[ItemInstance]) -> dict
     for item in equipped_items:
         if item.equipped_slot is None:
             continue
-        for source in (item.template.base_stats, item.rolled_stats):
+        sources = [item.template.base_stats, item.rolled_stats]
+        if item.rune_template is not None:
+            sources.append(item.rune_template.stat_bonuses)
+        for source in sources:
             if not source:
                 continue
             for stat, bonus in source.items():
@@ -242,6 +258,38 @@ def unequip_item(db: Session, hero: Hero, item_id: uuid.UUID) -> ItemInstance:
     return item
 
 
+def apply_rune(db: Session, hero: Hero, item_id: uuid.UUID, rune_instance_id: uuid.UUID) -> ItemInstance:
+    """Permanently fuses one unit of an owned, unattached rune stack onto an
+    owned item. There is no reverse operation - once item.rune_template_id
+    is set it is never cleared."""
+    item = db.get(ItemInstance, item_id)
+    if item is None:
+        raise ItemNotFoundError(f"item {item_id} not found")
+    if item.owner_hero_id != hero.id:
+        raise ItemNotOwnedError("hero does not own this item")
+    if item.rune_template_id is not None:
+        raise RuneAlreadyAppliedError("item already has a rune applied")
+
+    rune = db.get(RuneInstance, rune_instance_id)
+    if rune is None:
+        raise RuneNotFoundError(f"rune {rune_instance_id} not found")
+    if rune.owner_hero_id != hero.id:
+        raise RuneNotOwnedError("hero does not own this rune")
+
+    item.rune_template_id = rune.template_id
+    db.add(item)
+
+    rune.quantity -= 1
+    if rune.quantity == 0:
+        db.delete(rune)
+    else:
+        db.add(rune)
+
+    db.commit()
+    db.refresh(item)
+    return item
+
+
 def get_equipped_items(db: Session, hero: Hero) -> list[ItemInstance]:
     return (
         db.execute(
@@ -294,13 +342,27 @@ def get_owned_consumables(db: Session, hero: Hero) -> list[ConsumableInstance]:
     )
 
 
+def get_owned_runes(db: Session, hero: Hero) -> list[RuneInstance]:
+    """Every unattached rune stack the hero owns (not yet fused to an item)."""
+    return (
+        db.execute(
+            select(RuneInstance)
+            .where(RuneInstance.owner_hero_id == hero.id)
+            .order_by(RuneInstance.acquired_at.desc())
+        )
+        .scalars()
+        .all()
+    )
+
+
 def get_backpack_used_capacity(db: Session, hero: Hero) -> int:
     """How much of hero.inventory_capacity is currently used. Items are
-    one-slot-each; consumables count by quantity (a stack of 5 elixirs
-    uses 5 slots, not 1) - both share the same cap."""
+    one-slot-each; consumables and unattached rune stacks count by quantity
+    (a stack of 5 elixirs uses 5 slots, not 1) - all share the same cap."""
     items_count = len(get_owned_items(db, hero))
     consumables_count = sum(c.quantity for c in get_owned_consumables(db, hero))
-    return items_count + consumables_count
+    runes_count = sum(r.quantity for r in get_owned_runes(db, hero))
+    return items_count + consumables_count + runes_count
 
 
 def get_leaderboard(db: Session, limit: int = 10) -> list[Hero]:

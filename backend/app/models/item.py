@@ -108,6 +108,12 @@ class ItemInstance(UUIDPKMixin, Base):
         ForeignKey("veil_runs.id", ondelete="SET NULL"),
         nullable=True,
     )
+    # A rune permanently fused to this item, if any. Set once via
+    # hero_service.apply_rune and never cleared - there is no "remove rune"
+    # path, enforced at the service layer rather than the DB.
+    rune_template_id: Mapped[uuid.UUID | None] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("rune_templates.id"), nullable=True
+    )
     acquired_at: Mapped[datetime] = mapped_column(server_default=func.now())
 
     template: Mapped["ItemTemplate"] = relationship(back_populates="item_instances")
@@ -117,3 +123,4 @@ class ItemInstance(UUIDPKMixin, Base):
     source_veil_run: Mapped["VeilRun | None"] = relationship(
         back_populates="loot_item_instances", foreign_keys=[source_veil_run_id]
     )
+    rune_template: Mapped["RuneTemplate | None"] = relationship()

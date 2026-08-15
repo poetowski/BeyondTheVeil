@@ -109,8 +109,11 @@ def test_craft_deducts_materials_and_grants_consumable(client, db_session):
 
     response = client.post("/api/v1/crafting/craft/test-recipe-4", headers=_auth(token))
     assert response.status_code == 200
-    assert response.json()["name"] == consumable.name
-    assert response.json()["quantity"] == 1
+    body = response.json()
+    assert body["output_type"] == "consumable"
+    assert body["consumable"]["name"] == consumable.name
+    assert body["consumable"]["quantity"] == 1
+    assert body["rune"] is None
 
     materials = client.get("/api/v1/materials", headers=_auth(token)).json()
     assert len(materials) == 1

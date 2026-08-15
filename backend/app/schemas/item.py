@@ -21,10 +21,15 @@ class ItemInstanceOut(BaseModel):
     spell_damage_max: int | None
     defense: int
     bonus_max_hp: int
+    rune_template_id: uuid.UUID | None
+    rune_slug: str | None
+    rune_name: str | None
+    rune_stat_bonuses: dict[str, int] | None
     acquired_at: datetime
 
 
 def to_out(item: ItemInstance) -> ItemInstanceOut:
+    rune = item.rune_template
     return ItemInstanceOut(
         id=item.id,
         slug=item.template.slug,
@@ -40,5 +45,9 @@ def to_out(item: ItemInstance) -> ItemInstanceOut:
         spell_damage_max=item.template.spell_damage_max,
         defense=item.template.defense,
         bonus_max_hp=item.template.bonus_max_hp,
+        rune_template_id=rune.id if rune else None,
+        rune_slug=rune.slug if rune else None,
+        rune_name=rune.name if rune else None,
+        rune_stat_bonuses=rune.stat_bonuses if rune else None,
         acquired_at=item.acquired_at,
     )

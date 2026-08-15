@@ -50,3 +50,21 @@ def unequip_item(
     except hero_service.ItemNotOwnedError as exc:
         raise HTTPException(status.HTTP_403_FORBIDDEN, detail=str(exc)) from exc
     return to_out(item)
+
+
+@router.post("/{item_id}/apply-rune/{rune_instance_id}", response_model=ItemInstanceOut)
+def apply_rune(
+    item_id: uuid.UUID,
+    rune_instance_id: uuid.UUID,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+) -> ItemInstanceOut:
+    try:
+        item = hero_service.apply_rune(db, current_user.hero, item_id, rune_instance_id)
+    except (hero_service.ItemNotFoundError, hero_service.RuneNotFoundError) as exc:
+        raise HTTPException(status.HTTP_404_NOT_FOUND, detail=str(exc)) from exc
+    except (hero_service.ItemNotOwnedError, hero_service.RuneNotOwnedError) as exc:
+        raise HTTPException(status.HTTP_403_FORBIDDEN, detail=str(exc)) from exc
+    except hero_service.RuneAlreadyAppliedError as exc:
+        raise HTTPException(status.HTTP_409_CONFLICT, detail=str(exc)) from exc
+    return to_out(item)
