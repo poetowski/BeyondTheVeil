@@ -217,6 +217,9 @@ RUNE_TEMPLATES = [
     dict(name="Trask Rune of Finesse", description="A narrow silver glyph, precise down to the last line.", stat_bonuses={"dexterity": 5}, price=2400, level_requirement=8),
     dict(name="Mirel Rune of Fleetness", description="A glyph that seems to blur at the edges, never quite still.", stat_bonuses={"agility": 5}, price=2400, level_requirement=8),
     dict(name="Sythe Rune of Cunning", description="A tangled glyph that rewards a closer look with a hidden second pattern.", stat_bonuses={"intelligence": 5}, price=2400, level_requirement=8),
+    # Level 10, the last of the six stats to get a rune. Crafted from
+    # existing materials only (Veil Crystal) - no new material this time.
+    dict(name="Corvun Rune of Serenity", description="A pale glyph that seems to breathe, slow and unhurried.", stat_bonuses={"spirit": 7}, price=3200, level_requirement=10),
 ]
 for _rune in RUNE_TEMPLATES:
     _rune["slug"] = slugify(_rune["name"])
@@ -337,6 +340,16 @@ CRAFTING_RECIPES = [
             dict(material_slug=slugify("Coal"), quantity_required=2),
             dict(material_slug=slugify("Scrap Metal"), quantity_required=2),
             dict(material_slug=slugify("Veil Crystal"), quantity_required=3),
+        ],
+    ),
+    dict(
+        name="Corvun Rune of Serenity",
+        category=CraftingCategory.FORGE,
+        level_requirement=10,
+        output_rune_slug=slugify("Corvun Rune of Serenity"),
+        output_quantity=1,
+        ingredients=[
+            dict(material_slug=slugify("Veil Crystal"), quantity_required=9),
         ],
     ),
     dict(
