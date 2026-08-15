@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#eef2df"/>
+      <stop offset="1" stop-color="#dce6c8"/>
+    </linearGradient>
+  </defs>
+
+  <!-- sky -->
+  <rect x="0" y="0" width="512" height="340" fill="url(#sky)"/>
+  <!-- ground -->
+  <rect x="0" y="340" width="512" height="172" fill="#93a06e"/>
+
+  <!-- distant tree line -->
+  <g fill="#7c8f61">
+    <polygon points="40,340 60,300 80,340"/>
+    <polygon points="120,340 140,295 160,340"/>
+    <polygon points="360,340 380,298 400,340"/>
+    <polygon points="440,340 460,302 480,340"/>
+  </g>
+
+  <!-- foreground tree left -->
+  <g>
+    <rect x="18" y="300" width="14" height="80" fill="#5b4636"/>
+    <polygon points="-10,300 55,300 25,255" fill="#4f6b47"/>
+    <polygon points="-5,270 50,270 25,230" fill="#4f6b47"/>
+    <polygon points="0,240 45,240 25,205" fill="#4f6b47"/>
+  </g>
+  <!-- foreground tree right -->
+  <g>
+    <rect x="478" y="300" width="14" height="80" fill="#5b4636"/>
+    <polygon points="457,300 522,300 490,255" fill="#4f6b47"/>
+    <polygon points="462,270 517,270 490,230" fill="#4f6b47"/>
+    <polygon points="467,240 512,240 490,205" fill="#4f6b47"/>
+  </g>
+
+  <!-- ground shadow -->
+  <ellipse cx="256" cy="432" rx="108" ry="18" fill="#7c8a5a" opacity="0.6"/>
+
+  <!-- robe -->
+  <polygon points="256,232 214,248 182,300 152,438 360,438 330,300 298,248"
+           fill="#4a3a63" stroke="#3a352f" stroke-width="5" stroke-linejoin="round"/>
+  <!-- robe shading fold -->
+  <polygon points="256,248 232,300 218,438 256,438 268,300" fill="#382a4d" opacity="0.7"/>
+  <!-- robe hem trim -->
+  <rect x="152" y="426" width="208" height="12" fill="#c9a227" opacity="0.85"/>
+  <!-- collar -->
+  <path d="M222,250 Q256,268 290,250 L290,238 Q256,254 222,238 Z" fill="#382a4d"/>
+
+  <!-- left sleeve, raised -->
+  <path d="M214,252 Q170,220 168,168 L188,160 Q198,206 236,244 Z"
+        fill="#4a3a63" stroke="#3a352f" stroke-width="5" stroke-linejoin="round"/>
+  <!-- right sleeve, raised -->
+  <path d="M298,252 Q342,220 344,168 L324,160 Q314,206 276,244 Z"
+        fill="#4a3a63" stroke="#3a352f" stroke-width="5" stroke-linejoin="round"/>
+
+  <!-- hands -->
+  <ellipse cx="176" cy="156" rx="14" ry="12" fill="#c99a6c" stroke="#3a352f" stroke-width="4"/>
+  <ellipse cx="336" cy="156" rx="14" ry="12" fill="#c99a6c" stroke="#3a352f" stroke-width="4"/>
+
+  <!-- neck -->
+  <rect x="240" y="220" width="32" height="24" fill="#c99a6c"/>
+
+  <!-- bald head -->
+  <circle cx="256" cy="188" r="46" fill="#c99a6c" stroke="#3a352f" stroke-width="5"/>
+  <!-- head shading -->
+  <path d="M256,142 A46,46 0 0 1 300,188 A46,46 0 0 1 280,228 Q300,190 268,146 Z" fill="#b3825a" opacity="0.6"/>
+  <!-- head shine -->
+  <ellipse cx="238" cy="160" rx="10" ry="6" fill="#e2bd93" opacity="0.8" transform="rotate(-20 238 160)"/>
+  <!-- ears -->
+  <ellipse cx="212" cy="190" rx="8" ry="12" fill="#c99a6c" stroke="#3a352f" stroke-width="3"/>
+  <ellipse cx="300" cy="190" rx="8" ry="12" fill="#c99a6c" stroke="#3a352f" stroke-width="3"/>
+
+  <!-- eyes -->
+  <ellipse cx="238" cy="186" rx="5" ry="4" fill="#2b2823"/>
+  <ellipse cx="274" cy="186" rx="5" ry="4" fill="#2b2823"/>
+  <!-- serene mouth -->
+  <path d="M240,210 Q256,216 272,210" fill="none" stroke="#3a352f" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- fireball, levitating above his hands -->
+  <circle cx="256" cy="108" r="56" fill="#ffab5e" opacity="0.3"/>
+  <circle cx="256" cy="108" r="36" fill="#e8622c" stroke="#3a352f" stroke-width="4"/>
+  <circle cx="256" cy="108" r="20" fill="#ffe27a"/>
+  <!-- flame flicks -->
+  <path d="M256,72 Q264,54 250,40 Q262,58 246,70 Z" fill="#ffab5e"/>
+  <path d="M228,86 Q210,76 214,58 Q226,74 236,84 Z" fill="#ffab5e" opacity="0.85"/>
+  <path d="M284,86 Q302,76 298,58 Q286,74 276,84 Z" fill="#ffab5e" opacity="0.85"/>
+  <!-- flame highlight -->
+  <ellipse cx="246" cy="98" rx="8" ry="5" fill="#fff6db" opacity="0.9"/>
+</svg>
