@@ -182,6 +182,22 @@ MONSTER_TEMPLATES = [
         spell_attack_min=0,
         spell_attack_max=0,
     ),
+    dict(
+        name="Mage Adept",
+        level_range_min=10,
+        level_range_max=10,
+        base_stats={"strength": 15, "dexterity": 20, "intelligence": 55, "vitality": 45, "agility": 18, "spirit": 50},
+        flavor_text="Robed, bald, and perfectly still - the fire hanging over its palms has been waiting longer than you have.",
+        no_drop_weight=20,
+        no_material_drop_weight=25,
+        gold_min=150,
+        gold_max=300,
+        weapon_attack_min=7,
+        weapon_attack_max=10,
+        defense=3,
+        spell_attack_min=6,
+        spell_attack_max=18,
+    ),
 ]
 for _monster in MONSTER_TEMPLATES:
     _monster["slug"] = slugify(_monster["name"])
@@ -479,6 +495,15 @@ MONSTER_LOOT_ENTRIES = [
     dict(monster_slug=slugify("Awakened Bear"), item_slug=slugify("Brigandine"), drop_weight=8),
     dict(monster_slug=slugify("Awakened Bear"), item_slug=slugify("Spirit Talisman"), drop_weight=2),
     dict(monster_slug=slugify("Awakened Bear"), item_slug=slugify("Agility Talisman"), drop_weight=2),
+    # Mage Adept (level 10, the boss of the 1-10 range) drops the same
+    # tier2.5 set, plus both Talismans at a more generous weight (4, vs
+    # Awakened Bear's rare weight-2) befitting a boss encounter.
+    dict(monster_slug=slugify("Mage Adept"), item_slug=slugify("Mace"), drop_weight=8),
+    dict(monster_slug=slugify("Mage Adept"), item_slug=slugify("Barbute"), drop_weight=8),
+    dict(monster_slug=slugify("Mage Adept"), item_slug=slugify("Kite Shield"), drop_weight=8),
+    dict(monster_slug=slugify("Mage Adept"), item_slug=slugify("Brigandine"), drop_weight=8),
+    dict(monster_slug=slugify("Mage Adept"), item_slug=slugify("Spirit Talisman"), drop_weight=4),
+    dict(monster_slug=slugify("Mage Adept"), item_slug=slugify("Agility Talisman"), drop_weight=4),
 ]
 
 # Young Wolf: no_material_drop_weight 70, Chamomile 20, Plantago 10 -> 70%
@@ -566,6 +591,11 @@ MONSTER_MATERIAL_LOOT_ENTRIES = [
     dict(monster_slug=slugify("Awakened Bear"), material_slug=slugify("Gem"), drop_weight=12),
     dict(monster_slug=slugify("Awakened Bear"), material_slug=slugify("Silverleaf"), drop_weight=18),
     dict(monster_slug=slugify("Awakened Bear"), material_slug=slugify("Ancient Porcelain"), drop_weight=18),
+    # Mage Adept (level 10, boss): Gem and Silverleaf at 15 each, Ancient
+    # Porcelain at a big weight (30) as requested.
+    dict(monster_slug=slugify("Mage Adept"), material_slug=slugify("Gem"), drop_weight=15),
+    dict(monster_slug=slugify("Mage Adept"), material_slug=slugify("Silverleaf"), drop_weight=15),
+    dict(monster_slug=slugify("Mage Adept"), material_slug=slugify("Ancient Porcelain"), drop_weight=30),
 ]
 
 
