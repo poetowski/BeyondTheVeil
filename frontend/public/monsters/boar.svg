@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#eef2df"/>
+      <stop offset="100%" stop-color="#dce6c8"/>
+    </linearGradient>
+  </defs>
+
+  <!-- sky -->
+  <rect x="0" y="0" width="512" height="340" fill="url(#sky)"/>
+  <!-- ground -->
+  <rect x="0" y="340" width="512" height="172" fill="#93a06e"/>
+
+  <!-- distant tree line -->
+  <g fill="#7c8f61">
+    <polygon points="50,345 24,306 76,306"/>
+    <polygon points="460,345 434,308 486,308"/>
+  </g>
+
+  <!-- one big bush, set behind the boar -->
+  <g fill="#4f6b47">
+    <circle cx="330" cy="322" r="72"/>
+    <circle cx="266" cy="344" r="54"/>
+    <circle cx="392" cy="344" r="54"/>
+    <circle cx="330" cy="268" r="50"/>
+  </g>
+  <g fill="#7c8f61">
+    <circle cx="300" cy="284" r="30" opacity="0.7"/>
+    <circle cx="368" cy="300" r="26" opacity="0.6"/>
+  </g>
+  <!-- bush base shadow where it meets the ground -->
+  <ellipse cx="330" cy="392" rx="95" ry="14" fill="#7c8a5a" opacity="0.4"/>
+
+  <!-- ground shadow beneath the boar -->
+  <ellipse cx="255" cy="452" rx="118" ry="16" fill="#7c8a5a" opacity="0.55"/>
+
+  <!-- far legs (behind, slightly inset) -->
+  <rect x="195" y="410" width="22" height="48" rx="7" fill="#857c6e" stroke="#3a352f" stroke-width="4"/>
+  <rect x="318" y="410" width="22" height="48" rx="7" fill="#857c6e" stroke="#3a352f" stroke-width="4"/>
+  <ellipse cx="206" cy="458" rx="13" ry="6" fill="#2b2823"/>
+  <ellipse cx="329" cy="458" rx="13" ry="6" fill="#2b2823"/>
+
+  <!-- tail, small curl at the rear -->
+  <path d="M362,388 Q384,382 380,364 Q392,382 368,398 Z"
+        fill="#9c9384" stroke="#3a352f" stroke-width="4" stroke-linejoin="round"/>
+
+  <!-- body: stocky horizontal barrel -->
+  <ellipse cx="270" cy="400" rx="112" ry="58" fill="#9c9384" stroke="#3a352f" stroke-width="5"/>
+  <!-- flank shading -->
+  <ellipse cx="300" cy="378" rx="66" ry="30" fill="#857c6e"/>
+  <!-- belly light patch -->
+  <ellipse cx="264" cy="432" rx="70" ry="26" fill="#eee6d5"/>
+
+  <!-- bristle mane along the spine -->
+  <g fill="#2b2823">
+    <polygon points="180,352 190,332 198,354"/>
+    <polygon points="200,344 210,320 218,347"/>
+    <polygon points="222,338 232,312 240,342"/>
+    <polygon points="246,336 256,308 264,340"/>
+    <polygon points="270,338 280,312 288,342"/>
+    <polygon points="294,344 304,320 312,347"/>
+  </g>
+
+  <!-- near legs (front, drawn over the far legs) -->
+  <rect x="172" y="416" width="24" height="54" rx="8" fill="#9c9384" stroke="#3a352f" stroke-width="4"/>
+  <rect x="336" y="416" width="24" height="54" rx="8" fill="#9c9384" stroke="#3a352f" stroke-width="4"/>
+  <ellipse cx="184" cy="470" rx="15" ry="7" fill="#2b2823"/>
+  <ellipse cx="348" cy="470" rx="15" ry="7" fill="#2b2823"/>
+
+  <!-- head, in profile, facing left -->
+  <circle cx="180" cy="368" r="48" fill="#9c9384" stroke="#3a352f" stroke-width="5"/>
+  <!-- snout, long and flat -->
+  <rect x="112" y="372" width="66" height="34" rx="12" fill="#9c9384" stroke="#3a352f" stroke-width="5"/>
+  <!-- nostril -->
+  <ellipse cx="122" cy="390" rx="7" ry="5" fill="#2b2823"/>
+
+  <!-- tusk, curling up from the snout -->
+  <path d="M138,404 Q126,414 132,428 Q142,416 150,404 Z"
+        fill="#eee6d5" stroke="#3a352f" stroke-width="3" stroke-linejoin="round"/>
+
+  <!-- ear: small and rounded, angled forward - a boar's ear, not an alert wolf-spike -->
+  <ellipse cx="178" cy="326" rx="17" ry="25" fill="#9c9384" stroke="#3a352f" stroke-width="4" transform="rotate(-30 178 326)"/>
+  <ellipse cx="178" cy="322" rx="8" ry="15" fill="#3a352f" transform="rotate(-30 178 326)"/>
+
+  <!-- eye -->
+  <circle cx="164" cy="360" r="10" fill="#d99a3d"/>
+  <circle cx="164" cy="363" r="4.5" fill="#2b2823"/>
+  <circle cx="161" cy="357" r="1.8" fill="#ffffff" opacity="0.85"/>
+</svg>
