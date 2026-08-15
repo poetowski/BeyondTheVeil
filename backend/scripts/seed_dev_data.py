@@ -146,6 +146,13 @@ CONSUMABLE_TEMPLATES = [
         heal_vitality_multiplier=2,
         price=210,
     ),
+    dict(
+        name="Greater Healing Potion",
+        description="A denser, syrupy brew that hits far harder than its minor cousin - worth the sting to make.",
+        heal_flat=220,
+        heal_vitality_multiplier=4,
+        price=480,
+    ),
 ]
 for _consumable in CONSUMABLE_TEMPLATES:
     _consumable["slug"] = slugify(_consumable["name"])
@@ -170,6 +177,26 @@ CRAFTING_RECIPES = [
         output_consumable_slug=slugify("Minor Healing Potion"),
         output_quantity=1,
         ingredients=[dict(material_slug=slugify("Chamomile"), quantity_required=6)],
+    ),
+    dict(
+        name="Greater Healing Potion (Nettle Blend)",
+        category=CraftingCategory.ALCHEMY,
+        level_requirement=5,
+        output_consumable_slug=slugify("Greater Healing Potion"),
+        output_quantity=1,
+        ingredients=[
+            dict(material_slug=slugify("Nettle"), quantity_required=3),
+            dict(material_slug=slugify("Plantago"), quantity_required=2),
+            dict(material_slug=slugify("Chamomile"), quantity_required=2),
+        ],
+    ),
+    dict(
+        name="Greater Healing Potion (Nettle Concentrate)",
+        category=CraftingCategory.ALCHEMY,
+        level_requirement=5,
+        output_consumable_slug=slugify("Greater Healing Potion"),
+        output_quantity=1,
+        ingredients=[dict(material_slug=slugify("Nettle"), quantity_required=6)],
     ),
     dict(
         name="Vrelka Rune of Vigor",
