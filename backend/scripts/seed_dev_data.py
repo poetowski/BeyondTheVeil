@@ -97,6 +97,22 @@ MONSTER_TEMPLATES = [
         spell_attack_min=0,
         spell_attack_max=0,
     ),
+    dict(
+        name="Puny Goblin",
+        level_range_min=5,
+        level_range_max=7,
+        base_stats={"strength": 9, "dexterity": 20, "intelligence": 12, "vitality": 9, "agility": 19, "spirit": 11},
+        flavor_text="Barely reaches your knee, and it knows it - so it never fights fair, and it never fights alone for long.",
+        no_drop_weight=40,
+        no_material_drop_weight=60,
+        gold_min=30,
+        gold_max=60,
+        weapon_attack_min=3,
+        weapon_attack_max=6,
+        defense=0,
+        spell_attack_min=2,
+        spell_attack_max=5,
+    ),
 ]
 for _monster in MONSTER_TEMPLATES:
     _monster["slug"] = slugify(_monster["name"])
@@ -195,6 +211,11 @@ MONSTER_LOOT_ENTRIES = [
     dict(monster_slug=slugify("Light Bandit"), item_slug=slugify("Wooden Shield"), drop_weight=3),
     dict(monster_slug=slugify("Light Bandit"), item_slug=slugify("Wooden Stick"), drop_weight=3),
     dict(monster_slug=slugify("Light Bandit"), item_slug=slugify("Old Ring"), drop_weight=3),
+    dict(monster_slug=slugify("Puny Goblin"), item_slug=slugify("Leather Helm"), drop_weight=3),
+    dict(monster_slug=slugify("Puny Goblin"), item_slug=slugify("Leather Robe"), drop_weight=3),
+    dict(monster_slug=slugify("Puny Goblin"), item_slug=slugify("Wooden Shield"), drop_weight=3),
+    dict(monster_slug=slugify("Puny Goblin"), item_slug=slugify("Wooden Stick"), drop_weight=3),
+    dict(monster_slug=slugify("Puny Goblin"), item_slug=slugify("Old Ring"), drop_weight=3),
 ]
 
 # Young Wolf: no_material_drop_weight 70, Chamomile 20, Plantago 10 -> 70%
@@ -212,6 +233,9 @@ MONSTER_LOOT_ENTRIES = [
 # as its signature material (a beast rooting through rocky ground). No item
 # loot table (no_drop_weight unset) - a beast doesn't carry gear, matching
 # Veil Wisp's precedent.
+# Puny Goblin: no_material_drop_weight 60, Plantago weighted highest (20)
+# as its signature material (an undergrowth-dweller; no other monster
+# favors Plantago).
 MONSTER_MATERIAL_LOOT_ENTRIES = [
     dict(monster_slug=slugify("Young Wolf"), material_slug=slugify("Chamomile"), drop_weight=20),
     dict(monster_slug=slugify("Young Wolf"), material_slug=slugify("Plantago"), drop_weight=10),
@@ -233,6 +257,11 @@ MONSTER_MATERIAL_LOOT_ENTRIES = [
     dict(monster_slug=slugify("Boar"), material_slug=slugify("Plantago"), drop_weight=8),
     dict(monster_slug=slugify("Boar"), material_slug=slugify("Tin Shard"), drop_weight=10),
     dict(monster_slug=slugify("Boar"), material_slug=slugify("Ember Dust"), drop_weight=6),
+    dict(monster_slug=slugify("Puny Goblin"), material_slug=slugify("Plantago"), drop_weight=20),
+    dict(monster_slug=slugify("Puny Goblin"), material_slug=slugify("Chamomile"), drop_weight=12),
+    dict(monster_slug=slugify("Puny Goblin"), material_slug=slugify("Iron Ore"), drop_weight=8),
+    dict(monster_slug=slugify("Puny Goblin"), material_slug=slugify("Tin Shard"), drop_weight=10),
+    dict(monster_slug=slugify("Puny Goblin"), material_slug=slugify("Ember Dust"), drop_weight=6),
 ]
 
 
