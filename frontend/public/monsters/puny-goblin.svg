@@ -1,0 +1,127 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f7e3b0"/>
+      <stop offset="100%" stop-color="#f0c088"/>
+    </linearGradient>
+  </defs>
+
+  <!-- autumn sky -->
+  <rect x="0" y="0" width="512" height="340" fill="url(#sky)"/>
+  <!-- leaf-litter ground -->
+  <rect x="0" y="340" width="512" height="172" fill="#9c7a4a"/>
+
+  <!-- distant tree line, autumn silhouettes -->
+  <g fill="#b56a38">
+    <polygon points="50,345 20,298 82,298"/>
+    <polygon points="130,345 98,286 166,286"/>
+    <polygon points="384,345 350,284 418,284"/>
+    <polygon points="456,345 426,296 486,296"/>
+  </g>
+
+  <!-- foreground tree (left) -->
+  <g>
+    <rect x="4" y="248" width="18" height="142" fill="#5b4636"/>
+    <g>
+      <polygon points="13,118 -36,192 62,192" fill="#a8452b"/>
+      <polygon points="13,160 -46,232 72,232" fill="#c97a3a"/>
+      <polygon points="13,204 -60,280 86,280" fill="#d9a441"/>
+    </g>
+  </g>
+
+  <!-- foreground tree (right) -->
+  <g>
+    <rect x="490" y="228" width="18" height="162" fill="#5b4636"/>
+    <g>
+      <polygon points="499,98 450,170 548,170" fill="#d9a441"/>
+      <polygon points="499,140 440,212 558,212" fill="#a8452b"/>
+      <polygon points="499,185 425,260 573,260" fill="#c97a3a"/>
+    </g>
+  </g>
+
+  <!-- scattered fallen leaves -->
+  <g>
+    <polygon points="70,398 78,388 88,394 82,406" fill="#a8452b" opacity="0.85"/>
+    <polygon points="420,410 428,400 438,406 432,418" fill="#d9a441" opacity="0.85"/>
+    <polygon points="150,430 158,422 166,428 160,438" fill="#c97a3a" opacity="0.8"/>
+    <polygon points="360,440 368,432 376,438 370,448" fill="#a8452b" opacity="0.8"/>
+  </g>
+
+  <!-- ground shadow -->
+  <ellipse cx="256" cy="446" rx="86" ry="14" fill="#7f6138" opacity="0.55"/>
+
+  <!-- legs, thin and bowed -->
+  <path d="M226,382 Q214,420 220,452 L238,452 Q234,418 244,386 Z"
+        fill="#7d8f5c" stroke="#3a352f" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M286,382 Q298,420 292,452 L274,452 Q278,418 268,386 Z"
+        fill="#7d8f5c" stroke="#3a352f" stroke-width="4" stroke-linejoin="round"/>
+  <!-- clawed feet -->
+  <g fill="#5f6f43" stroke="#3a352f" stroke-width="3" stroke-linejoin="round">
+    <polygon points="210,452 218,446 226,452 222,462 214,462"/>
+    <polygon points="228,452 236,446 244,452 240,462 232,462"/>
+    <polygon points="268,452 276,446 284,452 280,462 272,462"/>
+    <polygon points="286,452 294,446 302,452 298,462 290,462"/>
+  </g>
+
+  <!-- skinny torso -->
+  <ellipse cx="256" cy="374" rx="44" ry="52" fill="#7d8f5c" stroke="#3a352f" stroke-width="5"/>
+  <!-- belly light patch -->
+  <ellipse cx="256" cy="386" rx="24" ry="30" fill="#c9d1a8"/>
+  <!-- ragged loincloth, the only thing it's wearing -->
+  <path d="M222,398 L290,398 L282,430 Q256,440 230,430 Z"
+        fill="#6b5d4f" stroke="#3a352f" stroke-width="4" stroke-linejoin="round"/>
+
+  <!-- arms, hanging empty at its sides - unarmed -->
+  <path d="M216,340 Q186,364 182,404 Q180,418 190,422 Q196,410 200,398 Q206,366 228,348 Z"
+        fill="#7d8f5c" stroke="#3a352f" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M296,340 Q326,364 330,404 Q332,418 322,422 Q316,410 312,398 Q306,366 284,348 Z"
+        fill="#7d8f5c" stroke="#3a352f" stroke-width="4" stroke-linejoin="round"/>
+  <!-- empty clawed hands -->
+  <g fill="#5f6f43" stroke="#3a352f" stroke-width="3" stroke-linejoin="round">
+    <circle cx="188" cy="418" r="12"/>
+    <polygon points="178,410 172,398 180,400 184,410"/>
+    <polygon points="186,406 182,392 190,396 190,406"/>
+    <polygon points="196,408 196,394 202,400 200,410"/>
+    <circle cx="324" cy="418" r="12"/>
+    <polygon points="334,410 340,398 332,400 328,410"/>
+    <polygon points="326,406 330,392 322,396 322,406"/>
+    <polygon points="316,408 316,394 310,400 312,410"/>
+  </g>
+
+  <!-- oversized ugly head, dwarfing the body -->
+  <circle cx="256" cy="248" r="102" fill="#7d8f5c" stroke="#3a352f" stroke-width="5"/>
+
+  <!-- big pointed ears -->
+  <path d="M156,238 Q118,204 128,150 Q168,178 182,232 Z"
+        fill="#7d8f5c" stroke="#3a352f" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M356,238 Q394,204 384,150 Q344,178 330,232 Z"
+        fill="#7d8f5c" stroke="#3a352f" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M160,222 Q140,196 146,164 Q168,188 174,220 Z" fill="#5f6f43" opacity="0.8"/>
+  <path d="M352,222 Q372,196 366,164 Q344,188 338,220 Z" fill="#5f6f43" opacity="0.8"/>
+
+  <!-- heavy brow shading -->
+  <path d="M198,214 Q222,198 246,212" fill="none" stroke="#5f6f43" stroke-width="10" stroke-linecap="round" opacity="0.7"/>
+  <path d="M266,212 Q290,198 314,214" fill="none" stroke="#5f6f43" stroke-width="10" stroke-linecap="round" opacity="0.7"/>
+
+  <!-- small beady eyes, dwarfed by the huge head -->
+  <circle cx="222" cy="232" r="9" fill="#d99a3d"/>
+  <circle cx="222" cy="234" r="4" fill="#2b2823"/>
+  <circle cx="290" cy="232" r="9" fill="#d99a3d"/>
+  <circle cx="290" cy="234" r="4" fill="#2b2823"/>
+
+  <!-- big drooping, bulbous warty nose -->
+  <path d="M256,212 Q278,232 274,264 Q272,286 256,290 Q240,286 238,264 Q234,232 256,212 Z"
+        fill="#7d8f5c" stroke="#3a352f" stroke-width="4" stroke-linejoin="round"/>
+  <ellipse cx="249" cy="274" rx="3" ry="6" fill="#2b2823"/>
+  <ellipse cx="263" cy="274" rx="3" ry="6" fill="#2b2823"/>
+  <circle cx="267" cy="238" r="5" fill="#5f6f43"/>
+  <circle cx="234" cy="292" r="4" fill="#5f6f43"/>
+
+  <!-- wide ugly grin, crooked teeth -->
+  <path d="M204,310 Q256,340 308,310 Q300,326 256,332 Q212,326 204,310 Z"
+        fill="#2b2823"/>
+  <polygon points="216,312 222,300 228,312" fill="#eee6d5"/>
+  <polygon points="238,318 244,304 250,318" fill="#eee6d5"/>
+  <polygon points="262,318 268,304 274,318" fill="#eee6d5"/>
+  <polygon points="284,312 290,300 296,312" fill="#eee6d5"/>
+</svg>
