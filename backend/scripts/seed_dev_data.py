@@ -153,6 +153,21 @@ MONSTER_TEMPLATES = [
         spell_attack_min=0,
         spell_attack_max=0,
     ),
+    dict(
+        name="Awakened Bear",
+        level_range_min=8,
+        level_range_max=10,
+        base_stats={"strength": 42, "dexterity": 35, "intelligence": 5, "vitality": 50, "agility": 22, "spirit": 12},
+        flavor_text="It slept through the cold, and it slept through worse - now it's awake, and everything nearby is a threat.",
+        no_material_drop_weight=50,
+        gold_min=70,
+        gold_max=130,
+        weapon_attack_min=12,
+        weapon_attack_max=20,
+        defense=6,
+        spell_attack_min=0,
+        spell_attack_max=0,
+    ),
 ]
 for _monster in MONSTER_TEMPLATES:
     _monster["slug"] = slugify(_monster["name"])
@@ -384,6 +399,10 @@ MONSTER_LOOT_ENTRIES = [
 # Nettle only drops from monsters whose level_range_min is at least 4
 # (Boar, Puny Goblin) - it's a tougher-terrain plant, absent from the
 # tier-1/2 monsters' tables.
+# Awakened Bear: no_material_drop_weight 50, Coal weighted highest (20)
+# as its signature material (claws blackened from a scorched den). No item
+# loot table - a pure beast, matching Young Wolf/Veil Wisp's original
+# precedent (not every beast needs to drop gear).
 # Robber and Dire Wolf (level 6-10) are the first drop source for the
 # level-6 Forge materials (Coal, Scrap Metal, Veil Crystal), which were
 # previously Shop-only. Robber: no_material_drop_weight 55, Scrap Metal
@@ -427,6 +446,10 @@ MONSTER_MATERIAL_LOOT_ENTRIES = [
     dict(monster_slug=slugify("Dire Wolf"), material_slug=slugify("Coal"), drop_weight=8),
     dict(monster_slug=slugify("Dire Wolf"), material_slug=slugify("Scrap Metal"), drop_weight=8),
     dict(monster_slug=slugify("Dire Wolf"), material_slug=slugify("Veil Crystal"), drop_weight=18),
+    dict(monster_slug=slugify("Awakened Bear"), material_slug=slugify("Nettle"), drop_weight=12),
+    dict(monster_slug=slugify("Awakened Bear"), material_slug=slugify("Coal"), drop_weight=20),
+    dict(monster_slug=slugify("Awakened Bear"), material_slug=slugify("Scrap Metal"), drop_weight=10),
+    dict(monster_slug=slugify("Awakened Bear"), material_slug=slugify("Veil Crystal"), drop_weight=10),
 ]
 
 
