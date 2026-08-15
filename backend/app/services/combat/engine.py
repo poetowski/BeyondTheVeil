@@ -20,6 +20,9 @@ MONSTER_STAT_VARIANCE = (0.85, 1.15)
 # on the helmet zone.
 ZONE_WEIGHTS = {"shield": 0.50, "armor": 0.35, "helmet": 0.15}
 HEADSHOT_MULTIPLIER = 3
+# A losing hero still keeps this fraction of the gold the encounter would
+# have paid out on a win - a consolation payout, not a full reward.
+DEFEAT_GOLD_RATIO = 0.15
 
 
 @dataclass
@@ -302,7 +305,8 @@ def resolve(
         victory = damage_dealt_to_monster >= damage_dealt_to_hero
 
     xp_awarded = sum(monster_stats.values()) if victory else 0
-    gold_awarded = rng.randint(encounter.get("gold_min", 0), encounter.get("gold_max", 0)) if victory else 0
+    rolled_gold = rng.randint(encounter.get("gold_min", 0), encounter.get("gold_max", 0))
+    gold_awarded = rolled_gold if victory else round(rolled_gold * DEFEAT_GOLD_RATIO)
 
     loot: list[dict[str, Any]] = []
     loot_pool = encounter.get("loot_pool") or []

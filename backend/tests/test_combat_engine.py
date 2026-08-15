@@ -161,7 +161,7 @@ def test_monster_hp_after_reflects_damage_dealt_by_hero():
     assert result.monster_hp_after == result.monster_max_hp - total_damage_to_monster
 
 
-def test_gold_is_only_awarded_on_victory():
+def test_defeat_awards_a_fraction_of_the_gold_a_victory_would_have():
     encounter = _encounter()
     for seed in range(50):
         result = engine.resolve(
@@ -170,7 +170,8 @@ def test_gold_is_only_awarded_on_victory():
         if result.victory:
             assert encounter["gold_min"] <= result.gold_awarded <= encounter["gold_max"]
         else:
-            assert result.gold_awarded == 0
+            max_defeat_gold = round(encounter["gold_max"] * engine.DEFEAT_GOLD_RATIO)
+            assert 0 <= result.gold_awarded <= max_defeat_gold
 
 
 def test_hero_initiative_wins_when_base_stats_favor_hero():
