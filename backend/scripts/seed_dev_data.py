@@ -50,6 +50,9 @@ ITEM_TEMPLATES = [
     # a single generic "Talisman" originally proposed for tier2.5.
     dict(name="Spirit Talisman", slot=EquipmentSlot.AMULET, rarity=ItemRarity.RARE, level_requirement=9, base_stats={"spirit": 5}, description="A quiet hum that settles the mind before it settles the hand.", price=850),
     dict(name="Agility Talisman", slot=EquipmentSlot.AMULET, rarity=ItemRarity.RARE, level_requirement=9, base_stats={"agility": 5}, description="Light as a held breath.", price=850),
+    # First Spell Skill item - level 10, EPIC, boss-exclusive drop from
+    # Mage Adept only (see MONSTER_LOOT_ENTRIES below).
+    dict(name="Frozen Spark", slot=EquipmentSlot.SPELL_SKILL, rarity=ItemRarity.EPIC, level_requirement=10, base_stats={}, spell_damage_min=20, spell_damage_max=34, description="A single spark, frozen mid-flight - it still burns going in.", price=1400),
 ]
 for _item in ITEM_TEMPLATES:
     _item["slug"] = slugify(_item["name"])
@@ -185,7 +188,7 @@ MONSTER_TEMPLATES = [
     dict(
         name="Mage Adept",
         level_range_min=10,
-        level_range_max=10,
+        level_range_max=12,
         base_stats={"strength": 15, "dexterity": 20, "intelligence": 55, "vitality": 45, "agility": 18, "spirit": 50},
         flavor_text="Robed, bald, and perfectly still - the fire hanging over its palms has been waiting longer than you have.",
         no_drop_weight=20,
@@ -495,7 +498,7 @@ MONSTER_LOOT_ENTRIES = [
     dict(monster_slug=slugify("Awakened Bear"), item_slug=slugify("Brigandine"), drop_weight=8),
     dict(monster_slug=slugify("Awakened Bear"), item_slug=slugify("Spirit Talisman"), drop_weight=2),
     dict(monster_slug=slugify("Awakened Bear"), item_slug=slugify("Agility Talisman"), drop_weight=2),
-    # Mage Adept (level 10, the boss of the 1-10 range) drops the same
+    # Mage Adept (level 10-12, boss of the 1-10 range) drops the same
     # tier2.5 set, plus both Talismans at a more generous weight (4, vs
     # Awakened Bear's rare weight-2) befitting a boss encounter.
     dict(monster_slug=slugify("Mage Adept"), item_slug=slugify("Mace"), drop_weight=8),
@@ -504,6 +507,8 @@ MONSTER_LOOT_ENTRIES = [
     dict(monster_slug=slugify("Mage Adept"), item_slug=slugify("Brigandine"), drop_weight=8),
     dict(monster_slug=slugify("Mage Adept"), item_slug=slugify("Spirit Talisman"), drop_weight=4),
     dict(monster_slug=slugify("Mage Adept"), item_slug=slugify("Agility Talisman"), drop_weight=4),
+    # Frozen Spark is exclusive to Mage Adept - no other monster's loot table.
+    dict(monster_slug=slugify("Mage Adept"), item_slug=slugify("Frozen Spark"), drop_weight=3),
 ]
 
 # Young Wolf: no_material_drop_weight 70, Chamomile 20, Plantago 10 -> 70%
@@ -591,7 +596,7 @@ MONSTER_MATERIAL_LOOT_ENTRIES = [
     dict(monster_slug=slugify("Awakened Bear"), material_slug=slugify("Gem"), drop_weight=12),
     dict(monster_slug=slugify("Awakened Bear"), material_slug=slugify("Silverleaf"), drop_weight=18),
     dict(monster_slug=slugify("Awakened Bear"), material_slug=slugify("Ancient Porcelain"), drop_weight=18),
-    # Mage Adept (level 10, boss): Gem and Silverleaf at 15 each, Ancient
+    # Mage Adept (level 10-12, boss): Gem and Silverleaf at 15 each, Ancient
     # Porcelain at a big weight (30) as requested.
     dict(monster_slug=slugify("Mage Adept"), material_slug=slugify("Gem"), drop_weight=15),
     dict(monster_slug=slugify("Mage Adept"), material_slug=slugify("Silverleaf"), drop_weight=15),
