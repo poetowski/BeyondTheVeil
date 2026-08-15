@@ -126,12 +126,13 @@ for _monster in MONSTER_TEMPLATES:
     _monster["slug"] = slugify(_monster["name"])
 
 MATERIAL_TEMPLATES = [
-    dict(name="Plantago", description="Broad leaves, bruised for their sap.", category=CraftingCategory.ALCHEMY, price=28),
-    dict(name="Chamomile", description="Daisy-like flowers, dried for their mild sedative properties.", category=CraftingCategory.ALCHEMY, price=21),
-    dict(name="Iron Ore", description="Rough-smelted lumps, still warm from the earth.", category=CraftingCategory.FORGE, price=35),
-    dict(name="Tin Shard", description="Bright, brittle fragments that ring when struck.", category=CraftingCategory.FORGE, price=42),
-    dict(name="Ember Dust", description="Fine grey ash from a forge fire, still faintly hot.", category=CraftingCategory.FORGE, price=56),
-    dict(name="Nettle", description="Fine-toothed leaves that sting on contact, prized once the sting is boiled out.", category=CraftingCategory.ALCHEMY, price=59),
+    dict(name="Plantago", description="Broad leaves, bruised for their sap.", category=CraftingCategory.ALCHEMY, price=28, level_requirement=1),
+    dict(name="Chamomile", description="Daisy-like flowers, dried for their mild sedative properties.", category=CraftingCategory.ALCHEMY, price=21, level_requirement=1),
+    dict(name="Iron Ore", description="Rough-smelted lumps, still warm from the earth.", category=CraftingCategory.FORGE, price=35, level_requirement=1),
+    dict(name="Tin Shard", description="Bright, brittle fragments that ring when struck.", category=CraftingCategory.FORGE, price=42, level_requirement=1),
+    dict(name="Ember Dust", description="Fine grey ash from a forge fire, still faintly hot.", category=CraftingCategory.FORGE, price=56, level_requirement=1),
+    # Level 4 - only drops from level 4+ monsters (Boar, Puny Goblin).
+    dict(name="Nettle", description="Fine-toothed leaves that sting on contact, prized once the sting is boiled out.", category=CraftingCategory.ALCHEMY, price=59, level_requirement=4),
 ]
 for _material in MATERIAL_TEMPLATES:
     _material["slug"] = slugify(_material["name"])
@@ -140,8 +141,8 @@ for _material in MATERIAL_TEMPLATES:
 # effect word stays plain-English (matches the stat it boosts), the prefix
 # is a made-up word with no fixed meaning. Follow this for future runes.
 RUNE_TEMPLATES = [
-    dict(name="Vrelka Rune of Vigor", description="A dull red glyph, warm to the touch.", stat_bonuses={"vitality": 3}, price=1540),
-    dict(name="Vosk Rune of Might", description="Three azure shards radiating around a glowing core.", stat_bonuses={"strength": 3}, price=1540),
+    dict(name="Vrelka Rune of Vigor", description="A dull red glyph, warm to the touch.", stat_bonuses={"vitality": 3}, price=1540, level_requirement=1),
+    dict(name="Vosk Rune of Might", description="Three azure shards radiating around a glowing core.", stat_bonuses={"strength": 3}, price=1540, level_requirement=1),
 ]
 for _rune in RUNE_TEMPLATES:
     _rune["slug"] = slugify(_rune["name"])
@@ -153,6 +154,7 @@ CONSUMABLE_TEMPLATES = [
         heal_flat=100,
         heal_vitality_multiplier=2,
         price=210,
+        level_requirement=1,
     ),
     dict(
         name="Greater Healing Potion",
@@ -160,6 +162,7 @@ CONSUMABLE_TEMPLATES = [
         heal_flat=220,
         heal_vitality_multiplier=4,
         price=480,
+        level_requirement=5,
     ),
 ]
 for _consumable in CONSUMABLE_TEMPLATES:

@@ -22,6 +22,8 @@ class MaterialTemplate(UUIDPKMixin, TimestampMixin, Base):
     # See ItemTemplate.price for the buy/sell-price convention and the
     # default=0 rationale.
     price: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    # Same organizational field as ItemTemplate.level_requirement.
+    level_requirement: Mapped[int] = mapped_column(Integer, nullable=False, default=1)
 
     material_instances: Mapped[list["MaterialInstance"]] = relationship(back_populates="template")
 

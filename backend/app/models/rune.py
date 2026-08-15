@@ -22,6 +22,8 @@ class RuneTemplate(UUIDPKMixin, TimestampMixin, Base):
     # See ItemTemplate.price for the buy/sell-price convention and the
     # default=0 rationale.
     price: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    # Same organizational field as ItemTemplate.level_requirement.
+    level_requirement: Mapped[int] = mapped_column(Integer, nullable=False, default=1)
 
     rune_instances: Mapped[list["RuneInstance"]] = relationship(back_populates="template")
 
