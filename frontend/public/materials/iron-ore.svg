@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#eef2df"/>
+      <stop offset="100%" stop-color="#dce6c8"/>
+    </linearGradient>
+  </defs>
+
+  <!-- meadow sky -->
+  <rect x="0" y="0" width="512" height="340" fill="url(#sky)"/>
+  <!-- meadow ground -->
+  <rect x="0" y="340" width="512" height="172" fill="#93a06e"/>
+
+  <!-- distant grass tufts -->
+  <g fill="#7c8f61">
+    <polygon points="50,345 40,320 60,320"/>
+    <polygon points="90,345 80,325 100,325"/>
+    <polygon points="420,345 410,322 430,322"/>
+    <polygon points="460,345 450,326 470,326"/>
+  </g>
+
+  <!-- near grass tufts -->
+  <g fill="#4f6b47">
+    <polygon points="20,390 6,350 34,350"/>
+    <polygon points="492,388 478,346 506,346"/>
+  </g>
+
+  <!-- warm glow, still radiating heat from the earth -->
+  <ellipse cx="256" cy="378" rx="130" ry="26" fill="#d98a2c" opacity="0.25"/>
+  <!-- ground shadow beneath the ore -->
+  <ellipse cx="256" cy="394" rx="118" ry="16" fill="#7c8a5a" opacity="0.5"/>
+
+  <!-- back lump -->
+  <polygon points="196,300 250,262 316,278 336,330 292,368 214,360 178,332"
+           fill="#5c5c5c" stroke="#3a352f" stroke-width="5" stroke-linejoin="round"/>
+  <polygon points="250,262 316,278 300,310 244,300" fill="#767676" opacity="0.85"/>
+
+  <!-- front-left lump -->
+  <polygon points="148,352 190,314 236,326 244,368 206,398 158,390"
+           fill="#6b6b6b" stroke="#3a352f" stroke-width="5" stroke-linejoin="round"/>
+  <polygon points="190,314 236,326 224,352 182,344" fill="#868686" opacity="0.85"/>
+  <!-- rust/iron-oxide streak -->
+  <polygon points="158,390 206,398 200,378 172,372" fill="#8a5a3a" opacity="0.8"/>
+
+  <!-- front-right lump -->
+  <polygon points="288,342 330,318 372,338 366,382 320,400 282,382"
+           fill="#616161" stroke="#3a352f" stroke-width="5" stroke-linejoin="round"/>
+  <polygon points="330,318 372,338 356,356 316,344" fill="#7c7c7c" opacity="0.85"/>
+  <polygon points="320,400 366,382 358,366 328,372" fill="#8a5a3a" opacity="0.75"/>
+
+  <!-- metallic glints -->
+  <g fill="#d8d8d8" opacity="0.9">
+    <ellipse cx="270" cy="284" rx="9" ry="4" transform="rotate(-20 270 284)"/>
+    <ellipse cx="200" cy="332" rx="8" ry="3.5" transform="rotate(15 200 332)"/>
+    <ellipse cx="340" cy="336" rx="8" ry="3.5" transform="rotate(-10 340 336)"/>
+  </g>
+</svg>
