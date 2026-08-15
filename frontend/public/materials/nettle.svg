@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#eef2df"/>
+      <stop offset="100%" stop-color="#dce6c8"/>
+    </linearGradient>
+    <!-- reusable jagged, toothed leaf: base at origin, tip at (34,0), symmetric
+         about the local x-axis so it can be rotated (never flipped) to face
+         either side of a stem without distortion -->
+    <polygon id="leaf" points="0,-4 6,-10 10,-6 16,-13 18,-8 24,-12 26,-7 32,-8 34,0 32,8 26,7 24,12 18,8 16,13 10,6 6,10 0,4"/>
+  </defs>
+
+  <!-- meadow sky -->
+  <rect x="0" y="0" width="512" height="340" fill="url(#sky)"/>
+  <!-- meadow ground -->
+  <rect x="0" y="340" width="512" height="172" fill="#93a06e"/>
+
+  <!-- distant grass tufts -->
+  <g fill="#7c8f61">
+    <polygon points="50,345 40,320 60,320"/>
+    <polygon points="90,345 80,325 100,325"/>
+    <polygon points="420,345 410,322 430,322"/>
+    <polygon points="460,345 450,326 470,326"/>
+  </g>
+  <g fill="#4f6b47">
+    <polygon points="20,390 6,350 34,350"/>
+    <polygon points="492,388 478,346 506,346"/>
+  </g>
+
+  <!-- ground shadow beneath the nettle clump -->
+  <ellipse cx="256" cy="400" rx="112" ry="16" fill="#7c8a5a" opacity="0.5"/>
+
+  <!-- three stems rising from the same clump -->
+  <path d="M204,340 Q192,250 182,158" fill="none" stroke="#3a4a2a" stroke-width="9" stroke-linecap="round"/>
+  <path d="M256,340 L256,100" fill="none" stroke="#3a4a2a" stroke-width="10" stroke-linecap="round"/>
+  <path d="M308,340 Q320,250 330,158" fill="none" stroke="#3a4a2a" stroke-width="9" stroke-linecap="round"/>
+
+  <!-- small pale drooping seed catkins near the tops -->
+  <g fill="#c9d6b0" stroke="#3a352f" stroke-width="2">
+    <circle cx="176" cy="176" r="4"/>
+    <circle cx="182" cy="184" r="3.5"/>
+    <circle cx="248" cy="118" r="4"/>
+    <circle cx="254" cy="128" r="3.5"/>
+    <circle cx="336" cy="176" r="4"/>
+    <circle cx="330" cy="184" r="3.5"/>
+  </g>
+
+  <!-- left stem's leaf pairs - each pair is a symmetric V rooted on the
+       stem, mirrored by angle (180-theta), not by scale, since the leaf
+       shape is already bilaterally symmetric -->
+  <g stroke="#3a352f" stroke-width="3" stroke-linejoin="round">
+    <use href="#leaf" fill="#2f5233" transform="translate(198,300) rotate(-35)"/>
+    <use href="#leaf" fill="#2f5233" transform="translate(198,300) rotate(-145)"/>
+    <use href="#leaf" fill="#355e34" transform="translate(191,238) rotate(-50)"/>
+    <use href="#leaf" fill="#355e34" transform="translate(191,238) rotate(-130)"/>
+    <use href="#leaf" fill="#2f5233" transform="translate(184,180) rotate(-65)"/>
+    <use href="#leaf" fill="#2f5233" transform="translate(184,180) rotate(-115)"/>
+  </g>
+
+  <!-- center stem's leaf pairs, largest (tallest stem) -->
+  <g stroke="#3a352f" stroke-width="3" stroke-linejoin="round">
+    <use href="#leaf" fill="#355e34" transform="translate(256,290) rotate(-30) scale(1.15)"/>
+    <use href="#leaf" fill="#355e34" transform="translate(256,290) rotate(-150) scale(1.15)"/>
+    <use href="#leaf" fill="#2f5233" transform="translate(256,228) rotate(-45) scale(1.1)"/>
+    <use href="#leaf" fill="#2f5233" transform="translate(256,228) rotate(-135) scale(1.1)"/>
+    <use href="#leaf" fill="#355e34" transform="translate(256,168) rotate(-55) scale(1.05)"/>
+    <use href="#leaf" fill="#355e34" transform="translate(256,168) rotate(-125) scale(1.05)"/>
+    <use href="#leaf" fill="#2f5233" transform="translate(256,116) rotate(-65)"/>
+    <use href="#leaf" fill="#2f5233" transform="translate(256,116) rotate(-115)"/>
+  </g>
+
+  <!-- right stem's leaf pairs -->
+  <g stroke="#3a352f" stroke-width="3" stroke-linejoin="round">
+    <use href="#leaf" fill="#2f5233" transform="translate(314,300) rotate(-35)"/>
+    <use href="#leaf" fill="#2f5233" transform="translate(314,300) rotate(-145)"/>
+    <use href="#leaf" fill="#355e34" transform="translate(321,238) rotate(-50)"/>
+    <use href="#leaf" fill="#355e34" transform="translate(321,238) rotate(-130)"/>
+    <use href="#leaf" fill="#2f5233" transform="translate(328,180) rotate(-65)"/>
+    <use href="#leaf" fill="#2f5233" transform="translate(328,180) rotate(-115)"/>
+  </g>
+</svg>
