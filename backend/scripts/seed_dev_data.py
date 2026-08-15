@@ -121,6 +121,38 @@ MONSTER_TEMPLATES = [
         spell_attack_min=2,
         spell_attack_max=5,
     ),
+    dict(
+        name="Robber",
+        level_range_min=6,
+        level_range_max=10,
+        base_stats={"strength": 20, "dexterity": 30, "intelligence": 6, "vitality": 22, "agility": 28, "spirit": 10},
+        flavor_text="He doesn't want a fight - he wants your bag, and he's faster than you either way.",
+        no_drop_weight=35,
+        no_material_drop_weight=55,
+        gold_min=50,
+        gold_max=100,
+        weapon_attack_min=8,
+        weapon_attack_max=14,
+        defense=2,
+        spell_attack_min=0,
+        spell_attack_max=1,
+    ),
+    dict(
+        name="Dire Wolf",
+        level_range_min=6,
+        level_range_max=10,
+        base_stats={"strength": 34, "dexterity": 18, "intelligence": 4, "vitality": 40, "agility": 16, "spirit": 10},
+        flavor_text="Bigger than any wolf has a right to be, and it's already decided you're not getting past it.",
+        no_drop_weight=55,
+        no_material_drop_weight=50,
+        gold_min=55,
+        gold_max=110,
+        weapon_attack_min=10,
+        weapon_attack_max=16,
+        defense=4,
+        spell_attack_min=0,
+        spell_attack_max=0,
+    ),
 ]
 for _monster in MONSTER_TEMPLATES:
     _monster["slug"] = slugify(_monster["name"])
@@ -317,6 +349,18 @@ MONSTER_LOOT_ENTRIES = [
     dict(monster_slug=slugify("Boar"), item_slug=slugify("Iron Buckler"), drop_weight=6),
     dict(monster_slug=slugify("Boar"), item_slug=slugify("Iron Sword"), drop_weight=6),
     dict(monster_slug=slugify("Boar"), item_slug=slugify("Iron Band"), drop_weight=6),
+    # Robber and Dire Wolf (level 6-10) drop only tier-2 "Iron" gear - by
+    # this level tier-1 is already obsolete, and no tier-3 set exists yet.
+    dict(monster_slug=slugify("Robber"), item_slug=slugify("Iron Sword"), drop_weight=4),
+    dict(monster_slug=slugify("Robber"), item_slug=slugify("Iron Helm"), drop_weight=4),
+    dict(monster_slug=slugify("Robber"), item_slug=slugify("Iron Buckler"), drop_weight=4),
+    dict(monster_slug=slugify("Robber"), item_slug=slugify("Chainmail"), drop_weight=4),
+    dict(monster_slug=slugify("Robber"), item_slug=slugify("Iron Band"), drop_weight=4),
+    dict(monster_slug=slugify("Dire Wolf"), item_slug=slugify("Iron Sword"), drop_weight=4),
+    dict(monster_slug=slugify("Dire Wolf"), item_slug=slugify("Iron Helm"), drop_weight=4),
+    dict(monster_slug=slugify("Dire Wolf"), item_slug=slugify("Iron Buckler"), drop_weight=4),
+    dict(monster_slug=slugify("Dire Wolf"), item_slug=slugify("Chainmail"), drop_weight=4),
+    dict(monster_slug=slugify("Dire Wolf"), item_slug=slugify("Iron Band"), drop_weight=4),
 ]
 
 # Young Wolf: no_material_drop_weight 70, Chamomile 20, Plantago 10 -> 70%
@@ -340,6 +384,13 @@ MONSTER_LOOT_ENTRIES = [
 # Nettle only drops from monsters whose level_range_min is at least 4
 # (Boar, Puny Goblin) - it's a tougher-terrain plant, absent from the
 # tier-1/2 monsters' tables.
+# Robber and Dire Wolf (level 6-10) are the first drop source for the
+# level-6 Forge materials (Coal, Scrap Metal, Veil Crystal), which were
+# previously Shop-only. Robber: no_material_drop_weight 55, Scrap Metal
+# weighted highest (20) as its signature material (a bandit's scavenged
+# loot). Dire Wolf: no_material_drop_weight 50, Veil Crystal weighted
+# highest (18) as its signature material (a beast prowling veil-corrupted
+# ground).
 MONSTER_MATERIAL_LOOT_ENTRIES = [
     dict(monster_slug=slugify("Young Wolf"), material_slug=slugify("Chamomile"), drop_weight=20),
     dict(monster_slug=slugify("Young Wolf"), material_slug=slugify("Plantago"), drop_weight=10),
@@ -368,6 +419,14 @@ MONSTER_MATERIAL_LOOT_ENTRIES = [
     dict(monster_slug=slugify("Puny Goblin"), material_slug=slugify("Tin Shard"), drop_weight=10),
     dict(monster_slug=slugify("Puny Goblin"), material_slug=slugify("Ember Dust"), drop_weight=6),
     dict(monster_slug=slugify("Puny Goblin"), material_slug=slugify("Nettle"), drop_weight=10),
+    dict(monster_slug=slugify("Robber"), material_slug=slugify("Nettle"), drop_weight=10),
+    dict(monster_slug=slugify("Robber"), material_slug=slugify("Coal"), drop_weight=10),
+    dict(monster_slug=slugify("Robber"), material_slug=slugify("Scrap Metal"), drop_weight=20),
+    dict(monster_slug=slugify("Robber"), material_slug=slugify("Veil Crystal"), drop_weight=8),
+    dict(monster_slug=slugify("Dire Wolf"), material_slug=slugify("Nettle"), drop_weight=10),
+    dict(monster_slug=slugify("Dire Wolf"), material_slug=slugify("Coal"), drop_weight=8),
+    dict(monster_slug=slugify("Dire Wolf"), material_slug=slugify("Scrap Metal"), drop_weight=8),
+    dict(monster_slug=slugify("Dire Wolf"), material_slug=slugify("Veil Crystal"), drop_weight=18),
 ]
 
 
