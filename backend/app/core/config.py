@@ -8,7 +8,7 @@ class Settings(BaseSettings):
     jwt_secret_key: str = "change-me-in-production"
     jwt_algorithm: str = "HS256"
     jwt_access_token_expire_minutes: int = 60 * 24
-    veil_duration_seconds: int = 5 * 60
+    veil_duration_seconds: int = 10
     # Comma-separated list of origins allowed to call this API (CORS). Set
     # this to the deployed frontend's URL(s) in production - the localhost
     # default is dev-only.
