@@ -293,8 +293,13 @@ def resolve(
     elif hero_hp <= 0:
         victory = False
     else:
-        # Round cap reached with both sides still standing: higher remaining-HP% wins.
-        victory = (hero_hp / hero_max_hp) >= (monster_hp / monster_max_hp)
+        # Round cap reached with both sides still standing: whoever dealt
+        # more damage than they took wins the standoff (raw HP dealt/taken,
+        # not normalized by either side's max HP - a huge HP pool "tanking"
+        # a percentage-wise-small hit is still a big hit in absolute terms).
+        damage_dealt_to_monster = monster_max_hp - monster_hp
+        damage_dealt_to_hero = hero_max_hp - hero_hp
+        victory = damage_dealt_to_monster >= damage_dealt_to_hero
 
     xp_awarded = sum(monster_stats.values()) if victory else 0
     gold_awarded = rng.randint(encounter.get("gold_min", 0), encounter.get("gold_max", 0)) if victory else 0

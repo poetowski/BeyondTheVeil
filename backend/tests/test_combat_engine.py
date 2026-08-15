@@ -470,15 +470,24 @@ def test_absent_material_pool_does_not_perturb_the_rng_stream():
         assert without_key.xp_awarded == with_empty_pool.xp_awarded
 
 
-def test_round_cap_tie_break_uses_higher_remaining_hp_percentage(monkeypatch):
+def test_round_cap_tie_break_uses_raw_damage_dealt_not_remaining_hp_percentage(monkeypatch):
     monkeypatch.setattr(engine, "MAX_ROUNDS", 1)
     monkeypatch.setattr(engine, "_roll_monster_stats", lambda rng, base_stats: dict(base_stats))
-    # A single round where both sides survive (very tough monster, weak hero):
-    tough_monster = _encounter(
-        monster_stats={"strength": 1, "dexterity": 1, "vitality": 1000, "agility": 1, "intelligence": 1, "spirit": 1}
+    # Huge-HP-pool hero vs a fragile-but-hard-hitting monster: after one
+    # round the hero has taken 17 raw damage (5033/5050 HP, ~99.7% remaining)
+    # and the monster has taken 1 raw damage (49/50 HP, 98% remaining). The
+    # old percentage-of-max-HP tiebreak would hand this to the hero (its %
+    # remaining is higher); the current raw-damage-dealt tiebreak correctly
+    # hands it to the monster instead, since it actually dealt more damage
+    # (17) than it took (1) - the hero's huge pool just cushioned the hit.
+    big_hp_hero = {"strength": 50, "dexterity": 50, "vitality": 500, "agility": 1, "intelligence": 1, "spirit": 1}
+    glass_cannon_monster = _encounter(
+        monster_stats={"strength": 50, "dexterity": 1, "vitality": 5, "agility": 50, "intelligence": 1, "spirit": 1},
+        loot_pool=[],
     )
     result = engine.resolve(
-        seed=2, hero_snapshot=WEAK_HERO, hero_base_stats=WEAK_HERO, encounter=tough_monster
+        seed=8, hero_snapshot=big_hp_hero, hero_base_stats=big_hp_hero, encounter=glass_cannon_monster
     )
-    # Hero's HP barely dented, monster's HP barely dented relative to its huge pool -> hero should win the %-HP tiebreak.
-    assert result.victory is True
+    assert result.hero_hp_after == 5033
+    assert result.monster_hp_after == 49
+    assert result.victory is False, "monster dealt more raw damage (17) than it took (1) - it should win the standoff"
