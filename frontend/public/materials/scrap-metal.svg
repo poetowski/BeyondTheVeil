@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#eef2df"/>
+      <stop offset="100%" stop-color="#dce6c8"/>
+    </linearGradient>
+  </defs>
+
+  <!-- meadow sky -->
+  <rect x="0" y="0" width="512" height="340" fill="url(#sky)"/>
+  <!-- meadow ground -->
+  <rect x="0" y="340" width="512" height="172" fill="#93a06e"/>
+
+  <!-- distant grass tufts -->
+  <g fill="#7c8f61">
+    <polygon points="50,345 40,320 60,320"/>
+    <polygon points="90,345 80,325 100,325"/>
+    <polygon points="420,345 410,322 430,322"/>
+    <polygon points="460,345 450,326 470,326"/>
+  </g>
+
+  <!-- near grass tufts -->
+  <g fill="#4f6b47">
+    <polygon points="20,390 6,350 34,350"/>
+    <polygon points="492,388 478,346 506,346"/>
+  </g>
+
+  <!-- ground shadow beneath the pile -->
+  <ellipse cx="256" cy="394" rx="122" ry="16" fill="#7c8a5a" opacity="0.5"/>
+
+  <!-- bent, dented plate lying flat at the back -->
+  <polygon points="176,286 296,266 340,304 300,340 202,352 158,320"
+           fill="#6b6b6b" stroke="#3a352f" stroke-width="5" stroke-linejoin="round"/>
+  <polygon points="176,286 296,266 270,296 200,308" fill="#828282" opacity="0.85"/>
+  <!-- fold crease -->
+  <line x1="250" y1="278" x2="234" y2="336" stroke="#3a352f" stroke-width="3" opacity="0.5"/>
+  <!-- rust patch, nested inside the plate's own lower-left corner -->
+  <polygon points="202,352 158,320 178,306 232,326 220,346" fill="#8a5a3a" opacity="0.75"/>
+
+  <!-- broken gear, teeth around a ring -->
+  <g transform="translate(150,352)">
+    <circle r="38" fill="#5c5c5c" stroke="#3a352f" stroke-width="5"/>
+    <circle r="16" fill="#93a06e"/>
+    <circle r="16" fill="none" stroke="#3a352f" stroke-width="4"/>
+    <g fill="#5c5c5c" stroke="#3a352f" stroke-width="4" stroke-linejoin="round">
+      <rect x="-6" y="-46" width="12" height="14"/>
+      <rect x="-6" y="32" width="12" height="14"/>
+      <rect x="-46" y="-6" width="14" height="12"/>
+      <rect x="32" y="-6" width="14" height="12"/>
+      <rect x="24" y="-38" width="12" height="14" transform="rotate(45)"/>
+      <rect x="-38" y="24" width="12" height="14" transform="rotate(45)"/>
+    </g>
+  </g>
+
+  <!-- twisted rod, bent into a loop -->
+  <path d="M330,380 Q368,360 360,392 Q352,420 314,404 Q290,392 306,368"
+        fill="none" stroke="#6b6b6b" stroke-width="14" stroke-linecap="round"/>
+  <path d="M330,380 Q368,360 360,392 Q352,420 314,404 Q290,392 306,368"
+        fill="none" stroke="#3a352f" stroke-width="18" stroke-linecap="round" opacity="0.35"/>
+  <path d="M330,380 Q368,360 360,392 Q352,420 314,404 Q290,392 306,368"
+        fill="none" stroke="#828282" stroke-width="8" stroke-linecap="round" opacity="0.9"/>
+
+  <!-- metallic glints -->
+  <g fill="#d8d8d8" opacity="0.9">
+    <ellipse cx="220" cy="284" rx="9" ry="4" transform="rotate(-15 220 284)"/>
+    <ellipse cx="150" cy="338" rx="6" ry="3"/>
+  </g>
+</svg>

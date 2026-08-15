@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#eef2df"/>
+      <stop offset="100%" stop-color="#dce6c8"/>
+    </linearGradient>
+  </defs>
+
+  <!-- meadow sky -->
+  <rect x="0" y="0" width="512" height="340" fill="url(#sky)"/>
+  <!-- meadow ground -->
+  <rect x="0" y="340" width="512" height="172" fill="#93a06e"/>
+
+  <!-- distant grass tufts -->
+  <g fill="#7c8f61">
+    <polygon points="50,345 40,320 60,320"/>
+    <polygon points="90,345 80,325 100,325"/>
+    <polygon points="420,345 410,322 430,322"/>
+    <polygon points="460,345 450,326 470,326"/>
+  </g>
+
+  <!-- near grass tufts -->
+  <g fill="#4f6b47">
+    <polygon points="20,390 6,350 34,350"/>
+    <polygon points="492,388 478,346 506,346"/>
+  </g>
+
+  <!-- mystical radiant glow, distinctly purple -->
+  <circle cx="256" cy="272" r="140" fill="#7a3fc9" opacity="0.18"/>
+  <circle cx="256" cy="272" r="90" fill="#b98aff" opacity="0.24"/>
+
+  <!-- ground shadow -->
+  <ellipse cx="256" cy="394" rx="112" ry="16" fill="#7c8a5a" opacity="0.5"/>
+
+  <!-- swirling wisp of veil-magic drifting off the crystals -->
+  <path d="M256,150 Q276,124 258,100 Q242,78 262,50"
+        fill="none" stroke="#b98aff" stroke-width="6" stroke-linecap="round" opacity="0.55"/>
+
+  <!-- crystal cluster: three faceted violet shards -->
+  <polygon points="256,184 292,246 274,344 238,344 220,246"
+           fill="#5a2f8a" stroke="#3a352f" stroke-width="5" stroke-linejoin="round" opacity="0.92"/>
+  <polygon points="256,184 292,246 268,246 246,220" fill="#b98aff" opacity="0.8"/>
+
+  <polygon points="178,262 210,236 232,286 218,346 182,352 156,306"
+           fill="#4a2270" stroke="#3a352f" stroke-width="5" stroke-linejoin="round" opacity="0.9"/>
+  <polygon points="210,236 232,286 214,282 198,258" fill="#9a6fd9" opacity="0.75"/>
+
+  <polygon points="334,262 302,236 280,286 294,346 330,352 356,306"
+           fill="#4a2270" stroke="#3a352f" stroke-width="5" stroke-linejoin="round" opacity="0.9"/>
+  <polygon points="302,236 280,286 298,282 314,258" fill="#9a6fd9" opacity="0.75"/>
+
+  <!-- inner glow cores, humming faintly even at rest -->
+  <circle cx="256" cy="270" r="14" fill="#d8b8ff" opacity="0.85"/>
+  <circle cx="196" cy="296" r="9" fill="#d8b8ff" opacity="0.75"/>
+  <circle cx="316" cy="296" r="9" fill="#d8b8ff" opacity="0.75"/>
+
+  <!-- drifting mystical dust motes -->
+  <g fill="#d8b8ff">
+    <path d="M134,232 l5,12 l12,5 l-12,5 l-5,12 l-5,-12 l-12,-5 l12,-5 Z" opacity="0.9"/>
+    <path d="M392,300 l4,10 l10,4 l-10,4 l-4,10 l-4,-10 l-10,-4 l10,-4 Z" opacity="0.9"/>
+    <path d="M362,196 l3,7 l7,3 l-7,3 l-3,7 l-3,-7 l-7,-3 l7,-3 Z" opacity="0.8"/>
+    <circle cx="150" cy="330" r="3" opacity="0.8"/>
+    <circle cx="378" cy="250" r="3" opacity="0.8"/>
+    <circle cx="256" cy="368" r="3.5" opacity="0.8"/>
+  </g>
+</svg>
