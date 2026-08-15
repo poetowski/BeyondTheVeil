@@ -25,38 +25,42 @@
     <polygon points="492,388 478,346 506,346"/>
   </g>
 
-  <!-- faint smoke wisp, still hot -->
-  <path d="M256,150 Q272,120 254,96 Q238,74 258,48"
-        fill="none" stroke="#c9c9c0" stroke-width="10" stroke-linecap="round" opacity="0.35"/>
+  <!-- mystical radiant glow -->
+  <circle cx="256" cy="272" r="140" fill="#e8622c" opacity="0.18"/>
+  <circle cx="256" cy="272" r="90" fill="#ffab5e" opacity="0.22"/>
 
-  <!-- warm glow beneath the ash -->
-  <ellipse cx="256" cy="382" rx="128" ry="24" fill="#d98a2c" opacity="0.2"/>
   <!-- ground shadow -->
-  <ellipse cx="256" cy="394" rx="120" ry="16" fill="#7c8a5a" opacity="0.5"/>
+  <ellipse cx="256" cy="394" rx="112" ry="16" fill="#7c8a5a" opacity="0.5"/>
 
-  <!-- ash mound, soft powdery pile -->
-  <path d="M140,378 Q150,300 220,282 Q246,266 274,282 Q346,296 366,368
-           Q372,396 340,404 L166,404 Q134,398 140,378 Z"
-        fill="#9a988e" stroke="#3a352f" stroke-width="5" stroke-linejoin="round"/>
-  <!-- shading -->
-  <path d="M220,282 Q246,266 274,282 Q300,292 316,320 L200,320 Q206,296 220,282 Z"
-        fill="#b3b1a6" opacity="0.85"/>
-  <path d="M166,404 Q160,370 190,352 L340,352 Q360,372 340,404 Z"
-        fill="#7c7a70" opacity="0.6"/>
+  <!-- swirling wisp of magic drifting off the crystals -->
+  <path d="M256,150 Q276,124 258,100 Q242,78 262,50"
+        fill="none" stroke="#ffab5e" stroke-width="6" stroke-linecap="round" opacity="0.5"/>
 
-  <!-- powder puffs drifting off the pile -->
-  <circle cx="128" cy="360" r="10" fill="#9a988e" opacity="0.7"/>
-  <circle cx="112" cy="344" r="6" fill="#9a988e" opacity="0.5"/>
-  <circle cx="384" cy="356" r="9" fill="#9a988e" opacity="0.7"/>
-  <circle cx="400" cy="340" r="5" fill="#9a988e" opacity="0.5"/>
+  <!-- crystal cluster: three faceted ember-glass shards -->
+  <polygon points="256,184 292,246 274,344 238,344 220,246"
+           fill="#c0432a" stroke="#3a352f" stroke-width="5" stroke-linejoin="round" opacity="0.92"/>
+  <polygon points="256,184 292,246 268,246 246,220" fill="#ffab5e" opacity="0.8"/>
 
-  <!-- glowing embers still faintly hot within the ash -->
-  <g>
-    <circle cx="220" cy="330" r="12" fill="#e8622c" opacity="0.35"/>
-    <circle cx="220" cy="330" r="5" fill="#ff8a3d"/>
-    <circle cx="292" cy="316" r="14" fill="#e8622c" opacity="0.35"/>
-    <circle cx="292" cy="316" r="6" fill="#ff8a3d"/>
-    <circle cx="256" cy="366" r="10" fill="#e8622c" opacity="0.3"/>
-    <circle cx="256" cy="366" r="4" fill="#ffab5e"/>
+  <polygon points="178,262 210,236 232,286 218,346 182,352 156,306"
+           fill="#a8371f" stroke="#3a352f" stroke-width="5" stroke-linejoin="round" opacity="0.9"/>
+  <polygon points="210,236 232,286 214,282 198,258" fill="#ff8a3d" opacity="0.75"/>
+
+  <polygon points="334,262 302,236 280,286 294,346 330,352 356,306"
+           fill="#a8371f" stroke="#3a352f" stroke-width="5" stroke-linejoin="round" opacity="0.9"/>
+  <polygon points="302,236 280,286 298,282 314,258" fill="#ff8a3d" opacity="0.75"/>
+
+  <!-- inner ember glow cores, still faintly hot -->
+  <circle cx="256" cy="270" r="14" fill="#ffcf8a" opacity="0.85"/>
+  <circle cx="196" cy="296" r="9" fill="#ffcf8a" opacity="0.75"/>
+  <circle cx="316" cy="296" r="9" fill="#ffcf8a" opacity="0.75"/>
+
+  <!-- drifting mystical dust motes -->
+  <g fill="#ffcf8a">
+    <path d="M134,232 l5,12 l12,5 l-12,5 l-5,12 l-5,-12 l-12,-5 l12,-5 Z" opacity="0.9"/>
+    <path d="M392,300 l4,10 l10,4 l-10,4 l-4,10 l-4,-10 l-10,-4 l10,-4 Z" opacity="0.9"/>
+    <path d="M362,196 l3,7 l7,3 l-7,3 l-3,7 l-3,-7 l-7,-3 l7,-3 Z" opacity="0.8"/>
+    <circle cx="150" cy="330" r="3" opacity="0.8"/>
+    <circle cx="378" cy="250" r="3" opacity="0.8"/>
+    <circle cx="256" cy="368" r="3.5" opacity="0.8"/>
   </g>
 </svg>
