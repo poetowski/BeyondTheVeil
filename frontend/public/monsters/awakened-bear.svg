@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="cave-wall" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2e2a28"/>
+      <stop offset="100%" stop-color="#3d3833"/>
+    </linearGradient>
+  </defs>
+
+  <!-- cave wall -->
+  <rect x="0" y="0" width="512" height="340" fill="url(#cave-wall)"/>
+  <!-- cave floor -->
+  <rect x="0" y="340" width="512" height="172" fill="#221e1b"/>
+
+  <!-- hanging stalactites -->
+  <g fill="#403b33">
+    <polygon points="90,0 78,58 102,58"/>
+    <polygon points="190,0 180,40 200,40"/>
+    <polygon points="330,0 320,46 340,46"/>
+    <polygon points="430,0 418,60 442,60"/>
+  </g>
+
+  <!-- faint ember glow from the scorched den -->
+  <ellipse cx="256" cy="300" rx="150" ry="150" fill="#d9822c" opacity="0.12"/>
+
+  <!-- two big stalagmites, framing the scene -->
+  <polygon points="0,512 6,512 66,150 96,206 60,340 26,512"
+           fill="#5c554a" stroke="#2b2823" stroke-width="5" stroke-linejoin="round"/>
+  <polygon points="66,150 96,206 78,220 62,180" fill="#7a7266" opacity="0.8"/>
+
+  <polygon points="512,512 506,512 452,120 418,186 456,340 486,512"
+           fill="#5c554a" stroke="#2b2823" stroke-width="5" stroke-linejoin="round"/>
+  <polygon points="452,120 418,186 438,202 456,158" fill="#7a7266" opacity="0.8"/>
+
+  <!-- ground shadow -->
+  <ellipse cx="256" cy="442" rx="112" ry="18" fill="#161311" opacity="0.6"/>
+
+  <!-- legs, planted and stocky -->
+  <rect x="206" y="382" width="36" height="62" rx="12" fill="#4a3527" stroke="#2b2823" stroke-width="5"/>
+  <rect x="270" y="382" width="36" height="62" rx="12" fill="#4a3527" stroke="#2b2823" stroke-width="5"/>
+  <ellipse cx="224" cy="444" rx="20" ry="9" fill="#2b2823"/>
+  <ellipse cx="288" cy="444" rx="20" ry="9" fill="#2b2823"/>
+
+  <!-- torso, reared up on its hind legs -->
+  <path d="M256,178 Q356,192 360,300 Q362,370 256,392 Q150,370 152,300 Q156,192 256,178 Z"
+        fill="#4a3527" stroke="#2b2823" stroke-width="5" stroke-linejoin="round"/>
+  <!-- shoulder hump shading -->
+  <ellipse cx="256" cy="220" rx="72" ry="34" fill="#382418" opacity="0.85"/>
+  <!-- chest patch -->
+  <ellipse cx="256" cy="320" rx="52" ry="46" fill="#c9b89a"/>
+
+  <!-- raised arms, claws bared -->
+  <path d="M170,220 Q116,196 96,142 Q100,192 138,232 Q152,244 168,242 Z"
+        fill="#4a3527" stroke="#2b2823" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M342,220 Q396,196 416,142 Q412,192 374,232 Q360,244 344,242 Z"
+        fill="#4a3527" stroke="#2b2823" stroke-width="5" stroke-linejoin="round"/>
+  <!-- claws -->
+  <g fill="#eee6d5" stroke="#2b2823" stroke-width="2.5" stroke-linejoin="round">
+    <polygon points="96,142 88,120 102,132"/>
+    <polygon points="108,150 100,128 116,142"/>
+    <polygon points="120,160 116,136 132,152"/>
+    <polygon points="416,142 424,120 410,132"/>
+    <polygon points="404,150 412,128 396,142"/>
+    <polygon points="392,160 396,136 380,152"/>
+  </g>
+
+  <!-- ears -->
+  <circle cx="212" cy="118" r="20" fill="#4a3527" stroke="#2b2823" stroke-width="5"/>
+  <circle cx="300" cy="118" r="20" fill="#4a3527" stroke="#2b2823" stroke-width="5"/>
+  <circle cx="212" cy="120" r="10" fill="#2b2823"/>
+  <circle cx="300" cy="120" r="10" fill="#2b2823"/>
+
+  <!-- head, roaring -->
+  <circle cx="256" cy="152" r="72" fill="#4a3527" stroke="#2b2823" stroke-width="5"/>
+
+  <!-- blocky muzzle with a wide, roaring maw -->
+  <ellipse cx="256" cy="196" rx="48" ry="38" fill="#c9b89a" stroke="#2b2823" stroke-width="4"/>
+  <ellipse cx="256" cy="178" rx="9" ry="6" fill="#1a1210"/>
+  <ellipse cx="256" cy="210" rx="28" ry="26" fill="#1a1210" stroke="#2b2823" stroke-width="3"/>
+  <!-- bared fangs -->
+  <polygon points="232,190 240,208 224,208" fill="#eee6d5" stroke="#2b2823" stroke-width="2" stroke-linejoin="round"/>
+  <polygon points="280,190 288,208 272,208" fill="#eee6d5" stroke="#2b2823" stroke-width="2" stroke-linejoin="round"/>
+  <!-- roaring tongue -->
+  <ellipse cx="256" cy="222" rx="15" ry="9" fill="#a8371f" opacity="0.9"/>
+
+  <!-- furious brow -->
+  <path d="M206,132 Q226,116 246,128" fill="none" stroke="#2b2823" stroke-width="9" stroke-linecap="round"/>
+  <path d="M266,128 Q286,116 306,132" fill="none" stroke="#2b2823" stroke-width="9" stroke-linecap="round"/>
+
+  <!-- narrow, furious eyes with a rageful glow -->
+  <circle cx="222" cy="150" r="13" fill="#e8622c" opacity="0.3"/>
+  <circle cx="290" cy="150" r="13" fill="#e8622c" opacity="0.3"/>
+  <path d="M210,150 Q222,142 234,150 Q222,156 210,150 Z" fill="#e8622c" stroke="#2b2823" stroke-width="2"/>
+  <path d="M278,150 Q290,142 302,150 Q290,156 278,150 Z" fill="#e8622c" stroke="#2b2823" stroke-width="2"/>
+  <circle cx="222" cy="150" r="3.5" fill="#1a1210"/>
+  <circle cx="290" cy="150" r="3.5" fill="#1a1210"/>
+</svg>
