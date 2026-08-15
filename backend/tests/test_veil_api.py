@@ -219,8 +219,13 @@ def test_claiming_a_run_persists_hero_hp_after(client, db_session):
 
     client.post(f"/api/v1/veil/{run.id}/claim", headers=_auth(token))
 
-    me_after = client.get("/api/v1/users/me", headers=_auth(token)).json()
-    assert me_after["hero"]["current_hp"] == 7
+    # Read the persisted raw column directly rather than through GET
+    # /users/me, which derives a live, still-regenerating value - with a
+    # fast hp_regen_seconds_to_full even the sub-second gap between the
+    # claim and this read would nudge a derived value upward.
+    db_session.expire_all()
+    persisted_hero = db_session.get(Hero, uuid.UUID(hero_id))
+    assert persisted_hero.current_hp == 7
 
 
 def test_entering_veil_while_too_wounded_is_rejected(client, db_session):

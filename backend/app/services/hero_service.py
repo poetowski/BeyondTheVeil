@@ -4,6 +4,7 @@ from datetime import datetime, timezone
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
+from app.core.config import settings
 from app.models.consumable import ConsumableInstance
 from app.models.hero import Hero
 from app.models.item import EquipmentSlot, ItemInstance
@@ -15,7 +16,6 @@ STAT_NAMES = ("strength", "dexterity", "intelligence", "vitality", "agility", "s
 HP_PER_VITALITY = 10
 BASE_HP = 50
 BASELINE_STAT_VALUE = 10
-HP_REGEN_SECONDS_TO_FULL = 120 * 60  # 120 minutes; placeholder, same spirit as combat's other constants
 
 # Placeholder curve/costs — balance pass pending, same spirit as the combat
 # engine's placeholder constants.
@@ -109,7 +109,7 @@ def compute_current_hp(
     now = now or datetime.now(timezone.utc)
     max_hp = compute_max_hp(effective_vitality, bonus_max_hp)
     elapsed_seconds = max(0.0, (now - hero.hp_updated_at).total_seconds())
-    regen_per_second = max_hp / HP_REGEN_SECONDS_TO_FULL
+    regen_per_second = max_hp / settings.hp_regen_seconds_to_full
     return min(max_hp, round(hero.current_hp + elapsed_seconds * regen_per_second))
 
 

@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta, timezone
 
+from app.core.config import settings
 from app.models.hero import Hero
 from app.models.item import EquipmentSlot, ItemInstance, ItemTemplate
 from app.services import hero_service
@@ -57,7 +58,7 @@ def test_compute_max_hp_derives_from_effective_vitality():
 
 
 def test_compute_current_hp_regenerates_linearly_over_time():
-    # Regen is linear in absolute HP (max_hp / HP_REGEN_SECONDS_TO_FULL per
+    # Regen is linear in absolute HP (max_hp / hp_regen_seconds_to_full per
     # second), not proportional to the remaining gap to max - after half the
     # full-regen duration, exactly half of max_hp's worth of HP should have
     # been restored, regardless of the starting value (as long as the total
@@ -67,7 +68,7 @@ def test_compute_current_hp_regenerates_linearly_over_time():
     started_at = datetime.now(timezone.utc)
     hero = Hero(vitality=vitality, current_hp=1, hp_updated_at=started_at)
 
-    halfway_through_regen = started_at + timedelta(seconds=hero_service.HP_REGEN_SECONDS_TO_FULL / 2)
+    halfway_through_regen = started_at + timedelta(seconds=settings.hp_regen_seconds_to_full / 2)
     current = hero_service.compute_current_hp(hero, vitality, now=halfway_through_regen)
     assert current == round(1 + max_hp / 2)
 
@@ -78,7 +79,7 @@ def test_compute_current_hp_never_exceeds_max_hp():
     started_at = datetime.now(timezone.utc)
     hero = Hero(vitality=vitality, current_hp=max_hp, hp_updated_at=started_at)
 
-    long_after_full_regen = started_at + timedelta(seconds=hero_service.HP_REGEN_SECONDS_TO_FULL * 10)
+    long_after_full_regen = started_at + timedelta(seconds=settings.hp_regen_seconds_to_full * 10)
     current = hero_service.compute_current_hp(hero, vitality, now=long_after_full_regen)
     assert current == max_hp
 

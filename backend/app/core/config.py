@@ -9,6 +9,9 @@ class Settings(BaseSettings):
     jwt_algorithm: str = "HS256"
     jwt_access_token_expire_minutes: int = 60 * 24
     veil_duration_seconds: int = 10
+    # Time for a hero to regenerate from 0 HP to full, purely from the
+    # passive lazy-regen in hero_service.compute_current_hp (no potions).
+    hp_regen_seconds_to_full: int = 2 * 60
     # Comma-separated list of origins allowed to call this API (CORS). Set
     # this to the deployed frontend's URL(s) in production - the localhost
     # default is dev-only.
