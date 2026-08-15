@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- wooden table -->
+  <rect x="0" y="0" width="512" height="512" fill="#b98956"/>
+  <rect x="0" y="120" width="512" height="6" fill="#a3703f" opacity="0.6"/>
+  <rect x="0" y="260" width="512" height="6" fill="#a3703f" opacity="0.6"/>
+  <rect x="0" y="400" width="512" height="6" fill="#a3703f" opacity="0.6"/>
+  <rect x="40" y="40" width="180" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
+  <rect x="300" y="180" width="150" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
+  <rect x="80" y="320" width="200" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
+  <rect x="250" y="440" width="180" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
+
+  <!-- contact shadow -->
+  <ellipse cx="256" cy="366" rx="100" ry="18" fill="#3a352f" opacity="0.2"/>
+
+  <!-- stone tablet -->
+  <path d="M176,150 L336,150 Q360,150 360,174 L360,338 Q360,362 336,362
+           L176,362 Q152,362 152,338 L152,174 Q152,150 176,150 Z"
+        fill="#8f8f8f" stroke="#3a352f" stroke-width="6" stroke-linejoin="round"/>
+  <path d="M176,150 L336,150 Q360,150 360,174 L360,200 L152,200 L152,174 Q152,150 176,150 Z"
+        fill="#a5a5a5" opacity="0.6"/>
+  <!-- worn chip corner -->
+  <path d="M176,150 L196,150 L176,170 Z" fill="#6f6f6f" opacity="0.7"/>
+
+  <!-- glow behind glyph -->
+  <circle cx="256" cy="256" r="86" fill="#d9a441" opacity="0.25"/>
+
+  <!-- finesse glyph: a narrow, precise arrow-point crossed by a single
+       fine line - a mark of exactness, not force -->
+  <path d="M256,180 L272,256 L256,332 L240,256 Z"
+        fill="#d9a441" stroke="#7a5c1a" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M212,256 L300,256" stroke="#d9a441" stroke-width="7" stroke-linecap="round"/>
+  <!-- tip accents, exact and small -->
+  <circle cx="256" cy="180" r="7" fill="#d9a441" stroke="#7a5c1a" stroke-width="3"/>
+  <circle cx="256" cy="332" r="7" fill="#d9a441" stroke="#7a5c1a" stroke-width="3"/>
+  <!-- glyph highlight -->
+  <path d="M250,206 L262,206 L256,236 Z" fill="#ffe6a3" opacity="0.85"/>
+</svg>

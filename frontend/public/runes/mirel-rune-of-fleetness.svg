@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- wooden table -->
+  <rect x="0" y="0" width="512" height="512" fill="#b98956"/>
+  <rect x="0" y="120" width="512" height="6" fill="#a3703f" opacity="0.6"/>
+  <rect x="0" y="260" width="512" height="6" fill="#a3703f" opacity="0.6"/>
+  <rect x="0" y="400" width="512" height="6" fill="#a3703f" opacity="0.6"/>
+  <rect x="40" y="40" width="180" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
+  <rect x="300" y="180" width="150" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
+  <rect x="80" y="320" width="200" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
+  <rect x="250" y="440" width="180" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
+
+  <!-- contact shadow -->
+  <ellipse cx="256" cy="366" rx="100" ry="18" fill="#3a352f" opacity="0.2"/>
+
+  <!-- stone tablet -->
+  <path d="M176,150 L336,150 Q360,150 360,174 L360,338 Q360,362 336,362
+           L176,362 Q152,362 152,338 L152,174 Q152,150 176,150 Z"
+        fill="#8f8f8f" stroke="#3a352f" stroke-width="6" stroke-linejoin="round"/>
+  <path d="M176,150 L336,150 Q360,150 360,174 L360,200 L152,200 L152,174 Q152,150 176,150 Z"
+        fill="#a5a5a5" opacity="0.6"/>
+  <!-- worn chip corner -->
+  <path d="M340,150 L360,150 L360,170 Z" fill="#6f6f6f" opacity="0.7"/>
+
+  <!-- glow behind glyph -->
+  <circle cx="256" cy="256" r="86" fill="#3fae7a" opacity="0.25"/>
+
+  <!-- fleetness glyph: three curved wind-swoosh strokes sweeping around a
+       core, never quite still, unlike Vosk's angular shards -->
+  <g fill="#3fae7a" stroke="#1f5c3f" stroke-width="5" stroke-linejoin="round">
+    <path d="M256,176 Q296,192 288,232 Q272,214 244,206 Q248,188 256,176 Z"/>
+    <path d="M256,176 Q296,192 288,232 Q272,214 244,206 Q248,188 256,176 Z" transform="rotate(120 256 256)"/>
+    <path d="M256,176 Q296,192 288,232 Q272,214 244,206 Q248,188 256,176 Z" transform="rotate(240 256 256)"/>
+  </g>
+  <!-- core node -->
+  <circle cx="256" cy="256" r="12" fill="#c9f2dd" stroke="#1f5c3f" stroke-width="3"/>
+  <!-- motion trail -->
+  <path d="M320,240 Q340,256 320,272" fill="none" stroke="#3fae7a" stroke-width="5" stroke-linecap="round" opacity="0.55"/>
+  <!-- shine highlight -->
+  <ellipse cx="268" cy="196" rx="9" ry="5" fill="#c9f2dd" opacity="0.85" transform="rotate(20 268 196)"/>
+</svg>
