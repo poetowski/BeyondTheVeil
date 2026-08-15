@@ -21,6 +21,18 @@ yourself. This applies even when the surrounding task is otherwise
 clearly scoped (e.g. "add the mechanic for X" does not imply permission
 to also invent sample content for X).
 
+## New content always ships with art in the same change
+
+Any new item, monster, material, consumable, or rune that has an art
+skill (`bestiary-art`, `material-art`, `item-art`) must get its art drawn
+as part of the same change that adds it — never leave a newly-added
+piece of content without art, even if that turn's request didn't
+separately say "and draw art for it." Naming the content is enough
+permission for its art too (the art skills' own "only draw what's been
+explicitly named" rule is satisfied by the content request itself).
+Finish the content, then immediately invoke the matching art skill
+before considering the task done.
+
 ## Changes to already-shipped content must ship as a data migration
 
 `backend/scripts/seed_dev_data.py` only inserts rows that are missing (it

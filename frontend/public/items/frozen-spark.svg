@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- wooden table -->
+  <rect x="0" y="0" width="512" height="512" fill="#b98956"/>
+  <rect x="0" y="120" width="512" height="6" fill="#a3703f" opacity="0.6"/>
+  <rect x="0" y="260" width="512" height="6" fill="#a3703f" opacity="0.6"/>
+  <rect x="0" y="400" width="512" height="6" fill="#a3703f" opacity="0.6"/>
+  <rect x="40" y="40" width="180" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
+  <rect x="300" y="180" width="150" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
+  <rect x="80" y="320" width="200" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
+  <rect x="250" y="440" width="180" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
+
+  <!-- contact shadow -->
+  <ellipse cx="256" cy="378" rx="92" ry="17" fill="#3a352f" opacity="0.2"/>
+
+  <!-- small ice shards flanking the base -->
+  <polygon points="188,352 203,304 216,352" fill="#bfe3f0" stroke="#3a352f" stroke-width="3" stroke-linejoin="round"/>
+  <polygon points="296,352 311,300 328,352" fill="#8fc4dc" stroke="#3a352f" stroke-width="3" stroke-linejoin="round"/>
+
+  <!-- main icicle shard, faceted, two-tone -->
+  <polygon points="256,116 236,178 244,228 220,258 236,320 256,340"
+           fill="#d6f0f8" stroke="#3a352f" stroke-width="5" stroke-linejoin="round"/>
+  <polygon points="256,116 276,178 268,228 292,258 276,320 256,340"
+           fill="#8fc4dc" stroke="#3a352f" stroke-width="5" stroke-linejoin="round"/>
+
+  <!-- frost crackle lines -->
+  <g stroke="#eaf6fb" stroke-width="2" fill="none" opacity="0.7" stroke-linecap="round">
+    <path d="M240,196 L258,206 L246,236"/>
+    <path d="M266,204 L252,222"/>
+    <path d="M244,270 L262,282 L252,308"/>
+  </g>
+
+  <!-- frozen spark, trapped at the crystal's core -->
+  <circle cx="256" cy="222" r="28" fill="#ffcf6b" opacity="0.22"/>
+  <circle cx="256" cy="222" r="15" fill="#ff9d4d" opacity="0.55"/>
+  <circle cx="256" cy="222" r="6" fill="#fff3d0"/>
+  <g stroke="#ffcf6b" stroke-width="2" stroke-linecap="round" opacity="0.75">
+    <path d="M256,204 L256,196"/>
+    <path d="M256,240 L256,248"/>
+    <path d="M240,222 L232,222"/>
+    <path d="M272,222 L280,222"/>
+  </g>
+
+  <!-- rising frost mist -->
+  <g stroke="#eaf6fb" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.4">
+    <path d="M240,132 Q228,102 244,68"/>
+    <path d="M272,138 Q286,106 268,74"/>
+  </g>
+
+  <!-- shine highlight on the shard -->
+  <ellipse cx="240" cy="150" rx="8" ry="14" fill="#f4fbfd" opacity="0.85" transform="rotate(-16 240 150)"/>
+</svg>
