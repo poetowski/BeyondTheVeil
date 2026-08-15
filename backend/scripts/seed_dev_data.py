@@ -346,8 +346,7 @@ CRAFTING_RECIPES = [
         output_item_slug=slugify("Spirit Talisman"),
         output_quantity=1,
         ingredients=[
-            dict(material_slug=slugify("Gem"), quantity_required=4),
-            dict(material_slug=slugify("Veil Crystal"), quantity_required=3),
+            dict(material_slug=slugify("Gem"), quantity_required=9),
         ],
     ),
     dict(
@@ -357,8 +356,7 @@ CRAFTING_RECIPES = [
         output_item_slug=slugify("Agility Talisman"),
         output_quantity=1,
         ingredients=[
-            dict(material_slug=slugify("Gem"), quantity_required=4),
-            dict(material_slug=slugify("Scrap Metal"), quantity_required=3),
+            dict(material_slug=slugify("Gem"), quantity_required=9),
         ],
     ),
 ]
