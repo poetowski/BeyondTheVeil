@@ -202,6 +202,11 @@ MATERIAL_TEMPLATES = [
     # Drops from Robber, Dire Wolf, and Awakened Bear - the central
     # ingredient for the two craftable Talisman amulets.
     dict(name="Gem", description="A cut, glinting stone - valuable on its own, prized more for what it can hold.", category=CraftingCategory.FORGE, price=180, level_requirement=6),
+    # Level 8 - drops from Robber, Dire Wolf, and Awakened Bear (the three
+    # monsters overlapping level 8). Silverleaf is Superior Healing
+    # Potion's key ingredient.
+    dict(name="Silverleaf", description="Pale, silvery leaves that never quite wilt.", category=CraftingCategory.ALCHEMY, price=140, level_requirement=8),
+    dict(name="Ancient Porcelain", description="Fragments of a bowl or urn, glazed white, older than anything else nearby.", category=CraftingCategory.FORGE, price=160, level_requirement=10),
 ]
 for _material in MATERIAL_TEMPLATES:
     _material["slug"] = slugify(_material["name"])
@@ -240,6 +245,14 @@ CONSUMABLE_TEMPLATES = [
         heal_vitality_multiplier=4,
         price=480,
         level_requirement=5,
+    ),
+    dict(
+        name="Superior Healing Potion",
+        description="Silverleaf steeped until the water turns bright as mercury - the strongest brew there is.",
+        heal_flat=380,
+        heal_vitality_multiplier=6,
+        price=850,
+        level_requirement=10,
     ),
 ]
 for _consumable in CONSUMABLE_TEMPLATES:
@@ -285,6 +298,14 @@ CRAFTING_RECIPES = [
         output_consumable_slug=slugify("Greater Healing Potion"),
         output_quantity=1,
         ingredients=[dict(material_slug=slugify("Nettle"), quantity_required=6)],
+    ),
+    dict(
+        name="Superior Healing Potion (Silverleaf Brew)",
+        category=CraftingCategory.ALCHEMY,
+        level_requirement=10,
+        output_consumable_slug=slugify("Superior Healing Potion"),
+        output_quantity=1,
+        ingredients=[dict(material_slug=slugify("Silverleaf"), quantity_required=6)],
     ),
     dict(
         name="Vrelka Rune of Vigor",
@@ -480,7 +501,9 @@ MONSTER_LOOT_ENTRIES = [
 # highest (18) as its signature material (a beast prowling veil-corrupted
 # ground). Gem drops from all three of Robber/Dire Wolf/Awakened Bear at
 # a shared weight of 12 - the central ingredient for the two craftable
-# Talisman amulets.
+# Talisman amulets. Silverleaf (level 8, Superior Healing Potion's
+# ingredient) and Ancient Porcelain (level 10) also drop from all three -
+# Robber/Dire Wolf at weight 10 each, Awakened Bear at weight 18.
 MONSTER_MATERIAL_LOOT_ENTRIES = [
     dict(monster_slug=slugify("Young Wolf"), material_slug=slugify("Chamomile"), drop_weight=20),
     dict(monster_slug=slugify("Young Wolf"), material_slug=slugify("Plantago"), drop_weight=10),
@@ -514,16 +537,22 @@ MONSTER_MATERIAL_LOOT_ENTRIES = [
     dict(monster_slug=slugify("Robber"), material_slug=slugify("Scrap Metal"), drop_weight=20),
     dict(monster_slug=slugify("Robber"), material_slug=slugify("Veil Crystal"), drop_weight=8),
     dict(monster_slug=slugify("Robber"), material_slug=slugify("Gem"), drop_weight=12),
+    dict(monster_slug=slugify("Robber"), material_slug=slugify("Silverleaf"), drop_weight=10),
+    dict(monster_slug=slugify("Robber"), material_slug=slugify("Ancient Porcelain"), drop_weight=10),
     dict(monster_slug=slugify("Dire Wolf"), material_slug=slugify("Nettle"), drop_weight=10),
     dict(monster_slug=slugify("Dire Wolf"), material_slug=slugify("Coal"), drop_weight=8),
     dict(monster_slug=slugify("Dire Wolf"), material_slug=slugify("Scrap Metal"), drop_weight=8),
     dict(monster_slug=slugify("Dire Wolf"), material_slug=slugify("Veil Crystal"), drop_weight=18),
     dict(monster_slug=slugify("Dire Wolf"), material_slug=slugify("Gem"), drop_weight=12),
+    dict(monster_slug=slugify("Dire Wolf"), material_slug=slugify("Silverleaf"), drop_weight=10),
+    dict(monster_slug=slugify("Dire Wolf"), material_slug=slugify("Ancient Porcelain"), drop_weight=10),
     dict(monster_slug=slugify("Awakened Bear"), material_slug=slugify("Nettle"), drop_weight=12),
     dict(monster_slug=slugify("Awakened Bear"), material_slug=slugify("Coal"), drop_weight=20),
     dict(monster_slug=slugify("Awakened Bear"), material_slug=slugify("Scrap Metal"), drop_weight=10),
     dict(monster_slug=slugify("Awakened Bear"), material_slug=slugify("Veil Crystal"), drop_weight=10),
     dict(monster_slug=slugify("Awakened Bear"), material_slug=slugify("Gem"), drop_weight=12),
+    dict(monster_slug=slugify("Awakened Bear"), material_slug=slugify("Silverleaf"), drop_weight=18),
+    dict(monster_slug=slugify("Awakened Bear"), material_slug=slugify("Ancient Porcelain"), drop_weight=18),
 ]
 
 
