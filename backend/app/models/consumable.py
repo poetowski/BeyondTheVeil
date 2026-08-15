@@ -13,6 +13,7 @@ class ConsumableTemplate(UUIDPKMixin, TimestampMixin, Base):
     __table_args__ = (
         CheckConstraint("heal_flat >= 0", name="heal_flat_non_negative"),
         CheckConstraint("heal_vitality_multiplier >= 0", name="heal_vitality_multiplier_non_negative"),
+        CheckConstraint("price >= 0", name="price_non_negative"),
     )
 
     slug: Mapped[str] = mapped_column(String(64), unique=True, nullable=False)
@@ -24,6 +25,9 @@ class ConsumableTemplate(UUIDPKMixin, TimestampMixin, Base):
     heal_vitality_multiplier: Mapped[float] = mapped_column(
         Numeric(asdecimal=False), nullable=False, default=0
     )
+    # See ItemTemplate.price for the buy/sell-price convention and the
+    # default=0 rationale.
+    price: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
 
     consumable_instances: Mapped[list["ConsumableInstance"]] = relationship(
         back_populates="template"

@@ -11,6 +11,7 @@ from app.models.crafting import CraftingCategory, crafting_category_enum
 
 class MaterialTemplate(UUIDPKMixin, TimestampMixin, Base):
     __tablename__ = "material_templates"
+    __table_args__ = (CheckConstraint("price >= 0", name="price_non_negative"),)
 
     slug: Mapped[str] = mapped_column(String(64), unique=True, nullable=False)
     name: Mapped[str] = mapped_column(String(100), nullable=False)
@@ -18,6 +19,9 @@ class MaterialTemplate(UUIDPKMixin, TimestampMixin, Base):
     category: Mapped[CraftingCategory] = mapped_column(
         crafting_category_enum, nullable=False, default=CraftingCategory.ALCHEMY
     )
+    # See ItemTemplate.price for the buy/sell-price convention and the
+    # default=0 rationale.
+    price: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
 
     material_instances: Mapped[list["MaterialInstance"]] = relationship(back_populates="template")
 

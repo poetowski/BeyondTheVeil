@@ -13,6 +13,7 @@ class RuneInstanceOut(BaseModel):
     description: str | None
     stat_bonuses: dict[str, int]
     quantity: int
+    price: int
     acquired_at: datetime
 
 
@@ -24,5 +25,6 @@ def to_out(rune: RuneInstance) -> RuneInstanceOut:
         description=rune.template.description,
         stat_bonuses=rune.template.stat_bonuses,
         quantity=rune.quantity,
+        price=rune.template.price,
         acquired_at=rune.acquired_at,
     )

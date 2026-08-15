@@ -10,6 +10,7 @@ from app.models.base import Base, TimestampMixin, UUIDPKMixin
 
 class RuneTemplate(UUIDPKMixin, TimestampMixin, Base):
     __tablename__ = "rune_templates"
+    __table_args__ = (CheckConstraint("price >= 0", name="price_non_negative"),)
 
     slug: Mapped[str] = mapped_column(String(64), unique=True, nullable=False)
     name: Mapped[str] = mapped_column(String(100), nullable=False)
@@ -18,6 +19,9 @@ class RuneTemplate(UUIDPKMixin, TimestampMixin, Base):
     # hero_service.compute_stat_bonuses whenever the rune's host item is
     # equipped (see item_instances.rune_template_id).
     stat_bonuses: Mapped[dict] = mapped_column(JSONB, nullable=False, default=dict)
+    # See ItemTemplate.price for the buy/sell-price convention and the
+    # default=0 rationale.
+    price: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
 
     rune_instances: Mapped[list["RuneInstance"]] = relationship(back_populates="template")
 

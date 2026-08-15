@@ -56,6 +56,7 @@ class ItemTemplate(UUIDPKMixin, TimestampMixin, Base):
         ),
         CheckConstraint("defense >= 0", name="defense_non_negative"),
         CheckConstraint("bonus_max_hp >= 0", name="bonus_max_hp_non_negative"),
+        CheckConstraint("price >= 0", name="price_non_negative"),
     )
 
     slug: Mapped[str] = mapped_column(String(64), unique=True, nullable=False)
@@ -73,6 +74,12 @@ class ItemTemplate(UUIDPKMixin, TimestampMixin, Base):
     spell_damage_max: Mapped[int | None] = mapped_column(Integer, nullable=True)
     defense: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
     bonus_max_hp: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    # Shop gold value: full price to buy, round(price * 0.25) to sell (see
+    # hero_service.SHOP_SELL_PRICE_RATIO). Defaults to 0 rather than being
+    # required so pre-existing test fixtures that construct a template
+    # without a price keep working - real content always gets an explicit
+    # one via seed_dev_data.py.
+    price: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
 
     item_instances: Mapped[list["ItemInstance"]] = relationship(back_populates="template")
 

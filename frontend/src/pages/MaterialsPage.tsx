@@ -1,32 +1,20 @@
 import { useCallback, useEffect, useState } from "react";
 import { ApiError } from "../api/client";
-import { getMaterials } from "../api/materials";
+import { getMaterials, sellMaterial } from "../api/materials";
 import type { CraftingCategory, MaterialInstanceOut } from "../api/types";
 import { useAuth } from "../auth/AuthContext";
+import { MaterialIcon } from "../components/MaterialIcon";
 
 type State =
   | { kind: "loading" }
   | { kind: "loaded"; materials: MaterialInstanceOut[] }
   | { kind: "error"; message: string };
 
-function MaterialIcon({ material }: { material: MaterialInstanceOut }) {
-  const [missing, setMissing] = useState(false);
-  if (missing) {
-    return <div className="material-icon material-icon--missing" aria-hidden="true" />;
-  }
-  return (
-    <img
-      className="material-icon"
-      src={`/materials/${material.slug}.svg`}
-      alt={material.name}
-      onError={() => setMissing(true)}
-    />
-  );
-}
-
 export function MaterialsPage() {
-  const { token } = useAuth();
+  const { token, refetch } = useAuth();
   const [state, setState] = useState<State>({ kind: "loading" });
+  const [pendingId, setPendingId] = useState<string | null>(null);
+  const [actionError, setActionError] = useState<string | null>(null);
 
   const load = useCallback(async () => {
     if (!token) return;
@@ -46,6 +34,20 @@ export function MaterialsPage() {
     load();
   }, [load]);
 
+  async function handleSell(materialId: string) {
+    if (!token) return;
+    setActionError(null);
+    setPendingId(materialId);
+    try {
+      await sellMaterial(token, materialId);
+      await Promise.all([load(), refetch()]);
+    } catch (err) {
+      setActionError(err instanceof ApiError ? err.message : "Failed to sell that material.");
+    } finally {
+      setPendingId(null);
+    }
+  }
+
   return (
     <div className="page">
       <h1>Materials</h1>
@@ -60,6 +62,8 @@ export function MaterialsPage() {
       )}
       {state.kind === "loaded" && (
         <>
+          {actionError && <p className="auth-error">{actionError}</p>}
+
           {MATERIAL_PANELS.map(({ category, label }) => {
             const categoryMaterials = state.materials.filter((m) => m.category === category);
             return (
@@ -74,8 +78,18 @@ export function MaterialsPage() {
                     {categoryMaterials.map((material) => (
                       <li key={material.id} className="list-row">
                         <span className="equipment-slot-label">{material.name}</span>
-                        <MaterialIcon material={material} />
-                        <span className="equipment-slot-value">×{material.quantity}</span>
+                        <MaterialIcon slug={material.slug} name={material.name} />
+                        <span className="equipment-slot-filled">
+                          <span className="equipment-slot-value">×{material.quantity}</span>
+                          <button
+                            type="button"
+                            className="small-button"
+                            disabled={pendingId === material.id}
+                            onClick={() => handleSell(material.id)}
+                          >
+                            Sell ({Math.round(material.price * 0.25)}g)
+                          </button>
+                        </span>
                       </li>
                     ))}
                   </ul>

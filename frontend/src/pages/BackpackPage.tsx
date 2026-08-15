@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
-import { getConsumables, useConsumable as consumeConsumable } from "../api/alchemy";
+import { getConsumables, sellConsumable, useConsumable as consumeConsumable } from "../api/alchemy";
 import { ApiError } from "../api/client";
-import { applyRune, equipItem, getInventory, unequipItem } from "../api/inventory";
-import { getRunes } from "../api/runes";
+import { applyRune, equipItem, getInventory, sellItem, unequipItem } from "../api/inventory";
+import { getRunes, sellRune } from "../api/runes";
 import type { ConsumableInstanceOut, ItemInstanceOut, RuneInstanceOut } from "../api/types";
 import { useAuth } from "../auth/AuthContext";
 import { ItemIcon } from "../components/ItemIcon";
@@ -110,6 +110,22 @@ export function BackpackPage() {
     }
   }
 
+  async function handleSell(kind: "item" | "consumable" | "rune", id: string) {
+    if (!token) return;
+    setActionError(null);
+    setPendingId(id);
+    try {
+      if (kind === "item") await sellItem(token, id);
+      else if (kind === "consumable") await sellConsumable(token, id);
+      else await sellRune(token, id);
+      await Promise.all([load(), refetch()]);
+    } catch (err) {
+      setActionError(err instanceof ApiError ? err.message : "Failed to sell that.");
+    } finally {
+      setPendingId(null);
+    }
+  }
+
   if (!hero) {
     return <p>Loading hero…</p>;
   }
@@ -160,6 +176,14 @@ export function BackpackPage() {
                       >
                         Use
                       </button>
+                      <button
+                        type="button"
+                        className="small-button"
+                        disabled={pendingId === consumable.id}
+                        onClick={() => handleSell("consumable", consumable.id)}
+                      >
+                        Sell ({Math.round(consumable.price * 0.25)}g)
+                      </button>
                     </span>
                   </li>
                 ))}
@@ -179,6 +203,14 @@ export function BackpackPage() {
                     <RuneIcon slug={rune.slug} name={rune.name} />
                     <span className="equipment-slot-filled">
                       <span className="equipment-slot-value">×{rune.quantity}</span>
+                      <button
+                        type="button"
+                        className="small-button"
+                        disabled={pendingId === rune.id}
+                        onClick={() => handleSell("rune", rune.id)}
+                      >
+                        Sell ({Math.round(rune.price * 0.25)}g)
+                      </button>
                     </span>
                   </li>
                 ))}
@@ -216,6 +248,15 @@ export function BackpackPage() {
                               onClick={() => handleToggleEquip(item)}
                             >
                               {item.equipped_slot === null ? "Equip" : "Unequip"}
+                            </button>
+                            <button
+                              type="button"
+                              className="small-button"
+                              disabled={item.equipped_slot !== null || pendingId === item.id}
+                              title={item.equipped_slot !== null ? "Unequip to sell" : undefined}
+                              onClick={() => handleSell("item", item.id)}
+                            >
+                              Sell ({Math.round(item.price * 0.25)}g)
                             </button>
                             {item.rune_name !== null ? (
                               <span className="equipment-slot-value">Runed: {item.rune_name}</span>

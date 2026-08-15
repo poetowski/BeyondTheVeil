@@ -12,6 +12,7 @@ class ConsumableInstanceOut(BaseModel):
     name: str
     description: str | None
     quantity: int
+    price: int
     acquired_at: datetime
 
 
@@ -22,5 +23,6 @@ def to_out(consumable: ConsumableInstance) -> ConsumableInstanceOut:
         name=consumable.template.name,
         description=consumable.template.description,
         quantity=consumable.quantity,
+        price=consumable.template.price,
         acquired_at=consumable.acquired_at,
     )

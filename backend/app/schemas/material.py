@@ -14,6 +14,7 @@ class MaterialInstanceOut(BaseModel):
     description: str | None
     quantity: int
     category: CraftingCategory
+    price: int
     acquired_at: datetime
 
 
@@ -25,5 +26,6 @@ def to_out(material: MaterialInstance) -> MaterialInstanceOut:
         description=material.template.description,
         quantity=material.quantity,
         category=material.template.category,
+        price=material.template.price,
         acquired_at=material.acquired_at,
     )

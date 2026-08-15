@@ -6,6 +6,7 @@ from app.models.item import EquipmentSlot, ItemInstance, ItemRarity, ItemTemplat
 from app.models.material import MaterialInstance, MaterialTemplate
 from app.models.monster import MonsterLootEntry, MonsterMaterialLootEntry, MonsterTemplate
 from app.models.rune import RuneInstance, RuneTemplate
+from app.models.shop import ShopPurchase
 from app.models.user import User
 from app.models.veil_run import VeilRun, VeilRunStatus
 
@@ -29,6 +30,7 @@ __all__ = [
     "MonsterMaterialLootEntry",
     "RuneTemplate",
     "RuneInstance",
+    "ShopPurchase",
     "VeilRun",
     "VeilRunStatus",
 ]

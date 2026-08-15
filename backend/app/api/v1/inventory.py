@@ -7,6 +7,7 @@ from app.api.deps import get_current_user
 from app.core.db import get_db
 from app.models.user import User
 from app.schemas.item import ItemInstanceOut, to_out
+from app.schemas.shop import SellResultOut
 from app.services import hero_service
 
 router = APIRouter(prefix="/inventory", tags=["inventory"])
@@ -68,3 +69,20 @@ def apply_rune(
     except hero_service.RuneAlreadyAppliedError as exc:
         raise HTTPException(status.HTTP_409_CONFLICT, detail=str(exc)) from exc
     return to_out(item)
+
+
+@router.post("/{item_id}/sell", response_model=SellResultOut)
+def sell_item(
+    item_id: uuid.UUID,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+) -> SellResultOut:
+    try:
+        gold_gained = hero_service.sell_item(db, current_user.hero, item_id)
+    except hero_service.ItemNotFoundError as exc:
+        raise HTTPException(status.HTTP_404_NOT_FOUND, detail=str(exc)) from exc
+    except hero_service.ItemNotOwnedError as exc:
+        raise HTTPException(status.HTTP_403_FORBIDDEN, detail=str(exc)) from exc
+    except hero_service.ItemEquippedError as exc:
+        raise HTTPException(status.HTTP_409_CONFLICT, detail=str(exc)) from exc
+    return SellResultOut(gold_gained=gold_gained)

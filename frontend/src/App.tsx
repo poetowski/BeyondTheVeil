@@ -11,6 +11,7 @@ import { LeaderboardPage } from "./pages/LeaderboardPage";
 import { LoginPage } from "./pages/LoginPage";
 import { MaterialsPage } from "./pages/MaterialsPage";
 import { OverviewPage } from "./pages/OverviewPage";
+import { ShopPage } from "./pages/ShopPage";
 import { SignupPage } from "./pages/SignupPage";
 import { VeilPage } from "./pages/VeilPage";
 
@@ -30,6 +31,7 @@ function App() {
           <Route path="/forge" element={<ForgePage />} />
           <Route path="/veil" element={<VeilPage />} />
           <Route path="/bestiary" element={<BestiaryPage />} />
+          <Route path="/shop" element={<ShopPage />} />
           <Route path="/leaderboard" element={<LeaderboardPage />} />
           <Route path="/concept" element={<ConceptPage />} />
         </Route>

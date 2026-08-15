@@ -123,6 +123,7 @@ export interface ItemInstanceOut {
   rune_slug: string | null;
   rune_name: string | null;
   rune_stat_bonuses: Record<string, number> | null;
+  price: number;
   acquired_at: string;
 }
 
@@ -133,6 +134,7 @@ export interface RuneInstanceOut {
   description: string | null;
   stat_bonuses: Record<string, number>;
   quantity: number;
+  price: number;
   acquired_at: string;
 }
 
@@ -143,6 +145,7 @@ export interface MaterialInstanceOut {
   description: string | null;
   quantity: number;
   category: CraftingCategory;
+  price: number;
   acquired_at: string;
 }
 
@@ -161,6 +164,7 @@ export interface ConsumableInstanceOut {
   name: string;
   description: string | null;
   quantity: number;
+  price: number;
   acquired_at: string;
 }
 
@@ -196,4 +200,34 @@ export interface LeaderboardEntryOut {
   rank: number;
   name: string;
   level: number;
+}
+
+export interface ShopSlotOut {
+  slot_index: number;
+  slot_type: "item" | "material";
+  template_id: string;
+  slug: string;
+  name: string;
+  description: string | null;
+  price: number;
+  already_bought: boolean;
+  item_slot: EquipmentSlot | null;
+  item_rarity: ItemRarity | null;
+  material_category: CraftingCategory | null;
+}
+
+export interface ShopOut {
+  shop_date: string;
+  slots: ShopSlotOut[];
+}
+
+export interface ShopBuyResultOut {
+  slot_type: "item" | "material";
+  item: ItemInstanceOut | null;
+  material: MaterialInstanceOut | null;
+  gold_spent: number;
+}
+
+export interface SellResultOut {
+  gold_gained: number;
 }

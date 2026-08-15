@@ -24,6 +24,11 @@ XP_CURVE_EXPONENT = 1.5
 TRAIN_STAT_BASE_COST = 10
 TRAIN_STAT_EXPONENT = 1.8
 
+# Selling anything owned (item/material/consumable/rune) refunds this
+# fraction of its template's price, rounded. Buying costs the full price -
+# see shop_service.
+SHOP_SELL_PRICE_RATIO = 0.25
+
 
 class HeroServiceError(Exception):
     """Base class for hero-mutation failures (equip, unequip, stat training)."""
@@ -58,6 +63,30 @@ class RuneNotOwnedError(HeroServiceError):
 
 
 class RuneAlreadyAppliedError(HeroServiceError):
+    pass
+
+
+class ItemEquippedError(HeroServiceError):
+    pass
+
+
+class MaterialNotFoundError(HeroServiceError):
+    pass
+
+
+class MaterialNotOwnedError(HeroServiceError):
+    pass
+
+
+class ConsumableNotFoundError(HeroServiceError):
+    """Distinct from crafting_service.ConsumableNotFoundError -
+    crafting_service already imports hero_service, so hero_service can't
+    import crafting_service's version back without a circular import."""
+
+    pass
+
+
+class ConsumableNotOwnedError(HeroServiceError):
     pass
 
 
@@ -288,6 +317,92 @@ def apply_rune(db: Session, hero: Hero, item_id: uuid.UUID, rune_instance_id: uu
     db.commit()
     db.refresh(item)
     return item
+
+
+def sell_item(db: Session, hero: Hero, item_id: uuid.UUID) -> int:
+    """Sells one owned, unequipped item for SHOP_SELL_PRICE_RATIO of its
+    template's price (rounded). Equipped items must be unequipped first -
+    see ItemEquippedError."""
+    item = db.get(ItemInstance, item_id)
+    if item is None:
+        raise ItemNotFoundError(f"item {item_id} not found")
+    if item.owner_hero_id != hero.id:
+        raise ItemNotOwnedError("hero does not own this item")
+    if item.equipped_slot is not None:
+        raise ItemEquippedError("unequip this item before selling it")
+
+    gold_gained = round(item.template.price * SHOP_SELL_PRICE_RATIO)
+    hero.gold += gold_gained
+    db.add(hero)
+    db.delete(item)
+    db.commit()
+    db.refresh(hero)
+    return gold_gained
+
+
+def sell_material(db: Session, hero: Hero, material_instance_id: uuid.UUID) -> int:
+    """Sells one unit from an owned material stack."""
+    material = db.get(MaterialInstance, material_instance_id)
+    if material is None:
+        raise MaterialNotFoundError(f"material {material_instance_id} not found")
+    if material.owner_hero_id != hero.id:
+        raise MaterialNotOwnedError("hero does not own this material")
+
+    gold_gained = round(material.template.price * SHOP_SELL_PRICE_RATIO)
+    hero.gold += gold_gained
+    material.quantity -= 1
+    if material.quantity == 0:
+        db.delete(material)
+    else:
+        db.add(material)
+    db.add(hero)
+    db.commit()
+    db.refresh(hero)
+    return gold_gained
+
+
+def sell_consumable(db: Session, hero: Hero, consumable_instance_id: uuid.UUID) -> int:
+    """Sells one unit from an owned consumable stack. Mirrors sell_material."""
+    consumable = db.get(ConsumableInstance, consumable_instance_id)
+    if consumable is None:
+        raise ConsumableNotFoundError(f"consumable {consumable_instance_id} not found")
+    if consumable.owner_hero_id != hero.id:
+        raise ConsumableNotOwnedError("hero does not own this consumable")
+
+    gold_gained = round(consumable.template.price * SHOP_SELL_PRICE_RATIO)
+    hero.gold += gold_gained
+    consumable.quantity -= 1
+    if consumable.quantity == 0:
+        db.delete(consumable)
+    else:
+        db.add(consumable)
+    db.add(hero)
+    db.commit()
+    db.refresh(hero)
+    return gold_gained
+
+
+def sell_rune(db: Session, hero: Hero, rune_instance_id: uuid.UUID) -> int:
+    """Sells one unit from an owned, unattached rune stack. Mirrors
+    sell_material. A rune already fused to an item isn't a RuneInstance row
+    (see apply_rune) so there's nothing to sell there."""
+    rune = db.get(RuneInstance, rune_instance_id)
+    if rune is None:
+        raise RuneNotFoundError(f"rune {rune_instance_id} not found")
+    if rune.owner_hero_id != hero.id:
+        raise RuneNotOwnedError("hero does not own this rune")
+
+    gold_gained = round(rune.template.price * SHOP_SELL_PRICE_RATIO)
+    hero.gold += gold_gained
+    rune.quantity -= 1
+    if rune.quantity == 0:
+        db.delete(rune)
+    else:
+        db.add(rune)
+    db.add(hero)
+    db.commit()
+    db.refresh(hero)
+    return gold_gained
 
 
 def get_equipped_items(db: Session, hero: Hero) -> list[ItemInstance]:
