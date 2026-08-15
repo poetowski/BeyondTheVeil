@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#eef2df"/>
+      <stop offset="100%" stop-color="#dce6c8"/>
+    </linearGradient>
+  </defs>
+
+  <!-- sky -->
+  <rect x="0" y="0" width="512" height="340" fill="url(#sky)"/>
+  <!-- meadow ground -->
+  <rect x="0" y="340" width="512" height="172" fill="#93a06e"/>
+
+  <!-- distant tree line -->
+  <g fill="#7c8f61">
+    <polygon points="40,345 14,308 66,308"/>
+    <polygon points="470,345 444,310 496,310"/>
+  </g>
+
+  <!-- cottage, set back behind the bandit -->
+  <g>
+    <!-- walls -->
+    <rect x="300" y="222" width="150" height="118" fill="#cbb894" stroke="#3a352f" stroke-width="5"/>
+    <!-- roof -->
+    <polygon points="292,224 375,150 458,224" fill="#8a5a3a" stroke="#3a352f" stroke-width="5" stroke-linejoin="round"/>
+    <!-- chimney -->
+    <rect x="410" y="164" width="20" height="40" fill="#857c6e" stroke="#3a352f" stroke-width="3"/>
+    <!-- door -->
+    <rect x="358" y="278" width="34" height="62" rx="4" fill="#5b4636" stroke="#3a352f" stroke-width="4"/>
+    <!-- window -->
+    <rect x="316" y="250" width="28" height="28" fill="#6b7f8a" stroke="#3a352f" stroke-width="3"/>
+    <line x1="330" y1="250" x2="330" y2="278" stroke="#3a352f" stroke-width="2"/>
+    <line x1="316" y1="264" x2="344" y2="264" stroke="#3a352f" stroke-width="2"/>
+  </g>
+
+  <!-- meadow grass tufts -->
+  <g fill="#7c8f61">
+    <polygon points="60,345 50,320 70,320"/>
+    <polygon points="470,340 460,318 480,318"/>
+  </g>
+  <g fill="#4f6b47">
+    <polygon points="26,392 10,350 42,350"/>
+    <polygon points="486,388 470,348 502,348"/>
+  </g>
+  <!-- wildflowers -->
+  <g>
+    <circle cx="80" cy="368" r="4" fill="#f3ecff"/>
+    <circle cx="80" cy="368" r="1.6" fill="#e8b23d"/>
+    <circle cx="440" cy="374" r="4" fill="#f3ecff"/>
+    <circle cx="440" cy="374" r="1.6" fill="#e8b23d"/>
+  </g>
+
+  <!-- ground shadow beneath the bandit -->
+  <ellipse cx="200" cy="430" rx="86" ry="15" fill="#7c8a5a" opacity="0.55"/>
+
+  <!-- back leg -->
+  <rect x="212" y="368" width="24" height="64" rx="8" fill="#4a3f35" stroke="#3a352f" stroke-width="4"/>
+  <ellipse cx="224" cy="432" rx="15" ry="7" fill="#2b2823"/>
+
+  <!-- cloak, tapered and draped -->
+  <path d="M150,270 Q152,240 200,224 Q248,240 250,270
+           L262,406 Q256,424 200,424 Q144,424 138,406 Z"
+        fill="#6b5d4f" stroke="#3a352f" stroke-width="5" stroke-linejoin="round"/>
+  <!-- cloak shading fold -->
+  <path d="M200,244 Q214,300 210,406 L188,406 Q184,300 190,244 Z" fill="#4a3f35" opacity="0.85"/>
+
+  <!-- front leg -->
+  <rect x="176" y="374" width="24" height="60" rx="8" fill="#5b4d40" stroke="#3a352f" stroke-width="4"/>
+  <ellipse cx="188" cy="434" rx="15" ry="7" fill="#2b2823"/>
+
+  <!-- rear arm, hidden mostly under cloak -->
+  <rect x="146" y="288" width="20" height="70" rx="9" fill="#5b4d40" stroke="#3a352f" stroke-width="4"/>
+
+  <!-- dagger arm, raised forward -->
+  <rect x="246" y="270" width="20" height="66" rx="9" fill="#6b5d4f" stroke="#3a352f" stroke-width="4"
+        transform="rotate(-28 256 270)"/>
+  <!-- hand -->
+  <circle cx="288" cy="238" r="13" fill="#5b4d40" stroke="#3a352f" stroke-width="3"/>
+  <!-- dagger -->
+  <g transform="rotate(-35 288 238)">
+    <rect x="284" y="196" width="8" height="24" rx="3" fill="#5b4636" stroke="#3a352f" stroke-width="3"/>
+    <rect x="272" y="216" width="32" height="8" rx="2" fill="#4a3f35" stroke="#3a352f" stroke-width="3"/>
+    <polygon points="284,224 292,224 296,186 288,150 280,186" fill="#cfd2d4" stroke="#3a352f" stroke-width="3" stroke-linejoin="round"/>
+    <polygon points="288,190 292,224 288,224" fill="#eef1f2" opacity="0.85"/>
+  </g>
+
+  <!-- hood -->
+  <path d="M200,150 Q160,158 156,206 Q158,238 200,246 Q242,238 244,206 Q240,158 200,150 Z"
+        fill="#6b5d4f" stroke="#3a352f" stroke-width="5" stroke-linejoin="round"/>
+  <!-- hood shading -->
+  <path d="M200,158 Q222,168 226,206 Q224,228 208,238 Q220,206 200,158 Z" fill="#4a3f35" opacity="0.8"/>
+
+  <!-- face shadow, hood conceals everything but the eyes -->
+  <ellipse cx="200" cy="206" rx="34" ry="30" fill="#2b2823"/>
+
+  <!-- eyes: pale glints in the shadow -->
+  <ellipse cx="188" cy="206" rx="7" ry="5" fill="#d99a3d"/>
+  <ellipse cx="212" cy="206" rx="7" ry="5" fill="#d99a3d"/>
+  <circle cx="188" cy="206" r="2.2" fill="#2b2823"/>
+  <circle cx="212" cy="206" r="2.2" fill="#2b2823"/>
+</svg>
