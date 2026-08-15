@@ -9,43 +9,55 @@
   <rect x="80" y="320" width="200" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
   <rect x="250" y="440" width="180" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
 
+  <!-- deep blue aura, radiating behind the shard -->
+  <circle cx="256" cy="240" r="190" fill="#3f7bb0" opacity="0.18"/>
+  <circle cx="256" cy="240" r="150" fill="#3f7bb0" opacity="0.24"/>
+  <circle cx="256" cy="240" r="112" fill="#2a5788" opacity="0.3"/>
+
   <!-- contact shadow -->
-  <ellipse cx="256" cy="378" rx="92" ry="17" fill="#3a352f" opacity="0.2"/>
+  <ellipse cx="256" cy="404" rx="118" ry="20" fill="#3a352f" opacity="0.22"/>
 
-  <!-- small ice shards flanking the base -->
-  <polygon points="188,352 203,304 216,352" fill="#bfe3f0" stroke="#3a352f" stroke-width="3" stroke-linejoin="round"/>
-  <polygon points="296,352 311,300 328,352" fill="#8fc4dc" stroke="#3a352f" stroke-width="3" stroke-linejoin="round"/>
+  <!-- satellite ice shards in varied blue shades -->
+  <polygon points="150,392 168,328 184,392" fill="#7fb8dc" stroke="#3a352f" stroke-width="3" stroke-linejoin="round"/>
+  <polygon points="330,392 348,320 368,392" fill="#1b3a5c" stroke="#3a352f" stroke-width="3" stroke-linejoin="round"/>
+  <polygon points="188,86 200,52 214,88" fill="#bfe3f0" stroke="#3a352f" stroke-width="2.5" stroke-linejoin="round" opacity="0.9"/>
+  <polygon points="304,96 318,58 332,98" fill="#3f7bb0" stroke="#3a352f" stroke-width="2.5" stroke-linejoin="round" opacity="0.9"/>
 
-  <!-- main icicle shard, faceted, two-tone -->
-  <polygon points="256,116 236,178 244,228 220,258 236,320 256,340"
-           fill="#d6f0f8" stroke="#3a352f" stroke-width="5" stroke-linejoin="round"/>
-  <polygon points="256,116 276,178 268,228 292,258 276,320 256,340"
-           fill="#8fc4dc" stroke="#3a352f" stroke-width="5" stroke-linejoin="round"/>
+  <!-- main icicle shard, large and faceted, deep-to-icy blue -->
+  <polygon points="256,44 206,146 220,214 182,256 206,340 256,378"
+           fill="#7fb8dc" stroke="#3a352f" stroke-width="5.5" stroke-linejoin="round"/>
+  <polygon points="256,44 306,146 292,214 330,256 306,340 256,378"
+           fill="#163454" stroke="#3a352f" stroke-width="5.5" stroke-linejoin="round"/>
+  <!-- mid facet band, medium blue, ties the two sides together -->
+  <polygon points="220,214 256,204 292,214 306,256 256,268 206,256"
+           fill="#2a5788" stroke="#3a352f" stroke-width="4" stroke-linejoin="round" opacity="0.92"/>
 
   <!-- frost crackle lines -->
-  <g stroke="#eaf6fb" stroke-width="2" fill="none" opacity="0.7" stroke-linecap="round">
-    <path d="M240,196 L258,206 L246,236"/>
-    <path d="M266,204 L252,222"/>
-    <path d="M244,270 L262,282 L252,308"/>
+  <g stroke="#eaf6fb" stroke-width="2.4" fill="none" opacity="0.75" stroke-linecap="round">
+    <path d="M226,120 L250,134 L234,172"/>
+    <path d="M270,128 L250,152"/>
+    <path d="M224,300 L250,316 L236,352"/>
+    <path d="M288,296 L266,318 L282,346"/>
   </g>
 
-  <!-- frozen spark, trapped at the crystal's core -->
-  <circle cx="256" cy="222" r="28" fill="#ffcf6b" opacity="0.22"/>
-  <circle cx="256" cy="222" r="15" fill="#ff9d4d" opacity="0.55"/>
-  <circle cx="256" cy="222" r="6" fill="#fff3d0"/>
-  <g stroke="#ffcf6b" stroke-width="2" stroke-linecap="round" opacity="0.75">
-    <path d="M256,204 L256,196"/>
-    <path d="M256,240 L256,248"/>
-    <path d="M240,222 L232,222"/>
-    <path d="M272,222 L280,222"/>
+  <!-- frozen spark, small warm accent at the crystal's core -->
+  <circle cx="256" cy="236" r="30" fill="#ffcf6b" opacity="0.18"/>
+  <circle cx="256" cy="236" r="15" fill="#ff9d4d" opacity="0.55"/>
+  <circle cx="256" cy="236" r="6" fill="#fff3d0"/>
+  <g stroke="#ffcf6b" stroke-width="2" stroke-linecap="round" opacity="0.7">
+    <path d="M256,218 L256,210"/>
+    <path d="M256,254 L256,262"/>
+    <path d="M240,236 L232,236"/>
+    <path d="M272,236 L280,236"/>
   </g>
 
   <!-- rising frost mist -->
-  <g stroke="#eaf6fb" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.4">
-    <path d="M240,132 Q228,102 244,68"/>
-    <path d="M272,138 Q286,106 268,74"/>
+  <g stroke="#bfe3f0" stroke-width="3.5" fill="none" stroke-linecap="round" opacity="0.45">
+    <path d="M222,58 Q206,24 226,-12"/>
+    <path d="M292,64 Q310,28 288,-8"/>
   </g>
 
   <!-- shine highlight on the shard -->
-  <ellipse cx="240" cy="150" rx="8" ry="14" fill="#f4fbfd" opacity="0.85" transform="rotate(-16 240 150)"/>
+  <ellipse cx="228" cy="110" rx="10" ry="20" fill="#f4fbfd" opacity="0.9" transform="rotate(-16 228 110)"/>
+  <ellipse cx="238" cy="300" rx="6" ry="12" fill="#eaf6fb" opacity="0.6" transform="rotate(-10 238 300)"/>
 </svg>
