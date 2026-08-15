@@ -148,6 +148,11 @@ for _material in MATERIAL_TEMPLATES:
 RUNE_TEMPLATES = [
     dict(name="Vrelka Rune of Vigor", description="A dull red glyph, warm to the touch.", stat_bonuses={"vitality": 3}, price=1540, level_requirement=1),
     dict(name="Vosk Rune of Might", description="Three azure shards radiating around a glowing core.", stat_bonuses={"strength": 3}, price=1540, level_requirement=1),
+    # Level 8, crafted only from the new level-6 Forge materials (Coal,
+    # Scrap Metal, Veil Crystal) - see their CRAFTING_RECIPES entries.
+    dict(name="Trask Rune of Finesse", description="A narrow silver glyph, precise down to the last line.", stat_bonuses={"dexterity": 5}, price=2400, level_requirement=8),
+    dict(name="Mirel Rune of Fleetness", description="A glyph that seems to blur at the edges, never quite still.", stat_bonuses={"agility": 5}, price=2400, level_requirement=8),
+    dict(name="Sythe Rune of Cunning", description="A tangled glyph that rewards a closer look with a hidden second pattern.", stat_bonuses={"intelligence": 5}, price=2400, level_requirement=8),
 ]
 for _rune in RUNE_TEMPLATES:
     _rune["slug"] = slugify(_rune["name"])
@@ -234,6 +239,40 @@ CRAFTING_RECIPES = [
         ingredients=[
             dict(material_slug=slugify("Tin Shard"), quantity_required=3),
             dict(material_slug=slugify("Ember Dust"), quantity_required=2),
+        ],
+    ),
+    dict(
+        name="Trask Rune of Finesse",
+        category=CraftingCategory.FORGE,
+        level_requirement=8,
+        output_rune_slug=slugify("Trask Rune of Finesse"),
+        output_quantity=1,
+        ingredients=[
+            dict(material_slug=slugify("Scrap Metal"), quantity_required=4),
+            dict(material_slug=slugify("Veil Crystal"), quantity_required=2),
+        ],
+    ),
+    dict(
+        name="Mirel Rune of Fleetness",
+        category=CraftingCategory.FORGE,
+        level_requirement=8,
+        output_rune_slug=slugify("Mirel Rune of Fleetness"),
+        output_quantity=1,
+        ingredients=[
+            dict(material_slug=slugify("Coal"), quantity_required=4),
+            dict(material_slug=slugify("Veil Crystal"), quantity_required=2),
+        ],
+    ),
+    dict(
+        name="Sythe Rune of Cunning",
+        category=CraftingCategory.FORGE,
+        level_requirement=8,
+        output_rune_slug=slugify("Sythe Rune of Cunning"),
+        output_quantity=1,
+        ingredients=[
+            dict(material_slug=slugify("Coal"), quantity_required=2),
+            dict(material_slug=slugify("Scrap Metal"), quantity_required=2),
+            dict(material_slug=slugify("Veil Crystal"), quantity_required=3),
         ],
     ),
 ]
