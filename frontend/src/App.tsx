@@ -5,6 +5,7 @@ import { AlchemyPage } from "./pages/AlchemyPage";
 import { BackpackPage } from "./pages/BackpackPage";
 import { BestiaryPage } from "./pages/BestiaryPage";
 import { ConceptPage } from "./pages/ConceptPage";
+import { CraftingPage } from "./pages/CraftingPage";
 import { ForgePage } from "./pages/ForgePage";
 import { LeaderboardPage } from "./pages/LeaderboardPage";
 import { LoginPage } from "./pages/LoginPage";
@@ -24,6 +25,7 @@ function App() {
           <Route path="/overview" element={<OverviewPage />} />
           <Route path="/backpack" element={<BackpackPage />} />
           <Route path="/materials" element={<MaterialsPage />} />
+          <Route path="/crafting" element={<CraftingPage />} />
           <Route path="/alchemy" element={<AlchemyPage />} />
           <Route path="/forge" element={<ForgePage />} />
           <Route path="/veil" element={<VeilPage />} />

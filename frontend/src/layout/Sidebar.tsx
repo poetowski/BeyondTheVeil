@@ -9,11 +9,9 @@ interface NavItem {
   highlight?: boolean;
 }
 
-// Most top-level items forward straight to their first sub-tab when clicked
-// (Alchemy), same as clicking a folder opens the first thing inside it -
-// they don't own a distinct screen. Hero and The Veil are exceptions: their
-// own link owns a screen (hero stats/equipment; the veil-entry page) that
-// isn't any of their listed sub-tabs.
+// Each top-level item owns its own screen at `to` (Hero's stats/equipment,
+// the veil-entry page, and Crafting's all-recipes list), distinct from
+// whatever its listed sub-tabs show.
 const NAV_ITEMS: NavItem[] = [
   {
     to: "/overview",
@@ -30,7 +28,7 @@ const NAV_ITEMS: NavItem[] = [
     children: [{ to: "/bestiary", label: "Bestiary" }],
   },
   {
-    to: "/alchemy",
+    to: "/crafting",
     label: "Crafting",
     children: [
       { to: "/alchemy", label: "Alchemy" },

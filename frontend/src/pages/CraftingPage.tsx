@@ -9,7 +9,7 @@ type State =
   | { kind: "loaded"; recipes: CraftingRecipeOut[] }
   | { kind: "error"; message: string };
 
-export function AlchemyPage() {
+export function CraftingPage() {
   const { token } = useAuth();
   const [state, setState] = useState<State>({ kind: "loading" });
   const [pendingSlug, setPendingSlug] = useState<string | null>(null);
@@ -19,12 +19,12 @@ export function AlchemyPage() {
     if (!token) return;
     setState({ kind: "loading" });
     try {
-      const recipes = await getRecipes(token, "alchemy");
+      const recipes = await getRecipes(token);
       setState({ kind: "loaded", recipes });
     } catch (err) {
       setState({
         kind: "error",
-        message: err instanceof ApiError ? err.message : "Failed to load the alchemy lab.",
+        message: err instanceof ApiError ? err.message : "Failed to load recipes.",
       });
     }
   }, [token]);
@@ -33,7 +33,7 @@ export function AlchemyPage() {
     load();
   }, [load]);
 
-  async function handleBrew(recipeSlug: string) {
+  async function handleCraft(recipeSlug: string) {
     if (!token) return;
     setActionError(null);
     setPendingSlug(recipeSlug);
@@ -41,7 +41,7 @@ export function AlchemyPage() {
       await craftRecipe(token, recipeSlug);
       await load();
     } catch (err) {
-      setActionError(err instanceof ApiError ? err.message : "Failed to brew that recipe.");
+      setActionError(err instanceof ApiError ? err.message : "Failed to craft that recipe.");
     } finally {
       setPendingSlug(null);
     }
@@ -49,8 +49,8 @@ export function AlchemyPage() {
 
   return (
     <div className="page">
-      <h1>Alchemy</h1>
-      {state.kind === "loading" && <p>Warming the crucible…</p>}
+      <h1>Crafting</h1>
+      {state.kind === "loading" && <p>Loading recipes…</p>}
       {state.kind === "error" && (
         <>
           <p className="auth-error">{state.message}</p>
@@ -70,7 +70,9 @@ export function AlchemyPage() {
             <ul className="equipment-list">
               {state.recipes.map((recipe) => (
                 <li key={recipe.id} className="list-row">
-                  <span className="equipment-slot-label">{recipe.name}</span>
+                  <span className="equipment-slot-label">
+                    {recipe.name} <span className="equipment-slot-value">({recipe.category})</span>
+                  </span>
                   <span className="equipment-slot-filled">
                     <span className="equipment-slot-value">
                       {recipe.ingredients
@@ -81,16 +83,16 @@ export function AlchemyPage() {
                       type="button"
                       className="small-button"
                       disabled={!recipe.craftable || pendingSlug === recipe.slug}
-                      onClick={() => handleBrew(recipe.slug)}
+                      onClick={() => handleCraft(recipe.slug)}
                     >
-                      Brew
+                      Craft
                     </button>
                   </span>
                 </li>
               ))}
             </ul>
           )}
-          <p className="backpack-panel-empty">Brewed elixirs go straight to your Backpack.</p>
+          <p className="backpack-panel-empty">Crafted results go straight to your Backpack.</p>
         </>
       )}
     </div>
