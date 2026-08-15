@@ -21,7 +21,7 @@ BASELINE_STAT_VALUE = 10
 # engine's placeholder constants.
 XP_CURVE_BASE = 100
 XP_CURVE_EXPONENT = 1.5
-TRAIN_STAT_BASE_COST = 10
+TRAIN_STAT_BASE_COST = 8
 TRAIN_STAT_EXPONENT = 1.8
 
 # Selling anything owned (item/material/consumable/rune) refunds this
@@ -210,7 +210,7 @@ def train_stat_cost(current_value: int) -> int:
     A power curve, not a linear one: each point already trained above
     baseline raises the cost of the next by TRAIN_STAT_EXPONENT, so early
     points are cheap but late ones become a serious gold sink rather than a
-    grind (e.g. base cost 10: 10, 35, 72, 121, 182, ... for points 0-4 above
+    grind (e.g. base cost 8: 8, 28, 58, 97, 145, ... for points 0-4 above
     baseline).
     """
     points_above_baseline = max(0, current_value - BASELINE_STAT_VALUE)
