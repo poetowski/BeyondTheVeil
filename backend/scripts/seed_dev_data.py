@@ -30,6 +30,13 @@ ITEM_TEMPLATES = [
     dict(name="Leather Helm", slot=EquipmentSlot.HELMET, rarity=ItemRarity.COMMON, level_requirement=1, base_stats={}, defense=2, description="Better than nothing.", price=126),
     dict(name="Leather Robe", slot=EquipmentSlot.ARMOR, rarity=ItemRarity.COMMON, level_requirement=1, base_stats={}, defense=1, description="Thin leather, loosely stitched.", price=84),
     dict(name="Old Ring", slot=EquipmentSlot.AMULET, rarity=ItemRarity.COMMON, level_requirement=1, base_stats={}, bonus_max_hp=20, description="Worn smooth by someone else.", price=315),
+    # Tier2 "Iron" gear set: same mechanics as tier1, roughly double the
+    # stats and ~2.5-3x the price. Spell Skill has no tier2 counterpart yet.
+    dict(name="Iron Sword", slot=EquipmentSlot.WEAPON, rarity=ItemRarity.UNCOMMON, level_requirement=4, base_stats={}, damage_min=5, damage_max=12, description="Honest, well-balanced steel.", price=380),
+    dict(name="Iron Buckler", slot=EquipmentSlot.SHIELD, rarity=ItemRarity.UNCOMMON, level_requirement=4, base_stats={}, defense=7, description="Small, round, and dented from use.", price=430),
+    dict(name="Iron Helm", slot=EquipmentSlot.HELMET, rarity=ItemRarity.UNCOMMON, level_requirement=4, base_stats={}, defense=5, description="A solid cap of hammered iron.", price=320),
+    dict(name="Chainmail", slot=EquipmentSlot.ARMOR, rarity=ItemRarity.UNCOMMON, level_requirement=4, base_stats={}, defense=4, description="Interlocked rings, heavy but reliable.", price=260),
+    dict(name="Iron Band", slot=EquipmentSlot.AMULET, rarity=ItemRarity.UNCOMMON, level_requirement=4, base_stats={}, bonus_max_hp=55, description="Plain iron, cold against the skin.", price=620),
 ]
 for _item in ITEM_TEMPLATES:
     _item["slug"] = slugify(_item["name"])
