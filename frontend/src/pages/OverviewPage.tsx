@@ -107,7 +107,9 @@ export function OverviewPage() {
     <div className="page hero-page">
       <h1>{hero.name}</h1>
       <p className="hero-meta">
-        Level {hero.level} · {hero.gold} gold
+        <span className="stat-flare stat-flare--level">Level {hero.level}</span>
+        {" · "}
+        <span className="stat-flare stat-flare--gold">{hero.gold} gold</span>
       </p>
       <p className="hero-meta">
         {hero.xp}/{hero.xp_to_next_level} XP
