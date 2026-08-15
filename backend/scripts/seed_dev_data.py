@@ -66,6 +66,22 @@ MONSTER_TEMPLATES = [
         spell_attack_min=2,
         spell_attack_max=4,
     ),
+    dict(
+        name="Light Bandit",
+        level_range_min=3,
+        level_range_max=5,
+        base_stats={"strength": 13, "dexterity": 17, "intelligence": 5, "vitality": 12, "agility": 16, "spirit": 7},
+        flavor_text="Barely armored and always moving - it strikes from just outside the reach of your blade, then vanishes before you can answer.",
+        no_drop_weight=45,
+        no_material_drop_weight=65,
+        gold_min=25,
+        gold_max=50,
+        weapon_attack_min=3,
+        weapon_attack_max=6,
+        defense=1,
+        spell_attack_min=0,
+        spell_attack_max=1,
+    ),
 ]
 for _monster in MONSTER_TEMPLATES:
     _monster["slug"] = slugify(_monster["name"])
@@ -151,12 +167,19 @@ for _recipe in CRAFTING_RECIPES:
 
 # Young Wolf: each item weight 3 (sum 15), no_drop_weight 45 -> 75% nothing,
 # 5% each item.
+# Light Bandit reuses the same 5 tier-1 items (its "stolen goods") at the
+# same weight-3-each pattern.
 MONSTER_LOOT_ENTRIES = [
     dict(monster_slug=slugify("Young Wolf"), item_slug=slugify("Leather Helm"), drop_weight=3),
     dict(monster_slug=slugify("Young Wolf"), item_slug=slugify("Leather Robe"), drop_weight=3),
     dict(monster_slug=slugify("Young Wolf"), item_slug=slugify("Wooden Shield"), drop_weight=3),
     dict(monster_slug=slugify("Young Wolf"), item_slug=slugify("Wooden Stick"), drop_weight=3),
     dict(monster_slug=slugify("Young Wolf"), item_slug=slugify("Old Ring"), drop_weight=3),
+    dict(monster_slug=slugify("Light Bandit"), item_slug=slugify("Leather Helm"), drop_weight=3),
+    dict(monster_slug=slugify("Light Bandit"), item_slug=slugify("Leather Robe"), drop_weight=3),
+    dict(monster_slug=slugify("Light Bandit"), item_slug=slugify("Wooden Shield"), drop_weight=3),
+    dict(monster_slug=slugify("Light Bandit"), item_slug=slugify("Wooden Stick"), drop_weight=3),
+    dict(monster_slug=slugify("Light Bandit"), item_slug=slugify("Old Ring"), drop_weight=3),
 ]
 
 # Young Wolf: no_material_drop_weight 70, Chamomile 20, Plantago 10 -> 70%
@@ -164,10 +187,12 @@ MONSTER_LOOT_ENTRIES = [
 # Veil Wisp: no_material_drop_weight 30, Chamomile 45, Plantago 25 -> 30%
 # nothing, 45% Chamomile, 25% Plantago (higher than Young Wolf's since Veil
 # Wisp has no item loot table at all).
-# Forge materials (Iron Ore, Tin Shard, Ember Dust) are added to both
+# Forge materials (Iron Ore, Tin Shard, Ember Dust) are added to all three
 # monsters' tables - without a drop source Forge recipes would be craftable
 # in name only. Veil Wisp's Ember Dust is weighted well above its other
 # Forge drops (33 vs 15/12) to make it the wisp's signature material.
+# Light Bandit: no_material_drop_weight 65, Tin Shard weighted highest (18)
+# as its signature material ("bright, brittle fragments" fit stolen trinkets).
 MONSTER_MATERIAL_LOOT_ENTRIES = [
     dict(monster_slug=slugify("Young Wolf"), material_slug=slugify("Chamomile"), drop_weight=20),
     dict(monster_slug=slugify("Young Wolf"), material_slug=slugify("Plantago"), drop_weight=10),
@@ -179,6 +204,11 @@ MONSTER_MATERIAL_LOOT_ENTRIES = [
     dict(monster_slug=slugify("Veil Wisp"), material_slug=slugify("Iron Ore"), drop_weight=15),
     dict(monster_slug=slugify("Veil Wisp"), material_slug=slugify("Tin Shard"), drop_weight=12),
     dict(monster_slug=slugify("Veil Wisp"), material_slug=slugify("Ember Dust"), drop_weight=33),
+    dict(monster_slug=slugify("Light Bandit"), material_slug=slugify("Chamomile"), drop_weight=15),
+    dict(monster_slug=slugify("Light Bandit"), material_slug=slugify("Plantago"), drop_weight=8),
+    dict(monster_slug=slugify("Light Bandit"), material_slug=slugify("Iron Ore"), drop_weight=10),
+    dict(monster_slug=slugify("Light Bandit"), material_slug=slugify("Tin Shard"), drop_weight=18),
+    dict(monster_slug=slugify("Light Bandit"), material_slug=slugify("Ember Dust"), drop_weight=8),
 ]
 
 
