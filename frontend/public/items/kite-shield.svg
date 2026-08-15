@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- wooden table -->
+  <rect x="0" y="0" width="512" height="512" fill="#b98956"/>
+  <rect x="0" y="120" width="512" height="6" fill="#a3703f" opacity="0.6"/>
+  <rect x="0" y="260" width="512" height="6" fill="#a3703f" opacity="0.6"/>
+  <rect x="0" y="400" width="512" height="6" fill="#a3703f" opacity="0.6"/>
+  <rect x="40" y="40" width="180" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
+  <rect x="300" y="180" width="150" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
+  <rect x="80" y="320" width="200" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
+  <rect x="250" y="440" width="180" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
+
+  <!-- contact shadow -->
+  <ellipse cx="256" cy="446" rx="90" ry="16" fill="#3a352f" opacity="0.2"/>
+
+  <!-- kite shield body, long enough to cover the whole leg -->
+  <path d="M256,90 L364,140 Q368,230 340,320 Q310,410 256,452 Q202,410 172,320 Q144,230 148,140 Z"
+        fill="#8a939c" stroke="#3a352f" stroke-width="6" stroke-linejoin="round"/>
+  <!-- shading -->
+  <path d="M256,90 L364,140 Q368,230 340,320 Q322,378 292,420 Q300,320 288,200 Q280,130 256,90 Z"
+        fill="#5f6870" opacity="0.75"/>
+  <!-- rare-tier gold rim -->
+  <path d="M256,90 L364,140 Q368,230 340,320 Q310,410 256,452 Q202,410 172,320 Q144,230 148,140 Z"
+        fill="none" stroke="#d9a441" stroke-width="4" opacity="0.85"/>
+
+  <!-- rivets along the boss -->
+  <g fill="#5f6870" stroke="#3a352f" stroke-width="2">
+    <circle cx="200" cy="200" r="6"/>
+    <circle cx="312" cy="200" r="6"/>
+    <circle cx="220" cy="330" r="6"/>
+    <circle cx="292" cy="330" r="6"/>
+  </g>
+
+  <!-- central emblem boss -->
+  <circle cx="256" cy="240" r="34" fill="#7c8890" stroke="#3a352f" stroke-width="5"/>
+  <circle cx="256" cy="240" r="13" fill="#5f6870"/>
+  <ellipse cx="244" cy="228" rx="10" ry="6" fill="#c9d1d8" opacity="0.8" transform="rotate(-30 244 228)"/>
+</svg>

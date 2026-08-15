@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- wooden table -->
+  <rect x="0" y="0" width="512" height="512" fill="#b98956"/>
+  <rect x="0" y="120" width="512" height="6" fill="#a3703f" opacity="0.6"/>
+  <rect x="0" y="260" width="512" height="6" fill="#a3703f" opacity="0.6"/>
+  <rect x="0" y="400" width="512" height="6" fill="#a3703f" opacity="0.6"/>
+  <rect x="40" y="40" width="180" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
+  <rect x="300" y="180" width="150" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
+  <rect x="80" y="320" width="200" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
+  <rect x="250" y="440" width="180" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
+
+  <!-- contact shadow -->
+  <ellipse cx="256" cy="380" rx="130" ry="24" fill="#3a352f" opacity="0.2"/>
+
+  <!-- the mace -->
+  <g transform="rotate(-32 256 256)">
+    <!-- shaft -->
+    <rect x="230" y="220" width="20" height="150" rx="8" fill="#5b4636" stroke="#3a352f" stroke-width="5"/>
+    <!-- rare-tier gold banding on the grip -->
+    <rect x="228" y="330" width="24" height="14" rx="3" fill="#d9a441" stroke="#3a352f" stroke-width="3"/>
+    <!-- pommel -->
+    <circle cx="240" cy="378" r="13" fill="#8a939c" stroke="#3a352f" stroke-width="4"/>
+    <!-- flanged head -->
+    <circle cx="240" cy="180" r="40" fill="#8a939c" stroke="#3a352f" stroke-width="5"/>
+    <g fill="#5f6870" stroke="#3a352f" stroke-width="4" stroke-linejoin="round">
+      <polygon points="240,132 254,168 226,168"/>
+      <polygon points="240,228 254,192 226,192"/>
+      <polygon points="192,180 228,166 228,194"/>
+      <polygon points="288,180 252,166 252,194"/>
+      <polygon points="207,147 234,171 210,187"/>
+      <polygon points="273,147 246,171 270,187"/>
+      <polygon points="207,213 234,189 210,173"/>
+      <polygon points="273,213 246,189 270,173"/>
+    </g>
+    <circle cx="240" cy="180" r="14" fill="#c9d1d8"/>
+    <ellipse cx="234" cy="174" rx="5" ry="3" fill="#eef1f2" opacity="0.85"/>
+  </g>
+</svg>

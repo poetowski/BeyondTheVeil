@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- wooden table -->
+  <rect x="0" y="0" width="512" height="512" fill="#b98956"/>
+  <rect x="0" y="120" width="512" height="6" fill="#a3703f" opacity="0.6"/>
+  <rect x="0" y="260" width="512" height="6" fill="#a3703f" opacity="0.6"/>
+  <rect x="0" y="400" width="512" height="6" fill="#a3703f" opacity="0.6"/>
+  <rect x="40" y="40" width="180" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
+  <rect x="300" y="180" width="150" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
+  <rect x="80" y="320" width="200" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
+  <rect x="250" y="440" width="180" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
+
+  <!-- contact shadow -->
+  <ellipse cx="256" cy="392" rx="105" ry="20" fill="#3a352f" opacity="0.2"/>
+
+  <!-- closed dome, covering the whole head -->
+  <path d="M150,300 Q140,150 256,132 Q372,150 362,300 Q362,360 256,368 Q150,360 150,300 Z"
+        fill="#8a939c" stroke="#3a352f" stroke-width="5" stroke-linejoin="round"/>
+  <!-- shading patch -->
+  <path d="M256,132 Q330,150 340,280 L256,300 Z" fill="#5f6870" opacity="0.8"/>
+  <!-- rare-tier gold trim along the rim -->
+  <path d="M154,300 Q256,330 358,300" fill="none" stroke="#d9a441" stroke-width="6" opacity="0.9"/>
+
+  <!-- the T-shaped slit, all it gives you to see by -->
+  <g fill="#2b2823">
+    <rect x="242" y="180" width="28" height="130" rx="6"/>
+    <rect x="190" y="220" width="132" height="26" rx="6"/>
+  </g>
+  <!-- a faint glint of an eye in the shadow -->
+  <ellipse cx="222" cy="233" rx="6" ry="5" fill="#d99a3d" opacity="0.9"/>
+  <ellipse cx="290" cy="233" rx="6" ry="5" fill="#d99a3d" opacity="0.9"/>
+
+  <!-- rivets -->
+  <g fill="#5f6870" stroke="#3a352f" stroke-width="2">
+    <circle cx="176" cy="270" r="6"/>
+    <circle cx="336" cy="270" r="6"/>
+  </g>
+</svg>

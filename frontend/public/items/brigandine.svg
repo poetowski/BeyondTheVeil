@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <clipPath id="brigandineBody">
+      <path d="M180,140 L332,140 L360,260 L392,410 L120,410 L152,260 Z"/>
+    </clipPath>
+  </defs>
+
+  <!-- wooden table -->
+  <rect x="0" y="0" width="512" height="512" fill="#b98956"/>
+  <rect x="0" y="120" width="512" height="6" fill="#a3703f" opacity="0.6"/>
+  <rect x="0" y="260" width="512" height="6" fill="#a3703f" opacity="0.6"/>
+  <rect x="0" y="400" width="512" height="6" fill="#a3703f" opacity="0.6"/>
+  <rect x="40" y="40" width="180" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
+  <rect x="300" y="180" width="150" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
+  <rect x="80" y="320" width="200" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
+  <rect x="250" y="440" width="180" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
+
+  <!-- contact shadow -->
+  <ellipse cx="256" cy="420" rx="140" ry="20" fill="#3a352f" opacity="0.2"/>
+
+  <!-- tough cloth base, laid flat -->
+  <path d="M180,140 L332,140 L360,260 L392,410 L120,410 L152,260 Z"
+        fill="#5b4636" stroke="#3a352f" stroke-width="5" stroke-linejoin="round"/>
+
+  <!-- small steel plates riveted underneath, rows offset for coverage -->
+  <g clip-path="url(#brigandineBody)" stroke="#3a352f" stroke-width="2.5">
+    <g fill="#8a939c">
+      <rect x="140" y="164" width="30" height="20" rx="4"/>
+      <rect x="174" y="164" width="30" height="20" rx="4"/>
+      <rect x="208" y="164" width="30" height="20" rx="4"/>
+      <rect x="242" y="164" width="30" height="20" rx="4"/>
+      <rect x="276" y="164" width="30" height="20" rx="4"/>
+      <rect x="310" y="164" width="30" height="20" rx="4"/>
+    </g>
+    <g fill="#5f6870">
+      <rect x="157" y="200" width="30" height="20" rx="4"/>
+      <rect x="191" y="200" width="30" height="20" rx="4"/>
+      <rect x="225" y="200" width="30" height="20" rx="4"/>
+      <rect x="259" y="200" width="30" height="20" rx="4"/>
+      <rect x="293" y="200" width="30" height="20" rx="4"/>
+      <rect x="327" y="200" width="30" height="20" rx="4"/>
+    </g>
+    <g fill="#8a939c">
+      <rect x="140" y="236" width="30" height="20" rx="4"/>
+      <rect x="174" y="236" width="30" height="20" rx="4"/>
+      <rect x="208" y="236" width="30" height="20" rx="4"/>
+      <rect x="242" y="236" width="30" height="20" rx="4"/>
+      <rect x="276" y="236" width="30" height="20" rx="4"/>
+      <rect x="310" y="236" width="30" height="20" rx="4"/>
+    </g>
+    <g fill="#5f6870">
+      <rect x="150" y="272" width="30" height="20" rx="4"/>
+      <rect x="184" y="272" width="30" height="20" rx="4"/>
+      <rect x="218" y="272" width="30" height="20" rx="4"/>
+      <rect x="252" y="272" width="30" height="20" rx="4"/>
+      <rect x="286" y="272" width="30" height="20" rx="4"/>
+      <rect x="320" y="272" width="30" height="20" rx="4"/>
+    </g>
+    <g fill="#8a939c">
+      <rect x="132" y="316" width="30" height="20" rx="4"/>
+      <rect x="166" y="316" width="30" height="20" rx="4"/>
+      <rect x="200" y="316" width="30" height="20" rx="4"/>
+      <rect x="234" y="316" width="30" height="20" rx="4"/>
+      <rect x="268" y="316" width="30" height="20" rx="4"/>
+      <rect x="302" y="316" width="30" height="20" rx="4"/>
+      <rect x="336" y="316" width="30" height="20" rx="4"/>
+    </g>
+    <!-- rivets -->
+    <g fill="#3a352f" stroke="none">
+      <circle cx="155" cy="174" r="2.5"/><circle cx="189" cy="174" r="2.5"/><circle cx="223" cy="174" r="2.5"/>
+      <circle cx="257" cy="174" r="2.5"/><circle cx="291" cy="174" r="2.5"/><circle cx="325" cy="174" r="2.5"/>
+      <circle cx="172" cy="210" r="2.5"/><circle cx="206" cy="210" r="2.5"/><circle cx="240" cy="210" r="2.5"/>
+      <circle cx="274" cy="210" r="2.5"/><circle cx="308" cy="210" r="2.5"/>
+      <circle cx="147" cy="326" r="2.5"/><circle cx="181" cy="326" r="2.5"/><circle cx="215" cy="326" r="2.5"/>
+      <circle cx="249" cy="326" r="2.5"/><circle cx="283" cy="326" r="2.5"/><circle cx="317" cy="326" r="2.5"/>
+    </g>
+  </g>
+
+  <!-- rare-tier gold trim on collar and hem -->
+  <path d="M180,140 L332,140" stroke="#d9a441" stroke-width="5" opacity="0.9"/>
+  <path d="M120,410 L392,410" stroke="#d9a441" stroke-width="5" opacity="0.9"/>
+
+  <!-- collar -->
+  <path d="M210,140 Q256,168 302,140 L292,158 Q256,182 220,158 Z" fill="#4a3527" stroke="#3a352f" stroke-width="3"/>
+  <!-- belt -->
+  <rect x="140" y="270" width="232" height="18" fill="#4a3527" stroke="#3a352f" stroke-width="3"/>
+  <circle cx="256" cy="279" r="8" fill="#d9a441" stroke="#3a352f" stroke-width="2"/>
+  <!-- sleeves -->
+  <path d="M180,150 L120,190 L138,240 L182,206 Z" fill="#5b4636" stroke="#3a352f" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M332,150 L392,190 L374,240 L330,206 Z" fill="#5b4636" stroke="#3a352f" stroke-width="4" stroke-linejoin="round"/>
+</svg>

@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#eef2df"/>
+      <stop offset="100%" stop-color="#dce6c8"/>
+    </linearGradient>
+  </defs>
+
+  <!-- meadow sky -->
+  <rect x="0" y="0" width="512" height="340" fill="url(#sky)"/>
+  <!-- meadow ground -->
+  <rect x="0" y="340" width="512" height="172" fill="#93a06e"/>
+
+  <!-- distant grass tufts -->
+  <g fill="#7c8f61">
+    <polygon points="40,345 30,320 50,320"/>
+    <polygon points="472,345 462,322 482,322"/>
+  </g>
+  <g fill="#4f6b47">
+    <polygon points="16,392 4,352 28,352"/>
+    <polygon points="496,388 484,348 508,348"/>
+  </g>
+
+  <!-- bright glow, the gem dominating the scene -->
+  <circle cx="256" cy="272" r="180" fill="#2ecc55" opacity="0.2"/>
+  <circle cx="256" cy="272" r="120" fill="#7fe89a" opacity="0.22"/>
+
+  <!-- ground shadow -->
+  <ellipse cx="256" cy="420" rx="120" ry="18" fill="#7c8a5a" opacity="0.5"/>
+
+  <!-- one big, bright green faceted gem -->
+  <polygon points="256,86 340,158 322,352 256,414 190,352 172,158"
+            fill="#2ecc55" stroke="#3a352f" stroke-width="6" stroke-linejoin="round"/>
+  <!-- crown facets -->
+  <polygon points="256,86 340,158 256,196 172,158" fill="#3fdb66" opacity="0.9"/>
+  <polygon points="256,86 256,196 172,158" fill="#7fe89a" opacity="0.85"/>
+  <!-- girdle/pavilion facet lines -->
+  <path d="M172,158 L256,196 L340,158" fill="none" stroke="#1f7a38" stroke-width="4" opacity="0.7"/>
+  <path d="M190,352 L256,300 L322,352" fill="none" stroke="#1f7a38" stroke-width="4" opacity="0.7"/>
+  <path d="M256,196 L256,414" fill="none" stroke="#1f7a38" stroke-width="4" opacity="0.6"/>
+  <path d="M172,158 L190,352" fill="none" stroke="#1f7a38" stroke-width="3" opacity="0.5"/>
+  <path d="M340,158 L322,352" fill="none" stroke="#1f7a38" stroke-width="3" opacity="0.5"/>
+  <!-- bright highlight streak -->
+  <polygon points="220,120 240,150 224,250 206,220" fill="#c9f5d6" opacity="0.75"/>
+
+  <!-- small chip for scale -->
+  <polygon points="392,318 412,306 424,326 408,342 388,336"
+           fill="#2ecc55" stroke="#3a352f" stroke-width="4" stroke-linejoin="round"/>
+  <polygon points="392,318 412,306 406,322" fill="#7fe89a" opacity="0.85"/>
+
+  <!-- sparkle glints -->
+  <g fill="#eafff0">
+    <path d="M120,220 l4,10 l10,4 l-10,4 l-4,10 l-4,-10 l-10,-4 l10,-4 Z" opacity="0.9"/>
+    <path d="M380,200 l3,7 l7,3 l-7,3 l-3,7 l-3,-7 l-7,-3 l7,-3 Z" opacity="0.85"/>
+  </g>
+</svg>

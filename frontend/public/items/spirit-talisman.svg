@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- wooden table -->
+  <rect x="0" y="0" width="512" height="512" fill="#b98956"/>
+  <rect x="0" y="120" width="512" height="6" fill="#a3703f" opacity="0.6"/>
+  <rect x="0" y="260" width="512" height="6" fill="#a3703f" opacity="0.6"/>
+  <rect x="0" y="400" width="512" height="6" fill="#a3703f" opacity="0.6"/>
+  <rect x="40" y="40" width="180" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
+  <rect x="300" y="180" width="150" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
+  <rect x="80" y="320" width="200" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
+  <rect x="250" y="440" width="180" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
+
+  <!-- a quiet glow, settling the mind -->
+  <circle cx="256" cy="270" r="120" fill="#7fa8d9" opacity="0.18"/>
+
+  <!-- contact shadow -->
+  <ellipse cx="256" cy="340" rx="90" ry="18" fill="#3a352f" opacity="0.2"/>
+
+  <!-- silver band -->
+  <circle cx="256" cy="280" r="86" fill="#c9ced2" stroke="#3a352f" stroke-width="6"/>
+  <circle cx="256" cy="280" r="52" fill="#b98956"/>
+  <circle cx="256" cy="280" r="52" fill="none" stroke="#3a352f" stroke-width="4"/>
+  <!-- cool shading -->
+  <path d="M256,194 A86,86 0 0 1 342,280 A86,86 0 0 1 300,350 A70,70 0 0 0 256,194 Z" fill="#8a9096" opacity="0.6"/>
+  <!-- band shine -->
+  <ellipse cx="222" cy="246" rx="14" ry="8" fill="#f0f2f4" opacity="0.85" transform="rotate(-35 222 246)"/>
+
+  <!-- bezel-set spirit gem, calm blue -->
+  <polygon points="256,150 284,182 274,222 238,222 228,182"
+           fill="#7fa8d9" stroke="#3a352f" stroke-width="5" stroke-linejoin="round"/>
+  <polygon points="256,150 284,182 262,182 248,166" fill="#c9e0f5" opacity="0.85"/>
+  <!-- prongs holding the gem -->
+  <g fill="#c9ced2" stroke="#3a352f" stroke-width="3">
+    <circle cx="230" cy="196" r="6"/>
+    <circle cx="282" cy="196" r="6"/>
+  </g>
+</svg>
