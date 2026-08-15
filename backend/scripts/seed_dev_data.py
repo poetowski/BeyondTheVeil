@@ -37,6 +37,19 @@ ITEM_TEMPLATES = [
     dict(name="Iron Helm", slot=EquipmentSlot.HELMET, rarity=ItemRarity.UNCOMMON, level_requirement=4, base_stats={}, defense=4, description="A solid cap of hammered iron.", price=320),
     dict(name="Chainmail", slot=EquipmentSlot.ARMOR, rarity=ItemRarity.UNCOMMON, level_requirement=4, base_stats={}, defense=4, description="Interlocked rings, heavy but reliable.", price=260),
     dict(name="Iron Band", slot=EquipmentSlot.AMULET, rarity=ItemRarity.UNCOMMON, level_requirement=4, base_stats={}, bonus_max_hp=55, description="Plain iron, cold against the skin.", price=620),
+    # Tier2.5 gear set: level 6, rarity RARE, roughly 20-30% better than
+    # tier2's stats/price. Bare names, no shared theme prefix. Spell Skill
+    # has no counterpart yet. No amulet here - see the two level-9
+    # Talismans below instead.
+    dict(name="Mace", slot=EquipmentSlot.WEAPON, rarity=ItemRarity.RARE, level_requirement=6, base_stats={}, damage_min=6, damage_max=15, description="No edge to sharpen - it doesn't need one.", price=480),
+    dict(name="Kite Shield", slot=EquipmentSlot.SHIELD, rarity=ItemRarity.RARE, level_requirement=6, base_stats={}, defense=9, description="Long enough to cover the whole leg.", price=540),
+    dict(name="Barbute", slot=EquipmentSlot.HELMET, rarity=ItemRarity.RARE, level_requirement=6, base_stats={}, defense=5, description="A T-shaped slit is all it gives you to see by.", price=400),
+    dict(name="Brigandine", slot=EquipmentSlot.ARMOR, rarity=ItemRarity.RARE, level_requirement=6, base_stats={}, defense=5, description="Small steel plates riveted under tough cloth.", price=330),
+    # Two level-9 amulets with a flat stat bonus (like the runes'
+    # stat_bonuses), not bonus_max_hp like Old Ring/Iron Band - replaces
+    # a single generic "Talisman" originally proposed for tier2.5.
+    dict(name="Spirit Talisman", slot=EquipmentSlot.AMULET, rarity=ItemRarity.RARE, level_requirement=9, base_stats={"spirit": 5}, description="A quiet hum that settles the mind before it settles the hand.", price=850),
+    dict(name="Agility Talisman", slot=EquipmentSlot.AMULET, rarity=ItemRarity.RARE, level_requirement=9, base_stats={"agility": 5}, description="Light as a held breath.", price=850),
 ]
 for _item in ITEM_TEMPLATES:
     _item["slug"] = slugify(_item["name"])
