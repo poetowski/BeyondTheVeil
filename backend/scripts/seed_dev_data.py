@@ -83,7 +83,7 @@ MONSTER_TEMPLATES = [
         spell_attack_max=1,
     ),
     dict(
-        name="Ironhide Boar",
+        name="Boar",
         level_range_min=4,
         level_range_max=7,
         base_stats={"strength": 26, "dexterity": 12, "intelligence": 3, "vitality": 28, "agility": 11, "spirit": 8},
@@ -208,7 +208,7 @@ MONSTER_LOOT_ENTRIES = [
 # Forge drops (33 vs 15/12) to make it the wisp's signature material.
 # Light Bandit: no_material_drop_weight 65, Tin Shard weighted highest (18)
 # as its signature material ("bright, brittle fragments" fit stolen trinkets).
-# Ironhide Boar: no_material_drop_weight 55, Iron Ore weighted highest (22)
+# Boar: no_material_drop_weight 55, Iron Ore weighted highest (22)
 # as its signature material (a beast rooting through rocky ground). No item
 # loot table (no_drop_weight unset) - a beast doesn't carry gear, matching
 # Veil Wisp's precedent.
@@ -228,11 +228,11 @@ MONSTER_MATERIAL_LOOT_ENTRIES = [
     dict(monster_slug=slugify("Light Bandit"), material_slug=slugify("Iron Ore"), drop_weight=10),
     dict(monster_slug=slugify("Light Bandit"), material_slug=slugify("Tin Shard"), drop_weight=18),
     dict(monster_slug=slugify("Light Bandit"), material_slug=slugify("Ember Dust"), drop_weight=8),
-    dict(monster_slug=slugify("Ironhide Boar"), material_slug=slugify("Iron Ore"), drop_weight=22),
-    dict(monster_slug=slugify("Ironhide Boar"), material_slug=slugify("Chamomile"), drop_weight=10),
-    dict(monster_slug=slugify("Ironhide Boar"), material_slug=slugify("Plantago"), drop_weight=8),
-    dict(monster_slug=slugify("Ironhide Boar"), material_slug=slugify("Tin Shard"), drop_weight=10),
-    dict(monster_slug=slugify("Ironhide Boar"), material_slug=slugify("Ember Dust"), drop_weight=6),
+    dict(monster_slug=slugify("Boar"), material_slug=slugify("Iron Ore"), drop_weight=22),
+    dict(monster_slug=slugify("Boar"), material_slug=slugify("Chamomile"), drop_weight=10),
+    dict(monster_slug=slugify("Boar"), material_slug=slugify("Plantago"), drop_weight=8),
+    dict(monster_slug=slugify("Boar"), material_slug=slugify("Tin Shard"), drop_weight=10),
+    dict(monster_slug=slugify("Boar"), material_slug=slugify("Ember Dust"), drop_weight=6),
 ]
 
 
