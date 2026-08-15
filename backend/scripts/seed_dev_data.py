@@ -264,6 +264,9 @@ MONSTER_LOOT_ENTRIES = [
 # Puny Goblin: no_material_drop_weight 60, Plantago weighted highest (20)
 # as its signature material (an undergrowth-dweller; no other monster
 # favors Plantago).
+# Nettle only drops from monsters whose level_range_min is at least 4
+# (Boar, Puny Goblin) - it's a tougher-terrain plant, absent from the
+# tier-1/2 monsters' tables.
 MONSTER_MATERIAL_LOOT_ENTRIES = [
     dict(monster_slug=slugify("Young Wolf"), material_slug=slugify("Chamomile"), drop_weight=20),
     dict(monster_slug=slugify("Young Wolf"), material_slug=slugify("Plantago"), drop_weight=10),
@@ -285,11 +288,13 @@ MONSTER_MATERIAL_LOOT_ENTRIES = [
     dict(monster_slug=slugify("Boar"), material_slug=slugify("Plantago"), drop_weight=8),
     dict(monster_slug=slugify("Boar"), material_slug=slugify("Tin Shard"), drop_weight=10),
     dict(monster_slug=slugify("Boar"), material_slug=slugify("Ember Dust"), drop_weight=6),
+    dict(monster_slug=slugify("Boar"), material_slug=slugify("Nettle"), drop_weight=8),
     dict(monster_slug=slugify("Puny Goblin"), material_slug=slugify("Plantago"), drop_weight=20),
     dict(monster_slug=slugify("Puny Goblin"), material_slug=slugify("Chamomile"), drop_weight=12),
     dict(monster_slug=slugify("Puny Goblin"), material_slug=slugify("Iron Ore"), drop_weight=8),
     dict(monster_slug=slugify("Puny Goblin"), material_slug=slugify("Tin Shard"), drop_weight=10),
     dict(monster_slug=slugify("Puny Goblin"), material_slug=slugify("Ember Dust"), drop_weight=6),
+    dict(monster_slug=slugify("Puny Goblin"), material_slug=slugify("Nettle"), drop_weight=10),
 ]
 
 
