@@ -40,7 +40,7 @@ services:
         value: HS256
       - key: JWT_ACCESS_TOKEN_EXPIRE_MINUTES
         value: "1440"
-      - key: VEIL_DURATION_SECONDS
-        value: "300"
+      - key: APP_ENV
+        value: "prod" # selects the slow/real gameplay-pacing preset (see backend/app/core/config.py); "test" is for manual testing only
       - key: VITE_API_BASE_URL
         value: "" # empty = same-origin relative requests, since it's all one service
