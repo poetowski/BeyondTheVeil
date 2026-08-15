@@ -80,9 +80,12 @@ MATERIAL_TEMPLATES = [
 for _material in MATERIAL_TEMPLATES:
     _material["slug"] = slugify(_material["name"])
 
+# Naming convention: "<weird invented word> Rune of <effect word>" - the
+# effect word stays plain-English (matches the stat it boosts), the prefix
+# is a made-up word with no fixed meaning. Follow this for future runes.
 RUNE_TEMPLATES = [
-    dict(name="Rune of Vigor", description="A dull red glyph, warm to the touch.", stat_bonuses={"vitality": 3}),
-    dict(name="Rune of Might", description="A jagged glyph that seems to strain against its own edges.", stat_bonuses={"strength": 3}),
+    dict(name="Vrelka Rune of Vigor", description="A dull red glyph, warm to the touch.", stat_bonuses={"vitality": 3}),
+    dict(name="Vosk Rune of Might", description="Three azure shards radiating around a glowing core.", stat_bonuses={"strength": 3}),
 ]
 for _rune in RUNE_TEMPLATES:
     _rune["slug"] = slugify(_rune["name"])
@@ -120,10 +123,10 @@ CRAFTING_RECIPES = [
         ingredients=[dict(material_slug=slugify("Chamomile"), quantity_required=6)],
     ),
     dict(
-        name="Rune of Vigor",
+        name="Vrelka Rune of Vigor",
         category=CraftingCategory.FORGE,
         level_requirement=1,
-        output_rune_slug=slugify("Rune of Vigor"),
+        output_rune_slug=slugify("Vrelka Rune of Vigor"),
         output_quantity=1,
         ingredients=[
             dict(material_slug=slugify("Iron Ore"), quantity_required=3),
@@ -131,10 +134,10 @@ CRAFTING_RECIPES = [
         ],
     ),
     dict(
-        name="Rune of Might",
+        name="Vosk Rune of Might",
         category=CraftingCategory.FORGE,
         level_requirement=1,
-        output_rune_slug=slugify("Rune of Might"),
+        output_rune_slug=slugify("Vosk Rune of Might"),
         output_quantity=1,
         ingredients=[
             dict(material_slug=slugify("Tin Shard"), quantity_required=3),
