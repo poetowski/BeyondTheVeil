@@ -161,8 +161,9 @@ MONSTER_LOOT_ENTRIES = [
 # nothing, 45% Chamomile, 25% Plantago (higher than Young Wolf's since Veil
 # Wisp has no item loot table at all).
 # Forge materials (Iron Ore, Tin Shard, Ember Dust) are added to both
-# monsters' tables at weights comparable to their existing Alchemy drops -
-# without a drop source Forge recipes would be craftable in name only.
+# monsters' tables - without a drop source Forge recipes would be craftable
+# in name only. Veil Wisp's Ember Dust is weighted well above its other
+# Forge drops (33 vs 15/12) to make it the wisp's signature material.
 MONSTER_MATERIAL_LOOT_ENTRIES = [
     dict(monster_slug=slugify("Young Wolf"), material_slug=slugify("Chamomile"), drop_weight=20),
     dict(monster_slug=slugify("Young Wolf"), material_slug=slugify("Plantago"), drop_weight=10),
@@ -173,7 +174,7 @@ MONSTER_MATERIAL_LOOT_ENTRIES = [
     dict(monster_slug=slugify("Veil Wisp"), material_slug=slugify("Plantago"), drop_weight=25),
     dict(monster_slug=slugify("Veil Wisp"), material_slug=slugify("Iron Ore"), drop_weight=15),
     dict(monster_slug=slugify("Veil Wisp"), material_slug=slugify("Tin Shard"), drop_weight=12),
-    dict(monster_slug=slugify("Veil Wisp"), material_slug=slugify("Ember Dust"), drop_weight=8),
+    dict(monster_slug=slugify("Veil Wisp"), material_slug=slugify("Ember Dust"), drop_weight=33),
 ]
 
 
