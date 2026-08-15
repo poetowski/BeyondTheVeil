@@ -8,6 +8,7 @@ from sqlalchemy.orm import Session
 from app.models.consumable import ConsumableInstance
 from app.models.crafting import CraftingCategory, CraftingRecipe
 from app.models.hero import Hero
+from app.models.item import ItemInstance
 from app.models.material import MaterialInstance
 from app.models.rune import RuneInstance
 from app.services import hero_service
@@ -45,6 +46,7 @@ class ConsumableNotOwnedError(CraftingServiceError):
 class CraftResult:
     consumable: ConsumableInstance | None
     rune: RuneInstance | None
+    item: ItemInstance | None
 
 
 def list_recipes(db: Session, category: CraftingCategory | None = None) -> list[CraftingRecipe]:
@@ -107,6 +109,21 @@ def craft(db: Session, hero: Hero, recipe_slug: str) -> CraftResult:
             else:
                 db.add(stack)
 
+    if recipe.output_item_template_id is not None:
+        # Items never stack (no quantity column on ItemInstance, unlike
+        # runes/consumables/materials) - craft one row per unit.
+        item_result: ItemInstance | None = None
+        for _ in range(recipe.output_quantity):
+            item_result = ItemInstance(
+                template_id=recipe.output_item_template_id,
+                owner_hero_id=hero.id,
+            )
+            db.add(item_result)
+
+        db.commit()
+        db.refresh(item_result)
+        return CraftResult(consumable=None, rune=None, item=item_result)
+
     if recipe.output_rune_template_id is not None:
         existing_rune = (
             db.execute(
@@ -132,7 +149,7 @@ def craft(db: Session, hero: Hero, recipe_slug: str) -> CraftResult:
 
         db.commit()
         db.refresh(rune_result)
-        return CraftResult(consumable=None, rune=rune_result)
+        return CraftResult(consumable=None, rune=rune_result, item=None)
 
     existing_consumable = (
         db.execute(
@@ -158,7 +175,7 @@ def craft(db: Session, hero: Hero, recipe_slug: str) -> CraftResult:
 
     db.commit()
     db.refresh(consumable_result)
-    return CraftResult(consumable=consumable_result, rune=None)
+    return CraftResult(consumable=consumable_result, rune=None, item=None)
 
 
 def use_consumable(db: Session, hero: Hero, consumable_instance_id: uuid.UUID) -> Hero:

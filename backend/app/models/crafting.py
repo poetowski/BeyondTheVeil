@@ -23,7 +23,9 @@ class CraftingRecipe(UUIDPKMixin, TimestampMixin, Base):
     __tablename__ = "crafting_recipes"
     __table_args__ = (
         CheckConstraint(
-            "(output_consumable_template_id IS NULL) != (output_rune_template_id IS NULL)",
+            "(output_consumable_template_id IS NOT NULL)::int "
+            "+ (output_rune_template_id IS NOT NULL)::int "
+            "+ (output_item_template_id IS NOT NULL)::int = 1",
             name="exactly_one_output",
         ),
     )
@@ -38,11 +40,15 @@ class CraftingRecipe(UUIDPKMixin, TimestampMixin, Base):
     output_rune_template_id: Mapped[uuid.UUID | None] = mapped_column(
         UUID(as_uuid=True), ForeignKey("rune_templates.id"), nullable=True
     )
+    output_item_template_id: Mapped[uuid.UUID | None] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("item_templates.id"), nullable=True
+    )
     output_quantity: Mapped[int] = mapped_column(Integer, nullable=False, default=1)
 
     ingredients: Mapped[list["CraftingRecipeIngredient"]] = relationship(back_populates="recipe")
     output_consumable_template: Mapped["ConsumableTemplate | None"] = relationship()
     output_rune_template: Mapped["RuneTemplate | None"] = relationship()
+    output_item_template: Mapped["ItemTemplate | None"] = relationship()
 
 
 class CraftingRecipeIngredient(UUIDPKMixin, Base):

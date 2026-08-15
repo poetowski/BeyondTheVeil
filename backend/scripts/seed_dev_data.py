@@ -172,6 +172,7 @@ MONSTER_TEMPLATES = [
         level_range_max=10,
         base_stats={"strength": 42, "dexterity": 35, "intelligence": 5, "vitality": 50, "agility": 22, "spirit": 12},
         flavor_text="It slept through the cold, and it slept through worse - now it's awake, and everything nearby is a threat.",
+        no_drop_weight=40,
         no_material_drop_weight=50,
         gold_min=70,
         gold_max=130,
@@ -198,6 +199,9 @@ MATERIAL_TEMPLATES = [
     dict(name="Coal", description="Plain black lumps, but no forge burns hot enough without them.", category=CraftingCategory.FORGE, price=85, level_requirement=6),
     dict(name="Scrap Metal", description="Bent, rusted odds and ends - not much to look at, but the furnace doesn't care.", category=CraftingCategory.FORGE, price=90, level_requirement=6),
     dict(name="Veil Crystal", description="A shard of crystallized veil-light, humming faintly even at rest.", category=CraftingCategory.FORGE, price=130, level_requirement=6),
+    # Drops from Robber, Dire Wolf, and Awakened Bear - the central
+    # ingredient for the two craftable Talisman amulets.
+    dict(name="Gem", description="A cut, glinting stone - valuable on its own, prized more for what it can hold.", category=CraftingCategory.FORGE, price=180, level_requirement=6),
 ]
 for _material in MATERIAL_TEMPLATES:
     _material["slug"] = slugify(_material["name"])
@@ -335,6 +339,28 @@ CRAFTING_RECIPES = [
             dict(material_slug=slugify("Veil Crystal"), quantity_required=3),
         ],
     ),
+    dict(
+        name="Spirit Talisman",
+        category=CraftingCategory.FORGE,
+        level_requirement=9,
+        output_item_slug=slugify("Spirit Talisman"),
+        output_quantity=1,
+        ingredients=[
+            dict(material_slug=slugify("Gem"), quantity_required=4),
+            dict(material_slug=slugify("Veil Crystal"), quantity_required=3),
+        ],
+    ),
+    dict(
+        name="Agility Talisman",
+        category=CraftingCategory.FORGE,
+        level_requirement=9,
+        output_item_slug=slugify("Agility Talisman"),
+        output_quantity=1,
+        ingredients=[
+            dict(material_slug=slugify("Gem"), quantity_required=4),
+            dict(material_slug=slugify("Scrap Metal"), quantity_required=3),
+        ],
+    ),
 ]
 for _recipe in CRAFTING_RECIPES:
     _recipe["slug"] = slugify(_recipe["name"])
@@ -377,18 +403,37 @@ MONSTER_LOOT_ENTRIES = [
     dict(monster_slug=slugify("Boar"), item_slug=slugify("Iron Buckler"), drop_weight=6),
     dict(monster_slug=slugify("Boar"), item_slug=slugify("Iron Sword"), drop_weight=6),
     dict(monster_slug=slugify("Boar"), item_slug=slugify("Iron Band"), drop_weight=6),
-    # Robber and Dire Wolf (level 6-10) drop only tier-2 "Iron" gear - by
-    # this level tier-1 is already obsolete, and no tier-3 set exists yet.
+    # Robber and Dire Wolf (level 6-10) drop tier-2 "Iron" gear at weight 4
+    # and tier2.5 gear at weight 8 (better tier = more prevalence, same
+    # convention as tier1-vs-tier2 elsewhere) - no Talismans though, those
+    # stay Awakened Bear/Forge-only.
     dict(monster_slug=slugify("Robber"), item_slug=slugify("Iron Sword"), drop_weight=4),
     dict(monster_slug=slugify("Robber"), item_slug=slugify("Iron Helm"), drop_weight=4),
     dict(monster_slug=slugify("Robber"), item_slug=slugify("Iron Buckler"), drop_weight=4),
     dict(monster_slug=slugify("Robber"), item_slug=slugify("Chainmail"), drop_weight=4),
     dict(monster_slug=slugify("Robber"), item_slug=slugify("Iron Band"), drop_weight=4),
+    dict(monster_slug=slugify("Robber"), item_slug=slugify("Mace"), drop_weight=8),
+    dict(monster_slug=slugify("Robber"), item_slug=slugify("Barbute"), drop_weight=8),
+    dict(monster_slug=slugify("Robber"), item_slug=slugify("Kite Shield"), drop_weight=8),
+    dict(monster_slug=slugify("Robber"), item_slug=slugify("Brigandine"), drop_weight=8),
     dict(monster_slug=slugify("Dire Wolf"), item_slug=slugify("Iron Sword"), drop_weight=4),
     dict(monster_slug=slugify("Dire Wolf"), item_slug=slugify("Iron Helm"), drop_weight=4),
     dict(monster_slug=slugify("Dire Wolf"), item_slug=slugify("Iron Buckler"), drop_weight=4),
     dict(monster_slug=slugify("Dire Wolf"), item_slug=slugify("Chainmail"), drop_weight=4),
     dict(monster_slug=slugify("Dire Wolf"), item_slug=slugify("Iron Band"), drop_weight=4),
+    dict(monster_slug=slugify("Dire Wolf"), item_slug=slugify("Mace"), drop_weight=8),
+    dict(monster_slug=slugify("Dire Wolf"), item_slug=slugify("Barbute"), drop_weight=8),
+    dict(monster_slug=slugify("Dire Wolf"), item_slug=slugify("Kite Shield"), drop_weight=8),
+    dict(monster_slug=slugify("Dire Wolf"), item_slug=slugify("Brigandine"), drop_weight=8),
+    # Awakened Bear (level 8-10) previously had no item loot table at all -
+    # it now drops only tier2.5 gear, including both Talismans at a small
+    # weight (2, vs 8 for the other four) so they stay rare.
+    dict(monster_slug=slugify("Awakened Bear"), item_slug=slugify("Mace"), drop_weight=8),
+    dict(monster_slug=slugify("Awakened Bear"), item_slug=slugify("Barbute"), drop_weight=8),
+    dict(monster_slug=slugify("Awakened Bear"), item_slug=slugify("Kite Shield"), drop_weight=8),
+    dict(monster_slug=slugify("Awakened Bear"), item_slug=slugify("Brigandine"), drop_weight=8),
+    dict(monster_slug=slugify("Awakened Bear"), item_slug=slugify("Spirit Talisman"), drop_weight=2),
+    dict(monster_slug=slugify("Awakened Bear"), item_slug=slugify("Agility Talisman"), drop_weight=2),
 ]
 
 # Young Wolf: no_material_drop_weight 70, Chamomile 20, Plantago 10 -> 70%
@@ -422,7 +467,9 @@ MONSTER_LOOT_ENTRIES = [
 # weighted highest (20) as its signature material (a bandit's scavenged
 # loot). Dire Wolf: no_material_drop_weight 50, Veil Crystal weighted
 # highest (18) as its signature material (a beast prowling veil-corrupted
-# ground).
+# ground). Gem drops from all three of Robber/Dire Wolf/Awakened Bear at
+# a shared weight of 12 - the central ingredient for the two craftable
+# Talisman amulets.
 MONSTER_MATERIAL_LOOT_ENTRIES = [
     dict(monster_slug=slugify("Young Wolf"), material_slug=slugify("Chamomile"), drop_weight=20),
     dict(monster_slug=slugify("Young Wolf"), material_slug=slugify("Plantago"), drop_weight=10),
@@ -455,14 +502,17 @@ MONSTER_MATERIAL_LOOT_ENTRIES = [
     dict(monster_slug=slugify("Robber"), material_slug=slugify("Coal"), drop_weight=10),
     dict(monster_slug=slugify("Robber"), material_slug=slugify("Scrap Metal"), drop_weight=20),
     dict(monster_slug=slugify("Robber"), material_slug=slugify("Veil Crystal"), drop_weight=8),
+    dict(monster_slug=slugify("Robber"), material_slug=slugify("Gem"), drop_weight=12),
     dict(monster_slug=slugify("Dire Wolf"), material_slug=slugify("Nettle"), drop_weight=10),
     dict(monster_slug=slugify("Dire Wolf"), material_slug=slugify("Coal"), drop_weight=8),
     dict(monster_slug=slugify("Dire Wolf"), material_slug=slugify("Scrap Metal"), drop_weight=8),
     dict(monster_slug=slugify("Dire Wolf"), material_slug=slugify("Veil Crystal"), drop_weight=18),
+    dict(monster_slug=slugify("Dire Wolf"), material_slug=slugify("Gem"), drop_weight=12),
     dict(monster_slug=slugify("Awakened Bear"), material_slug=slugify("Nettle"), drop_weight=12),
     dict(monster_slug=slugify("Awakened Bear"), material_slug=slugify("Coal"), drop_weight=20),
     dict(monster_slug=slugify("Awakened Bear"), material_slug=slugify("Scrap Metal"), drop_weight=10),
     dict(monster_slug=slugify("Awakened Bear"), material_slug=slugify("Veil Crystal"), drop_weight=10),
+    dict(monster_slug=slugify("Awakened Bear"), material_slug=slugify("Gem"), drop_weight=12),
 ]
 
 
@@ -546,7 +596,12 @@ def seed() -> None:
                 level_requirement=data["level_requirement"],
                 output_quantity=data["output_quantity"],
             )
-            if "output_rune_slug" in data:
+            if "output_item_slug" in data:
+                output_item = db.query(ItemTemplate).filter_by(slug=data["output_item_slug"]).first()
+                if output_item is None:
+                    continue
+                recipe_kwargs["output_item_template_id"] = output_item.id
+            elif "output_rune_slug" in data:
                 output_rune = db.query(RuneTemplate).filter_by(slug=data["output_rune_slug"]).first()
                 if output_rune is None:
                     continue

@@ -57,6 +57,37 @@ def _make_recipe(
     return recipe, material, consumable
 
 
+def _make_item_recipe(db_session, *, slug, level_requirement=1, quantity_required=2):
+    material = MaterialTemplate(slug=f"{slug}-material", name=f"{slug} Material")
+    item = ItemTemplate(
+        slug=f"{slug}-amulet",
+        name=f"{slug} Amulet",
+        slot=EquipmentSlot.AMULET,
+        base_stats={"spirit": 5},
+    )
+    db_session.add_all([material, item])
+    db_session.flush()
+
+    recipe = CraftingRecipe(
+        slug=slug,
+        name=slug,
+        category=CraftingCategory.FORGE,
+        level_requirement=level_requirement,
+        output_item_template_id=item.id,
+        output_quantity=1,
+    )
+    db_session.add(recipe)
+    db_session.flush()
+
+    db_session.add(
+        CraftingRecipeIngredient(
+            recipe_id=recipe.id, material_template_id=material.id, quantity_required=quantity_required
+        )
+    )
+    db_session.flush()
+    return recipe, material, item
+
+
 def test_get_recipes_requires_auth(client):
     response = client.get("/api/v1/crafting/recipes")
     assert response.status_code in (401, 403)
@@ -123,6 +154,52 @@ def test_craft_deducts_materials_and_grants_consumable(client, db_session):
     assert len(consumables) == 1
     assert consumables[0]["quantity"] == 1
     assert consumables[0]["slug"] == consumable.slug
+
+
+def test_craft_deducts_materials_and_grants_item(client, db_session):
+    """Crafting a recipe whose output is an equipment item (e.g. the
+    Talisman amulets) - the CraftingRecipe.output_item_template_id path,
+    distinct from the consumable/rune output paths above."""
+    token = _signup(client, email="craftitem@test.com")
+    hero_id = _get_hero_id(client, token)
+    recipe, material, item_template = _make_item_recipe(db_session, slug="test-recipe-11", quantity_required=3)
+    db_session.add(MaterialInstance(template_id=material.id, owner_hero_id=hero_id, quantity=5))
+    db_session.flush()
+
+    response = client.post("/api/v1/crafting/craft/test-recipe-11", headers=_auth(token))
+    assert response.status_code == 200
+    body = response.json()
+    assert body["output_type"] == "item"
+    assert body["item"]["name"] == item_template.name
+    assert body["item"]["base_stats"] == {"spirit": 5}
+    assert body["consumable"] is None
+    assert body["rune"] is None
+
+    materials = client.get("/api/v1/materials", headers=_auth(token)).json()
+    assert materials[0]["quantity"] == 2, "5 owned - 3 required == 2 remaining"
+
+    items = client.get("/api/v1/inventory", headers=_auth(token)).json()
+    assert len(items) == 1
+    assert items[0]["slug"] == item_template.slug
+    assert items[0]["equipped_slot"] is None
+
+
+def test_craft_twice_creates_two_separate_item_instances(client, db_session):
+    """Unlike consumables/runes, items never stack (no quantity column on
+    ItemInstance) - crafting the same item recipe twice must produce two
+    distinct rows, not one stack of 2."""
+    token = _signup(client, email="craftitemtwice@test.com")
+    hero_id = _get_hero_id(client, token)
+    recipe, material, item_template = _make_item_recipe(db_session, slug="test-recipe-12", quantity_required=1)
+    db_session.add(MaterialInstance(template_id=material.id, owner_hero_id=hero_id, quantity=10))
+    db_session.flush()
+
+    client.post("/api/v1/crafting/craft/test-recipe-12", headers=_auth(token))
+    client.post("/api/v1/crafting/craft/test-recipe-12", headers=_auth(token))
+
+    items = client.get("/api/v1/inventory", headers=_auth(token)).json()
+    assert len(items) == 2
+    assert all(item["slug"] == item_template.slug for item in items)
 
 
 def test_craft_rejected_when_backpack_is_full(client, db_session):
