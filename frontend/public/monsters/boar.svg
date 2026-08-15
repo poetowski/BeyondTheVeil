@@ -67,23 +67,34 @@
   <ellipse cx="184" cy="470" rx="15" ry="7" fill="#2b2823"/>
   <ellipse cx="348" cy="470" rx="15" ry="7" fill="#2b2823"/>
 
-  <!-- head, in profile, facing left -->
-  <circle cx="180" cy="368" r="48" fill="#9c9384" stroke="#3a352f" stroke-width="5"/>
-  <!-- snout, long and flat -->
-  <rect x="112" y="372" width="66" height="34" rx="12" fill="#9c9384" stroke="#3a352f" stroke-width="5"/>
-  <!-- nostril -->
-  <ellipse cx="122" cy="390" rx="7" ry="5" fill="#2b2823"/>
+  <!-- head, turned to face the viewer while the body stays in profile -->
+  <circle cx="175" cy="358" r="52" fill="#9c9384" stroke="#3a352f" stroke-width="5"/>
 
-  <!-- tusk, curling up from the snout -->
-  <path d="M138,404 Q126,414 132,428 Q142,416 150,404 Z"
-        fill="#eee6d5" stroke="#3a352f" stroke-width="3" stroke-linejoin="round"/>
+  <!-- ears, symmetric and rounded -->
+  <ellipse cx="142" cy="316" rx="17" ry="25" fill="#9c9384" stroke="#3a352f" stroke-width="4" transform="rotate(-25 142 316)"/>
+  <ellipse cx="142" cy="312" rx="8" ry="15" fill="#3a352f" transform="rotate(-25 142 316)"/>
+  <ellipse cx="208" cy="316" rx="17" ry="25" fill="#9c9384" stroke="#3a352f" stroke-width="4" transform="rotate(25 208 316)"/>
+  <ellipse cx="208" cy="312" rx="8" ry="15" fill="#3a352f" transform="rotate(25 208 316)"/>
 
-  <!-- ear: small and rounded, angled forward - a boar's ear, not an alert wolf-spike -->
-  <ellipse cx="178" cy="326" rx="17" ry="25" fill="#9c9384" stroke="#3a352f" stroke-width="4" transform="rotate(-30 178 326)"/>
-  <ellipse cx="178" cy="322" rx="8" ry="15" fill="#3a352f" transform="rotate(-30 178 326)"/>
+  <!-- snout, flat disc facing forward -->
+  <ellipse cx="175" cy="396" rx="40" ry="30" fill="#9c9384" stroke="#3a352f" stroke-width="5"/>
+  <ellipse cx="175" cy="388" rx="28" ry="12" fill="#857c6e" opacity="0.35"/>
 
-  <!-- eye -->
-  <circle cx="164" cy="360" r="10" fill="#d99a3d"/>
-  <circle cx="164" cy="363" r="4.5" fill="#2b2823"/>
-  <circle cx="161" cy="357" r="1.8" fill="#ffffff" opacity="0.85"/>
+  <!-- tusks: large, symmetric, curling up from each side of the mouth -->
+  <path d="M150,402 Q120,410 112,392 Q106,370 128,360 Q114,382 128,398 Q138,408 150,402 Z"
+        fill="#eee6d5" stroke="#3a352f" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M200,402 Q230,410 238,392 Q244,370 222,360 Q236,382 222,398 Q212,408 200,402 Z"
+        fill="#eee6d5" stroke="#3a352f" stroke-width="4" stroke-linejoin="round"/>
+
+  <!-- nostrils -->
+  <ellipse cx="163" cy="398" rx="6" ry="8" fill="#2b2823"/>
+  <ellipse cx="187" cy="398" rx="6" ry="8" fill="#2b2823"/>
+
+  <!-- eyes -->
+  <circle cx="152" cy="352" r="10" fill="#d99a3d"/>
+  <circle cx="152" cy="355" r="4.5" fill="#2b2823"/>
+  <circle cx="149" cy="349" r="1.8" fill="#ffffff" opacity="0.85"/>
+  <circle cx="198" cy="352" r="10" fill="#d99a3d"/>
+  <circle cx="198" cy="355" r="4.5" fill="#2b2823"/>
+  <circle cx="195" cy="349" r="1.8" fill="#ffffff" opacity="0.85"/>
 </svg>
