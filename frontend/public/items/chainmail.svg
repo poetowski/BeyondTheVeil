@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <clipPath id="chainmailBody">
+      <path d="M180,140 L332,140 L360,260 L392,410 L120,410 L152,260 Z"/>
+    </clipPath>
+  </defs>
+
+  <!-- wooden table -->
+  <rect x="0" y="0" width="512" height="512" fill="#b98956"/>
+  <rect x="0" y="120" width="512" height="6" fill="#a3703f" opacity="0.6"/>
+  <rect x="0" y="260" width="512" height="6" fill="#a3703f" opacity="0.6"/>
+  <rect x="0" y="400" width="512" height="6" fill="#a3703f" opacity="0.6"/>
+  <rect x="40" y="40" width="180" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
+  <rect x="300" y="180" width="150" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
+  <rect x="80" y="320" width="200" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
+  <rect x="250" y="440" width="180" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
+
+  <!-- contact shadow -->
+  <ellipse cx="256" cy="420" rx="140" ry="20" fill="#3a352f" opacity="0.2"/>
+
+  <!-- mail body, laid flat like the leather robe it replaces -->
+  <path d="M180,140 L332,140 L360,260 L392,410 L120,410 L152,260 Z"
+        fill="#8a939c" stroke="#3a352f" stroke-width="5" stroke-linejoin="round"/>
+
+  <!-- interlocked-ring texture, rows offset like real mail -->
+  <g clip-path="url(#chainmailBody)" fill="none" stroke="#5f6870" stroke-width="3" opacity="0.85">
+    <g>
+      <circle cx="150" cy="170" r="13"/><circle cx="196" cy="170" r="13"/><circle cx="242" cy="170" r="13"/>
+      <circle cx="288" cy="170" r="13"/><circle cx="334" cy="170" r="13"/><circle cx="380" cy="170" r="13"/>
+    </g>
+    <g>
+      <circle cx="173" cy="212" r="13"/><circle cx="219" cy="212" r="13"/><circle cx="265" cy="212" r="13"/>
+      <circle cx="311" cy="212" r="13"/><circle cx="357" cy="212" r="13"/>
+    </g>
+    <g>
+      <circle cx="150" cy="254" r="13"/><circle cx="196" cy="254" r="13"/><circle cx="242" cy="254" r="13"/>
+      <circle cx="288" cy="254" r="13"/><circle cx="334" cy="254" r="13"/><circle cx="380" cy="254" r="13"/>
+    </g>
+    <g>
+      <circle cx="165" cy="296" r="13"/><circle cx="211" cy="296" r="13"/><circle cx="257" cy="296" r="13"/>
+      <circle cx="303" cy="296" r="13"/><circle cx="349" cy="296" r="13"/>
+    </g>
+    <g>
+      <circle cx="150" cy="338" r="13"/><circle cx="196" cy="338" r="13"/><circle cx="242" cy="338" r="13"/>
+      <circle cx="288" cy="338" r="13"/><circle cx="334" cy="338" r="13"/><circle cx="380" cy="338" r="13"/>
+    </g>
+    <g>
+      <circle cx="157" cy="380" r="13"/><circle cx="203" cy="380" r="13"/><circle cx="249" cy="380" r="13"/>
+      <circle cx="295" cy="380" r="13"/><circle cx="341" cy="380" r="13"/>
+    </g>
+  </g>
+
+  <!-- collar -->
+  <path d="M210,140 Q256,168 302,140 L292,158 Q256,182 220,158 Z" fill="#5f6870" stroke="#3a352f" stroke-width="3"/>
+  <!-- belt -->
+  <rect x="140" y="270" width="232" height="18" fill="#5b4636" stroke="#3a352f" stroke-width="3"/>
+  <circle cx="256" cy="279" r="8" fill="#8a7a52" stroke="#3a352f" stroke-width="2"/>
+  <!-- sleeves -->
+  <path d="M180,150 L120,190 L138,240 L182,206 Z" fill="#7c8890" stroke="#3a352f" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M332,150 L392,190 L374,240 L330,206 Z" fill="#7c8890" stroke="#3a352f" stroke-width="4" stroke-linejoin="round"/>
+</svg>
