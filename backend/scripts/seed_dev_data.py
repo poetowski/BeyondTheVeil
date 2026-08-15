@@ -133,6 +133,11 @@ MATERIAL_TEMPLATES = [
     dict(name="Ember Dust", description="Fine grey ash from a forge fire, still faintly hot.", category=CraftingCategory.FORGE, price=56, level_requirement=1),
     # Level 4 - only drops from level 4+ monsters (Boar, Puny Goblin).
     dict(name="Nettle", description="Fine-toothed leaves that sting on contact, prized once the sting is boiled out.", category=CraftingCategory.ALCHEMY, price=59, level_requirement=4),
+    # Level 6 Forge materials - no monster loot table entries or recipe use
+    # yet, same as when Nettle was first added; auto-available via the Shop.
+    dict(name="Coal", description="Plain black lumps, but no forge burns hot enough without them.", category=CraftingCategory.FORGE, price=85, level_requirement=6),
+    dict(name="Scrap Metal", description="Bent, rusted odds and ends - not much to look at, but the furnace doesn't care.", category=CraftingCategory.FORGE, price=90, level_requirement=6),
+    dict(name="Veil Crystal", description="A shard of crystallized veil-light, humming faintly even at rest.", category=CraftingCategory.FORGE, price=130, level_requirement=6),
 ]
 for _material in MATERIAL_TEMPLATES:
     _material["slug"] = slugify(_material["name"])
