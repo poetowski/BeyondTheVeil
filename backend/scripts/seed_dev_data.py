@@ -95,6 +95,7 @@ MONSTER_TEMPLATES = [
         level_range_max=7,
         base_stats={"strength": 26, "dexterity": 12, "intelligence": 3, "vitality": 28, "agility": 11, "spirit": 8},
         flavor_text="It doesn't charge to scare you off - you're just in its way, and it isn't stopping.",
+        no_drop_weight=40,
         no_material_drop_weight=55,
         gold_min=35,
         gold_max=70,
@@ -235,6 +236,9 @@ for _recipe in CRAFTING_RECIPES:
 # 5% each item.
 # Light Bandit reuses the same 5 tier-1 items (its "stolen goods") at the
 # same weight-3-each pattern.
+# Monsters with level_range_min >= 4 (Boar, Puny Goblin) drop both the
+# tier-1 and tier-2 "Iron" item pools - tier-2 weighted 2x a tier-1 item
+# (weight 6 vs 3) so better gear is more common, not rarer, at this tier.
 MONSTER_LOOT_ENTRIES = [
     dict(monster_slug=slugify("Young Wolf"), item_slug=slugify("Leather Helm"), drop_weight=3),
     dict(monster_slug=slugify("Young Wolf"), item_slug=slugify("Leather Robe"), drop_weight=3),
@@ -251,6 +255,21 @@ MONSTER_LOOT_ENTRIES = [
     dict(monster_slug=slugify("Puny Goblin"), item_slug=slugify("Wooden Shield"), drop_weight=3),
     dict(monster_slug=slugify("Puny Goblin"), item_slug=slugify("Wooden Stick"), drop_weight=3),
     dict(monster_slug=slugify("Puny Goblin"), item_slug=slugify("Old Ring"), drop_weight=3),
+    dict(monster_slug=slugify("Puny Goblin"), item_slug=slugify("Iron Helm"), drop_weight=6),
+    dict(monster_slug=slugify("Puny Goblin"), item_slug=slugify("Chainmail"), drop_weight=6),
+    dict(monster_slug=slugify("Puny Goblin"), item_slug=slugify("Iron Buckler"), drop_weight=6),
+    dict(monster_slug=slugify("Puny Goblin"), item_slug=slugify("Iron Sword"), drop_weight=6),
+    dict(monster_slug=slugify("Puny Goblin"), item_slug=slugify("Iron Band"), drop_weight=6),
+    dict(monster_slug=slugify("Boar"), item_slug=slugify("Leather Helm"), drop_weight=3),
+    dict(monster_slug=slugify("Boar"), item_slug=slugify("Leather Robe"), drop_weight=3),
+    dict(monster_slug=slugify("Boar"), item_slug=slugify("Wooden Shield"), drop_weight=3),
+    dict(monster_slug=slugify("Boar"), item_slug=slugify("Wooden Stick"), drop_weight=3),
+    dict(monster_slug=slugify("Boar"), item_slug=slugify("Old Ring"), drop_weight=3),
+    dict(monster_slug=slugify("Boar"), item_slug=slugify("Iron Helm"), drop_weight=6),
+    dict(monster_slug=slugify("Boar"), item_slug=slugify("Chainmail"), drop_weight=6),
+    dict(monster_slug=slugify("Boar"), item_slug=slugify("Iron Buckler"), drop_weight=6),
+    dict(monster_slug=slugify("Boar"), item_slug=slugify("Iron Sword"), drop_weight=6),
+    dict(monster_slug=slugify("Boar"), item_slug=slugify("Iron Band"), drop_weight=6),
 ]
 
 # Young Wolf: no_material_drop_weight 70, Chamomile 20, Plantago 10 -> 70%
@@ -265,9 +284,9 @@ MONSTER_LOOT_ENTRIES = [
 # Light Bandit: no_material_drop_weight 65, Tin Shard weighted highest (18)
 # as its signature material ("bright, brittle fragments" fit stolen trinkets).
 # Boar: no_material_drop_weight 55, Iron Ore weighted highest (22)
-# as its signature material (a beast rooting through rocky ground). No item
-# loot table (no_drop_weight unset) - a beast doesn't carry gear, matching
-# Veil Wisp's precedent.
+# as its signature material (a beast rooting through rocky ground). Unlike
+# Veil Wisp, it now has an item loot table too (see MONSTER_LOOT_ENTRIES) -
+# gear trampled off a fallen adventurer, not gear it carries itself.
 # Puny Goblin: no_material_drop_weight 60, Plantago weighted highest (20)
 # as its signature material (an undergrowth-dweller; no other monster
 # favors Plantago).
