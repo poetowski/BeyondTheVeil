@@ -123,6 +123,7 @@ MATERIAL_TEMPLATES = [
     dict(name="Iron Ore", description="Rough-smelted lumps, still warm from the earth.", category=CraftingCategory.FORGE, price=35),
     dict(name="Tin Shard", description="Bright, brittle fragments that ring when struck.", category=CraftingCategory.FORGE, price=42),
     dict(name="Ember Dust", description="Fine grey ash from a forge fire, still faintly hot.", category=CraftingCategory.FORGE, price=56),
+    dict(name="Nettle", description="Fine-toothed leaves that sting on contact, prized once the sting is boiled out.", category=CraftingCategory.ALCHEMY, price=59),
 ]
 for _material in MATERIAL_TEMPLATES:
     _material["slug"] = slugify(_material["name"])
