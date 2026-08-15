@@ -6,7 +6,7 @@ from app.services.hero_service import HP_PER_VITALITY, compute_max_hp
 
 # Placeholder formulas/constants — combat balance is a separate future task.
 HIT_CHANCE_BASE = 0.5
-HIT_CHANCE_K = 0.04
+HIT_CHANCE_K = 0.013
 HIT_CHANCE_MIN = 0.10
 HIT_CHANCE_MAX = 0.90
 # Strength's physical-damage contribution is flat, not rolled: 1 damage per
