@@ -11,80 +11,76 @@
   <!-- ground -->
   <rect x="0" y="340" width="512" height="172" fill="#93a06e"/>
 
-  <!-- distant tree line -->
+  <!-- distant tree line, irregular spacing and heights -->
   <g fill="#7c8f61">
-    <polygon points="40,340 60,300 80,340"/>
-    <polygon points="120,340 140,295 160,340"/>
-    <polygon points="360,340 380,298 400,340"/>
-    <polygon points="440,340 460,302 480,340"/>
+    <polygon points="20,340 38,300 58,340"/>
+    <polygon points="92,340 112,286 140,340"/>
+    <polygon points="305,340 326,312 348,340"/>
+    <polygon points="392,340 418,296 448,340"/>
+    <polygon points="458,340 474,320 490,340"/>
   </g>
 
-  <!-- foreground tree left -->
+  <!-- foreground tree, left - big and close -->
   <g>
-    <rect x="18" y="300" width="14" height="80" fill="#5b4636"/>
-    <polygon points="-10,300 55,300 25,255" fill="#4f6b47"/>
-    <polygon points="-5,270 50,270 25,230" fill="#4f6b47"/>
-    <polygon points="0,240 45,240 25,205" fill="#4f6b47"/>
+    <rect x="14" y="288" width="18" height="94" fill="#5b4636"/>
+    <polygon points="-18,288 66,288 23,228" fill="#4f6b47"/>
+    <polygon points="-10,250 58,250 23,196" fill="#4f6b47"/>
+    <polygon points="-2,214 50,214 23,166" fill="#4f6b47"/>
   </g>
-  <!-- foreground tree right -->
+  <!-- foreground tree, right - smaller, set further back -->
   <g>
-    <rect x="478" y="300" width="14" height="80" fill="#5b4636"/>
-    <polygon points="457,300 522,300 490,255" fill="#4f6b47"/>
-    <polygon points="462,270 517,270 490,230" fill="#4f6b47"/>
-    <polygon points="467,240 512,240 490,205" fill="#4f6b47"/>
+    <rect x="462" y="322" width="10" height="54" fill="#5b4636"/>
+    <polygon points="442,322 500,322 467,288" fill="#4f6b47"/>
+    <polygon points="446,300 496,300 467,270" fill="#4f6b47"/>
+    <polygon points="450,278 492,278 467,252" fill="#4f6b47"/>
   </g>
 
-  <!-- ground shadow -->
-  <ellipse cx="256" cy="432" rx="108" ry="18" fill="#7c8a5a" opacity="0.6"/>
+  <!-- ground shadow, offset toward the planted foot -->
+  <ellipse cx="238" cy="430" rx="96" ry="16" fill="#7c8a5a" opacity="0.6" transform="rotate(-4 238 430)"/>
 
-  <!-- robe -->
-  <polygon points="256,232 214,248 182,300 152,438 360,438 330,300 298,248"
+  <!-- robe, uneven hem -->
+  <polygon points="248,230 204,246 168,302 132,432 356,420 316,296 286,244"
            fill="#4a3a63" stroke="#3a352f" stroke-width="5" stroke-linejoin="round"/>
-  <!-- robe shading fold -->
-  <polygon points="256,248 232,300 218,438 256,438 268,300" fill="#382a4d" opacity="0.7"/>
-  <!-- robe hem trim -->
-  <rect x="152" y="426" width="208" height="12" fill="#c9a227" opacity="0.85"/>
+  <!-- shading fold, only on the near side -->
+  <polygon points="248,246 214,300 190,428 248,432 252,300" fill="#382a4d" opacity="0.7"/>
+  <!-- hem trim, uneven -->
+  <path d="M132,432 L356,420 L356,410 L132,422 Z" fill="#c9a227" opacity="0.85"/>
   <!-- collar -->
-  <path d="M222,250 Q256,268 290,250 L290,238 Q256,254 222,238 Z" fill="#382a4d"/>
+  <path d="M216,248 Q248,264 280,242 L278,232 Q248,250 218,236 Z" fill="#382a4d"/>
 
-  <!-- left sleeve, raised -->
-  <path d="M214,252 Q170,220 168,168 L188,160 Q198,206 236,244 Z"
+  <!-- left sleeve, raised high, bent at the elbow -->
+  <path d="M206,250 Q158,224 148,182 Q142,158 130,140 L150,132 Q160,156 168,182 Q182,214 226,244 Z"
         fill="#4a3a63" stroke="#3a352f" stroke-width="5" stroke-linejoin="round"/>
-  <!-- right sleeve, raised -->
-  <path d="M298,252 Q342,220 344,168 L324,160 Q314,206 276,244 Z"
+  <!-- right sleeve, raised lower and out to the side -->
+  <path d="M286,246 Q334,228 352,206 Q362,196 372,186 L386,200 Q372,212 360,224 Q338,246 300,258 Z"
         fill="#4a3a63" stroke="#3a352f" stroke-width="5" stroke-linejoin="round"/>
 
-  <!-- hands -->
-  <ellipse cx="176" cy="156" rx="14" ry="12" fill="#c99a6c" stroke="#3a352f" stroke-width="4"/>
-  <ellipse cx="336" cy="156" rx="14" ry="12" fill="#c99a6c" stroke="#3a352f" stroke-width="4"/>
+  <!-- hands, uneven heights -->
+  <ellipse cx="138" cy="128" rx="13" ry="11" fill="#c99a6c" stroke="#3a352f" stroke-width="4"/>
+  <ellipse cx="378" cy="192" rx="13" ry="11" fill="#c99a6c" stroke="#3a352f" stroke-width="4"/>
 
   <!-- neck -->
-  <rect x="240" y="220" width="32" height="24" fill="#c99a6c"/>
+  <rect x="234" y="220" width="30" height="24" fill="#c99a6c"/>
 
-  <!-- bald head -->
-  <circle cx="256" cy="188" r="46" fill="#c99a6c" stroke="#3a352f" stroke-width="5"/>
-  <!-- head shading -->
-  <path d="M256,142 A46,46 0 0 1 300,188 A46,46 0 0 1 280,228 Q300,190 268,146 Z" fill="#b3825a" opacity="0.6"/>
-  <!-- head shine -->
-  <ellipse cx="238" cy="160" rx="10" ry="6" fill="#e2bd93" opacity="0.8" transform="rotate(-20 238 160)"/>
-  <!-- ears -->
-  <ellipse cx="212" cy="190" rx="8" ry="12" fill="#c99a6c" stroke="#3a352f" stroke-width="3"/>
-  <ellipse cx="300" cy="190" rx="8" ry="12" fill="#c99a6c" stroke="#3a352f" stroke-width="3"/>
+  <!-- bald head, tilted -->
+  <g transform="rotate(-7 248 188)">
+    <circle cx="248" cy="188" r="44" fill="#c99a6c" stroke="#3a352f" stroke-width="5"/>
+    <path d="M248,144 A44,44 0 0 1 290,188 A44,44 0 0 1 272,226 Q290,190 260,148 Z" fill="#b3825a" opacity="0.6"/>
+    <ellipse cx="230" cy="160" rx="10" ry="6" fill="#e2bd93" opacity="0.8" transform="rotate(-20 230 160)"/>
+    <ellipse cx="206" cy="190" rx="8" ry="12" fill="#c99a6c" stroke="#3a352f" stroke-width="3"/>
+    <ellipse cx="288" cy="186" rx="6" ry="9" fill="#c99a6c" stroke="#3a352f" stroke-width="3"/>
+    <ellipse cx="230" cy="186" rx="5" ry="4" fill="#2b2823"/>
+    <ellipse cx="266" cy="184" rx="5" ry="4" fill="#2b2823"/>
+    <path d="M228,210 Q250,218 270,206" fill="none" stroke="#3a352f" stroke-width="3" stroke-linecap="round"/>
+  </g>
 
-  <!-- eyes -->
-  <ellipse cx="238" cy="186" rx="5" ry="4" fill="#2b2823"/>
-  <ellipse cx="274" cy="186" rx="5" ry="4" fill="#2b2823"/>
-  <!-- serene mouth -->
-  <path d="M240,210 Q256,216 272,210" fill="none" stroke="#3a352f" stroke-width="3" stroke-linecap="round"/>
-
-  <!-- fireball, levitating above his hands -->
-  <circle cx="256" cy="108" r="56" fill="#ffab5e" opacity="0.3"/>
-  <circle cx="256" cy="108" r="36" fill="#e8622c" stroke="#3a352f" stroke-width="4"/>
-  <circle cx="256" cy="108" r="20" fill="#ffe27a"/>
-  <!-- flame flicks -->
-  <path d="M256,72 Q264,54 250,40 Q262,58 246,70 Z" fill="#ffab5e"/>
-  <path d="M228,86 Q210,76 214,58 Q226,74 236,84 Z" fill="#ffab5e" opacity="0.85"/>
-  <path d="M284,86 Q302,76 298,58 Q286,74 276,84 Z" fill="#ffab5e" opacity="0.85"/>
-  <!-- flame highlight -->
-  <ellipse cx="246" cy="98" rx="8" ry="5" fill="#fff6db" opacity="0.9"/>
+  <!-- fireball, off-center above the higher hand -->
+  <circle cx="196" cy="104" r="52" fill="#ffab5e" opacity="0.3"/>
+  <circle cx="196" cy="104" r="34" fill="#e8622c" stroke="#3a352f" stroke-width="4"/>
+  <circle cx="196" cy="104" r="18" fill="#ffe27a"/>
+  <!-- flame flicks, asymmetric -->
+  <path d="M188,70 Q192,50 176,38 Q190,54 178,68 Z" fill="#ffab5e"/>
+  <path d="M166,84 Q146,76 148,56 Q162,72 172,82 Z" fill="#ffab5e" opacity="0.85"/>
+  <path d="M228,90 Q250,86 254,64 Q236,76 220,86 Z" fill="#ffab5e" opacity="0.7"/>
+  <ellipse cx="186" cy="94" rx="7" ry="4" fill="#fff6db" opacity="0.9"/>
 </svg>
