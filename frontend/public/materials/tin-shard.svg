@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#eef2df"/>
+      <stop offset="100%" stop-color="#dce6c8"/>
+    </linearGradient>
+  </defs>
+
+  <!-- meadow sky -->
+  <rect x="0" y="0" width="512" height="340" fill="url(#sky)"/>
+  <!-- meadow ground -->
+  <rect x="0" y="340" width="512" height="172" fill="#93a06e"/>
+
+  <!-- distant grass tufts -->
+  <g fill="#7c8f61">
+    <polygon points="50,345 40,320 60,320"/>
+    <polygon points="90,345 80,325 100,325"/>
+    <polygon points="420,345 410,322 430,322"/>
+    <polygon points="460,345 450,326 470,326"/>
+  </g>
+
+  <!-- near grass tufts -->
+  <g fill="#4f6b47">
+    <polygon points="20,390 6,350 34,350"/>
+    <polygon points="492,388 478,346 506,346"/>
+  </g>
+
+  <!-- ground shadow beneath the shards -->
+  <ellipse cx="256" cy="392" rx="112" ry="16" fill="#7c8a5a" opacity="0.5"/>
+
+  <!-- back shard, tall and angular -->
+  <polygon points="256,196 288,254 274,336 240,334 224,258"
+           fill="#aeb4b8" stroke="#3a352f" stroke-width="5" stroke-linejoin="round"/>
+  <polygon points="256,196 288,254 268,254 248,244" fill="#d6dade" opacity="0.9"/>
+
+  <!-- left shard, leaning -->
+  <polygon points="170,280 210,246 226,300 214,362 178,368 154,326"
+           fill="#9aa0a4" stroke="#3a352f" stroke-width="5" stroke-linejoin="round"/>
+  <polygon points="210,246 226,300 208,296 194,270" fill="#c6cccf" opacity="0.85"/>
+
+  <!-- right shard, leaning -->
+  <polygon points="342,272 306,250 288,306 300,366 336,370 358,320"
+           fill="#a4aaae" stroke="#3a352f" stroke-width="5" stroke-linejoin="round"/>
+  <polygon points="306,250 288,306 304,302 316,278" fill="#cfd4d7" opacity="0.85"/>
+
+  <!-- small loose fragments scattered at the base -->
+  <polygon points="200,368 222,356 232,378 214,392 196,384"
+           fill="#9aa0a4" stroke="#3a352f" stroke-width="4" stroke-linejoin="round"/>
+  <polygon points="298,374 320,364 332,384 316,398 300,392"
+           fill="#aeb4b8" stroke="#3a352f" stroke-width="4" stroke-linejoin="round"/>
+
+  <!-- bright ringing glints -->
+  <g fill="#f4f6f5" opacity="0.95">
+    <polygon points="256,206 264,224 248,222"/>
+    <polygon points="188,268 196,282 180,282"/>
+    <polygon points="322,264 330,278 314,278"/>
+    <ellipse cx="210" cy="372" rx="4" ry="3"/>
+    <ellipse cx="312" cy="378" rx="4" ry="3"/>
+  </g>
+</svg>
