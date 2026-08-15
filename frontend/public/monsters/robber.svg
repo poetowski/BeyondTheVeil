@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- indoor wall -->
+  <rect x="0" y="0" width="512" height="340" fill="#4f453a"/>
+  <!-- wood plank floor -->
+  <rect x="0" y="340" width="512" height="172" fill="#6b5a42"/>
+  <!-- baseboard -->
+  <rect x="0" y="336" width="512" height="8" fill="#241a12"/>
+  <!-- plank seams -->
+  <g stroke="#4f4030" stroke-width="3" opacity="0.6">
+    <line x1="0" y1="380" x2="512" y2="380"/>
+    <line x1="0" y1="430" x2="512" y2="430"/>
+    <line x1="0" y1="470" x2="512" y2="470"/>
+  </g>
+
+  <!-- window, night visible outside -->
+  <rect x="330" y="110" width="130" height="150" rx="4" fill="#241a12"/>
+  <rect x="342" y="122" width="106" height="126" fill="#20263c"/>
+  <!-- a sliver of moon and a couple stars through the glass -->
+  <circle cx="410" cy="150" r="14" fill="#e8e4d0" opacity="0.9"/>
+  <circle cx="360" cy="200" r="2.5" fill="#e8e4d0" opacity="0.8"/>
+  <circle cx="432" cy="225" r="2" fill="#e8e4d0" opacity="0.7"/>
+  <!-- window cross-frame -->
+  <rect x="342" y="182" width="106" height="6" fill="#241a12"/>
+  <rect x="392" y="122" width="6" height="126" fill="#241a12"/>
+
+  <!-- moonlight spilling across the floor -->
+  <polygon points="342,248 448,248 500,420 300,420" fill="#cbb98a" opacity="0.18"/>
+
+  <!-- ground shadow beneath the robber -->
+  <ellipse cx="200" cy="430" rx="86" ry="15" fill="#241a12" opacity="0.4"/>
+
+  <!-- back leg -->
+  <rect x="212" y="368" width="24" height="64" rx="8" fill="#383b3a" stroke="#15120f" stroke-width="4"/>
+  <ellipse cx="224" cy="432" rx="15" ry="7" fill="#15120f"/>
+
+  <!-- cloak, tapered and draped -->
+  <path d="M150,270 Q152,240 200,224 Q248,240 250,270
+           L262,406 Q256,424 200,424 Q144,424 138,406 Z"
+        fill="#4f5352" stroke="#15120f" stroke-width="5" stroke-linejoin="round"/>
+  <!-- cloak shading fold -->
+  <path d="M200,244 Q214,300 210,406 L188,406 Q184,300 190,244 Z" fill="#383b3a" opacity="0.85"/>
+
+  <!-- front leg -->
+  <rect x="176" y="374" width="24" height="60" rx="8" fill="#454846" stroke="#15120f" stroke-width="4"/>
+  <ellipse cx="188" cy="434" rx="15" ry="7" fill="#15120f"/>
+
+  <!-- rear arm, hidden mostly under cloak -->
+  <rect x="234" y="288" width="20" height="70" rx="9" fill="#454846" stroke="#15120f" stroke-width="4"/>
+
+  <!-- front arm, lowered, clutching a stolen sack -->
+  <path d="M158,272 Q118,296 108,340 Q124,318 152,300 Z"
+        fill="#4f5352" stroke="#15120f" stroke-width="4" stroke-linejoin="round"/>
+  <!-- fist gripping the drawstring -->
+  <circle cx="112" cy="344" r="13" fill="#454846" stroke="#15120f" stroke-width="3"/>
+
+  <!-- bulging stolen sack, tied at the neck -->
+  <path d="M96,352 Q88,394 116,404 Q150,412 156,380 Q158,352 128,346 Q108,342 96,352 Z"
+        fill="#5b4636" stroke="#15120f" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M112,346 L128,346 L124,358 L116,358 Z" fill="#3a2a1c" stroke="#15120f" stroke-width="3"/>
+  <!-- something valuable poking out -->
+  <ellipse cx="140" cy="358" rx="6" ry="10" fill="#d9a441" stroke="#15120f" stroke-width="2" transform="rotate(20 140 358)"/>
+
+  <!-- hood -->
+  <path d="M200,150 Q160,158 156,206 Q158,238 200,246 Q242,238 244,206 Q240,158 200,150 Z"
+        fill="#4f5352" stroke="#15120f" stroke-width="5" stroke-linejoin="round"/>
+  <!-- hood shading -->
+  <path d="M200,158 Q222,168 226,206 Q224,228 208,238 Q220,206 200,158 Z" fill="#383b3a" opacity="0.8"/>
+
+  <!-- face shadow, hood conceals everything but the eyes -->
+  <ellipse cx="200" cy="206" rx="34" ry="30" fill="#15120f"/>
+
+  <!-- eyes: pale glints in the shadow -->
+  <ellipse cx="188" cy="206" rx="7" ry="5" fill="#d99a3d"/>
+  <ellipse cx="212" cy="206" rx="7" ry="5" fill="#d99a3d"/>
+  <circle cx="188" cy="206" r="2.2" fill="#15120f"/>
+  <circle cx="212" cy="206" r="2.2" fill="#15120f"/>
+</svg>

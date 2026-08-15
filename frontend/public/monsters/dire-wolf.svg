@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="night-sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#161b2e"/>
+      <stop offset="100%" stop-color="#2c3350"/>
+    </linearGradient>
+  </defs>
+
+  <!-- night sky -->
+  <rect x="0" y="0" width="512" height="340" fill="url(#night-sky)"/>
+  <!-- dark forest floor -->
+  <rect x="0" y="340" width="512" height="172" fill="#242b1f"/>
+
+  <!-- moon, low light spilling over the scene -->
+  <circle cx="410" cy="90" r="46" fill="#e8e4d0" opacity="0.15"/>
+  <circle cx="410" cy="90" r="28" fill="#e8e4d0" opacity="0.9"/>
+
+  <!-- distant tree line, near-black silhouettes -->
+  <g fill="#10150d">
+    <polygon points="60,345 30,300 90,300"/>
+    <polygon points="140,345 108,290 172,290"/>
+    <polygon points="380,345 348,288 412,288"/>
+    <polygon points="452,345 424,300 480,300"/>
+  </g>
+
+  <!-- foreground trees (left) -->
+  <g>
+    <rect x="6" y="250" width="18" height="140" fill="#1c140e"/>
+    <g fill="#151f10">
+      <polygon points="15,120 -34,195 64,195"/>
+      <polygon points="15,162 -44,235 74,235"/>
+      <polygon points="15,206 -58,282 88,282"/>
+    </g>
+  </g>
+
+  <!-- foreground trees (right) -->
+  <g>
+    <rect x="488" y="230" width="18" height="160" fill="#1c140e"/>
+    <g fill="#151f10">
+      <polygon points="497,100 448,172 546,172"/>
+      <polygon points="497,142 438,214 556,214"/>
+      <polygon points="497,187 423,262 571,262"/>
+    </g>
+  </g>
+
+  <!-- ground shadow -->
+  <ellipse cx="256" cy="432" rx="108" ry="16" fill="#1a1f16" opacity="0.6"/>
+
+  <!-- tail -->
+  <path d="M296,394 Q368,352 340,258 Q382,330 330,402 Z"
+        fill="#332f2a" stroke="#15120f" stroke-width="5" stroke-linejoin="round"/>
+
+  <!-- legs -->
+  <rect x="213" y="378" width="26" height="56" rx="10" fill="#4a4640" stroke="#15120f" stroke-width="4"/>
+  <rect x="273" y="378" width="26" height="56" rx="10" fill="#4a4640" stroke="#15120f" stroke-width="4"/>
+  <ellipse cx="226" cy="431" rx="16" ry="8" fill="#15120f"/>
+  <ellipse cx="286" cy="431" rx="16" ry="8" fill="#15120f"/>
+
+  <!-- body, bigger and darker than any ordinary wolf -->
+  <ellipse cx="256" cy="360" rx="95" ry="65" fill="#4a4640" stroke="#15120f" stroke-width="5"/>
+  <!-- saddle shading -->
+  <ellipse cx="256" cy="318" rx="68" ry="28" fill="#332f2a"/>
+  <!-- belly, faintly caught by moonlight -->
+  <ellipse cx="256" cy="390" rx="54" ry="38" fill="#6b665e"/>
+
+  <!-- ears -->
+  <polygon points="215,205 195,140 245,195" fill="#4a4640" stroke="#15120f" stroke-width="4" stroke-linejoin="round"/>
+  <polygon points="297,205 317,140 267,195" fill="#4a4640" stroke="#15120f" stroke-width="4" stroke-linejoin="round"/>
+  <polygon points="213,192 204,156 231,188" fill="#15120f"/>
+  <polygon points="299,192 308,156 281,188" fill="#15120f"/>
+
+  <!-- head -->
+  <circle cx="256" cy="250" r="58" fill="#4a4640" stroke="#15120f" stroke-width="5"/>
+
+  <!-- muzzle -->
+  <ellipse cx="256" cy="278" rx="32" ry="24" fill="#6b665e" stroke="#15120f" stroke-width="3"/>
+  <ellipse cx="256" cy="268" rx="8" ry="6" fill="#0d0a08"/>
+
+  <!-- eyes, glowing in the dark -->
+  <circle cx="232" cy="245" r="18" fill="#e8b23d" opacity="0.2"/>
+  <circle cx="280" cy="245" r="18" fill="#e8b23d" opacity="0.2"/>
+  <circle cx="232" cy="245" r="12" fill="#e8b23d"/>
+  <circle cx="280" cy="245" r="12" fill="#e8b23d"/>
+  <circle cx="232" cy="248" r="5" fill="#0d0a08"/>
+  <circle cx="280" cy="248" r="5" fill="#0d0a08"/>
+  <circle cx="228" cy="241" r="2" fill="#fff8e0" opacity="0.9"/>
+  <circle cx="276" cy="241" r="2" fill="#fff8e0" opacity="0.9"/>
+</svg>
