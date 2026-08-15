@@ -225,6 +225,9 @@ RUNE_TEMPLATES = [
     # Level 10, the last of the six stats to get a rune. Crafted from
     # existing materials only (Veil Crystal) - no new material this time.
     dict(name="Corvun Rune of Serenity", description="A pale glyph that seems to breathe, slow and unhurried.", stat_bonuses={"spirit": 7}, price=3200, level_requirement=10),
+    # The only rune that touches all six stats at once, rather than
+    # specializing in one - crafted from Ancient Porcelain.
+    dict(name="Duskvar Rune of Wholeness", description="A hairline glyph, fired into old porcelain long before it cracked.", stat_bonuses={"strength": 1, "dexterity": 1, "intelligence": 1, "vitality": 1, "agility": 1, "spirit": 1}, price=4000, level_requirement=10),
 ]
 for _rune in RUNE_TEMPLATES:
     _rune["slug"] = slugify(_rune["name"])
@@ -371,6 +374,16 @@ CRAFTING_RECIPES = [
         output_quantity=1,
         ingredients=[
             dict(material_slug=slugify("Veil Crystal"), quantity_required=9),
+        ],
+    ),
+    dict(
+        name="Duskvar Rune of Wholeness",
+        category=CraftingCategory.FORGE,
+        level_requirement=10,
+        output_rune_slug=slugify("Duskvar Rune of Wholeness"),
+        output_quantity=1,
+        ingredients=[
+            dict(material_slug=slugify("Ancient Porcelain"), quantity_required=8),
         ],
     ),
     dict(
