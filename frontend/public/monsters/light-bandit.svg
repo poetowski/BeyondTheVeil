@@ -20,15 +20,15 @@
   <!-- cottage, small and muted in the background so the bandit stays the subject -->
   <g opacity="0.88">
     <!-- walls -->
-    <rect x="350" y="256" width="98" height="80" fill="#d3c6a8" stroke="#3a352f" stroke-width="3"/>
+    <rect x="350" y="292" width="98" height="80" fill="#d3c6a8" stroke="#3a352f" stroke-width="3"/>
     <!-- roof -->
-    <polygon points="343,258 399,214 455,258" fill="#9a7256" stroke="#3a352f" stroke-width="3" stroke-linejoin="round"/>
+    <polygon points="343,294 399,250 455,294" fill="#9a7256" stroke="#3a352f" stroke-width="3" stroke-linejoin="round"/>
     <!-- chimney -->
-    <rect x="424" y="224" width="14" height="26" fill="#a89d8e" stroke="#3a352f" stroke-width="2"/>
+    <rect x="424" y="260" width="14" height="26" fill="#a89d8e" stroke="#3a352f" stroke-width="2"/>
     <!-- door -->
-    <rect x="386" y="298" width="22" height="38" rx="3" fill="#5b4636" stroke="#3a352f" stroke-width="3"/>
+    <rect x="386" y="334" width="22" height="38" rx="3" fill="#5b4636" stroke="#3a352f" stroke-width="3"/>
     <!-- window -->
-    <rect x="362" y="278" width="18" height="18" fill="#8a9aa3" stroke="#3a352f" stroke-width="2"/>
+    <rect x="362" y="314" width="18" height="18" fill="#8a9aa3" stroke="#3a352f" stroke-width="2"/>
   </g>
 
   <!-- meadow grass tufts -->
