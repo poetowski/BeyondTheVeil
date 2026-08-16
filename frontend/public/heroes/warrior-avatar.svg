@@ -9,16 +9,16 @@
   <!-- backdrop -->
   <rect x="0" y="0" width="512" height="512" fill="url(#backdrop)"/>
 
-  <!-- left axe, crossing behind the body -->
-  <line x1="108" y1="486" x2="190" y2="58" stroke="#3a352f" stroke-width="19" stroke-linecap="round"/>
-  <line x1="108" y1="486" x2="190" y2="58" stroke="#6b4a34" stroke-width="13" stroke-linecap="round"/>
-  <path d="M190,80 L190,30 Q138,8 116,48 Q114,74 150,86 Q172,88 190,80 Z"
+  <!-- left axe, raised high overhead, near-vertical - the dominant strike -->
+  <line x1="152" y1="492" x2="140" y2="24" stroke="#3a352f" stroke-width="21" stroke-linecap="round"/>
+  <line x1="152" y1="492" x2="140" y2="24" stroke="#6b4a34" stroke-width="15" stroke-linecap="round"/>
+  <path d="M140,48 L140,4 Q88,-8 64,32 Q60,62 102,74 Q126,76 140,48 Z"
         fill="#8a9099" stroke="#3a352f" stroke-width="4" stroke-linejoin="round"/>
 
-  <!-- right axe, crossing behind the body -->
-  <line x1="404" y1="486" x2="322" y2="58" stroke="#3a352f" stroke-width="19" stroke-linecap="round"/>
-  <line x1="404" y1="486" x2="322" y2="58" stroke="#6b4a34" stroke-width="13" stroke-linecap="round"/>
-  <path d="M322,80 L322,30 Q374,8 396,48 Q398,74 362,86 Q340,88 322,80 Z"
+  <!-- right axe, held low and shallow, cutting across the body - the ready guard -->
+  <line x1="440" y1="460" x2="256" y2="156" stroke="#3a352f" stroke-width="16" stroke-linecap="round"/>
+  <line x1="440" y1="460" x2="256" y2="156" stroke="#6b4a34" stroke-width="11" stroke-linecap="round"/>
+  <path d="M256,156 L292,140 Q316,102 282,82 Q256,80 246,116 Q240,142 256,156 Z"
         fill="#8a9099" stroke="#3a352f" stroke-width="4" stroke-linejoin="round"/>
 
   <!-- shoulders / hide mantle -->
