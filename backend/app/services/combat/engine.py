@@ -4,14 +4,32 @@ from typing import Any
 
 from app.services.hero_service import HP_PER_VITALITY, compute_max_hp
 
-# Placeholder formulas/constants — combat balance is a separate future task.
+# Tuned via simulation (see the playtesting pass that replaced these
+# placeholders): thousands of simulated fights per candidate value, scored
+# against a target win-rate curve as a function of hero-stat-vs-monster-stat
+# ratio (roughly 5-10% at a 0.6-0.7x disadvantage, ~45-55% at parity,
+# ~95%+ once meaningfully ahead) rather than the previous placeholder
+# values, which produced win rates near 0% until the hero's stats reached
+# ~2.5-6x a monster's - an unwinnable-feeling cliff, not a moderate one.
 HIT_CHANCE_BASE = 0.5
-HIT_CHANCE_K = 0.013
+HIT_CHANCE_K = 0.006
 HIT_CHANCE_MIN = 0.10
 HIT_CHANCE_MAX = 0.90
-# Strength's physical-damage contribution is flat, not rolled: 1 damage per
-# this many strength points (e.g. 5 strength -> 1, 12 strength -> 4).
-STRENGTH_DAMAGE_DIVISOR = 3
+# Strength's physical-damage contribution is flat, not rolled: this many
+# damage per strength point (e.g. 5 strength -> 20, 12 strength -> 48).
+# A high multiplier (rather than a divisor <1, which integer floor-division
+# can't express) is what keeps fights from dragging to MAX_ROUNDS - see the
+# module docstring-adjacent comment above: shorter fights (fewer
+# independent hit/miss rolls) are what keeps the win-rate curve smooth
+# instead of a cliff, since many compounding rolls make even a slight edge
+# converge toward a near-certain outcome (this is also why softening
+# HIT_CHANCE_K alone, without raising damage, wasn't enough on its own).
+STRENGTH_DAMAGE_MULTIPLIER = 4.0
+# Mirrors STRENGTH_DAMAGE_MULTIPLIER for intelligence's spell-damage
+# contribution (previously an implicit 1x multiplier: `max(1, intelligence)`
+# - far too low relative to HP_PER_VITALITY-scaled HP pools, same root
+# cause as strength's old divisor).
+INTELLIGENCE_DAMAGE_MULTIPLIER = 4.0
 MAX_ROUNDS = 30
 MONSTER_STAT_VARIANCE = (0.85, 1.15)
 # Hit-zone mechanic: only rolled when the monster hits the hero (monsters have
@@ -22,8 +40,13 @@ ZONE_WEIGHTS = {"shield": 0.50, "armor": 0.35, "helmet": 0.15}
 HEADSHOT_MULTIPLIER = 3
 # A losing hero still keeps this fraction of the gold/XP the encounter
 # would have paid out on a win - a consolation payout, not a full reward.
-DEFEAT_GOLD_RATIO = 0.15
-DEFEAT_XP_RATIO = 0.15
+# Asymmetric on purpose (tuned via simulation, see hero_service.py's
+# XP_CURVE_EXPONENT/TRAIN_STAT_* comment for the fuller picture): gold stays
+# fairly generous so a losing streak still funds enough training to turn
+# things around, while XP stays low so losing doesn't level the hero up -
+# and into even tougher monster brackets - almost as fast as winning would.
+DEFEAT_GOLD_RATIO = 0.35
+DEFEAT_XP_RATIO = 0.05
 
 
 @dataclass
@@ -68,12 +91,12 @@ def compute_damage_range(
     strength: int, weapon_damage_range: tuple[int, int] | None
 ) -> tuple[int, int]:
     """Display-only physical damage range: strength's flat contribution
-    (see STRENGTH_DAMAGE_DIVISOR and the per-hit formula in resolve()) plus
-    the weapon's roll, if any (0 if unarmed - strength alone still deals
-    damage). min == max unless a weapon with a damage range is equipped,
-    since strength itself is deterministic now, not rolled."""
+    (see STRENGTH_DAMAGE_MULTIPLIER and the per-hit formula in resolve())
+    plus the weapon's roll, if any (0 if unarmed - strength alone still
+    deals damage). min == max unless a weapon with a damage range is
+    equipped, since strength itself is deterministic now, not rolled."""
     weapon_min, weapon_max = weapon_damage_range or (0, 0)
-    strength_damage = max(1, strength // STRENGTH_DAMAGE_DIVISOR)
+    strength_damage = max(1, round(strength * STRENGTH_DAMAGE_MULTIPLIER))
     return (strength_damage + weapon_min, strength_damage + weapon_max)
 
 
@@ -81,12 +104,12 @@ def compute_spell_damage_range(
     intelligence: int, spell_damage_range: tuple[int, int] | None
 ) -> tuple[int, int]:
     """Display-only spell damage range: intelligence's flat contribution
-    (1 damage per point, floored at 1) plus the equipped spell skill's
-    roll, if any (0 if none equipped - intelligence alone still deals
-    damage). min == max unless a spell skill with a damage range is
-    equipped."""
+    (see INTELLIGENCE_DAMAGE_MULTIPLIER, floored at 1) plus the equipped
+    spell skill's roll, if any (0 if none equipped - intelligence alone
+    still deals damage). min == max unless a spell skill with a damage
+    range is equipped."""
     spell_min, spell_max = spell_damage_range or (0, 0)
-    intelligence_damage = max(1, intelligence)
+    intelligence_damage = max(1, round(intelligence * INTELLIGENCE_DAMAGE_MULTIPLIER))
     return (intelligence_damage + spell_min, intelligence_damage + spell_max)
 
 
@@ -117,11 +140,11 @@ def resolve(
     hero_bonus_max_hp: int = 0,
 ) -> CombatResult:
     """Deterministic, seed-reproducible combat in two phases: an opening
-    spell exchange (intelligence for damage — flat, not rolled: 1 damage
-    per point of intelligence — spirit-vs-spirit for hit chance, mirrors
-    the physical hit-chance formula with magic's stat pair), then
+    spell exchange (intelligence for damage — flat, not rolled: see
+    INTELLIGENCE_DAMAGE_MULTIPLIER — spirit-vs-spirit for hit chance,
+    mirrors the physical hit-chance formula with magic's stat pair), then
     physical-only rounds (strength for damage — also flat: see
-    STRENGTH_DAMAGE_DIVISOR — dexterity-vs-agility for hit chance).
+    STRENGTH_DAMAGE_MULTIPLIER — dexterity-vs-agility for hit chance).
     Vitality drives max HP throughout; the hero may start below max
     if `hero_current_hp` reflects unhealed damage from a previous fight
     (None means "start at full HP", used by every caller that doesn't track
@@ -171,7 +194,18 @@ def resolve(
     untouched by monster defense/hero_zone_defense - neither mitigates it.
     """
     if encounter is None:
-        return CombatResult(victory=True, log=[{"message": "no monsters found for hero's level"}])
+        # No CombatResult field defaults to hero_current_hp here: hp_after
+        # must equal hp_before exactly (no combat occurred) rather than the
+        # dataclass default of 0, which would otherwise zero the hero's HP
+        # on every veil attempt once they out-level all available content.
+        hero_max_hp = compute_max_hp(hero_snapshot["vitality"], hero_bonus_max_hp)
+        hero_hp = hero_max_hp if hero_current_hp is None else min(hero_current_hp, hero_max_hp)
+        return CombatResult(
+            victory=True,
+            log=[{"message": "no monsters found for hero's level"}],
+            hero_hp_before=hero_hp,
+            hero_hp_after=hero_hp,
+        )
 
     rng = random.Random(seed)
     monster_stats = _roll_monster_stats(rng, encounter["monster_stats"])
@@ -224,7 +258,7 @@ def resolve(
         hit = attacker_intelligence > 0 and rng.random() < _hit_chance(attacker_spirit, defender_spirit)
         damage = 0
         if hit:
-            damage = max(1, attacker_intelligence)
+            damage = max(1, round(attacker_intelligence * INTELLIGENCE_DAMAGE_MULTIPLIER))
             if actor == "hero":
                 if hero_spell_damage_range is not None:
                     damage += rng.randint(*hero_spell_damage_range)
@@ -264,7 +298,7 @@ def resolve(
             damage = 0
             zone_hit = None
             if hit:
-                damage = max(1, attacker_strength // STRENGTH_DAMAGE_DIVISOR)
+                damage = max(1, round(attacker_strength * STRENGTH_DAMAGE_MULTIPLIER))
                 if actor == "hero":
                     if hero_weapon_damage_range is not None:
                         damage += rng.randint(*hero_weapon_damage_range)

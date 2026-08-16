@@ -1,8 +1,16 @@
 from sqlalchemy import select
 
 from app.models.hero import Hero
+from app.models.item import EquipmentSlot, ItemInstance, ItemTemplate
 from app.models.user import User
-from app.services.hero_service import BASELINE_STAT_VALUE, STAT_NAMES
+from app.services.hero_service import BASELINE_STAT_VALUE, STARTER_GEAR_SLUGS, STAT_NAMES
+
+_STARTER_GEAR_SLOTS = {
+    "wooden-stick": EquipmentSlot.WEAPON,
+    "wooden-shield": EquipmentSlot.SHIELD,
+    "leather-helm": EquipmentSlot.HELMET,
+    "leather-robe": EquipmentSlot.ARMOR,
+}
 
 
 def test_signup_creates_user_and_hero_and_returns_token(client, db_session):
@@ -21,6 +29,34 @@ def test_signup_creates_user_and_hero_and_returns_token(client, db_session):
     assert hero.name == "Ashe"
     for stat in STAT_NAMES:
         assert getattr(hero, stat) == BASELINE_STAT_VALUE
+
+
+def test_signup_grants_equipped_starter_gear(client, db_session):
+    # STARTER_GEAR_SLUGS is looked up by slug at signup time (see
+    # hero_service.grant_starter_gear) - the shared test DB fixture doesn't
+    # seed real item content, so this test provides its own minimal
+    # templates for those exact slugs.
+    for slug, slot in _STARTER_GEAR_SLOTS.items():
+        db_session.add(ItemTemplate(slug=slug, name=slug, slot=slot, level_requirement=1))
+    db_session.flush()
+
+    response = client.post(
+        "/api/v1/auth/signup",
+        json={"email": "geared-signup@test.com", "password": "hunter22", "hero_name": "Fenn"},
+    )
+    assert response.status_code == 200
+
+    user = db_session.execute(select(User).where(User.email == "geared-signup@test.com")).scalar_one()
+    hero = db_session.execute(select(Hero).where(Hero.user_id == user.id)).scalar_one()
+    equipped_items = (
+        db_session.execute(select(ItemInstance).where(ItemInstance.owner_hero_id == hero.id))
+        .scalars()
+        .all()
+    )
+    assert len(equipped_items) == len(STARTER_GEAR_SLUGS)
+    for item in equipped_items:
+        assert item.equipped_slot is not None
+        assert item.template.slug in STARTER_GEAR_SLUGS
 
 
 def test_signup_duplicate_email_is_rejected(client, db_session):

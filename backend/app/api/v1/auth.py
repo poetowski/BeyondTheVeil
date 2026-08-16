@@ -9,7 +9,12 @@ from app.models.avatar import AvatarTemplate
 from app.models.hero import Hero
 from app.models.user import User
 from app.schemas.auth import LoginRequest, SignupRequest, TokenResponse
-from app.services.hero_service import BASELINE_STAT_VALUE, STAT_NAMES, compute_max_hp
+from app.services.hero_service import (
+    BASELINE_STAT_VALUE,
+    STAT_NAMES,
+    compute_max_hp,
+    grant_starter_gear,
+)
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
@@ -40,6 +45,8 @@ def signup(payload: SignupRequest, db: Session = Depends(get_db)) -> TokenRespon
         current_hp=compute_max_hp(BASELINE_STAT_VALUE),
     )
     db.add(hero)
+    db.flush()
+    grant_starter_gear(db, hero)
 
     try:
         db.commit()
