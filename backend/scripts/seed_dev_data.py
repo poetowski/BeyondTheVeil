@@ -350,6 +350,9 @@ RUNE_TEMPLATES = [
     dict(name="Solmira Rune of Insight", description="A cold violet mark fused to a pale, breathing one - thought and stillness, sharing one glyph.", stat_bonuses={"intelligence": 5, "spirit": 5}, price=5400, level_requirement=13),
     dict(name="Dravek Rune of Vigor", description="A dense, leathery glyph that pulses slow and steady, like a second heartbeat.", stat_bonuses={"vitality": 9}, price=4800, level_requirement=13),
     dict(name="Ashgrim Rune of Might", description="A rough-forged glyph, heavier than it looks, veined with ore and old iron.", stat_bonuses={"strength": 9}, price=4800, level_requirement=13),
+    # Level 14, a stronger successor to Duskvar's all-six spread - crafted
+    # from a heavier load of Ancient Porcelain alone.
+    dict(name="Aurelun Rune of Totality", description="A blazing yellow glyph, a red star burning at its center - impossible to look away from.", stat_bonuses={"strength": 2, "dexterity": 2, "intelligence": 2, "vitality": 2, "agility": 2, "spirit": 2}, price=7200, level_requirement=14),
 ]
 for _rune in RUNE_TEMPLATES:
     _rune["slug"] = slugify(_rune["name"])
@@ -567,6 +570,16 @@ CRAFTING_RECIPES = [
             dict(material_slug=slugify("Steelhide"), quantity_required=3),
             dict(material_slug=slugify("Soul Part"), quantity_required=3),
             dict(material_slug=slugify("Silver Ore"), quantity_required=3),
+        ],
+    ),
+    dict(
+        name="Aurelun Rune of Totality",
+        category=CraftingCategory.FORGE,
+        level_requirement=14,
+        output_rune_slug=slugify("Aurelun Rune of Totality"),
+        output_quantity=1,
+        ingredients=[
+            dict(material_slug=slugify("Ancient Porcelain"), quantity_required=12),
         ],
     ),
     dict(

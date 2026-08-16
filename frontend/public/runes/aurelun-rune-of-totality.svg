@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- wooden table -->
+  <rect x="0" y="0" width="512" height="512" fill="#b98956"/>
+  <rect x="0" y="120" width="512" height="6" fill="#a3703f" opacity="0.6"/>
+  <rect x="0" y="260" width="512" height="6" fill="#a3703f" opacity="0.6"/>
+  <rect x="0" y="400" width="512" height="6" fill="#a3703f" opacity="0.6"/>
+  <rect x="40" y="40" width="180" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
+  <rect x="300" y="180" width="150" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
+  <rect x="80" y="320" width="200" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
+  <rect x="250" y="440" width="180" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
+
+  <!-- contact shadow -->
+  <ellipse cx="256" cy="366" rx="100" ry="18" fill="#3a352f" opacity="0.2"/>
+
+  <!-- radiating light rays, this rune burns brighter than any other -->
+  <g stroke="#ffe600" stroke-width="6" stroke-linecap="round" opacity="0.45">
+    <line x1="256" y1="120" x2="256" y2="150"/>
+    <line x1="256" y1="392" x2="256" y2="362"/>
+    <line x1="122" y1="256" x2="152" y2="256"/>
+    <line x1="390" y1="256" x2="360" y2="256"/>
+    <line x1="164" y1="164" x2="185" y2="185"/>
+    <line x1="348" y1="164" x2="327" y2="185"/>
+    <line x1="164" y1="348" x2="185" y2="327"/>
+    <line x1="348" y1="348" x2="327" y2="327"/>
+  </g>
+
+  <!-- stone tablet -->
+  <path d="M176,150 L336,150 Q360,150 360,174 L360,338 Q360,362 336,362
+           L176,362 Q152,362 152,338 L152,174 Q152,150 176,150 Z"
+        fill="#8f8f8f" stroke="#3a352f" stroke-width="6" stroke-linejoin="round"/>
+  <path d="M176,150 L336,150 Q360,150 360,174 L360,200 L152,200 L152,174 Q152,150 176,150 Z"
+        fill="#a5a5a5" opacity="0.6"/>
+  <!-- worn chip corner -->
+  <path d="M176,362 L152,362 L152,342 Z" fill="#6f6f6f" opacity="0.7"/>
+
+  <!-- blazing yellow glow behind the glyph, brighter than any other rune -->
+  <circle cx="256" cy="256" r="92" fill="#ffe600" opacity="0.4"/>
+  <circle cx="256" cy="256" r="66" fill="#ffe600" opacity="0.35"/>
+
+  <!-- totality glyph: a bold red five-pointed star -->
+  <polygon points="256,186 272,233 323,234 283,265 297,313 256,284 215,313 229,265 189,234 240,233"
+           fill="#d81f2a" stroke="#5c0d12" stroke-width="5" stroke-linejoin="round"/>
+  <!-- inner facet highlight -->
+  <polygon points="256,206 267,236 256,258 245,236" fill="#ff5a56" opacity="0.7"/>
+  <!-- core node -->
+  <circle cx="256" cy="256" r="9" fill="#fff3b0" stroke="#5c0d12" stroke-width="3"/>
+  <!-- shine highlight -->
+  <ellipse cx="234" cy="220" rx="8" ry="4" fill="#fff3b0" opacity="0.85" transform="rotate(-30 234 220)"/>
+</svg>
