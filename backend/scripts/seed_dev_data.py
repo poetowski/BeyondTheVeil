@@ -263,10 +263,13 @@ MATERIAL_TEMPLATES = [
     dict(name="Ancient Porcelain", description="Fragments of a bowl or urn, glazed white, older than anything else nearby.", category=CraftingCategory.FORGE, price=160, level_requirement=10),
     # No monster loot table entries or recipe use yet, same as when Coal/
     # Scrap Metal/Veil Crystal were first added - auto-available via Shop.
+    # Grounded/natural rather than mid-or-endgame exotic, even though the
+    # level gate is still 10 - renamed from Starsteel Ingot/Voidglass
+    # Shard/Phoenix Ash by alembic/versions/<rename_forge_materials>.py.
     dict(name="Veilbloom", description="A pale flower that only opens where the Veil runs thin.", category=CraftingCategory.ALCHEMY, price=150, level_requirement=10),
-    dict(name="Starsteel Ingot", description="Smelted from ore that fell, not dug.", category=CraftingCategory.FORGE, price=200, level_requirement=10),
-    dict(name="Voidglass Shard", description="Black glass that swallows the light instead of catching it.", category=CraftingCategory.FORGE, price=190, level_requirement=10),
-    dict(name="Phoenix Ash", description="Ash that never quite finished cooling.", category=CraftingCategory.FORGE, price=180, level_requirement=10),
+    dict(name="Steelhide", description="Hide boiled and pressed until it holds an edge like steel.", category=CraftingCategory.FORGE, price=190, level_requirement=10),
+    dict(name="Soul Part", description="A small, cold weight left behind after something stopped being alive.", category=CraftingCategory.FORGE, price=180, level_requirement=10),
+    dict(name="Silver Ore", description="Raw ore, veined with silver before anyone's touched it.", category=CraftingCategory.FORGE, price=170, level_requirement=10),
 ]
 for _material in MATERIAL_TEMPLATES:
     _material["slug"] = slugify(_material["name"])
