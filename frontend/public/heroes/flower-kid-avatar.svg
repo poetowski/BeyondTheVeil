@@ -1,0 +1,138 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <radialGradient id="backdrop" cx="50%" cy="42%" r="65%">
+      <stop offset="0%" stop-color="#4a4460"/>
+      <stop offset="100%" stop-color="#2c273c"/>
+    </radialGradient>
+  </defs>
+
+  <!-- backdrop -->
+  <rect x="0" y="0" width="512" height="512" fill="url(#backdrop)"/>
+
+  <!-- shoulders / overalls, narrow - a kid's proportions -->
+  <path d="M140,486 Q136,360 256,336 Q376,360 372,486 Z"
+        fill="#3d6b8a" stroke="#3a352f" stroke-width="6" stroke-linejoin="round"/>
+  <!-- overalls shading -->
+  <path d="M256,336 Q330,354 356,470 L256,478 Z" fill="#2c4f66" opacity="0.8"/>
+  <!-- bib pocket with a little flower patch -->
+  <rect x="232" y="378" width="48" height="46" rx="5" fill="#2c4f66" stroke="#3a352f" stroke-width="3"/>
+  <g>
+    <circle cx="249" cy="401" r="5" fill="#e87ba4"/>
+    <circle cx="263" cy="401" r="5" fill="#e87ba4"/>
+    <circle cx="256" cy="394" r="5" fill="#e87ba4"/>
+    <circle cx="256" cy="408" r="5" fill="#e87ba4"/>
+    <circle cx="256" cy="401" r="4" fill="#eda100"/>
+  </g>
+
+  <!-- arms, reaching down to grip the sunflower's stem -->
+  <line x1="170" y1="486" x2="222" y2="406" stroke="#3a352f" stroke-width="26" stroke-linecap="round"/>
+  <line x1="170" y1="486" x2="222" y2="406" stroke="#3d6b8a" stroke-width="20" stroke-linecap="round"/>
+  <circle cx="222" cy="404" r="14" fill="#d9ad81" stroke="#3a352f" stroke-width="3.5"/>
+  <line x1="342" y1="486" x2="290" y2="406" stroke="#3a352f" stroke-width="26" stroke-linecap="round"/>
+  <line x1="342" y1="486" x2="290" y2="406" stroke="#3d6b8a" stroke-width="20" stroke-linecap="round"/>
+  <circle cx="290" cy="404" r="14" fill="#d9ad81" stroke="#3a352f" stroke-width="3.5"/>
+
+  <!-- neck - top sits behind the head (drawn further below), bottom
+       lands exactly on the shoulder path's peak point (256,336) for a
+       seamless join. Drawn before the stem/sunflower so the flower (held
+       up in front) overlaps and hides the lower neck, not the other way
+       around. -->
+  <rect x="228" y="268" width="56" height="68" fill="#d9ad81" stroke="#3a352f" stroke-width="4"/>
+
+  <!-- stem -->
+  <line x1="256" y1="406" x2="256" y2="500" stroke="#3a352f" stroke-width="16" stroke-linecap="round"/>
+  <line x1="256" y1="406" x2="256" y2="500" stroke="#4a7a3a" stroke-width="10" stroke-linecap="round"/>
+  <path d="M256,440 Q286,436 292,458 Q266,458 256,448 Z" fill="#4a7a3a" stroke="#3a352f" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M256,466 Q224,462 218,486 Q248,486 256,474 Z" fill="#4a7a3a" stroke="#3a352f" stroke-width="3" stroke-linejoin="round"/>
+
+  <!-- a big sunflower, held up proudly - kept clear of the chin so the
+       smile stays the readable focal point, and drawn over the neck so
+       it's held in front rather than tucked behind it -->
+  <g>
+    <ellipse cx="256" cy="335" rx="16" ry="32" fill="#eda100" stroke="#3a352f" stroke-width="3" transform="rotate(0 256 375)"/>
+    <ellipse cx="256" cy="335" rx="16" ry="32" fill="#eda100" stroke="#3a352f" stroke-width="3" transform="rotate(36 256 375)"/>
+    <ellipse cx="256" cy="335" rx="16" ry="32" fill="#eda100" stroke="#3a352f" stroke-width="3" transform="rotate(72 256 375)"/>
+    <ellipse cx="256" cy="335" rx="16" ry="32" fill="#eda100" stroke="#3a352f" stroke-width="3" transform="rotate(108 256 375)"/>
+    <ellipse cx="256" cy="335" rx="16" ry="32" fill="#eda100" stroke="#3a352f" stroke-width="3" transform="rotate(144 256 375)"/>
+    <ellipse cx="256" cy="335" rx="16" ry="32" fill="#eda100" stroke="#3a352f" stroke-width="3" transform="rotate(180 256 375)"/>
+    <ellipse cx="256" cy="335" rx="16" ry="32" fill="#eda100" stroke="#3a352f" stroke-width="3" transform="rotate(216 256 375)"/>
+    <ellipse cx="256" cy="335" rx="16" ry="32" fill="#eda100" stroke="#3a352f" stroke-width="3" transform="rotate(252 256 375)"/>
+    <ellipse cx="256" cy="335" rx="16" ry="32" fill="#eda100" stroke="#3a352f" stroke-width="3" transform="rotate(288 256 375)"/>
+    <ellipse cx="256" cy="335" rx="16" ry="32" fill="#eda100" stroke="#3a352f" stroke-width="3" transform="rotate(324 256 375)"/>
+    <circle cx="256" cy="375" r="34" fill="#6b4a2c" stroke="#3a352f" stroke-width="4"/>
+    <circle cx="244" cy="365" r="2.4" fill="#4a3420" opacity="0.6"/>
+    <circle cx="266" cy="369" r="2.4" fill="#4a3420" opacity="0.6"/>
+    <circle cx="252" cy="385" r="2.4" fill="#4a3420" opacity="0.6"/>
+    <circle cx="270" cy="383" r="2.4" fill="#4a3420" opacity="0.6"/>
+    <circle cx="256" cy="373" r="2.4" fill="#4a3420" opacity="0.6"/>
+  </g>
+
+  <!-- head - big enough to overlap the curls (so hair reads as attached,
+       not a floating halo) and to keep the neck gap short -->
+  <ellipse cx="256" cy="199" rx="78" ry="92" fill="#d9ad81" stroke="#3a352f" stroke-width="6"/>
+  <!-- head shading -->
+  <path d="M302,146 Q328,199 306,258 Q322,190 298,150 Z" fill="#c79e78" opacity="0.7"/>
+
+  <!-- curly brown-blonde hair, bigger/fuller curls - a halo overlapping
+       the head's own edge (so it reads as hair sitting on the head, not a
+       floating ring of bubbles), kept clear of the face itself, not a bob
+       with side-locks (which read as ears) -->
+  <g stroke="#3a352f" stroke-width="3.5">
+    <circle cx="256" cy="118" r="32" fill="#b8905a"/>
+    <circle cx="214" cy="124" r="30" fill="#b8905a"/>
+    <circle cx="298" cy="124" r="30" fill="#96703a"/>
+    <circle cx="178" cy="140" r="27" fill="#b8905a"/>
+    <circle cx="334" cy="140" r="27" fill="#96703a"/>
+    <circle cx="159" cy="171" r="26" fill="#b8905a"/>
+    <circle cx="353" cy="171" r="26" fill="#96703a"/>
+    <circle cx="156" cy="205" r="23" fill="#b8905a"/>
+    <circle cx="356" cy="205" r="23" fill="#96703a"/>
+    <circle cx="167" cy="235" r="20" fill="#b8905a"/>
+    <circle cx="345" cy="235" r="20" fill="#96703a"/>
+  </g>
+
+  <!-- flowers tucked in the curls -->
+  <g>
+    <circle cx="204" cy="129" r="5" fill="#e87ba4"/>
+    <circle cx="218" cy="129" r="5" fill="#e87ba4"/>
+    <circle cx="211" cy="122" r="5" fill="#e87ba4"/>
+    <circle cx="211" cy="136" r="5" fill="#e87ba4"/>
+    <circle cx="211" cy="129" r="4" fill="#eda100"/>
+  </g>
+  <g>
+    <circle cx="294" cy="129" r="5" fill="#f4ede0"/>
+    <circle cx="308" cy="129" r="5" fill="#f4ede0"/>
+    <circle cx="301" cy="122" r="5" fill="#f4ede0"/>
+    <circle cx="301" cy="136" r="5" fill="#f4ede0"/>
+    <circle cx="301" cy="129" r="4" fill="#eda100"/>
+  </g>
+  <g>
+    <circle cx="250" cy="100" r="4.5" fill="#e87ba4"/>
+    <circle cx="262" cy="100" r="4.5" fill="#e87ba4"/>
+    <circle cx="256" cy="94" r="4.5" fill="#e87ba4"/>
+    <circle cx="256" cy="106" r="4.5" fill="#e87ba4"/>
+    <circle cx="256" cy="100" r="3.5" fill="#eda100"/>
+  </g>
+
+  <!-- freckles -->
+  <circle cx="196" cy="210" r="2" fill="#a8663a" opacity="0.6"/>
+  <circle cx="204" cy="216" r="2" fill="#a8663a" opacity="0.6"/>
+  <circle cx="198" cy="222" r="2" fill="#a8663a" opacity="0.6"/>
+  <circle cx="316" cy="210" r="2" fill="#a8663a" opacity="0.6"/>
+  <circle cx="308" cy="216" r="2" fill="#a8663a" opacity="0.6"/>
+  <circle cx="314" cy="222" r="2" fill="#a8663a" opacity="0.6"/>
+
+  <!-- happy brows -->
+  <path d="M204,172 Q222,164 240,172" fill="none" stroke="#3a352f" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M272,172 Q290,164 308,172" fill="none" stroke="#3a352f" stroke-width="3.5" stroke-linecap="round"/>
+
+  <!-- big bright eyes, with a sparkle -->
+  <ellipse cx="222" cy="196" rx="11" ry="13" fill="#2b2823"/>
+  <ellipse cx="290" cy="196" rx="11" ry="13" fill="#2b2823"/>
+  <circle cx="225" cy="191" r="3" fill="#ffffff" opacity="0.85"/>
+  <circle cx="293" cy="191" r="3" fill="#ffffff" opacity="0.85"/>
+
+  <!-- big open-mouth smile, no teeth -->
+  <path d="M212,222 Q256,256 300,222 Q256,244 212,222 Z"
+        fill="#d4645a" stroke="#3a352f" stroke-width="4" stroke-linejoin="round"/>
+</svg>

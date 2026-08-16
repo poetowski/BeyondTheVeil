@@ -366,3 +366,65 @@ def test_use_of_nonexistent_consumable_returns_404(client):
         f"/api/v1/consumables/{uuid.uuid4()}/use", headers=_auth(token)
     )
     assert response.status_code == 404
+
+
+def test_drinking_herbalist_hell_unlocks_flower_kid_avatar(client, db_session):
+    from app.models.avatar import AvatarTemplate, HeroAvatarUnlock
+
+    token = _signup(client, email="herbalist@test.com")
+    hero_id = _get_hero_id(client, token)
+    # Flower Kid Avatar's level_requirement=15 gate must be met too (not
+    # just the HeroAvatarUnlock row) - see is_avatar_unlocked. In real play
+    # a hero can only craft a level-15 recipe at level 15+ already; set
+    # that up explicitly here since this test skips straight to owning the
+    # potion instead of crafting it.
+    hero = db_session.get(Hero, hero_id)
+    hero.level = 15
+    db_session.flush()
+
+    db_session.add(
+        AvatarTemplate(
+            slug="flower-kid-avatar",
+            name="Flower Kid Avatar",
+            level_requirement=15,
+            sort_order=5,
+            unlock_hint="Craft a Herbalist Hell potion in Alchemy (level 15) and drink it.",
+        )
+    )
+    herbalist_hell = ConsumableTemplate(
+        slug="herbalist-hell", name="Herbalist Hell", heal_flat=0, heal_vitality_multiplier=0
+    )
+    db_session.add(herbalist_hell)
+    db_session.flush()
+
+    instance = ConsumableInstance(
+        template_id=herbalist_hell.id, owner_hero_id=hero_id, quantity=2
+    )
+    db_session.add(instance)
+    db_session.flush()
+    instance_id = instance.id
+
+    avatars_before = client.get("/api/v1/avatars", headers=_auth(token)).json()
+    assert next(a for a in avatars_before if a["slug"] == "flower-kid-avatar")["unlocked"] is False
+
+    first_use = client.post(f"/api/v1/consumables/{instance_id}/use", headers=_auth(token))
+    assert first_use.status_code == 200
+
+    avatars_after = client.get("/api/v1/avatars", headers=_auth(token)).json()
+    assert next(a for a in avatars_after if a["slug"] == "flower-kid-avatar")["unlocked"] is True
+
+    # Second consumption (see crafting_service.use_consumable): still
+    # depletes the stack normally, but the unlock itself is a no-op - no
+    # duplicate HeroAvatarUnlock row, no error.
+    second_use = client.post(f"/api/v1/consumables/{instance_id}/use", headers=_auth(token))
+    assert second_use.status_code == 200
+
+    unlocks = (
+        db_session.query(HeroAvatarUnlock)
+        .filter_by(hero_id=hero_id)
+        .all()
+    )
+    assert len(unlocks) == 1
+
+    consumables_left = client.get("/api/v1/consumables", headers=_auth(token)).json()
+    assert consumables_left == []

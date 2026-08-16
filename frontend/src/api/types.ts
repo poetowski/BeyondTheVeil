@@ -15,6 +15,7 @@ export interface AvatarTemplateOut {
   price: number;
   level_requirement: number;
   unlocked: boolean;
+  unlock_hint: string | null;
 }
 
 export interface HeroOut {
