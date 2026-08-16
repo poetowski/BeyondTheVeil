@@ -388,7 +388,7 @@ def test_drinking_herbalist_hell_unlocks_flower_kid_avatar(client, db_session):
             name="Flower Kid Avatar",
             level_requirement=15,
             sort_order=5,
-            unlock_hint="Craft a Herbalist Hell potion in Alchemy (level 15) and drink it.",
+            unlock_hint="Drink a Herbalist Hell.",
         )
     )
     herbalist_hell = ConsumableTemplate(
