@@ -32,6 +32,13 @@
   <line x1="342" y1="486" x2="290" y2="406" stroke="#3d6b8a" stroke-width="20" stroke-linecap="round"/>
   <circle cx="290" cy="404" r="14" fill="#d9ad81" stroke="#3a352f" stroke-width="3.5"/>
 
+  <!-- neck - top sits behind the head (drawn further below), bottom
+       lands exactly on the shoulder path's peak point (256,336) for a
+       seamless join. Drawn before the stem/sunflower so the flower (held
+       up in front) overlaps and hides the lower neck, not the other way
+       around. -->
+  <rect x="228" y="268" width="56" height="68" fill="#d9ad81" stroke="#3a352f" stroke-width="4"/>
+
   <!-- stem -->
   <line x1="256" y1="406" x2="256" y2="500" stroke="#3a352f" stroke-width="16" stroke-linecap="round"/>
   <line x1="256" y1="406" x2="256" y2="500" stroke="#4a7a3a" stroke-width="10" stroke-linecap="round"/>
@@ -39,7 +46,8 @@
   <path d="M256,466 Q224,462 218,486 Q248,486 256,474 Z" fill="#4a7a3a" stroke="#3a352f" stroke-width="3" stroke-linejoin="round"/>
 
   <!-- a big sunflower, held up proudly - kept clear of the chin so the
-       smile stays the readable focal point -->
+       smile stays the readable focal point, and drawn over the neck so
+       it's held in front rather than tucked behind it -->
   <g>
     <ellipse cx="256" cy="335" rx="16" ry="32" fill="#eda100" stroke="#3a352f" stroke-width="3" transform="rotate(0 256 375)"/>
     <ellipse cx="256" cy="335" rx="16" ry="32" fill="#eda100" stroke="#3a352f" stroke-width="3" transform="rotate(36 256 375)"/>
@@ -59,32 +67,28 @@
     <circle cx="256" cy="373" r="2.4" fill="#4a3420" opacity="0.6"/>
   </g>
 
-  <!-- neck - top sits behind the head (drawn next), bottom lands exactly
-       on the shoulder path's peak point (256,336) for a seamless join -->
-  <rect x="228" y="268" width="56" height="68" fill="#d9ad81" stroke="#3a352f" stroke-width="4"/>
-
   <!-- head - big enough to overlap the curls (so hair reads as attached,
        not a floating halo) and to keep the neck gap short -->
   <ellipse cx="256" cy="199" rx="78" ry="92" fill="#d9ad81" stroke="#3a352f" stroke-width="6"/>
   <!-- head shading -->
   <path d="M302,146 Q328,199 306,258 Q322,190 298,150 Z" fill="#c79e78" opacity="0.7"/>
 
-  <!-- curly blonde hair - a halo of curls overlapping the head's own
-       edge (so it reads as hair sitting on the head, not a floating ring
-       of bubbles), kept clear of the face itself, not a bob with
-       side-locks (which read as ears) -->
+  <!-- curly brown-blonde hair, bigger/fuller curls - a halo overlapping
+       the head's own edge (so it reads as hair sitting on the head, not a
+       floating ring of bubbles), kept clear of the face itself, not a bob
+       with side-locks (which read as ears) -->
   <g stroke="#3a352f" stroke-width="3.5">
-    <circle cx="256" cy="118" r="24" fill="#e8c468"/>
-    <circle cx="214" cy="124" r="22" fill="#e8c468"/>
-    <circle cx="298" cy="124" r="22" fill="#d4a94a"/>
-    <circle cx="178" cy="140" r="20" fill="#e8c468"/>
-    <circle cx="334" cy="140" r="20" fill="#d4a94a"/>
-    <circle cx="159" cy="171" r="19" fill="#e8c468"/>
-    <circle cx="353" cy="171" r="19" fill="#d4a94a"/>
-    <circle cx="156" cy="205" r="17" fill="#e8c468"/>
-    <circle cx="356" cy="205" r="17" fill="#d4a94a"/>
-    <circle cx="167" cy="235" r="15" fill="#e8c468"/>
-    <circle cx="345" cy="235" r="15" fill="#d4a94a"/>
+    <circle cx="256" cy="118" r="32" fill="#b8905a"/>
+    <circle cx="214" cy="124" r="30" fill="#b8905a"/>
+    <circle cx="298" cy="124" r="30" fill="#96703a"/>
+    <circle cx="178" cy="140" r="27" fill="#b8905a"/>
+    <circle cx="334" cy="140" r="27" fill="#96703a"/>
+    <circle cx="159" cy="171" r="26" fill="#b8905a"/>
+    <circle cx="353" cy="171" r="26" fill="#96703a"/>
+    <circle cx="156" cy="205" r="23" fill="#b8905a"/>
+    <circle cx="356" cy="205" r="23" fill="#96703a"/>
+    <circle cx="167" cy="235" r="20" fill="#b8905a"/>
+    <circle cx="345" cy="235" r="20" fill="#96703a"/>
   </g>
 
   <!-- flowers tucked in the curls -->
@@ -128,9 +132,7 @@
   <circle cx="225" cy="191" r="3" fill="#ffffff" opacity="0.85"/>
   <circle cx="293" cy="191" r="3" fill="#ffffff" opacity="0.85"/>
 
-  <!-- big smile, lips distinct from the teeth so it reads as a smile
-       rather than a dark cave -->
+  <!-- big open-mouth smile, no teeth -->
   <path d="M212,222 Q256,256 300,222 Q256,244 212,222 Z"
         fill="#d4645a" stroke="#3a352f" stroke-width="4" stroke-linejoin="round"/>
-  <rect x="226" y="222" width="60" height="10" rx="3" fill="#f4ede0"/>
 </svg>
