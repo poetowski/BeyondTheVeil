@@ -41,6 +41,8 @@ def unlock_avatar(
         hero_service.unlock_avatar(db, hero, avatar_slug)
     except hero_service.AvatarNotFoundError as exc:
         raise HTTPException(status.HTTP_404_NOT_FOUND, detail=str(exc)) from exc
+    except hero_service.AvatarNotUnlockedError as exc:
+        raise HTTPException(status.HTTP_403_FORBIDDEN, detail=str(exc)) from exc
     except hero_service.InsufficientGoldError as exc:
         raise HTTPException(status.HTTP_409_CONFLICT, detail=str(exc)) from exc
 

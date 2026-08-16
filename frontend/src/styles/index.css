@@ -179,6 +179,11 @@ h2 {
   cursor: default;
 }
 
+.avatar-card-requirement {
+  font-size: 0.8rem;
+  color: #999;
+}
+
 .progress-bar {
   width: 200px;
   height: 10px;

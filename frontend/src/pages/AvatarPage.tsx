@@ -130,7 +130,7 @@ export function AvatarPage() {
                   <AvatarCardImage avatar={avatar} />
                   <span className="avatar-card-name">{avatar.name}</span>
                 </button>
-              ) : (
+              ) : avatar.price > 0 ? (
                 <div key={avatar.id} className="avatar-card avatar-card--locked">
                   <div className="avatar-card-image-wrap">
                     <AvatarCardImage avatar={avatar} />
@@ -145,6 +145,17 @@ export function AvatarPage() {
                   >
                     {unlockingSlug === avatar.slug ? "Unlocking…" : `Unlock (${avatar.price} gold)`}
                   </button>
+                </div>
+              ) : (
+                <div key={avatar.id} className="avatar-card avatar-card--locked">
+                  <div className="avatar-card-image-wrap">
+                    <AvatarCardImage avatar={avatar} />
+                    <div className="avatar-card-lock-overlay">Lvl {avatar.level_requirement}</div>
+                  </div>
+                  <span className="avatar-card-name">{avatar.name}</span>
+                  <span className="avatar-card-requirement">
+                    Reach level {avatar.level_requirement}
+                  </span>
                 </div>
               ),
             )}

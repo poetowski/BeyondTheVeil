@@ -156,3 +156,62 @@ def test_unlock_avatar_with_unknown_slug_returns_404(client):
     token = _signup(client, email="hero-api-unlock-avatar-bad@test.com")
     response = client.post("/api/v1/avatars/nonexistent-avatar/unlock", headers=_auth(token))
     assert response.status_code == 404
+
+
+def test_level_gated_avatar_is_locked_below_its_level_requirement(client, db_session):
+    from app.models.avatar import AvatarTemplate
+
+    db_session.add(
+        AvatarTemplate(slug="warrior-avatar", name="Warrior Avatar", level_requirement=10, sort_order=2)
+    )
+    db_session.flush()
+
+    token = _signup(client, email="hero-api-warrior-locked@test.com")
+    avatars = client.get("/api/v1/avatars", headers=_auth(token)).json()
+    warrior = next(a for a in avatars if a["slug"] == "warrior-avatar")
+    assert warrior["unlocked"] is False
+    assert warrior["level_requirement"] == 10
+
+    select_response = client.post(
+        "/api/v1/hero/avatar", json={"avatar_slug": "warrior-avatar"}, headers=_auth(token)
+    )
+    assert select_response.status_code == 403
+
+
+def test_unlock_endpoint_rejects_a_free_avatar_not_yet_level_eligible(client, db_session):
+    from app.models.avatar import AvatarTemplate
+
+    db_session.add(
+        AvatarTemplate(slug="warrior-avatar", name="Warrior Avatar", level_requirement=10, sort_order=2)
+    )
+    db_session.flush()
+
+    token = _signup(client, email="hero-api-warrior-unlock-too-early@test.com")
+    response = client.post("/api/v1/avatars/warrior-avatar/unlock", headers=_auth(token))
+    assert response.status_code == 403
+
+
+def test_avatar_auto_unlocks_once_hero_reaches_its_level_requirement(client, db_session):
+    from app.models.avatar import AvatarTemplate
+    from app.models.hero import Hero
+
+    db_session.add(
+        AvatarTemplate(slug="warrior-avatar", name="Warrior Avatar", level_requirement=10, sort_order=2)
+    )
+    db_session.flush()
+
+    token = _signup(client, email="hero-api-warrior-auto-unlock@test.com")
+    me = client.get("/api/v1/users/me", headers=_auth(token)).json()
+    hero = db_session.get(Hero, me["hero"]["id"])
+    hero.level = 10
+    db_session.flush()
+
+    avatars = client.get("/api/v1/avatars", headers=_auth(token)).json()
+    warrior = next(a for a in avatars if a["slug"] == "warrior-avatar")
+    assert warrior["unlocked"] is True
+
+    select_response = client.post(
+        "/api/v1/hero/avatar", json={"avatar_slug": "warrior-avatar"}, headers=_auth(token)
+    )
+    assert select_response.status_code == 200
+    assert select_response.json()["avatar_slug"] == "warrior-avatar"

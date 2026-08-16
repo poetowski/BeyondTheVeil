@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <radialGradient id="backdrop" cx="50%" cy="42%" r="65%">
+      <stop offset="0%" stop-color="#4a4460"/>
+      <stop offset="100%" stop-color="#2c273c"/>
+    </radialGradient>
+  </defs>
+
+  <!-- backdrop -->
+  <rect x="0" y="0" width="512" height="512" fill="url(#backdrop)"/>
+
+  <!-- left axe, crossing behind the body -->
+  <line x1="108" y1="486" x2="190" y2="58" stroke="#3a352f" stroke-width="19" stroke-linecap="round"/>
+  <line x1="108" y1="486" x2="190" y2="58" stroke="#6b4a34" stroke-width="13" stroke-linecap="round"/>
+  <path d="M190,80 L190,30 Q138,8 116,48 Q114,74 150,86 Q172,88 190,80 Z"
+        fill="#8a9099" stroke="#3a352f" stroke-width="4" stroke-linejoin="round"/>
+
+  <!-- right axe, crossing behind the body -->
+  <line x1="404" y1="486" x2="322" y2="58" stroke="#3a352f" stroke-width="19" stroke-linecap="round"/>
+  <line x1="404" y1="486" x2="322" y2="58" stroke="#6b4a34" stroke-width="13" stroke-linecap="round"/>
+  <path d="M322,80 L322,30 Q374,8 396,48 Q398,74 362,86 Q340,88 322,80 Z"
+        fill="#8a9099" stroke="#3a352f" stroke-width="4" stroke-linejoin="round"/>
+
+  <!-- shoulders / hide mantle -->
+  <path d="M120,470 Q112,330 256,300 Q400,330 392,470 Z"
+        fill="#5a4a3a" stroke="#3a352f" stroke-width="6" stroke-linejoin="round"/>
+  <!-- mantle shading -->
+  <path d="M256,300 Q340,320 372,440 L256,460 Z" fill="#463a2c" opacity="0.8"/>
+  <!-- fur trim, jagged, both shoulders -->
+  <path d="M132,336 L146,314 L160,338 L174,312 L188,336"
+        fill="none" stroke="#2b1f18" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M324,336 L338,312 L352,338 L366,314 L380,336"
+        fill="none" stroke="#2b1f18" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- neck -->
+  <rect x="228" y="266" width="56" height="46" fill="#c79e78" stroke="#3a352f" stroke-width="4"/>
+
+  <!-- head -->
+  <ellipse cx="256" cy="210" rx="72" ry="80" fill="#d9ad81" stroke="#3a352f" stroke-width="6"/>
+  <!-- head shading -->
+  <path d="M300,150 Q328,210 306,270 Q322,200 296,156 Z" fill="#c79e78" opacity="0.7"/>
+
+  <!-- war paint -->
+  <path d="M206,182 L224,226" stroke="#8a2620" stroke-width="9" stroke-linecap="round" opacity="0.85"/>
+  <path d="M226,178 L244,222" stroke="#8a2620" stroke-width="9" stroke-linecap="round" opacity="0.85"/>
+
+  <!-- wild spiky hair -->
+  <path d="M182,142 L172,78 L202,110 L214,54 L236,102 L256,46 L276,102 L298,54 L310,110 L340,78 L330,142 Z"
+        fill="#2b1f18" stroke="#3a352f" stroke-width="5" stroke-linejoin="round"/>
+
+  <!-- wide, wild eyes -->
+  <ellipse cx="226" cy="210" rx="13" ry="10" fill="#e8d9c4"/>
+  <ellipse cx="286" cy="210" rx="13" ry="10" fill="#e8d9c4"/>
+  <circle cx="228" cy="211" r="6" fill="#2b2823"/>
+  <circle cx="284" cy="211" r="6" fill="#2b2823"/>
+
+  <!-- furious, steep brows -->
+  <path d="M198,176 L234,196" fill="none" stroke="#3a352f" stroke-width="8" stroke-linecap="round"/>
+  <path d="M278,196 L314,176" fill="none" stroke="#3a352f" stroke-width="8" stroke-linecap="round"/>
+
+  <!-- roaring mouth, gritted teeth -->
+  <path d="M226,246 Q256,236 286,246 L280,270 Q256,280 232,270 Z"
+        fill="#7a2e28" stroke="#3a352f" stroke-width="4" stroke-linejoin="round"/>
+  <g fill="#f4ede0">
+    <polygon points="234,246 242,246 238,256"/>
+    <polygon points="246,244 254,244 250,256"/>
+    <polygon points="258,244 266,244 262,256"/>
+    <polygon points="270,246 278,246 274,256"/>
+  </g>
+</svg>

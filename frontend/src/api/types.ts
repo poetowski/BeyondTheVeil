@@ -13,6 +13,7 @@ export interface AvatarTemplateOut {
   slug: string;
   name: string;
   price: number;
+  level_requirement: number;
   unlocked: boolean;
 }
 

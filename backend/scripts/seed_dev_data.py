@@ -28,6 +28,9 @@ def slugify(name: str) -> str:
 AVATAR_TEMPLATES = [
     dict(name="Peasant Avatar", price=0, sort_order=0),
     dict(name="Militia Avatar", price=2000, sort_order=1),
+    # Free, but level-gated instead of purchased - unlocks automatically
+    # once the hero reaches level 10 (see hero_service.is_avatar_unlocked).
+    dict(name="Warrior Avatar", price=0, level_requirement=10, sort_order=2),
 ]
 for _avatar in AVATAR_TEMPLATES:
     _avatar["slug"] = slugify(_avatar["name"])

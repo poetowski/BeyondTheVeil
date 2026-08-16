@@ -243,8 +243,15 @@ def train_stat(db: Session, hero: Hero, stat: str) -> Hero:
 
 
 def is_avatar_unlocked(db: Session, hero: Hero, avatar: AvatarTemplate) -> bool:
-    """price=0 avatars are unlocked for everyone; price>0 avatars need a
-    HeroAvatarUnlock row (see unlock_avatar)."""
+    """Two independent gates, both must pass:
+    - level_requirement: hero.level must meet it (no purchase involved -
+      e.g. Warrior Avatar just needs level 10).
+    - price: a price=0 avatar is free once the level gate above passes;
+      a price>0 avatar additionally needs a HeroAvatarUnlock row (see
+      unlock_avatar).
+    """
+    if hero.level < avatar.level_requirement:
+        return False
     if avatar.price == 0:
         return True
     existing = db.execute(
@@ -257,9 +264,11 @@ def is_avatar_unlocked(db: Session, hero: Hero, avatar: AvatarTemplate) -> bool:
 
 
 def unlock_avatar(db: Session, hero: Hero, avatar_slug: str) -> Hero:
-    """Idempotent - a no-op (no charge) if the avatar is free or already
+    """Idempotent - a no-op (no charge) if the avatar is free/already
     unlocked, same spirit as every other "safe to call twice" mutation in
-    this module."""
+    this module. Only price>0 avatars are actually purchasable here - a
+    price=0 avatar that isn't unlocked yet is gated by level_requirement
+    instead, which no amount of gold bypasses."""
     avatar = db.execute(
         select(AvatarTemplate).where(AvatarTemplate.slug == avatar_slug)
     ).scalar_one_or_none()
@@ -268,6 +277,11 @@ def unlock_avatar(db: Session, hero: Hero, avatar_slug: str) -> Hero:
 
     if is_avatar_unlocked(db, hero, avatar):
         return hero
+
+    if avatar.price == 0:
+        raise AvatarNotUnlockedError(
+            f"avatar requires level {avatar.level_requirement}: {avatar_slug}"
+        )
 
     if hero.gold < avatar.price:
         raise InsufficientGoldError("not enough gold to unlock this avatar")

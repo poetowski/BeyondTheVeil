@@ -8,9 +8,13 @@ from app.models.base import Base, TimestampMixin, UUIDPKMixin
 
 
 class AvatarTemplate(UUIDPKMixin, TimestampMixin, Base):
-    """A selectable hero portrait. price=0 avatars (e.g. Peasant Avatar) are
-    available to every hero from the start; price>0 avatars must be unlocked
-    once via a HeroAvatarUnlock row before a hero can select them."""
+    """A selectable hero portrait, unlocked one of two ways (see
+    hero_service.is_avatar_unlocked):
+    - price>0: a one-time gold purchase, recorded as a HeroAvatarUnlock row.
+    - level_requirement>1: automatically unlocked once hero.level reaches
+      it - no purchase, no row, just a level check.
+    A price=0/level_requirement=1 avatar (Peasant Avatar) is unlocked for
+    everyone from the start."""
 
     __tablename__ = "avatar_templates"
     __table_args__ = (CheckConstraint("price >= 0", name="price_non_negative"),)
@@ -18,6 +22,10 @@ class AvatarTemplate(UUIDPKMixin, TimestampMixin, Base):
     slug: Mapped[str] = mapped_column(String(64), unique=True, nullable=False)
     name: Mapped[str] = mapped_column(String(100), nullable=False)
     price: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    # Same organizational field ItemTemplate/MaterialTemplate use, but here
+    # it also gates unlocking (see is_avatar_unlocked) rather than just
+    # being informational.
+    level_requirement: Mapped[int] = mapped_column(Integer, nullable=False, default=1)
     # Display order in the picker - not alphabetical, so Peasant (the free
     # starter) always leads regardless of what gets added later.
     sort_order: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
