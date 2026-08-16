@@ -53,17 +53,17 @@
   <!-- rear arm, hidden mostly under cloak -->
   <rect x="234" y="288" width="20" height="70" rx="9" fill="#454846" stroke="#3a352f" stroke-width="4"/>
 
-  <!-- dagger arm, raised - a single tapered curve from shoulder to fist -->
-  <path d="M158,272 Q112,256 106,210 Q130,250 148,274 Z"
+  <!-- dagger arm, held low in a bent guard - a single tapered curve from shoulder to fist -->
+  <path d="M158,272 Q120,270 115,300 Q126,290 148,278 Z"
         fill="#4f5352" stroke="#3a352f" stroke-width="4" stroke-linejoin="round"/>
   <!-- fist -->
-  <circle cx="112" cy="214" r="14" fill="#454846" stroke="#3a352f" stroke-width="3"/>
-  <!-- dagger: grip inside the fist, crossguard above it, blade rising -->
-  <g transform="rotate(18 112 214)">
-    <rect x="105" y="196" width="14" height="26" rx="5" fill="#5b4636" stroke="#3a352f" stroke-width="3"/>
-    <rect x="92" y="190" width="40" height="8" rx="2" fill="#4a3f35" stroke="#3a352f" stroke-width="3"/>
-    <polygon points="112,130 124,190 100,190" fill="#cfd2d4" stroke="#3a352f" stroke-width="3" stroke-linejoin="round"/>
-    <polygon points="112,130 116,190 112,190" fill="#eef1f2" opacity="0.85"/>
+  <circle cx="115" cy="300" r="14" fill="#454846" stroke="#3a352f" stroke-width="3"/>
+  <!-- dagger: grip inside the fist, crossguard above it, thin blade angled forward -->
+  <g transform="rotate(-45 115 300)">
+    <rect x="109" y="284" width="12" height="24" rx="4" fill="#5b4636" stroke="#3a352f" stroke-width="3"/>
+    <rect x="99" y="278" width="32" height="6" rx="2" fill="#4a3f35" stroke="#3a352f" stroke-width="3"/>
+    <polygon points="115,210 121,278 109,278" fill="#cfd2d4" stroke="#3a352f" stroke-width="2" stroke-linejoin="round"/>
+    <polygon points="115,210 117,278 115,278" fill="#eef1f2" opacity="0.85"/>
   </g>
 
   <!-- hood -->
