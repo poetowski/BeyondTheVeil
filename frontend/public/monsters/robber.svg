@@ -39,32 +39,41 @@
   <rect x="212" y="368" width="24" height="64" rx="8" fill="#383b3a" stroke="#3a352f" stroke-width="4"/>
   <ellipse cx="224" cy="432" rx="15" ry="7" fill="#2b2823"/>
 
-  <!-- cloak, tapered and draped -->
+  <!-- cloak, tapered and draped, hem torn ragged rather than hemmed clean -->
   <path d="M150,270 Q152,240 200,224 Q248,240 250,270
-           L262,406 Q256,424 200,424 Q144,424 138,406 Z"
+           L262,406 L248,430 L234,408 L220,428 L206,410 L192,426 L176,408 L160,424 L138,406 Z"
         fill="#4f5352" stroke="#3a352f" stroke-width="5" stroke-linejoin="round"/>
   <!-- cloak shading fold -->
-  <path d="M200,244 Q214,300 210,406 L188,406 Q184,300 190,244 Z" fill="#383b3a" opacity="0.85"/>
+  <path d="M200,244 Q214,300 210,412 L188,412 Q184,300 190,244 Z" fill="#383b3a" opacity="0.85"/>
 
   <!-- front leg -->
   <rect x="176" y="374" width="24" height="60" rx="8" fill="#454846" stroke="#3a352f" stroke-width="4"/>
   <ellipse cx="188" cy="434" rx="15" ry="7" fill="#2b2823"/>
 
-  <!-- rear arm, hidden mostly under cloak -->
-  <rect x="234" y="288" width="20" height="70" rx="9" fill="#454846" stroke="#3a352f" stroke-width="4"/>
+  <!-- off arm, empty-handed, hidden mostly under cloak -->
+  <rect x="146" y="288" width="20" height="70" rx="9" fill="#454846" stroke="#3a352f" stroke-width="4"/>
 
-  <!-- dagger arm, held low in a bent guard - a single tapered curve from shoulder to fist -->
-  <path d="M158,272 Q120,270 115,300 Q126,290 148,278 Z"
+  <!-- dagger arm, held low in a bent guard - a single tapered curve from shoulder to fist.
+       Knife hand is the right (mirror of the original left-hand pose: every x below is
+       400-x from the earlier version, rotation angle sign flipped to match). -->
+  <path d="M242,272 Q280,270 285,300 Q274,290 252,278 Z"
         fill="#4f5352" stroke="#3a352f" stroke-width="4" stroke-linejoin="round"/>
   <!-- fist -->
-  <circle cx="115" cy="300" r="14" fill="#454846" stroke="#3a352f" stroke-width="3"/>
+  <circle cx="285" cy="300" r="14" fill="#454846" stroke="#3a352f" stroke-width="3"/>
   <!-- dagger: grip inside the fist, crossguard above it, thin blade angled forward -->
-  <g transform="rotate(-45 115 300)">
-    <rect x="109" y="284" width="12" height="24" rx="4" fill="#5b4636" stroke="#3a352f" stroke-width="3"/>
-    <rect x="99" y="278" width="32" height="6" rx="2" fill="#4a3f35" stroke="#3a352f" stroke-width="3"/>
-    <polygon points="115,210 121,278 109,278" fill="#cfd2d4" stroke="#3a352f" stroke-width="2" stroke-linejoin="round"/>
-    <polygon points="115,210 117,278 115,278" fill="#eef1f2" opacity="0.85"/>
+  <g transform="rotate(45 285 300)">
+    <rect x="279" y="284" width="12" height="24" rx="4" fill="#5b4636" stroke="#3a352f" stroke-width="3"/>
+    <rect x="269" y="278" width="32" height="6" rx="2" fill="#4a3f35" stroke="#3a352f" stroke-width="3"/>
+    <polygon points="285,210 291,278 279,278" fill="#cfd2d4" stroke="#3a352f" stroke-width="2" stroke-linejoin="round"/>
+    <polygon points="285,210 283,278 285,278" fill="#eef1f2" opacity="0.85"/>
   </g>
+
+  <!-- rope belt cinched over the cloak, slung low and loose -->
+  <polygon points="142,336 142,346 258,330 258,320" fill="#5b4636" stroke="#3a352f" stroke-width="3" stroke-linejoin="round"/>
+  <circle cx="200" cy="333" r="6" fill="#8a7d68" stroke="#3a352f" stroke-width="2"/>
+  <!-- a stolen pouch, hung off the belt on the off-hand hip -->
+  <rect x="147" y="345" width="10" height="10" rx="3" fill="#4a3f35" stroke="#3a352f" stroke-width="2"/>
+  <ellipse cx="152" cy="365" rx="13" ry="15" fill="#5b4636" stroke="#3a352f" stroke-width="3"/>
 
   <!-- hood -->
   <path d="M200,150 Q160,158 156,206 Q158,238 200,246 Q242,238 244,206 Q240,158 200,150 Z"
