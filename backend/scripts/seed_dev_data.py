@@ -372,6 +372,14 @@ CONSUMABLE_TEMPLATES = [
         price=850,
         level_requirement=10,
     ),
+    dict(
+        name="Health Elixir",
+        description="Veilbloom petals dissolved until the draught glows faintly - it doesn't just close wounds, it seems to remember how the body was supposed to look.",
+        heal_flat=450,
+        heal_vitality_multiplier=7,
+        price=950,
+        level_requirement=10,
+    ),
 ]
 for _consumable in CONSUMABLE_TEMPLATES:
     _consumable["slug"] = slugify(_consumable["name"])
@@ -424,6 +432,14 @@ CRAFTING_RECIPES = [
         output_consumable_slug=slugify("Superior Healing Potion"),
         output_quantity=1,
         ingredients=[dict(material_slug=slugify("Silverleaf"), quantity_required=6)],
+    ),
+    dict(
+        name="Health Elixir (Veilbloom Blend)",
+        category=CraftingCategory.ALCHEMY,
+        level_requirement=10,
+        output_consumable_slug=slugify("Health Elixir"),
+        output_quantity=1,
+        ingredients=[dict(material_slug=slugify("Veilbloom"), quantity_required=5)],
     ),
     dict(
         name="Vrelka Rune of Vigor",

@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- wooden table -->
+  <rect x="0" y="0" width="512" height="512" fill="#b98956"/>
+  <rect x="0" y="120" width="512" height="6" fill="#a3703f" opacity="0.6"/>
+  <rect x="0" y="260" width="512" height="6" fill="#a3703f" opacity="0.6"/>
+  <rect x="0" y="400" width="512" height="6" fill="#a3703f" opacity="0.6"/>
+  <rect x="40" y="40" width="180" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
+  <rect x="300" y="180" width="150" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
+  <rect x="80" y="320" width="200" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
+  <rect x="250" y="440" width="180" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
+
+  <!-- a faint veil-glow behind the flask -->
+  <circle cx="256" cy="290" r="140" fill="#c9a8f0" opacity="0.18"/>
+
+  <!-- contact shadow -->
+  <ellipse cx="256" cy="418" rx="66" ry="16" fill="#3a352f" opacity="0.22"/>
+
+  <!-- slim, tall elixir flask -->
+  <path d="M234,160 L234,120 L278,120 L278,160
+           Q312,196 312,300 Q312,404 256,404 Q200,404 200,300
+           Q200,196 234,160 Z"
+        fill="#eaffff" opacity="0.35" stroke="#3a352f" stroke-width="5" stroke-linejoin="round"/>
+
+  <!-- glowing pale-violet liquid, filled high -->
+  <path d="M210,296 Q210,392 256,392 Q302,392 302,296 Q302,254 282,224
+           L230,224 Q210,254 210,296 Z"
+        fill="#c9a8f0"/>
+  <path d="M230,224 L282,224 Q292,238 298,254 L214,254 Q220,238 230,224 Z" fill="#e6d6fa" opacity="0.85"/>
+  <!-- shimmering highlight streak -->
+  <path d="M228,244 Q224,320 240,382" fill="none" stroke="#f6ecff" stroke-width="8" stroke-linecap="round" opacity="0.75"/>
+  <!-- deeper pool shadow near the bottom -->
+  <ellipse cx="256" cy="366" rx="46" ry="18" fill="#8a68b8" opacity="0.45"/>
+
+  <!-- a single pale veilbloom petal, suspended in the draught -->
+  <ellipse cx="264" cy="310" rx="14" ry="8" fill="#f4ede0" opacity="0.8" stroke="#3a352f" stroke-width="2" transform="rotate(-20 264 310)"/>
+
+  <!-- flask neck highlight -->
+  <rect x="240" y="126" width="10" height="26" fill="#ffffff" opacity="0.5"/>
+
+  <!-- faceted crystal stopper -->
+  <polygon points="256,84 278,106 270,132 242,132 234,106"
+           fill="#d8c2f4" stroke="#3a352f" stroke-width="4" stroke-linejoin="round"/>
+  <polygon points="256,84 270,132 242,132" fill="#c9a8f0" opacity="0.6"/>
+  <rect x="238" y="128" width="36" height="14" rx="3" fill="#8a6a45" stroke="#3a352f" stroke-width="3"/>
+</svg>
