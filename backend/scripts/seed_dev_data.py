@@ -261,6 +261,12 @@ MATERIAL_TEMPLATES = [
     # Potion's key ingredient.
     dict(name="Silverleaf", description="Pale, silvery leaves that never quite wilt.", category=CraftingCategory.ALCHEMY, price=140, level_requirement=8),
     dict(name="Ancient Porcelain", description="Fragments of a bowl or urn, glazed white, older than anything else nearby.", category=CraftingCategory.FORGE, price=160, level_requirement=10),
+    # No monster loot table entries or recipe use yet, same as when Coal/
+    # Scrap Metal/Veil Crystal were first added - auto-available via Shop.
+    dict(name="Veilbloom", description="A pale flower that only opens where the Veil runs thin.", category=CraftingCategory.ALCHEMY, price=150, level_requirement=10),
+    dict(name="Starsteel Ingot", description="Smelted from ore that fell, not dug.", category=CraftingCategory.FORGE, price=200, level_requirement=10),
+    dict(name="Voidglass Shard", description="Black glass that swallows the light instead of catching it.", category=CraftingCategory.FORGE, price=190, level_requirement=10),
+    dict(name="Phoenix Ash", description="Ash that never quite finished cooling.", category=CraftingCategory.FORGE, price=180, level_requirement=10),
 ]
 for _material in MATERIAL_TEMPLATES:
     _material["slug"] = slugify(_material["name"])

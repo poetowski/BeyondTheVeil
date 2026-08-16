@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#eef2df"/>
+      <stop offset="100%" stop-color="#dce6c8"/>
+    </linearGradient>
+  </defs>
+
+  <!-- meadow sky -->
+  <rect x="0" y="0" width="512" height="340" fill="url(#sky)"/>
+  <!-- meadow ground -->
+  <rect x="0" y="340" width="512" height="172" fill="#93a06e"/>
+
+  <!-- distant grass tufts -->
+  <g fill="#7c8f61">
+    <polygon points="50,345 40,320 60,320"/>
+    <polygon points="90,345 80,325 100,325"/>
+    <polygon points="420,345 410,322 430,322"/>
+    <polygon points="460,345 450,326 470,326"/>
+  </g>
+  <g fill="#4f6b47">
+    <polygon points="20,390 6,350 34,350"/>
+    <polygon points="492,388 478,346 506,346"/>
+  </g>
+
+  <!-- veil-glow around the bloom -->
+  <circle cx="256" cy="250" r="130" fill="#7a3fc9" opacity="0.14"/>
+
+  <!-- ground shadow -->
+  <ellipse cx="256" cy="410" rx="90" ry="14" fill="#7c8a5a" opacity="0.5"/>
+
+  <!-- stem and leaves -->
+  <path d="M256,270 Q250,340 256,404" fill="none" stroke="#5a6b4a" stroke-width="7" stroke-linecap="round"/>
+  <path d="M256,330 Q220,320 204,344" fill="none" stroke="#5a6b4a" stroke-width="6" stroke-linecap="round"/>
+  <path d="M256,360 Q294,352 312,376" fill="none" stroke="#5a6b4a" stroke-width="6" stroke-linecap="round"/>
+  <ellipse cx="198" cy="352" rx="16" ry="8" fill="#6b7a5a" stroke="#3a352f" stroke-width="3" transform="rotate(-20 198 352)"/>
+  <ellipse cx="318" cy="384" rx="16" ry="8" fill="#6b7a5a" stroke="#3a352f" stroke-width="3" transform="rotate(20 318 384)"/>
+
+  <!-- pale petals, radiating -->
+  <g fill="#f4ede0" stroke="#3a352f" stroke-width="4" stroke-linejoin="round">
+    <ellipse cx="256" cy="212" rx="24" ry="42"/>
+    <ellipse cx="256" cy="212" rx="24" ry="42" transform="rotate(60 256 250)"/>
+    <ellipse cx="256" cy="212" rx="24" ry="42" transform="rotate(120 256 250)"/>
+    <ellipse cx="256" cy="212" rx="24" ry="42" transform="rotate(180 256 250)"/>
+    <ellipse cx="256" cy="212" rx="24" ry="42" transform="rotate(240 256 250)"/>
+    <ellipse cx="256" cy="212" rx="24" ry="42" transform="rotate(300 256 250)"/>
+  </g>
+  <!-- petal shading, violet-tinted -->
+  <g fill="#c9b8d9" opacity="0.6">
+    <ellipse cx="256" cy="212" rx="10" ry="38"/>
+    <ellipse cx="256" cy="212" rx="10" ry="38" transform="rotate(120 256 250)"/>
+    <ellipse cx="256" cy="212" rx="10" ry="38" transform="rotate(240 256 250)"/>
+  </g>
+
+  <!-- glowing violet center -->
+  <circle cx="256" cy="250" r="20" fill="#9a6fd9" stroke="#3a352f" stroke-width="4"/>
+  <circle cx="256" cy="250" r="9" fill="#d8b8ff"/>
+
+  <!-- a smaller bud beside it -->
+  <g transform="translate(-96,60) scale(0.55)">
+    <path d="M256,270 Q250,320 256,360" fill="none" stroke="#5a6b4a" stroke-width="7" stroke-linecap="round"/>
+    <g fill="#f4ede0" stroke="#3a352f" stroke-width="4" stroke-linejoin="round">
+      <ellipse cx="256" cy="222" rx="20" ry="34"/>
+      <ellipse cx="256" cy="222" rx="20" ry="34" transform="rotate(90 256 254)"/>
+      <ellipse cx="256" cy="222" rx="20" ry="34" transform="rotate(180 256 254)"/>
+      <ellipse cx="256" cy="222" rx="20" ry="34" transform="rotate(270 256 254)"/>
+    </g>
+    <circle cx="256" cy="254" r="15" fill="#9a6fd9" stroke="#3a352f" stroke-width="4"/>
+    <circle cx="256" cy="254" r="7" fill="#d8b8ff"/>
+  </g>
+</svg>
