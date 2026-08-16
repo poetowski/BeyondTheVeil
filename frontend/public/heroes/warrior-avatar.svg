@@ -10,16 +10,16 @@
   <rect x="0" y="0" width="512" height="512" fill="url(#backdrop)"/>
 
   <!-- left axe, raised high overhead, near-vertical - the dominant strike -->
-  <line x1="152" y1="492" x2="140" y2="24" stroke="#3a352f" stroke-width="21" stroke-linecap="round"/>
-  <line x1="152" y1="492" x2="140" y2="24" stroke="#6b4a34" stroke-width="15" stroke-linecap="round"/>
-  <path d="M140,48 L140,4 Q88,-8 64,32 Q60,62 102,74 Q126,76 140,48 Z"
-        fill="#8a9099" stroke="#3a352f" stroke-width="4" stroke-linejoin="round"/>
+  <line x1="152" y1="420" x2="144" y2="64" stroke="#3a352f" stroke-width="21" stroke-linecap="round"/>
+  <line x1="152" y1="420" x2="144" y2="64" stroke="#6b4a34" stroke-width="15" stroke-linecap="round"/>
+  <polygon points="144,84 144,40 60,20 96,96"
+           fill="#8a9099" stroke="#3a352f" stroke-width="4" stroke-linejoin="round"/>
 
   <!-- right axe, held low and shallow, cutting across the body - the ready guard -->
-  <line x1="440" y1="460" x2="256" y2="156" stroke="#3a352f" stroke-width="16" stroke-linecap="round"/>
-  <line x1="440" y1="460" x2="256" y2="156" stroke="#6b4a34" stroke-width="11" stroke-linecap="round"/>
-  <path d="M256,156 L292,140 Q316,102 282,82 Q256,80 246,116 Q240,142 256,156 Z"
-        fill="#8a9099" stroke="#3a352f" stroke-width="4" stroke-linejoin="round"/>
+  <line x1="420" y1="420" x2="276" y2="196" stroke="#3a352f" stroke-width="16" stroke-linecap="round"/>
+  <line x1="420" y1="420" x2="276" y2="196" stroke="#6b4a34" stroke-width="11" stroke-linecap="round"/>
+  <polygon points="276,196 276,150 360,128 320,206"
+           fill="#8a9099" stroke="#3a352f" stroke-width="4" stroke-linejoin="round"/>
 
   <!-- shoulders / hide mantle -->
   <path d="M120,470 Q112,330 256,300 Q400,330 392,470 Z"
