@@ -28,6 +28,7 @@ class CraftingRecipeOut(BaseModel):
     category: CraftingCategory
     level_requirement: int
     output_name: str
+    output_slug: str
     output_type: Literal["consumable", "rune", "item"]
     output_quantity: int
     ingredients: list[RecipeIngredientOut]
@@ -63,12 +64,15 @@ def to_out(
     if recipe.output_item_template_id is not None:
         output_type = "item"
         output_name = recipe.output_item_template.name
+        output_slug = recipe.output_item_template.slug
     elif recipe.output_rune_template_id is not None:
         output_type = "rune"
         output_name = recipe.output_rune_template.name
+        output_slug = recipe.output_rune_template.slug
     else:
         output_type = "consumable"
         output_name = recipe.output_consumable_template.name
+        output_slug = recipe.output_consumable_template.slug
 
     return CraftingRecipeOut(
         id=recipe.id,
@@ -77,6 +81,7 @@ def to_out(
         category=recipe.category,
         level_requirement=recipe.level_requirement,
         output_name=output_name,
+        output_slug=output_slug,
         output_type=output_type,
         output_quantity=recipe.output_quantity,
         ingredients=ingredients,

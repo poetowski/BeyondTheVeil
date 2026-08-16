@@ -49,11 +49,24 @@ class CraftResult:
     item: ItemInstance | None
 
 
+def _output_level_requirement(recipe: CraftingRecipe) -> int:
+    if recipe.output_item_template is not None:
+        return recipe.output_item_template.level_requirement
+    if recipe.output_rune_template is not None:
+        return recipe.output_rune_template.level_requirement
+    return recipe.output_consumable_template.level_requirement
+
+
 def list_recipes(db: Session, category: CraftingCategory | None = None) -> list[CraftingRecipe]:
     stmt = select(CraftingRecipe).order_by(CraftingRecipe.slug)
     if category is not None:
         stmt = stmt.where(CraftingRecipe.category == category)
-    return db.execute(stmt).scalars().all()
+    recipes = db.execute(stmt).scalars().all()
+    # Lowest to highest level of the recipe's *output product*, not the
+    # recipe's own level_requirement - the two are kept in sync by
+    # convention but the product level is what the player cares about
+    # when scanning the list top to bottom.
+    return sorted(recipes, key=lambda recipe: (_output_level_requirement(recipe), recipe.name))
 
 
 def craft(db: Session, hero: Hero, recipe_slug: str) -> CraftResult:

@@ -5,6 +5,7 @@ import { applyRune, equipItem, getInventory, sellItem, unequipItem } from "../ap
 import { getRunes, sellRune } from "../api/runes";
 import type { ConsumableInstanceOut, ItemInstanceOut, RuneInstanceOut } from "../api/types";
 import { useAuth } from "../auth/AuthContext";
+import { ConsumableIcon } from "../components/ConsumableIcon";
 import { ItemIcon } from "../components/ItemIcon";
 import { RuneIcon } from "../components/RuneIcon";
 import { EQUIPMENT_SLOTS } from "../constants/equipmentSlots";
@@ -19,21 +20,6 @@ type State =
       runes: RuneInstanceOut[];
     }
   | { kind: "error"; message: string };
-
-function ConsumableIcon({ slug, name }: { slug: string; name: string }) {
-  const [missing, setMissing] = useState(false);
-  if (missing) {
-    return <div className="item-icon item-icon--missing" aria-hidden="true" />;
-  }
-  return (
-    <img
-      className="item-icon"
-      src={`/consumables/${slug}.svg`}
-      alt={name}
-      onError={() => setMissing(true)}
-    />
-  );
-}
 
 export function BackpackPage() {
   const { token, hero, refetch } = useAuth();

@@ -3,6 +3,7 @@ import { craftRecipe, getRecipes } from "../api/alchemy";
 import { ApiError } from "../api/client";
 import type { CraftingRecipeOut } from "../api/types";
 import { useAuth } from "../auth/AuthContext";
+import { RecipeOutputIcon } from "../components/RecipeOutputIcon";
 
 type State =
   | { kind: "loading" }
@@ -70,6 +71,11 @@ export function ForgePage() {
             <ul className="equipment-list">
               {state.recipes.map((recipe) => (
                 <li key={recipe.id} className="list-row">
+                  <RecipeOutputIcon
+                    outputType={recipe.output_type}
+                    slug={recipe.output_slug}
+                    name={recipe.output_name}
+                  />
                   <span className="equipment-slot-label">{recipe.name}</span>
                   <span className="equipment-slot-filled">
                     <span className="equipment-slot-value">

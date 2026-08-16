@@ -93,6 +93,34 @@ def test_get_recipes_requires_auth(client):
     assert response.status_code in (401, 403)
 
 
+def test_recipe_includes_output_slug_for_art(client, db_session):
+    token = _signup(client, email="outputslug@test.com")
+    recipe, material, consumable = _make_recipe(db_session, slug="test-recipe-slug")
+
+    response = client.get("/api/v1/crafting/recipes", headers=_auth(token))
+    body = response.json()
+    assert body[0]["output_slug"] == consumable.slug
+
+
+def test_recipes_are_sorted_by_output_product_level_ascending(client, db_session):
+    """List order is driven by the output product's own level_requirement,
+    not the recipe's - the two are normally kept in sync by convention, but
+    the sort should reflect what the player actually sees (the product),
+    so this deliberately sets them to differ."""
+    token = _signup(client, email="sortorder@test.com")
+    high, _, high_consumable = _make_recipe(db_session, slug="test-recipe-high", level_requirement=1)
+    high_consumable.level_requirement = 9
+    low, _, low_consumable = _make_recipe(db_session, slug="test-recipe-low", level_requirement=1)
+    low_consumable.level_requirement = 2
+    mid, _, mid_item = _make_item_recipe(db_session, slug="test-recipe-mid", level_requirement=1)
+    mid_item.level_requirement = 5
+    db_session.flush()
+
+    response = client.get("/api/v1/crafting/recipes", headers=_auth(token))
+    body = response.json()
+    assert [r["slug"] for r in body] == ["test-recipe-low", "test-recipe-mid", "test-recipe-high"]
+
+
 def test_recipe_shows_not_craftable_without_materials(client, db_session):
     token = _signup(client, email="norecipe@test.com")
     _make_recipe(db_session, slug="test-recipe-1", quantity_required=3)

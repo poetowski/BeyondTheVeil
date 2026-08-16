@@ -194,14 +194,15 @@ export interface CraftingRecipeOut {
   category: CraftingCategory;
   level_requirement: number;
   output_name: string;
-  output_type: "consumable" | "rune";
+  output_slug: string;
+  output_type: "consumable" | "rune" | "item";
   output_quantity: number;
   ingredients: RecipeIngredientOut[];
   craftable: boolean;
 }
 
 export interface CraftResultOut {
-  output_type: "consumable" | "rune";
+  output_type: "consumable" | "rune" | "item";
   consumable: ConsumableInstanceOut | null;
   rune: RuneInstanceOut | null;
 }
