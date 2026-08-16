@@ -1,46 +1,62 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
   <defs>
-    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#eef2df"/>
-      <stop offset="100%" stop-color="#dce6c8"/>
-    </linearGradient>
+    <radialGradient id="voidBg" cx="50%" cy="46%" r="70%">
+      <stop offset="0%" stop-color="#3a2a5c"/>
+      <stop offset="55%" stop-color="#1c1430"/>
+      <stop offset="100%" stop-color="#0a0714"/>
+    </radialGradient>
   </defs>
 
-  <!-- meadow sky -->
-  <rect x="0" y="0" width="512" height="340" fill="url(#sky)"/>
-  <!-- meadow ground -->
-  <rect x="0" y="340" width="512" height="172" fill="#93a06e"/>
+  <!-- dark mystical void, not the usual meadow -->
+  <rect x="0" y="0" width="512" height="512" fill="url(#voidBg)"/>
 
-  <!-- distant grass tufts -->
-  <g fill="#7c8f61">
-    <polygon points="50,345 40,320 60,320"/>
-    <polygon points="90,345 80,325 100,325"/>
-    <polygon points="420,345 410,322 430,322"/>
-    <polygon points="460,345 450,326 470,326"/>
+  <!-- distant stars -->
+  <g fill="#e8e0ff">
+    <circle cx="70" cy="80" r="2.5" opacity="0.8"/>
+    <circle cx="130" cy="140" r="1.8" opacity="0.6"/>
+    <circle cx="420" cy="70" r="2.2" opacity="0.75"/>
+    <circle cx="460" cy="150" r="1.6" opacity="0.55"/>
+    <circle cx="60" cy="260" r="1.8" opacity="0.6"/>
+    <circle cx="450" cy="290" r="2" opacity="0.65"/>
+    <circle cx="256" cy="60" r="1.8" opacity="0.6"/>
+    <circle cx="380" cy="420" r="1.6" opacity="0.5"/>
+    <circle cx="110" cy="430" r="1.8" opacity="0.55"/>
   </g>
-  <g fill="#4f6b47">
-    <polygon points="20,390 6,350 34,350"/>
-    <polygon points="492,388 478,346 506,346"/>
+
+  <!-- wide, hazy glow the piece hangs in -->
+  <circle cx="256" cy="290" r="170" fill="#7a5fd9" opacity="0.22"/>
+  <circle cx="256" cy="290" r="110" fill="#b8a8ff" opacity="0.2"/>
+
+  <!-- soft glow where it hovers, no ground beneath it -->
+  <ellipse cx="256" cy="380" rx="100" ry="20" fill="#5a4a9c" opacity="0.35"/>
+
+  <!-- crackling spark lines, radiating out -->
+  <g stroke="#d8b8ff" stroke-width="3" stroke-linecap="round" opacity="0.85" fill="none">
+    <path d="M256,250 L226,196 L238,168"/>
+    <path d="M300,260 L346,222 L338,190"/>
+    <path d="M212,300 L160,290 L142,262"/>
+    <path d="M300,340 L344,362 L368,352"/>
+    <path d="M220,360 L192,398 L200,428"/>
+  </g>
+  <g fill="#e8d8ff">
+    <path d="M238,168 l6,10 l11,2 l-9,7 l2,11 l-10,-6 l-10,6 l2,-11 l-9,-7 l11,-2 Z" opacity="0.9"/>
+    <path d="M338,190 l4,7 l8,1 l-6,5 l1,8 l-7,-4 l-7,4 l1,-8 l-6,-5 l8,-1 Z" opacity="0.85"/>
+    <path d="M142,262 l4,7 l8,1 l-6,5 l1,8 l-7,-4 l-7,4 l1,-8 l-6,-5 l8,-1 Z" opacity="0.8"/>
   </g>
 
-  <!-- faint, cold shimmer -->
-  <circle cx="256" cy="330" r="90" fill="#dce8ea" opacity="0.25"/>
+  <!-- two smaller pieces, floating -->
+  <ellipse cx="180" cy="332" rx="20" ry="15" fill="#e8e0d0" stroke="#3a352f" stroke-width="4"/>
+  <ellipse cx="176" cy="326" rx="8" ry="5" fill="#f8f2ff" opacity="0.9"/>
+  <ellipse cx="336" cy="336" rx="17" ry="12" fill="#dcd4c4" stroke="#3a352f" stroke-width="4"/>
+  <ellipse cx="332" cy="331" rx="7" ry="4" fill="#f8f2ff" opacity="0.9"/>
 
-  <!-- ground shadow -->
-  <ellipse cx="256" cy="398" rx="94" ry="14" fill="#7c8a5a" opacity="0.5"/>
+  <!-- main piece, hovering, now humming with a mystical glow -->
+  <path d="M220,284 Q212,316 240,336 Q270,352 300,332 Q326,314 312,284
+           Q302,258 272,250 Q244,254 220,284 Z"
+        fill="#e8e0d0" stroke="#3a352f" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M272,250 Q302,258 312,284 Q326,314 300,332 Q292,304 280,282 Z" fill="#b8a8ff" opacity="0.55"/>
 
-  <!-- two smaller pieces -->
-  <ellipse cx="190" cy="368" rx="22" ry="16" fill="#d8d0c0" stroke="#3a352f" stroke-width="4"/>
-  <ellipse cx="186" cy="362" rx="9" ry="6" fill="#eee6d5" opacity="0.8"/>
-  <ellipse cx="330" cy="374" rx="18" ry="13" fill="#c8c0b0" stroke="#3a352f" stroke-width="4"/>
-  <ellipse cx="326" cy="369" rx="7" ry="5" fill="#eee6d5" opacity="0.8"/>
-
-  <!-- main piece, smooth and plain -->
-  <path d="M220,320 Q212,352 240,372 Q270,388 300,368 Q326,350 312,320
-           Q302,294 272,286 Q244,290 220,320 Z"
-        fill="#d8d0c0" stroke="#3a352f" stroke-width="5" stroke-linejoin="round"/>
-  <path d="M272,286 Q302,294 312,320 Q326,350 300,368 Q292,340 280,318 Z" fill="#a89a82" opacity="0.6"/>
-
-  <!-- a plain, cold gleam - nothing dramatic about it -->
-  <ellipse cx="248" cy="326" rx="12" ry="7" fill="#f0ede4" opacity="0.85" transform="rotate(-20 248 326)"/>
+  <!-- inner light, no longer a plain gleam -->
+  <circle cx="256" cy="296" r="14" fill="#d8b8ff" opacity="0.7"/>
+  <ellipse cx="248" cy="290" rx="10" ry="6" fill="#f8f2ff" opacity="0.9" transform="rotate(-20 248 290)"/>
 </svg>
