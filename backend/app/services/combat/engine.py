@@ -20,9 +20,10 @@ MONSTER_STAT_VARIANCE = (0.85, 1.15)
 # on the helmet zone.
 ZONE_WEIGHTS = {"shield": 0.50, "armor": 0.35, "helmet": 0.15}
 HEADSHOT_MULTIPLIER = 3
-# A losing hero still keeps this fraction of the gold the encounter would
-# have paid out on a win - a consolation payout, not a full reward.
+# A losing hero still keeps this fraction of the gold/XP the encounter
+# would have paid out on a win - a consolation payout, not a full reward.
 DEFEAT_GOLD_RATIO = 0.15
+DEFEAT_XP_RATIO = 0.15
 
 
 @dataclass
@@ -304,7 +305,8 @@ def resolve(
         damage_dealt_to_hero = hero_max_hp - hero_hp
         victory = damage_dealt_to_monster >= damage_dealt_to_hero
 
-    xp_awarded = sum(monster_stats.values()) if victory else 0
+    full_xp = sum(monster_stats.values()) if monster_stats else 0
+    xp_awarded = full_xp if victory else round(full_xp * DEFEAT_XP_RATIO)
     rolled_gold = rng.randint(encounter.get("gold_min", 0), encounter.get("gold_max", 0))
     gold_awarded = rolled_gold if victory else round(rolled_gold * DEFEAT_GOLD_RATIO)
 

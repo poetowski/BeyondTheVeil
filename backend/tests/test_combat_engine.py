@@ -174,6 +174,19 @@ def test_defeat_awards_a_fraction_of_the_gold_a_victory_would_have():
             assert 0 <= result.gold_awarded <= max_defeat_gold
 
 
+def test_defeat_awards_a_fraction_of_the_xp_a_victory_would_have():
+    encounter = _encounter()
+    for seed in range(50):
+        result = engine.resolve(
+            seed=seed, hero_snapshot=WEAK_HERO, hero_base_stats=WEAK_HERO, encounter=encounter
+        )
+        full_xp = sum(result.monster_stats.values())
+        if result.victory:
+            assert result.xp_awarded == full_xp
+        else:
+            assert result.xp_awarded == round(full_xp * engine.DEFEAT_XP_RATIO)
+
+
 def test_hero_initiative_wins_when_base_stats_favor_hero():
     strong_initiative_hero = {**WEAK_HERO, "dexterity": 20, "agility": 20}
     result = engine.resolve(
