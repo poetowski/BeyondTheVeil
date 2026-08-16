@@ -49,7 +49,7 @@ AVATAR_TEMPLATES = [
         price=0,
         level_requirement=15,
         sort_order=5,
-        unlock_hint="Craft a Herbalist Hell potion in Alchemy (level 15) and drink it.",
+        unlock_hint="Drink a Herbalist Hell.",
     ),
 ]
 for _avatar in AVATAR_TEMPLATES:

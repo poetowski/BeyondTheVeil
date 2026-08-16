@@ -230,7 +230,7 @@ def test_unlock_hint_avatar_stays_locked_even_past_its_level_requirement(client,
             name="Flower Kid Avatar",
             level_requirement=15,
             sort_order=5,
-            unlock_hint="Craft a Herbalist Hell potion in Alchemy (level 15) and drink it.",
+            unlock_hint="Drink a Herbalist Hell.",
         )
     )
     db_session.flush()
@@ -244,7 +244,7 @@ def test_unlock_hint_avatar_stays_locked_even_past_its_level_requirement(client,
     avatars = client.get("/api/v1/avatars", headers=_auth(token)).json()
     flower_kid = next(a for a in avatars if a["slug"] == "flower-kid-avatar")
     assert flower_kid["unlocked"] is False
-    assert flower_kid["unlock_hint"] == "Craft a Herbalist Hell potion in Alchemy (level 15) and drink it."
+    assert flower_kid["unlock_hint"] == "Drink a Herbalist Hell."
 
     select_response = client.post(
         "/api/v1/hero/avatar", json={"avatar_slug": "flower-kid-avatar"}, headers=_auth(token)
@@ -273,7 +273,7 @@ def test_grant_avatar_unlock_is_idempotent(db_session, hero_factory):
     hero = hero_factory()
     avatar = AvatarTemplate(
         slug="flower-kid-avatar", name="Flower Kid Avatar", level_requirement=15, sort_order=5,
-        unlock_hint="Craft a Herbalist Hell potion in Alchemy (level 15) and drink it.",
+        unlock_hint="Drink a Herbalist Hell.",
     )
     db_session.add(avatar)
     db_session.flush()
