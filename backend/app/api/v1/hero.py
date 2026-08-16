@@ -38,6 +38,8 @@ def set_avatar(
         hero_service.set_avatar(db, hero, body.avatar_slug)
     except hero_service.AvatarNotFoundError as exc:
         raise HTTPException(status.HTTP_404_NOT_FOUND, detail=str(exc)) from exc
+    except hero_service.AvatarNotUnlockedError as exc:
+        raise HTTPException(status.HTTP_403_FORBIDDEN, detail=str(exc)) from exc
 
     equipped_items = hero_service.get_equipped_items(db, hero)
     return hero_to_out(hero, equipped_items)

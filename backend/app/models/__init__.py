@@ -1,4 +1,4 @@
-from app.models.avatar import AvatarTemplate
+from app.models.avatar import AvatarTemplate, HeroAvatarUnlock
 from app.models.base import Base
 from app.models.consumable import ConsumableInstance, ConsumableTemplate
 from app.models.crafting import CraftingCategory, CraftingRecipe, CraftingRecipeIngredient
@@ -16,6 +16,7 @@ __all__ = [
     "User",
     "Hero",
     "AvatarTemplate",
+    "HeroAvatarUnlock",
     "ItemTemplate",
     "ItemInstance",
     "EquipmentSlot",

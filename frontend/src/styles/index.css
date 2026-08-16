@@ -136,6 +136,49 @@ h2 {
   font-weight: 600;
 }
 
+.avatar-card--locked {
+  cursor: default;
+}
+
+.avatar-card-image-wrap {
+  position: relative;
+  width: 140px;
+  height: 140px;
+}
+
+.avatar-card--locked .avatar-card-image {
+  opacity: 0.4;
+}
+
+.avatar-card-lock-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.avatar-card-unlock-button {
+  padding: 0.35rem 0.75rem;
+  font-size: 0.8rem;
+  border: none;
+  border-radius: 6px;
+  background: #8a6a1d;
+  color: #fff;
+  cursor: pointer;
+}
+
+.avatar-card-unlock-button:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
 .progress-bar {
   width: 200px;
   height: 10px;

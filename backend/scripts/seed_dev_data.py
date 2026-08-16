@@ -26,8 +26,8 @@ def slugify(name: str) -> str:
 # here too, insert-if-missing like everything else, purely so a fresh
 # install that skips straight to this script still gets it.
 AVATAR_TEMPLATES = [
-    dict(name="Peasant Avatar"),
-    dict(name="Militia Avatar"),
+    dict(name="Peasant Avatar", price=0, sort_order=0),
+    dict(name="Militia Avatar", price=2000, sort_order=1),
 ]
 for _avatar in AVATAR_TEMPLATES:
     _avatar["slug"] = slugify(_avatar["name"])

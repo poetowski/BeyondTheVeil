@@ -5,7 +5,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from app.core.config import settings
-from app.models.avatar import AvatarTemplate
+from app.models.avatar import AvatarTemplate, HeroAvatarUnlock
 from app.models.consumable import ConsumableInstance
 from app.models.hero import Hero
 from app.models.item import EquipmentSlot, ItemInstance
@@ -92,6 +92,10 @@ class ConsumableNotOwnedError(HeroServiceError):
 
 
 class AvatarNotFoundError(HeroServiceError):
+    pass
+
+
+class AvatarNotUnlockedError(HeroServiceError):
     pass
 
 
@@ -238,12 +242,52 @@ def train_stat(db: Session, hero: Hero, stat: str) -> Hero:
     return hero
 
 
+def is_avatar_unlocked(db: Session, hero: Hero, avatar: AvatarTemplate) -> bool:
+    """price=0 avatars are unlocked for everyone; price>0 avatars need a
+    HeroAvatarUnlock row (see unlock_avatar)."""
+    if avatar.price == 0:
+        return True
+    existing = db.execute(
+        select(HeroAvatarUnlock).where(
+            HeroAvatarUnlock.hero_id == hero.id,
+            HeroAvatarUnlock.avatar_template_id == avatar.id,
+        )
+    ).scalar_one_or_none()
+    return existing is not None
+
+
+def unlock_avatar(db: Session, hero: Hero, avatar_slug: str) -> Hero:
+    """Idempotent - a no-op (no charge) if the avatar is free or already
+    unlocked, same spirit as every other "safe to call twice" mutation in
+    this module."""
+    avatar = db.execute(
+        select(AvatarTemplate).where(AvatarTemplate.slug == avatar_slug)
+    ).scalar_one_or_none()
+    if avatar is None:
+        raise AvatarNotFoundError(f"unknown avatar: {avatar_slug}")
+
+    if is_avatar_unlocked(db, hero, avatar):
+        return hero
+
+    if hero.gold < avatar.price:
+        raise InsufficientGoldError("not enough gold to unlock this avatar")
+
+    hero.gold -= avatar.price
+    db.add(hero)
+    db.add(HeroAvatarUnlock(hero_id=hero.id, avatar_template_id=avatar.id))
+    db.commit()
+    db.refresh(hero)
+    return hero
+
+
 def set_avatar(db: Session, hero: Hero, avatar_slug: str) -> Hero:
     avatar = db.execute(
         select(AvatarTemplate).where(AvatarTemplate.slug == avatar_slug)
     ).scalar_one_or_none()
     if avatar is None:
         raise AvatarNotFoundError(f"unknown avatar: {avatar_slug}")
+    if not is_avatar_unlocked(db, hero, avatar):
+        raise AvatarNotUnlockedError(f"avatar not unlocked: {avatar_slug}")
 
     hero.avatar_template_id = avatar.id
     db.add(hero)

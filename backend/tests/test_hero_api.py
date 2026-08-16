@@ -86,3 +86,73 @@ def test_set_avatar_with_unknown_slug_is_rejected(client):
         "/api/v1/hero/avatar", json={"avatar_slug": "nonexistent-avatar"}, headers=_auth(token)
     )
     assert response.status_code == 404
+
+
+def test_get_avatars_orders_peasant_before_militia(client, db_session):
+    from app.models.avatar import AvatarTemplate
+
+    db_session.add(AvatarTemplate(slug="militia-avatar", name="Militia Avatar", price=2000, sort_order=1))
+    db_session.flush()
+
+    token = _signup(client, email="hero-api-avatars-order@test.com")
+    response = client.get("/api/v1/avatars", headers=_auth(token))
+    slugs = [avatar["slug"] for avatar in response.json()]
+    assert slugs == ["peasant-avatar", "militia-avatar"]
+
+
+def test_set_avatar_on_a_locked_paid_avatar_is_rejected(client, db_session):
+    from app.models.avatar import AvatarTemplate
+
+    db_session.add(AvatarTemplate(slug="militia-avatar", name="Militia Avatar", price=2000, sort_order=1))
+    db_session.flush()
+
+    token = _signup(client, email="hero-api-set-avatar-locked@test.com")
+    response = client.post(
+        "/api/v1/hero/avatar", json={"avatar_slug": "militia-avatar"}, headers=_auth(token)
+    )
+    assert response.status_code == 403
+
+
+def test_unlock_avatar_charges_gold_and_unlocks_it(client, db_session):
+    from app.models.avatar import AvatarTemplate
+    from app.models.hero import Hero
+
+    db_session.add(AvatarTemplate(slug="militia-avatar", name="Militia Avatar", price=2000, sort_order=1))
+    db_session.flush()
+
+    token = _signup(client, email="hero-api-unlock-avatar@test.com")
+    me = client.get("/api/v1/users/me", headers=_auth(token)).json()
+    hero = db_session.get(Hero, me["hero"]["id"])
+    hero.gold = 5000
+    db_session.flush()
+
+    unlock_response = client.post("/api/v1/avatars/militia-avatar/unlock", headers=_auth(token))
+    assert unlock_response.status_code == 200
+    assert unlock_response.json()["gold"] == 3000
+
+    avatars = client.get("/api/v1/avatars", headers=_auth(token)).json()
+    militia = next(a for a in avatars if a["slug"] == "militia-avatar")
+    assert militia["unlocked"] is True
+
+    select_response = client.post(
+        "/api/v1/hero/avatar", json={"avatar_slug": "militia-avatar"}, headers=_auth(token)
+    )
+    assert select_response.status_code == 200
+    assert select_response.json()["avatar_slug"] == "militia-avatar"
+
+
+def test_unlock_avatar_without_enough_gold_is_rejected(client, db_session):
+    from app.models.avatar import AvatarTemplate
+
+    db_session.add(AvatarTemplate(slug="militia-avatar", name="Militia Avatar", price=2000, sort_order=1))
+    db_session.flush()
+
+    token = _signup(client, email="hero-api-unlock-avatar-poor@test.com")
+    response = client.post("/api/v1/avatars/militia-avatar/unlock", headers=_auth(token))
+    assert response.status_code == 409
+
+
+def test_unlock_avatar_with_unknown_slug_returns_404(client):
+    token = _signup(client, email="hero-api-unlock-avatar-bad@test.com")
+    response = client.post("/api/v1/avatars/nonexistent-avatar/unlock", headers=_auth(token))
+    assert response.status_code == 404

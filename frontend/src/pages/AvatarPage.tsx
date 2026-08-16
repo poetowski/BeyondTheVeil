@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getAvatars } from "../api/avatars";
+import { getAvatars, unlockAvatar } from "../api/avatars";
 import { ApiError } from "../api/client";
 import { setAvatar } from "../api/hero";
 import type { AvatarTemplateOut } from "../api/types";
@@ -35,6 +35,8 @@ export function AvatarPage() {
   const [selectedSlug, setSelectedSlug] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
+  const [unlockingSlug, setUnlockingSlug] = useState<string | null>(null);
+  const [unlockError, setUnlockError] = useState<string | null>(null);
 
   const load = useCallback(async () => {
     if (!token) return;
@@ -59,6 +61,31 @@ export function AvatarPage() {
       setSelectedSlug(hero.avatar_slug);
     }
   }, [hero, selectedSlug]);
+
+  async function handleUnlock(avatarSlug: string) {
+    if (!token) return;
+    setUnlockingSlug(avatarSlug);
+    setUnlockError(null);
+    try {
+      await unlockAvatar(token, avatarSlug);
+      await refetch();
+      setState((prev) =>
+        prev.kind === "loaded"
+          ? {
+              kind: "loaded",
+              avatars: prev.avatars.map((avatar) =>
+                avatar.slug === avatarSlug ? { ...avatar, unlocked: true } : avatar,
+              ),
+            }
+          : prev,
+      );
+      setSelectedSlug(avatarSlug);
+    } catch (err) {
+      setUnlockError(err instanceof ApiError ? err.message : "Failed to unlock avatar.");
+    } finally {
+      setUnlockingSlug(null);
+    }
+  }
 
   async function handleSave() {
     if (!token || !selectedSlug) return;
@@ -90,20 +117,39 @@ export function AvatarPage() {
       {state.kind === "loaded" && (
         <>
           <div className="avatar-grid">
-            {state.avatars.map((avatar) => (
-              <button
-                type="button"
-                key={avatar.id}
-                className={
-                  "avatar-card" + (selectedSlug === avatar.slug ? " avatar-card--selected" : "")
-                }
-                onClick={() => setSelectedSlug(avatar.slug)}
-              >
-                <AvatarCardImage avatar={avatar} />
-                <span className="avatar-card-name">{avatar.name}</span>
-              </button>
-            ))}
+            {state.avatars.map((avatar) =>
+              avatar.unlocked ? (
+                <button
+                  type="button"
+                  key={avatar.id}
+                  className={
+                    "avatar-card" + (selectedSlug === avatar.slug ? " avatar-card--selected" : "")
+                  }
+                  onClick={() => setSelectedSlug(avatar.slug)}
+                >
+                  <AvatarCardImage avatar={avatar} />
+                  <span className="avatar-card-name">{avatar.name}</span>
+                </button>
+              ) : (
+                <div key={avatar.id} className="avatar-card avatar-card--locked">
+                  <div className="avatar-card-image-wrap">
+                    <AvatarCardImage avatar={avatar} />
+                    <div className="avatar-card-lock-overlay">Locked</div>
+                  </div>
+                  <span className="avatar-card-name">{avatar.name}</span>
+                  <button
+                    type="button"
+                    className="avatar-card-unlock-button"
+                    onClick={() => handleUnlock(avatar.slug)}
+                    disabled={unlockingSlug === avatar.slug}
+                  >
+                    {unlockingSlug === avatar.slug ? "Unlocking…" : `Unlock (${avatar.price} gold)`}
+                  </button>
+                </div>
+              ),
+            )}
           </div>
+          {unlockError && <p className="auth-error">{unlockError}</p>}
           {saveError && <p className="auth-error">{saveError}</p>}
           <button type="button" onClick={handleSave} disabled={saving || !selectedSlug}>
             {saving ? "Saving…" : "Save"}

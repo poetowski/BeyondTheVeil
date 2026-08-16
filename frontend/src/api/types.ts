@@ -12,6 +12,8 @@ export interface AvatarTemplateOut {
   id: string;
   slug: string;
   name: string;
+  price: number;
+  unlocked: boolean;
 }
 
 export interface HeroOut {
