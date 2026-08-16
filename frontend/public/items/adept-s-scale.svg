@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <clipPath id="adeptScaleBody">
+      <path d="M180,140 L332,140 L360,260 L392,410 L120,410 L152,260 Z"/>
+    </clipPath>
+  </defs>
+
+  <!-- wooden table -->
+  <rect x="0" y="0" width="512" height="512" fill="#b98956"/>
+  <rect x="0" y="120" width="512" height="6" fill="#a3703f" opacity="0.6"/>
+  <rect x="0" y="260" width="512" height="6" fill="#a3703f" opacity="0.6"/>
+  <rect x="0" y="400" width="512" height="6" fill="#a3703f" opacity="0.6"/>
+  <rect x="40" y="40" width="180" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
+  <rect x="300" y="180" width="150" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
+  <rect x="80" y="320" width="200" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
+  <rect x="250" y="440" width="180" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
+
+  <!-- glow -->
+  <circle cx="256" cy="280" r="160" fill="#7a3fc9" opacity="0.13"/>
+
+  <!-- contact shadow -->
+  <ellipse cx="256" cy="420" rx="140" ry="20" fill="#3a352f" opacity="0.2"/>
+
+  <!-- dark base -->
+  <path d="M180,140 L332,140 L360,260 L392,410 L120,410 L152,260 Z"
+        fill="#2b2838" stroke="#3a352f" stroke-width="5" stroke-linejoin="round"/>
+
+  <!-- big, bold overlapping scale rows -->
+  <g clip-path="url(#adeptScaleBody)" stroke="#3a352f" stroke-width="3">
+    <g fill="#6a63a0">
+      <path d="M126,168 Q156,138 186,168 Q156,192 126,168 Z"/>
+      <path d="M186,168 Q216,138 246,168 Q216,192 186,168 Z"/>
+      <path d="M246,168 Q276,138 306,168 Q276,192 246,168 Z"/>
+      <path d="M306,168 Q336,138 366,168 Q336,192 306,168 Z"/>
+    </g>
+    <g fill="#4a4470">
+      <path d="M156,222 Q186,192 216,222 Q186,246 156,222 Z"/>
+      <path d="M216,222 Q246,192 276,222 Q246,246 216,222 Z"/>
+      <path d="M276,222 Q306,192 336,222 Q306,246 276,222 Z"/>
+    </g>
+    <g fill="#6a63a0">
+      <path d="M120,282 Q150,252 180,282 Q150,306 120,282 Z"/>
+      <path d="M180,282 Q210,252 240,282 Q210,306 180,282 Z"/>
+      <path d="M240,282 Q270,252 300,282 Q270,306 240,282 Z"/>
+      <path d="M300,282 Q330,252 360,282 Q330,306 300,282 Z"/>
+      <path d="M360,282 Q390,252 400,282 Q390,306 360,282 Z"/>
+    </g>
+    <g fill="#4a4470">
+      <path d="M140,344 Q170,314 200,344 Q170,368 140,344 Z"/>
+      <path d="M200,344 Q230,314 260,344 Q230,368 200,344 Z"/>
+      <path d="M260,344 Q290,314 320,344 Q290,368 260,344 Z"/>
+      <path d="M320,344 Q350,314 380,344 Q350,368 320,344 Z"/>
+    </g>
+    <!-- violet glow cores at each row's seam -->
+    <g fill="#d8b8ff" opacity="0.9">
+      <circle cx="186" cy="168" r="5"/>
+      <circle cx="246" cy="168" r="5"/>
+      <circle cx="306" cy="168" r="5"/>
+      <circle cx="180" cy="282" r="5"/>
+      <circle cx="240" cy="282" r="5"/>
+      <circle cx="300" cy="282" r="5"/>
+      <circle cx="200" cy="344" r="5"/>
+      <circle cx="260" cy="344" r="5"/>
+    </g>
+  </g>
+
+  <!-- collar -->
+  <path d="M210,140 Q256,166 302,140 L292,156 Q256,178 220,156 Z" fill="#2b2823" stroke="#3a352f" stroke-width="3"/>
+  <!-- glowing seam belt -->
+  <rect x="140" y="270" width="232" height="10" fill="#b98aff" opacity="0.85"/>
+</svg>

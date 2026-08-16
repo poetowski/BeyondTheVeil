@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- wooden table -->
+  <rect x="0" y="0" width="512" height="512" fill="#b98956"/>
+  <rect x="0" y="120" width="512" height="6" fill="#a3703f" opacity="0.6"/>
+  <rect x="0" y="260" width="512" height="6" fill="#a3703f" opacity="0.6"/>
+  <rect x="0" y="400" width="512" height="6" fill="#a3703f" opacity="0.6"/>
+  <rect x="40" y="40" width="180" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
+  <rect x="300" y="180" width="150" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
+  <rect x="80" y="320" width="200" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
+  <rect x="250" y="440" width="180" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
+
+  <!-- faint violet glow -->
+  <circle cx="290" cy="230" r="150" fill="#7a3fc9" opacity="0.14"/>
+
+  <!-- contact shadow -->
+  <ellipse cx="256" cy="380" rx="150" ry="26" fill="#3a352f" opacity="0.2"/>
+
+  <g transform="rotate(-28 256 256)">
+    <!-- curved fang blade -->
+    <path d="M206,246 Q300,224 402,232 Q346,254 300,264 Q250,270 206,266 Z"
+          fill="#5a5570" stroke="#3a352f" stroke-width="5" stroke-linejoin="round"/>
+    <path d="M300,264 Q250,270 206,266 L206,246 Q250,250 296,244 Z" fill="#423f56" opacity="0.8"/>
+    <!-- glowing violet edge -->
+    <path d="M214,248 Q306,228 396,234" fill="none" stroke="#b98aff" stroke-width="4" opacity="0.85"/>
+    <!-- crossguard -->
+    <rect x="192" y="234" width="16" height="60" rx="5" fill="#423f56" stroke="#3a352f" stroke-width="4"/>
+    <!-- grip -->
+    <rect x="146" y="252" width="50" height="20" rx="8" fill="#2b2823" stroke="#3a352f" stroke-width="4"/>
+    <!-- glowing pommel gem -->
+    <circle cx="146" cy="262" r="14" fill="#5a5570" stroke="#3a352f" stroke-width="4"/>
+    <circle cx="146" cy="262" r="7" fill="#d8b8ff"/>
+  </g>
+</svg>

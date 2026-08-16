@@ -69,6 +69,25 @@ ITEM_TEMPLATES = [
     # First Spell Skill item - level 10, EPIC, boss-exclusive drop from
     # Mage Adept only (see MONSTER_LOOT_ENTRIES below).
     dict(name="Frozen Spark", slot=EquipmentSlot.SPELL_SKILL, rarity=ItemRarity.EPIC, level_requirement=10, base_stats={}, spell_damage_min=20, spell_damage_max=34, description="A single spark, frozen mid-flight - it still burns going in.", price=1400),
+    # Tier3 gear: level 10, EPIC, two lines per slot (weapon/shield/helmet/
+    # armor/amulet - no Spell Skill counterpart, Frozen Spark already
+    # covers that slot). Adept's line trades some raw damage/defense for a
+    # small secondary stat bonus (base_stats, same mechanism the Talismans
+    # use); Steel line is pure maximized primary stat, no secondary bonus -
+    # a real choice between raw power and build support, not a reskin.
+    # Deliberately no MONSTER_LOOT_ENTRIES yet - these are meant to drop
+    # from monsters that don't exist yet; for now they're shop-only, same
+    # as every ItemTemplate is by default (see shop_service.roll_daily_shop).
+    dict(name="Adept's Fang", slot=EquipmentSlot.WEAPON, rarity=ItemRarity.EPIC, level_requirement=10, base_stats={"intelligence": 3}, damage_min=7, damage_max=16, description="It doesn't just cut - it remembers cutting.", price=1250),
+    dict(name="Steel Cleaver", slot=EquipmentSlot.WEAPON, rarity=ItemRarity.EPIC, level_requirement=10, base_stats={}, damage_min=9, damage_max=20, description="No trick to it. Just weight, and where you put it.", price=1350),
+    dict(name="Adept's Ward", slot=EquipmentSlot.SHIELD, rarity=ItemRarity.EPIC, level_requirement=10, base_stats={"spirit": 3}, defense=10, description="It stops the blow before the blow decides to land.", price=1150),
+    dict(name="Steel Bulwark", slot=EquipmentSlot.SHIELD, rarity=ItemRarity.EPIC, level_requirement=10, base_stats={}, defense=13, description="Nothing subtle about it. Nothing gets through it either.", price=1250),
+    dict(name="Adept's Circlet", slot=EquipmentSlot.HELMET, rarity=ItemRarity.EPIC, level_requirement=10, base_stats={"intelligence": 3}, defense=6, description="Thin as a promise, and just as binding.", price=950),
+    dict(name="Steel Helm", slot=EquipmentSlot.HELMET, rarity=ItemRarity.EPIC, level_requirement=10, base_stats={}, defense=8, description="Dented twice already. Still on somebody's head.", price=1000),
+    dict(name="Adept's Scale", slot=EquipmentSlot.ARMOR, rarity=ItemRarity.EPIC, level_requirement=10, base_stats={"agility": 3}, defense=6, description="Each plate shifts before the strike does.", price=950),
+    dict(name="Steel Plate", slot=EquipmentSlot.ARMOR, rarity=ItemRarity.EPIC, level_requirement=10, base_stats={}, defense=8, description="Heavier than it looks. Looks heavy.", price=1000),
+    dict(name="Adept's Pendant", slot=EquipmentSlot.AMULET, rarity=ItemRarity.EPIC, level_requirement=10, base_stats={"intelligence": 7}, description="A thought, worn close enough to finish it for you.", price=1500),
+    dict(name="Steel Signet", slot=EquipmentSlot.AMULET, rarity=ItemRarity.EPIC, level_requirement=10, base_stats={"strength": 4, "dexterity": 4}, description="Plain steel, sized for a fist that's used to closing.", price=1500),
 ]
 for _item in ITEM_TEMPLATES:
     _item["slug"] = slugify(_item["name"])

@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- wooden table -->
+  <rect x="0" y="0" width="512" height="512" fill="#b98956"/>
+  <rect x="0" y="120" width="512" height="6" fill="#a3703f" opacity="0.6"/>
+  <rect x="0" y="260" width="512" height="6" fill="#a3703f" opacity="0.6"/>
+  <rect x="0" y="400" width="512" height="6" fill="#a3703f" opacity="0.6"/>
+  <rect x="40" y="40" width="180" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
+  <rect x="300" y="180" width="150" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
+  <rect x="80" y="320" width="200" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
+  <rect x="250" y="440" width="180" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
+
+  <!-- contact shadow -->
+  <ellipse cx="256" cy="316" rx="98" ry="20" fill="#3a352f" opacity="0.2"/>
+
+  <!-- thick plain band, sized for a fist -->
+  <circle cx="256" cy="256" r="92" fill="#7a8590" stroke="#3a352f" stroke-width="7"/>
+  <circle cx="256" cy="256" r="50" fill="#b98956"/>
+  <circle cx="256" cy="256" r="50" fill="none" stroke="#3a352f" stroke-width="4"/>
+  <path d="M256,164 A92,92 0 0 1 348,256 A92,92 0 0 1 300,332 A74,74 0 0 0 256,164 Z" fill="#57626c" opacity="0.7"/>
+
+  <!-- flat signet face -->
+  <rect x="212" y="206" width="88" height="60" rx="8" fill="#8c96a0" stroke="#3a352f" stroke-width="5"/>
+  <path d="M232,236 L252,220 L272,236 L252,252 Z" fill="#57626c" stroke="#3a352f" stroke-width="3" stroke-linejoin="round"/>
+
+  <!-- shine -->
+  <ellipse cx="224" cy="216" rx="14" ry="8" fill="#d4dee6" opacity="0.85" transform="rotate(-35 224 216)"/>
+</svg>

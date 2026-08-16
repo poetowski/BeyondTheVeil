@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- wooden table -->
+  <rect x="0" y="0" width="512" height="512" fill="#b98956"/>
+  <rect x="0" y="120" width="512" height="6" fill="#a3703f" opacity="0.6"/>
+  <rect x="0" y="260" width="512" height="6" fill="#a3703f" opacity="0.6"/>
+  <rect x="0" y="400" width="512" height="6" fill="#a3703f" opacity="0.6"/>
+  <rect x="40" y="40" width="180" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
+  <rect x="300" y="180" width="150" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
+  <rect x="80" y="320" width="200" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
+  <rect x="250" y="440" width="180" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
+
+  <!-- glow -->
+  <circle cx="256" cy="260" r="130" fill="#7a3fc9" opacity="0.14"/>
+
+  <!-- contact shadow -->
+  <ellipse cx="256" cy="330" rx="110" ry="18" fill="#3a352f" opacity="0.2"/>
+
+  <!-- thin circlet band, resting open -->
+  <path d="M120,270 Q140,180 256,168 Q372,180 392,270 Q372,250 340,246 Q300,242 256,244 Q212,242 172,246 Q140,250 120,270 Z"
+        fill="#5a5570" stroke="#3a352f" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M256,168 Q372,180 392,270 Q372,250 340,246 Q300,242 270,244 Q280,200 256,168 Z"
+        fill="#423f56" opacity="0.75"/>
+
+  <!-- brow gem -->
+  <polygon points="256,196 276,222 266,254 246,254 236,222"
+           fill="#9a6fd9" stroke="#3a352f" stroke-width="4" stroke-linejoin="round"/>
+  <polygon points="256,196 276,222 260,220 250,206" fill="#d8b8ff" opacity="0.85"/>
+
+  <!-- thin filigree wires trailing to the band -->
+  <path d="M236,224 Q200,214 172,246" fill="none" stroke="#b98aff" stroke-width="3" opacity="0.7"/>
+  <path d="M276,224 Q312,214 340,246" fill="none" stroke="#b98aff" stroke-width="3" opacity="0.7"/>
+</svg>

@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- wooden table -->
+  <rect x="0" y="0" width="512" height="512" fill="#b98956"/>
+  <rect x="0" y="120" width="512" height="6" fill="#a3703f" opacity="0.6"/>
+  <rect x="0" y="260" width="512" height="6" fill="#a3703f" opacity="0.6"/>
+  <rect x="0" y="400" width="512" height="6" fill="#a3703f" opacity="0.6"/>
+  <rect x="40" y="40" width="180" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
+  <rect x="300" y="180" width="150" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
+  <rect x="80" y="320" width="200" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
+  <rect x="250" y="440" width="180" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
+
+  <!-- ward glow -->
+  <circle cx="256" cy="270" r="140" fill="#7a3fc9" opacity="0.16"/>
+
+  <!-- contact shadow -->
+  <ellipse cx="256" cy="446" rx="90" ry="16" fill="#3a352f" opacity="0.2"/>
+
+  <!-- shield body -->
+  <path d="M256,90 L364,140 Q368,230 340,320 Q310,410 256,452 Q202,410 172,320 Q144,230 148,140 Z"
+        fill="#5a5570" stroke="#3a352f" stroke-width="6" stroke-linejoin="round"/>
+  <path d="M256,90 L364,140 Q368,230 340,320 Q322,378 292,420 Q300,320 288,200 Q280,130 256,90 Z"
+        fill="#423f56" opacity="0.75"/>
+
+  <!-- glowing ward rune -->
+  <circle cx="256" cy="240" r="46" fill="none" stroke="#b98aff" stroke-width="4" opacity="0.85"/>
+  <path d="M256,206 L272,240 L256,274 L240,240 Z" fill="#9a6fd9" stroke="#3a352f" stroke-width="3" stroke-linejoin="round"/>
+  <circle cx="256" cy="240" r="9" fill="#d8b8ff"/>
+  <path d="M256,194 L256,182 M302,240 L314,240 M256,286 L256,298 M210,240 L198,240"
+        stroke="#b98aff" stroke-width="3" stroke-linecap="round" opacity="0.8"/>
+</svg>
