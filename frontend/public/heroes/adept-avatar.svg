@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <radialGradient id="backdrop" cx="50%" cy="42%" r="65%">
+      <stop offset="0%" stop-color="#4a4460"/>
+      <stop offset="100%" stop-color="#2c273c"/>
+    </radialGradient>
+  </defs>
+
+  <!-- backdrop -->
+  <rect x="0" y="0" width="512" height="512" fill="url(#backdrop)"/>
+
+  <!-- raised sleeve, arm crossing up from the shoulder to a bare hand held out -->
+  <line x1="332" y1="472" x2="392" y2="216" stroke="#3a352f" stroke-width="34" stroke-linecap="round"/>
+  <line x1="332" y1="472" x2="392" y2="216" stroke="#33314f" stroke-width="26" stroke-linecap="round"/>
+  <!-- bare hand, palm up, at the sleeve's end -->
+  <circle cx="392" cy="214" r="17" fill="#d9ad81" stroke="#3a352f" stroke-width="4"/>
+
+  <!-- flame conjured around the hand -->
+  <ellipse cx="392" cy="196" rx="22" ry="34" fill="#c8431c"/>
+  <ellipse cx="378" cy="202" rx="14" ry="26" fill="#e8622c" opacity="0.95"/>
+  <ellipse cx="406" cy="204" rx="13" ry="24" fill="#e8622c" opacity="0.95"/>
+  <ellipse cx="392" cy="184" rx="13" ry="28" fill="#f2934a"/>
+  <ellipse cx="392" cy="190" rx="7" ry="16" fill="#ffcf6b"/>
+  <ellipse cx="392" cy="196" rx="3.5" ry="8" fill="#fff2c4"/>
+  <circle cx="374" cy="140" r="2.6" fill="#ffcf6b" opacity="0.85"/>
+  <circle cx="410" cy="150" r="2" fill="#ffcf6b" opacity="0.75"/>
+  <circle cx="396" cy="126" r="1.8" fill="#ffe9a8" opacity="0.7"/>
+
+  <!-- shoulders / robe -->
+  <path d="M120,470 Q112,330 256,300 Q400,330 392,470 Z"
+        fill="#33314f" stroke="#3a352f" stroke-width="6" stroke-linejoin="round"/>
+  <!-- robe shading -->
+  <path d="M256,300 Q340,320 372,440 L256,460 Z" fill="#252340" opacity="0.85"/>
+  <!-- high collar -->
+  <path d="M216,312 Q256,336 296,312 L296,296 Q256,318 216,296 Z" fill="#252340" stroke="#3a352f" stroke-width="3" stroke-linejoin="round"/>
+
+  <!-- neck -->
+  <rect x="228" y="266" width="56" height="46" fill="#c79e78" stroke="#3a352f" stroke-width="4"/>
+
+  <!-- head -->
+  <ellipse cx="256" cy="210" rx="72" ry="80" fill="#d9ad81" stroke="#3a352f" stroke-width="6"/>
+  <!-- head shading -->
+  <path d="M300,150 Q328,210 306,270 Q322,200 296,156 Z" fill="#c79e78" opacity="0.7"/>
+
+  <!-- short, neat hair, combed with a slight center part -->
+  <path d="M184,196 Q182,108 256,100 Q330,108 328,196 Q256,176 184,196 Z"
+        fill="#2b1f18" stroke="#3a352f" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M244,104 L234,150" fill="none" stroke="#1a120c" stroke-width="3" opacity="0.6" stroke-linecap="round"/>
+
+  <!-- stern, furrowed brow -->
+  <path d="M204,194 L242,202" fill="none" stroke="#3a352f" stroke-width="5" stroke-linecap="round"/>
+  <path d="M270,202 L308,194" fill="none" stroke="#3a352f" stroke-width="5" stroke-linecap="round"/>
+
+  <!-- eyes -->
+  <ellipse cx="228" cy="214" rx="8" ry="6" fill="#2b2823"/>
+  <ellipse cx="284" cy="214" rx="8" ry="6" fill="#2b2823"/>
+
+  <!-- round spectacles -->
+  <circle cx="228" cy="214" r="19" fill="none" stroke="#3a352f" stroke-width="4"/>
+  <circle cx="284" cy="214" r="19" fill="none" stroke="#3a352f" stroke-width="4"/>
+  <line x1="247" y1="214" x2="265" y2="214" stroke="#3a352f" stroke-width="4"/>
+  <line x1="209" y1="212" x2="194" y2="206" stroke="#3a352f" stroke-width="3" stroke-linecap="round"/>
+  <line x1="303" y1="212" x2="318" y2="206" stroke="#3a352f" stroke-width="3" stroke-linecap="round"/>
+  <ellipse cx="222" cy="207" rx="4" ry="6" fill="#ffffff" opacity="0.3"/>
+  <ellipse cx="278" cy="207" rx="4" ry="6" fill="#ffffff" opacity="0.3"/>
+
+  <!-- flat, unimpressed mouth -->
+  <line x1="232" y1="254" x2="280" y2="254" stroke="#3a352f" stroke-width="4" stroke-linecap="round"/>
+</svg>

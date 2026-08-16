@@ -31,6 +31,9 @@ AVATAR_TEMPLATES = [
     # Free, but level-gated instead of purchased - unlocks automatically
     # once the hero reaches level 10 (see hero_service.is_avatar_unlocked).
     dict(name="Warrior Avatar", price=0, level_requirement=10, sort_order=2),
+    # Same unlock rule as Warrior Avatar - free at level 10, just a
+    # different one of the two level-10 portraits a hero can pick between.
+    dict(name="Adept Avatar", price=0, level_requirement=10, sort_order=3),
 ]
 for _avatar in AVATAR_TEMPLATES:
     _avatar["slug"] = slugify(_avatar["name"])
