@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <radialGradient id="backdrop" cx="50%" cy="42%" r="65%">
+      <stop offset="0%" stop-color="#4a4460"/>
+      <stop offset="100%" stop-color="#2c273c"/>
+    </radialGradient>
+  </defs>
+
+  <!-- backdrop -->
+  <rect x="0" y="0" width="512" height="512" fill="url(#backdrop)"/>
+
+  <!-- left arm, raised, gripping a beer mug -->
+  <line x1="132" y1="486" x2="146" y2="270" stroke="#3a352f" stroke-width="40" stroke-linecap="round"/>
+  <line x1="132" y1="486" x2="146" y2="270" stroke="#7a2530" stroke-width="32" stroke-linecap="round"/>
+  <circle cx="146" cy="266" r="20" fill="#d9ad81" stroke="#3a352f" stroke-width="4"/>
+  <!-- mug handle -->
+  <path d="M172,206 Q198,206 198,226 Q198,246 172,246" fill="none" stroke="#3a352f" stroke-width="9" stroke-linecap="round"/>
+  <path d="M172,206 Q194,206 194,226 Q194,246 172,246" fill="none" stroke="#8a7d68" stroke-width="5" stroke-linecap="round"/>
+  <!-- mug body, full of beer -->
+  <rect x="116" y="192" width="56" height="64" rx="6" fill="#d99a3d" stroke="#3a352f" stroke-width="4"/>
+  <rect x="112" y="250" width="64" height="10" rx="3" fill="#8a7d68" stroke="#3a352f" stroke-width="3"/>
+  <!-- foam -->
+  <path d="M114,192 Q118,172 132,180 Q140,164 152,178 Q162,166 172,184 Q176,194 172,198 L116,198 Z"
+        fill="#f4ede0" stroke="#3a352f" stroke-width="3" stroke-linejoin="round"/>
+  <circle cx="128" cy="182" r="2.6" fill="#fff" opacity="0.85"/>
+  <circle cx="150" cy="176" r="2.2" fill="#fff" opacity="0.75"/>
+
+  <!-- right arm, raised, gripping a roasted drumstick -->
+  <line x1="380" y1="486" x2="366" y2="270" stroke="#3a352f" stroke-width="40" stroke-linecap="round"/>
+  <line x1="380" y1="486" x2="366" y2="270" stroke="#7a2530" stroke-width="32" stroke-linecap="round"/>
+  <circle cx="366" cy="266" r="20" fill="#d9ad81" stroke="#3a352f" stroke-width="4"/>
+  <!-- drumstick bone -->
+  <path d="M366,264 L380,208" stroke="#3a352f" stroke-width="14" stroke-linecap="round"/>
+  <path d="M366,264 L380,208" stroke="#f0e6d2" stroke-width="8" stroke-linecap="round"/>
+  <!-- drumstick meat -->
+  <ellipse cx="382" cy="192" rx="27" ry="33" fill="#a8662e" stroke="#3a352f" stroke-width="4"/>
+  <ellipse cx="372" cy="178" rx="10" ry="15" fill="#c9884a" opacity="0.7"/>
+  <ellipse cx="392" cy="204" rx="6" ry="8" fill="#6b3f1c" opacity="0.45"/>
+  <!-- steam -->
+  <path d="M368,148 Q360,128 370,108" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" opacity="0.4"/>
+  <path d="M394,150 Q402,130 392,108" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" opacity="0.4"/>
+
+  <!-- body, wide and round - extends past the arm lines' rounded caps so
+       they never peek out past the bottom of the silhouette -->
+  <path d="M70,512 Q52,330 256,296 Q460,330 442,512 Z"
+        fill="#7a2530" stroke="#3a352f" stroke-width="6" stroke-linejoin="round"/>
+  <!-- vest shading -->
+  <path d="M256,296 Q360,320 400,460 L256,480 Z" fill="#5c1c26" opacity="0.8"/>
+  <!-- gold buttons down the middle -->
+  <circle cx="256" cy="340" r="6" fill="#d4af37" stroke="#3a352f" stroke-width="2"/>
+  <circle cx="256" cy="378" r="6" fill="#d4af37" stroke="#3a352f" stroke-width="2"/>
+  <circle cx="256" cy="416" r="6" fill="#d4af37" stroke="#3a352f" stroke-width="2"/>
+  <circle cx="256" cy="454" r="6" fill="#d4af37" stroke="#3a352f" stroke-width="2"/>
+  <!-- napkin tucked at the collar -->
+  <path d="M234,300 L278,300 L262,332 L250,332 Z" fill="#f4ede0" stroke="#3a352f" stroke-width="2.5" stroke-linejoin="round"/>
+  <!-- gold chain and medallion -->
+  <path d="M208,316 Q256,352 304,316" fill="none" stroke="#d4af37" stroke-width="5"/>
+  <circle cx="256" cy="350" r="9" fill="#d4af37" stroke="#3a352f" stroke-width="2.5"/>
+  <circle cx="256" cy="350" r="4" fill="#8a2620"/>
+
+  <!-- double chin -->
+  <ellipse cx="256" cy="290" rx="46" ry="20" fill="#c79e78" stroke="#3a352f" stroke-width="3"/>
+  <!-- neck -->
+  <rect x="220" y="266" width="72" height="38" fill="#d9ad81" stroke="#3a352f" stroke-width="4"/>
+
+  <!-- head, wide and round - bald -->
+  <ellipse cx="256" cy="204" rx="84" ry="80" fill="#d9ad81" stroke="#3a352f" stroke-width="6"/>
+  <!-- head shading -->
+  <path d="M310,144 Q340,204 316,266 Q334,194 306,150 Z" fill="#c79e78" opacity="0.7"/>
+  <!-- bald shine -->
+  <ellipse cx="228" cy="148" rx="20" ry="13" fill="#fff2c4" opacity="0.35"/>
+  <ellipse cx="268" cy="138" rx="10" ry="7" fill="#fff2c4" opacity="0.25"/>
+
+  <!-- rosy cheeks -->
+  <ellipse cx="198" cy="230" rx="16" ry="10" fill="#e8836a" opacity="0.5"/>
+  <ellipse cx="314" cy="230" rx="16" ry="10" fill="#e8836a" opacity="0.5"/>
+
+  <!-- relaxed, happy brows -->
+  <path d="M196,170 Q218,160 238,170" fill="none" stroke="#3a352f" stroke-width="4" stroke-linecap="round"/>
+  <path d="M274,170 Q294,160 316,170" fill="none" stroke="#3a352f" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- squinting, joyful eyes -->
+  <path d="M202,196 Q220,180 238,196" fill="none" stroke="#2b2823" stroke-width="5" stroke-linecap="round"/>
+  <path d="M274,196 Q292,180 310,196" fill="none" stroke="#2b2823" stroke-width="5" stroke-linecap="round"/>
+
+  <!-- big open-mouth grin -->
+  <path d="M204,240 Q256,296 308,240 Q256,272 204,240 Z"
+        fill="#7a2e28" stroke="#3a352f" stroke-width="4" stroke-linejoin="round"/>
+  <rect x="220" y="240" width="72" height="13" rx="4" fill="#f4ede0"/>
+</svg>
