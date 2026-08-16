@@ -8,6 +8,7 @@ from sqlalchemy.orm import Session
 
 from app.core.db import get_db
 from app.main import app
+from app.models.avatar import AvatarTemplate
 from app.models.base import Base
 from app.models.hero import Hero
 from app.models.monster import MonsterTemplate
@@ -46,6 +47,10 @@ def engine():
                 },
             )
         )
+        # Every Hero row requires an avatar_template_id - slugged "peasant-avatar"
+        # to match what app/api/v1/auth.py's signup handler looks up, so both
+        # hero_factory (below) and the real signup endpoint share this one row.
+        setup_session.add(AvatarTemplate(slug="peasant-avatar", name="Peasant Avatar"))
         setup_session.commit()
 
     yield eng
@@ -93,8 +98,10 @@ def hero_factory(db_session):
         user = User(email=f"{uuid.uuid4()}@test.com", hashed_password="x")
         db_session.add(user)
         db_session.flush()
+        avatar = db_session.query(AvatarTemplate).filter_by(slug="peasant-avatar").one()
         defaults = dict(
             user_id=user.id,
+            avatar_template_id=avatar.id,
             name="Test Hero",
             strength=10,
             dexterity=10,

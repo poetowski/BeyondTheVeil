@@ -15,9 +15,14 @@ class StatTrainRequest(BaseModel):
     stat: StatName
 
 
+class AvatarSelectRequest(BaseModel):
+    avatar_slug: str
+
+
 class HeroOut(BaseModel):
     id: uuid.UUID
     name: str
+    avatar_slug: str
     level: int
     xp: int
     xp_to_next_level: int
@@ -72,6 +77,7 @@ def to_out(hero: Hero, equipped_items: list[ItemInstance]) -> HeroOut:
     return HeroOut(
         id=hero.id,
         name=hero.name,
+        avatar_slug=hero.avatar_template.slug,
         level=hero.level,
         xp=hero.xp,
         xp_to_next_level=hero_service.xp_required_for_level(hero.level),

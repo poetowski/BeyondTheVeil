@@ -2,6 +2,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import { RequireAuth } from "./auth/RequireAuth";
 import { AppLayout } from "./layout/AppLayout";
 import { AlchemyPage } from "./pages/AlchemyPage";
+import { AvatarPage } from "./pages/AvatarPage";
 import { BackpackPage } from "./pages/BackpackPage";
 import { BestiaryPage } from "./pages/BestiaryPage";
 import { ConceptPage } from "./pages/ConceptPage";
@@ -24,6 +25,7 @@ function App() {
       <Route element={<RequireAuth />}>
         <Route element={<AppLayout />}>
           <Route path="/overview" element={<OverviewPage />} />
+          <Route path="/avatar" element={<AvatarPage />} />
           <Route path="/backpack" element={<BackpackPage />} />
           <Route path="/materials" element={<MaterialsPage />} />
           <Route path="/crafting" element={<CraftingPage />} />

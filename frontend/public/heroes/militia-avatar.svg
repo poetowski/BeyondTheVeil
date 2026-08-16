@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <radialGradient id="backdrop" cx="50%" cy="42%" r="65%">
+      <stop offset="0%" stop-color="#4a4460"/>
+      <stop offset="100%" stop-color="#2c273c"/>
+    </radialGradient>
+  </defs>
+
+  <!-- backdrop -->
+  <rect x="0" y="0" width="512" height="512" fill="url(#backdrop)"/>
+
+  <!-- spear, crossing behind the body, tip over the shoulder -->
+  <line x1="404" y1="486" x2="322" y2="58" stroke="#3a352f" stroke-width="19" stroke-linecap="round"/>
+  <line x1="404" y1="486" x2="322" y2="58" stroke="#7a5a3a" stroke-width="13" stroke-linecap="round"/>
+  <polygon points="322,58 300,16 344,42" fill="#8a9099" stroke="#3a352f" stroke-width="4" stroke-linejoin="round"/>
+
+  <!-- shoulders / tunic -->
+  <path d="M120,470 Q112,330 256,300 Q400,330 392,470 Z"
+        fill="#6b4a34" stroke="#3a352f" stroke-width="6" stroke-linejoin="round"/>
+  <!-- tunic shading -->
+  <path d="M256,300 Q340,320 372,440 L256,460 Z" fill="#56392a" opacity="0.8"/>
+  <!-- baldric strap -->
+  <path d="M172,336 L338,404" fill="none" stroke="#3a2a1e" stroke-width="12" stroke-linecap="round" opacity="0.7"/>
+  <circle cx="338" cy="404" r="9" fill="#8a9099" stroke="#3a352f" stroke-width="3"/>
+
+  <!-- neck -->
+  <rect x="228" y="266" width="56" height="46" fill="#c79e78" stroke="#3a352f" stroke-width="4"/>
+
+  <!-- head -->
+  <ellipse cx="256" cy="210" rx="72" ry="80" fill="#d9ad81" stroke="#3a352f" stroke-width="6"/>
+  <!-- head shading -->
+  <path d="M300,150 Q328,210 306,270 Q322,200 296,156 Z" fill="#c79e78" opacity="0.7"/>
+
+  <!-- long hair, no helmet -->
+  <path d="M184,164 Q256,80 328,164 Q318,116 256,100 Q194,116 184,164 Z"
+        fill="#3a2a1e" stroke="#3a352f" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M188,152 Q158,224 168,326 Q180,304 188,224 Q192,182 200,156 Z"
+        fill="#3a2a1e" stroke="#3a352f" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M324,152 Q354,224 344,326 Q332,304 324,224 Q320,182 312,156 Z"
+        fill="#3a2a1e" stroke="#3a352f" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M197,162 Q180,232 184,302" fill="none" stroke="#4f3a28" stroke-width="3" opacity="0.7"/>
+  <path d="M315,162 Q332,232 328,302" fill="none" stroke="#4f3a28" stroke-width="3" opacity="0.7"/>
+
+  <!-- eyes -->
+  <ellipse cx="228" cy="212" rx="9" ry="7" fill="#2b2823"/>
+  <ellipse cx="284" cy="212" rx="9" ry="7" fill="#2b2823"/>
+
+  <!-- determined brow line -->
+  <path d="M208,190 Q228,178 248,192" fill="none" stroke="#3a352f" stroke-width="4" stroke-linecap="round"/>
+  <path d="M264,192 Q284,178 304,190" fill="none" stroke="#3a352f" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- mouth -->
+  <path d="M234,252 Q256,262 278,252" fill="none" stroke="#3a352f" stroke-width="4" stroke-linecap="round"/>
+</svg>

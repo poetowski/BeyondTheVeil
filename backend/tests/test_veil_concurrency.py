@@ -5,6 +5,7 @@ from datetime import datetime, timedelta, timezone
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import sessionmaker
 
+from app.models.avatar import AvatarTemplate
 from app.models.hero import Hero
 from app.models.user import User
 from app.models.veil_run import VeilRun, VeilRunStatus
@@ -94,8 +95,10 @@ def test_concurrent_claim_race_only_one_applies_reward(engine):
     user = User(email=f"{uuid.uuid4()}@test.com", hashed_password="x")
     setup_session.add(user)
     setup_session.flush()
+    avatar = setup_session.query(AvatarTemplate).filter_by(slug="peasant-avatar").one()
     hero = Hero(
         user_id=user.id,
+        avatar_template_id=avatar.id,
         name="Racer",
         strength=1,
         dexterity=1,

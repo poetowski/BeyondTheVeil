@@ -7,6 +7,7 @@ Run with: python -m scripts.seed_dev_data
 import re
 
 from app.core.db import SessionLocal
+from app.models.avatar import AvatarTemplate
 from app.models.consumable import ConsumableTemplate
 from app.models.crafting import CraftingCategory, CraftingRecipe, CraftingRecipeIngredient
 from app.models.item import EquipmentSlot, ItemRarity, ItemTemplate
@@ -18,6 +19,18 @@ from app.models.rune import RuneTemplate
 def slugify(name: str) -> str:
     return re.sub(r"[^a-z0-9]+", "-", name.lower()).strip("-")
 
+
+# Peasant Avatar's row is inserted directly by
+# alembic/versions/1df83ccc9129_add_avatar_system.py (with a fixed id, since
+# every already-existing hero is backfilled to point at it) - it's listed
+# here too, insert-if-missing like everything else, purely so a fresh
+# install that skips straight to this script still gets it.
+AVATAR_TEMPLATES = [
+    dict(name="Peasant Avatar"),
+    dict(name="Militia Avatar"),
+]
+for _avatar in AVATAR_TEMPLATES:
+    _avatar["slug"] = slugify(_avatar["name"])
 
 # Just one worked example per template type (level 1 items, one monster's loot
 # table) for the user to extend. Slugs are always derived from `name` via
@@ -607,6 +620,11 @@ MONSTER_MATERIAL_LOOT_ENTRIES = [
 def seed() -> None:
     db = SessionLocal()
     try:
+        for data in AVATAR_TEMPLATES:
+            if db.query(AvatarTemplate).filter_by(slug=data["slug"]).first():
+                continue
+            db.add(AvatarTemplate(**data))
+
         for data in ITEM_TEMPLATES:
             if db.query(ItemTemplate).filter_by(slug=data["slug"]).first():
                 continue

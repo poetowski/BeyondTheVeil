@@ -5,6 +5,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from app.core.config import settings
+from app.models.avatar import AvatarTemplate
 from app.models.consumable import ConsumableInstance
 from app.models.hero import Hero
 from app.models.item import EquipmentSlot, ItemInstance
@@ -87,6 +88,10 @@ class ConsumableNotFoundError(HeroServiceError):
 
 
 class ConsumableNotOwnedError(HeroServiceError):
+    pass
+
+
+class AvatarNotFoundError(HeroServiceError):
     pass
 
 
@@ -227,6 +232,20 @@ def train_stat(db: Session, hero: Hero, stat: str) -> Hero:
 
     hero.gold -= cost
     setattr(hero, stat, getattr(hero, stat) + 1)
+    db.add(hero)
+    db.commit()
+    db.refresh(hero)
+    return hero
+
+
+def set_avatar(db: Session, hero: Hero, avatar_slug: str) -> Hero:
+    avatar = db.execute(
+        select(AvatarTemplate).where(AvatarTemplate.slug == avatar_slug)
+    ).scalar_one_or_none()
+    if avatar is None:
+        raise AvatarNotFoundError(f"unknown avatar: {avatar_slug}")
+
+    hero.avatar_template_id = avatar.id
     db.add(hero)
     db.commit()
     db.refresh(hero)

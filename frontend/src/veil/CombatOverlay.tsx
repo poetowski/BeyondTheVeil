@@ -191,7 +191,7 @@ export function CombatOverlay({ run: incomingRun, onExit }: CombatOverlayProps) 
               {hero && (
                 <>
                   <h2>{hero.name}</h2>
-                  <CombatPanelArt src="/heroes/placeholder.svg" alt={hero.name} />
+                  <CombatPanelArt src={`/heroes/${hero.avatar_slug}.svg`} alt={hero.name} />
                   <p className="hero-meta">Level {hero.level}</p>
                   <ProgressBar value={hero.current_hp} max={hero.max_hp} variant="hp" />
                   <p className="hero-meta">

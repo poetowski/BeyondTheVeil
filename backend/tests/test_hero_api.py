@@ -49,3 +49,40 @@ def test_train_stat_spends_gold_and_returns_the_updated_hero(client, db_session)
     # Training strength again should now cost more (power curve, not flat).
     assert body["train_costs"]["strength"] == hero_service.train_stat_cost(11)
     assert body["train_costs"]["strength"] > hero_service.TRAIN_STAT_BASE_COST
+
+
+def test_new_hero_defaults_to_peasant_avatar(client):
+    token = _signup(client, email="hero-api-avatar-default@test.com")
+    me = client.get("/api/v1/users/me", headers=_auth(token)).json()
+    assert me["hero"]["avatar_slug"] == "peasant-avatar"
+
+
+def test_get_avatars_lists_all_avatar_templates(client):
+    token = _signup(client, email="hero-api-avatars-list@test.com")
+    response = client.get("/api/v1/avatars", headers=_auth(token))
+    assert response.status_code == 200
+    slugs = {avatar["slug"] for avatar in response.json()}
+    assert slugs == {"peasant-avatar"}
+
+
+def test_set_avatar_updates_the_hero(client, db_session):
+    from app.models.avatar import AvatarTemplate
+
+    db_session.add(AvatarTemplate(slug="militia-avatar", name="Militia Avatar"))
+    db_session.flush()
+
+    token = _signup(client, email="hero-api-set-avatar@test.com")
+    response = client.post(
+        "/api/v1/hero/avatar", json={"avatar_slug": "militia-avatar"}, headers=_auth(token)
+    )
+
+    assert response.status_code == 200
+    assert response.json()["avatar_slug"] == "militia-avatar"
+
+
+def test_set_avatar_with_unknown_slug_is_rejected(client):
+    token = _signup(client, email="hero-api-set-avatar-bad@test.com")
+    response = client.post(
+        "/api/v1/hero/avatar", json={"avatar_slug": "nonexistent-avatar"}, headers=_auth(token)
+    )
+    assert response.status_code == 404

@@ -8,9 +8,16 @@ export interface UserOut {
   email: string;
 }
 
+export interface AvatarTemplateOut {
+  id: string;
+  slug: string;
+  name: string;
+}
+
 export interface HeroOut {
   id: string;
   name: string;
+  avatar_slug: string;
   level: number;
   xp: number;
   xp_to_next_level: number;

@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { ApiError } from "../api/client";
 import { trainStat } from "../api/hero";
 import { getInventory, unequipItem } from "../api/inventory";
@@ -47,8 +48,26 @@ function formatRange(min: number, max: number): string {
   return min === max ? `${min}` : `${min}-${max}`;
 }
 
+function HeroAvatarPortrait({ hero }: { hero: HeroOut }) {
+  const [missing, setMissing] = useState(false);
+
+  if (missing) {
+    return <div className="hero-avatar-portrait hero-avatar-portrait--missing" aria-hidden="true" />;
+  }
+
+  return (
+    <img
+      className="hero-avatar-portrait"
+      src={`/heroes/${hero.avatar_slug}.svg`}
+      alt={hero.name}
+      onError={() => setMissing(true)}
+    />
+  );
+}
+
 export function OverviewPage() {
   const { hero, token, refetch } = useAuth();
+  const navigate = useNavigate();
   const [items, setItems] = useState<ItemInstanceOut[]>([]);
   const [pendingAction, setPendingAction] = useState<string | null>(null);
   const [actionError, setActionError] = useState<string | null>(null);
@@ -111,6 +130,14 @@ export function OverviewPage() {
         {" · "}
         <span className="stat-flare stat-flare--gold">{hero.gold} gold</span>
       </p>
+
+      <div className="hero-avatar-block">
+        <HeroAvatarPortrait hero={hero} />
+        <button type="button" className="hero-avatar-change-button" onClick={() => navigate("/avatar")}>
+          Change Avatar
+        </button>
+      </div>
+
       <p className="hero-meta">
         {hero.xp}/{hero.xp_to_next_level} XP
       </p>

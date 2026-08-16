@@ -30,6 +30,9 @@ class Hero(UUIDPKMixin, TimestampMixin, Base):
         unique=True,
         nullable=False,
     )
+    avatar_template_id: Mapped[uuid.UUID] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("avatar_templates.id"), nullable=False
+    )
     name: Mapped[str] = mapped_column(String(50), nullable=False)
     level: Mapped[int] = mapped_column(Integer, nullable=False, default=1)
     xp: Mapped[int] = mapped_column(BigInteger, nullable=False, default=0)
@@ -48,6 +51,7 @@ class Hero(UUIDPKMixin, TimestampMixin, Base):
     spirit: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
 
     user: Mapped["User"] = relationship(back_populates="hero")
+    avatar_template: Mapped["AvatarTemplate"] = relationship()
     item_instances: Mapped[list["ItemInstance"]] = relationship(
         back_populates="owner_hero", foreign_keys="ItemInstance.owner_hero_id"
     )

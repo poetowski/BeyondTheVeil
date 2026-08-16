@@ -65,6 +65,77 @@ h2 {
   box-shadow: 0 0 0 1px rgba(240, 201, 138, 0.5), 0 0 12px 2px rgba(240, 201, 138, 0.4);
 }
 
+.hero-avatar-block {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.6rem;
+  margin-bottom: 1.5rem;
+}
+
+.hero-avatar-portrait {
+  width: 160px;
+  height: 160px;
+  border: 4px solid #000;
+  object-fit: cover;
+  background: #f3f3ee;
+}
+
+.hero-avatar-portrait--missing {
+  background: #e5e5e5;
+}
+
+.hero-avatar-change-button {
+  padding: 0.4rem 0.85rem;
+  font-size: 0.85rem;
+  border: none;
+  border-radius: 6px;
+  background: #3d2f57;
+  color: #fff;
+  cursor: pointer;
+}
+
+.avatar-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.avatar-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  background: none;
+  cursor: pointer;
+  font: inherit;
+}
+
+.avatar-card--selected {
+  border-color: #3d2f57;
+  background: #ece7f5;
+}
+
+.avatar-card-image {
+  width: 140px;
+  height: 140px;
+  border: 4px solid #000;
+  object-fit: cover;
+  background: #f3f3ee;
+}
+
+.avatar-card-image--missing {
+  background: #e5e5e5;
+}
+
+.avatar-card-name {
+  font-weight: 600;
+}
+
 .progress-bar {
   width: 200px;
   height: 10px;

@@ -5,6 +5,7 @@ from sqlalchemy.orm import Session
 
 from app.core.db import get_db
 from app.core.security import create_access_token, hash_password, verify_password
+from app.models.avatar import AvatarTemplate
 from app.models.hero import Hero
 from app.models.user import User
 from app.schemas.auth import LoginRequest, SignupRequest, TokenResponse
@@ -27,8 +28,13 @@ def signup(payload: SignupRequest, db: Session = Depends(get_db)) -> TokenRespon
     db.add(user)
     db.flush()
 
+    peasant_avatar = db.execute(
+        select(AvatarTemplate).where(AvatarTemplate.slug == "peasant-avatar")
+    ).scalar_one()
+
     hero = Hero(
         user_id=user.id,
+        avatar_template_id=peasant_avatar.id,
         name=payload.hero_name,
         **{stat: BASELINE_STAT_VALUE for stat in STAT_NAMES},
         current_hp=compute_max_hp(BASELINE_STAT_VALUE),
