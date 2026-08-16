@@ -18,7 +18,9 @@ def get_bestiary(
     monsters = (
         db.execute(
             select(MonsterTemplate).order_by(
-                MonsterTemplate.level_range_min, MonsterTemplate.name
+                MonsterTemplate.level_range_min,
+                MonsterTemplate.level_range_max,
+                MonsterTemplate.name,
             )
         )
         .scalars()
