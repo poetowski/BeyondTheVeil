@@ -295,9 +295,9 @@ def test_spell_exchange_uses_intelligence_for_damage_not_strength():
 
 
 def test_spell_damage_is_flat_intelligence_and_physical_is_flat_strength(monkeypatch):
-    # Pin out randomness: guaranteed hits. Neither formula rolls variance
-    # anymore - spell damage is exactly intelligence, physical is
-    # strength // STRENGTH_DAMAGE_DIVISOR.
+    # Pin out randomness: guaranteed hits. Neither formula rolls variance -
+    # spell damage is intelligence * INTELLIGENCE_DAMAGE_MULTIPLIER, physical
+    # is strength * STRENGTH_DAMAGE_MULTIPLIER.
     monkeypatch.setattr(engine, "_hit_chance", lambda attacker, defender: 1.0)
 
     equal_stats_hero = {**WEAK_HERO, "strength": 20, "intelligence": 20}
@@ -315,8 +315,8 @@ def test_spell_damage_is_flat_intelligence_and_physical_is_flat_strength(monkeyp
         e["damage"] for e in result.log if e["phase"] == "physical" and e["actor"] == "hero"
     )
 
-    assert hero_spell_damage == 20
-    assert hero_physical_damage == max(1, 20 // engine.STRENGTH_DAMAGE_DIVISOR)
+    assert hero_spell_damage == max(1, round(20 * engine.INTELLIGENCE_DAMAGE_MULTIPLIER))
+    assert hero_physical_damage == max(1, round(20 * engine.STRENGTH_DAMAGE_MULTIPLIER))
 
 
 def test_monster_weapon_attack_adds_to_its_physical_damage(monkeypatch):
@@ -487,13 +487,14 @@ def test_absent_material_pool_does_not_perturb_the_rng_stream():
 def test_round_cap_tie_break_uses_raw_damage_dealt_not_remaining_hp_percentage(monkeypatch):
     monkeypatch.setattr(engine, "MAX_ROUNDS", 1)
     monkeypatch.setattr(engine, "_roll_monster_stats", lambda rng, base_stats: dict(base_stats))
-    # Huge-HP-pool hero vs a fragile-but-hard-hitting monster: after one
-    # round the hero has taken 17 raw damage (5033/5050 HP, ~99.7% remaining)
-    # and the monster has taken 1 raw damage (49/50 HP, 98% remaining). The
-    # old percentage-of-max-HP tiebreak would hand this to the hero (its %
-    # remaining is higher); the current raw-damage-dealt tiebreak correctly
-    # hands it to the monster instead, since it actually dealt more damage
-    # (17) than it took (1) - the hero's huge pool just cushioned the hit.
+    # Huge-HP-pool hero vs a fragile-but-hard-hitting monster: after the
+    # opening spell exchange plus one physical round, the hero has taken 204
+    # raw damage (4846/5050 HP, ~96% remaining) and the monster has taken 4
+    # raw damage (46/50 HP, 92% remaining). The old percentage-of-max-HP
+    # tiebreak would hand this to the hero (its % remaining is higher); the
+    # current raw-damage-dealt tiebreak correctly hands it to the monster
+    # instead, since it actually dealt more damage (204) than it took (4) -
+    # the hero's huge pool just cushioned the hit.
     big_hp_hero = {"strength": 50, "dexterity": 50, "vitality": 500, "agility": 1, "intelligence": 1, "spirit": 1}
     glass_cannon_monster = _encounter(
         monster_stats={"strength": 50, "dexterity": 1, "vitality": 5, "agility": 50, "intelligence": 1, "spirit": 1},
@@ -502,6 +503,6 @@ def test_round_cap_tie_break_uses_raw_damage_dealt_not_remaining_hp_percentage(m
     result = engine.resolve(
         seed=8, hero_snapshot=big_hp_hero, hero_base_stats=big_hp_hero, encounter=glass_cannon_monster
     )
-    assert result.hero_hp_after == 5033
-    assert result.monster_hp_after == 49
-    assert result.victory is False, "monster dealt more raw damage (17) than it took (1) - it should win the standoff"
+    assert result.hero_hp_after == 4846
+    assert result.monster_hp_after == 46
+    assert result.victory is False, "monster dealt more raw damage (204) than it took (4) - it should win the standoff"

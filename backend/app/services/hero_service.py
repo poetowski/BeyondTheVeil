@@ -8,22 +8,40 @@ from app.core.config import settings
 from app.models.avatar import AvatarTemplate, HeroAvatarUnlock
 from app.models.consumable import ConsumableInstance
 from app.models.hero import Hero
-from app.models.item import EquipmentSlot, ItemInstance
+from app.models.item import EquipmentSlot, ItemInstance, ItemTemplate
 from app.models.material import MaterialInstance
 from app.models.rune import RuneInstance
 
 STAT_NAMES = ("strength", "dexterity", "intelligence", "vitality", "agility", "spirit")
 
+# The existing tier-1 gear set (see seed_dev_data.py's ITEM_TEMPLATES),
+# granted equipped to every new hero - see grant_starter_gear. Monsters
+# already carry a flat weapon_attack/defense from level 1 (see
+# combat/engine.py); an unarmed, unarmored hero has 0 in both, which makes
+# even the earliest monsters nearly unwinnable. slugs, not names, since
+# ItemTemplate.slug is the lookup key everywhere else in this codebase.
+STARTER_GEAR_SLUGS = ("wooden-stick", "wooden-shield", "leather-helm", "leather-robe")
+
 HP_PER_VITALITY = 10
 BASE_HP = 50
 BASELINE_STAT_VALUE = 10
 
-# Placeholder curve/costs — balance pass pending, same spirit as the combat
-# engine's placeholder constants.
+# Tuned via simulation (see the playtesting pass that replaced these
+# placeholders, same one that tuned combat/engine.py's formula constants).
+# A hero needs all 6 stats to climb roughly together to stay viable (every
+# stat matters for either hit chance, damage, or HP), so the previous
+# TRAIN_STAT_EXPONENT=1.5/BASE_COST=10 compounded across 6 independent
+# power-1.5 curves into a gold cost monster reward income could never catch
+# up with - simulated play never escaped a near-0% win rate no matter how
+# well it played. XP_CURVE_EXPONENT raised slightly so leveling (which gates
+# which, often much tougher, monsters a hero can be matched against - see
+# combat/encounter.py's select_encounter) doesn't outrun gold-funded
+# training, especially since a defeat still grants partial XP (see
+# combat/engine.py's DEFEAT_XP_RATIO).
 XP_CURVE_BASE = 100
-XP_CURVE_EXPONENT = 1.5
-TRAIN_STAT_BASE_COST = 10
-TRAIN_STAT_EXPONENT = 1.5
+XP_CURVE_EXPONENT = 1.6
+TRAIN_STAT_BASE_COST = 5
+TRAIN_STAT_EXPONENT = 1.05
 
 # Selling anything owned (item/material/consumable/rune) refunds this
 # fraction of its template's price, rounded. Buying costs the full price -
@@ -480,6 +498,21 @@ def sell_rune(db: Session, hero: Hero, rune_instance_id: uuid.UUID) -> int:
     db.commit()
     db.refresh(hero)
     return gold_gained
+
+
+def grant_starter_gear(db: Session, hero: Hero) -> None:
+    """Equips the tier-1 starter kit (see STARTER_GEAR_SLUGS) into any of
+    those slots the hero doesn't already have something equipped in.
+    Idempotent and safe to call on an existing hero, not just a brand-new
+    one (see the matching migration backfill for already-created heroes) -
+    it only fills empty slots, never replaces gear the hero already has.
+    Does not commit; the caller controls the transaction."""
+    occupied_slots = {item.equipped_slot for item in get_equipped_items(db, hero)}
+    for slug in STARTER_GEAR_SLUGS:
+        template = db.execute(select(ItemTemplate).where(ItemTemplate.slug == slug)).scalar_one_or_none()
+        if template is None or template.slot in occupied_slots:
+            continue
+        db.add(ItemInstance(template_id=template.id, owner_hero_id=hero.id, equipped_slot=template.slot))
 
 
 def get_equipped_items(db: Session, hero: Hero) -> list[ItemInstance]:

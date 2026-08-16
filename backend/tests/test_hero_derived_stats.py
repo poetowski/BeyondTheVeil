@@ -92,8 +92,10 @@ def test_compute_current_hp_with_no_elapsed_time_is_unchanged():
 
 
 def test_xp_required_for_level_uses_the_steeper_curve():
-    assert hero_service.xp_required_for_level(1) == 100
-    assert hero_service.xp_required_for_level(2) == round(2**1.5 * 100)
+    assert hero_service.xp_required_for_level(1) == hero_service.XP_CURVE_BASE
+    assert hero_service.xp_required_for_level(2) == round(
+        2**hero_service.XP_CURVE_EXPONENT * hero_service.XP_CURVE_BASE
+    )
 
 
 def test_apply_xp_below_threshold_does_not_level_up():
@@ -114,8 +116,10 @@ def test_apply_xp_exactly_at_threshold_levels_up_and_resets_progress():
 
 def test_apply_xp_can_cause_multiple_level_ups_at_once():
     hero = Hero(level=1, xp=0)
-    # 100 to hit level 2, then round(2**1.5*100)=283 to hit level 3.
-    levels_gained = hero_service.apply_xp(hero, 100 + 283)
+    # XP for level 1, then XP for level 2, back to back.
+    levels_gained = hero_service.apply_xp(
+        hero, hero_service.xp_required_for_level(1) + hero_service.xp_required_for_level(2)
+    )
     assert levels_gained == 2
     assert hero.level == 3
     assert hero.xp == 0
