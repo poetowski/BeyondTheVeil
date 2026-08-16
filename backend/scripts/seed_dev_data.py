@@ -343,6 +343,13 @@ RUNE_TEMPLATES = [
     # The only rune that touches all six stats at once, rather than
     # specializing in one - crafted from Ancient Porcelain.
     dict(name="Duskvar Rune of Wholeness", description="A hairline glyph, fired into old porcelain long before it cracked.", stat_bonuses={"strength": 1, "dexterity": 1, "intelligence": 1, "vitality": 1, "agility": 1, "spirit": 1}, price=4000, level_requirement=10),
+    # Level 13, crafted only from the level-10 Forge materials (Steelhide,
+    # Soul Part, Silver Ore) in combination - see their CRAFTING_RECIPES
+    # entries. Two dual-stat runes plus two pure single-stat runes.
+    dict(name="Krevas Rune of Alacrity", description="A glyph split in two - one half precise and still, the other already moving.", stat_bonuses={"dexterity": 5, "agility": 5}, price=5400, level_requirement=13),
+    dict(name="Solmira Rune of Insight", description="A cold violet mark fused to a pale, breathing one - thought and stillness, sharing one glyph.", stat_bonuses={"intelligence": 5, "spirit": 5}, price=5400, level_requirement=13),
+    dict(name="Dravek Rune of Vigor", description="A dense, leathery glyph that pulses slow and steady, like a second heartbeat.", stat_bonuses={"vitality": 9}, price=4800, level_requirement=13),
+    dict(name="Ashgrim Rune of Might", description="A rough-forged glyph, heavier than it looks, veined with ore and old iron.", stat_bonuses={"strength": 9}, price=4800, level_requirement=13),
 ]
 for _rune in RUNE_TEMPLATES:
     _rune["slug"] = slugify(_rune["name"])
@@ -515,6 +522,51 @@ CRAFTING_RECIPES = [
         output_quantity=1,
         ingredients=[
             dict(material_slug=slugify("Ancient Porcelain"), quantity_required=8),
+        ],
+    ),
+    dict(
+        name="Krevas Rune of Alacrity",
+        category=CraftingCategory.FORGE,
+        level_requirement=13,
+        output_rune_slug=slugify("Krevas Rune of Alacrity"),
+        output_quantity=1,
+        ingredients=[
+            dict(material_slug=slugify("Silver Ore"), quantity_required=5),
+            dict(material_slug=slugify("Steelhide"), quantity_required=4),
+        ],
+    ),
+    dict(
+        name="Solmira Rune of Insight",
+        category=CraftingCategory.FORGE,
+        level_requirement=13,
+        output_rune_slug=slugify("Solmira Rune of Insight"),
+        output_quantity=1,
+        ingredients=[
+            dict(material_slug=slugify("Soul Part"), quantity_required=5),
+            dict(material_slug=slugify("Silver Ore"), quantity_required=4),
+        ],
+    ),
+    dict(
+        name="Dravek Rune of Vigor",
+        category=CraftingCategory.FORGE,
+        level_requirement=13,
+        output_rune_slug=slugify("Dravek Rune of Vigor"),
+        output_quantity=1,
+        ingredients=[
+            dict(material_slug=slugify("Steelhide"), quantity_required=5),
+            dict(material_slug=slugify("Soul Part"), quantity_required=4),
+        ],
+    ),
+    dict(
+        name="Ashgrim Rune of Might",
+        category=CraftingCategory.FORGE,
+        level_requirement=13,
+        output_rune_slug=slugify("Ashgrim Rune of Might"),
+        output_quantity=1,
+        ingredients=[
+            dict(material_slug=slugify("Steelhide"), quantity_required=3),
+            dict(material_slug=slugify("Soul Part"), quantity_required=3),
+            dict(material_slug=slugify("Silver Ore"), quantity_required=3),
         ],
     ),
     dict(

@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- wooden table -->
+  <rect x="0" y="0" width="512" height="512" fill="#b98956"/>
+  <rect x="0" y="120" width="512" height="6" fill="#a3703f" opacity="0.6"/>
+  <rect x="0" y="260" width="512" height="6" fill="#a3703f" opacity="0.6"/>
+  <rect x="0" y="400" width="512" height="6" fill="#a3703f" opacity="0.6"/>
+  <rect x="40" y="40" width="180" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
+  <rect x="300" y="180" width="150" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
+  <rect x="80" y="320" width="200" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
+  <rect x="250" y="440" width="180" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
+
+  <!-- contact shadow -->
+  <ellipse cx="256" cy="366" rx="100" ry="18" fill="#3a352f" opacity="0.2"/>
+
+  <!-- stone tablet -->
+  <path d="M176,150 L336,150 Q360,150 360,174 L360,338 Q360,362 336,362
+           L176,362 Q152,362 152,338 L152,174 Q152,150 176,150 Z"
+        fill="#8f8f8f" stroke="#3a352f" stroke-width="6" stroke-linejoin="round"/>
+  <path d="M176,150 L336,150 Q360,150 360,174 L360,200 L152,200 L152,174 Q152,150 176,150 Z"
+        fill="#a5a5a5" opacity="0.6"/>
+  <!-- worn chip corner -->
+  <path d="M340,150 L360,150 L360,170 Z" fill="#6f6f6f" opacity="0.7"/>
+
+  <!-- glow behind glyph, split violet (intelligence) / pale blue (spirit) -->
+  <circle cx="222" cy="256" r="70" fill="#8a4fc9" opacity="0.2"/>
+  <circle cx="290" cy="256" r="70" fill="#7fa8d9" opacity="0.2"/>
+
+  <!-- insight glyph: half a coiled spiral (violet, sharp thought), half a
+       calm ripple (pale blue, quiet spirit), sharing one core node -->
+  <path d="M222,256 m0,-36 a36,36 0 1 1 -26,62 a24,24 0 1 1 17,-41"
+        fill="none" stroke="#8a4fc9" stroke-width="8" stroke-linecap="round"/>
+  <circle cx="290" cy="256" r="18" fill="none" stroke="#7fa8d9" stroke-width="6"/>
+  <circle cx="290" cy="256" r="34" fill="none" stroke="#7fa8d9" stroke-width="4" opacity="0.6"/>
+  <!-- shared core node -->
+  <circle cx="256" cy="256" r="9" fill="#e6dcff" stroke="#3a352f" stroke-width="3"/>
+  <!-- shine highlight -->
+  <ellipse cx="212" cy="232" rx="8" ry="4" fill="#d8b8ff" opacity="0.85" transform="rotate(-30 212 232)"/>
+</svg>

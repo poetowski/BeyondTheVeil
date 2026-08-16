@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- wooden table -->
+  <rect x="0" y="0" width="512" height="512" fill="#b98956"/>
+  <rect x="0" y="120" width="512" height="6" fill="#a3703f" opacity="0.6"/>
+  <rect x="0" y="260" width="512" height="6" fill="#a3703f" opacity="0.6"/>
+  <rect x="0" y="400" width="512" height="6" fill="#a3703f" opacity="0.6"/>
+  <rect x="40" y="40" width="180" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
+  <rect x="300" y="180" width="150" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
+  <rect x="80" y="320" width="200" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
+  <rect x="250" y="440" width="180" height="4" rx="2" fill="#cf9f6c" opacity="0.5"/>
+
+  <!-- contact shadow -->
+  <ellipse cx="256" cy="366" rx="100" ry="18" fill="#3a352f" opacity="0.2"/>
+
+  <!-- stone tablet -->
+  <path d="M176,150 L336,150 Q360,150 360,174 L360,338 Q360,362 336,362
+           L176,362 Q152,362 152,338 L152,174 Q152,150 176,150 Z"
+        fill="#8f8f8f" stroke="#3a352f" stroke-width="6" stroke-linejoin="round"/>
+  <path d="M176,150 L336,150 Q360,150 360,174 L360,200 L152,200 L152,174 Q152,150 176,150 Z"
+        fill="#a5a5a5" opacity="0.6"/>
+  <!-- worn chip corner -->
+  <path d="M176,150 L196,150 L176,170 Z" fill="#6f6f6f" opacity="0.7"/>
+
+  <!-- glow behind glyph, split amber (dexterity) / green (agility) -->
+  <circle cx="226" cy="256" r="70" fill="#d9a441" opacity="0.2"/>
+  <circle cx="286" cy="256" r="70" fill="#3fae7a" opacity="0.2"/>
+
+  <!-- alacrity glyph: a narrow arrow split down the middle - amber
+       (precise, still) on the left, green (swift, moving) on the right -->
+  <path d="M256,180 L256,332 L212,256 Z" fill="#d9a441" stroke="#7a5c1a" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M256,180 L256,332 L300,256 Z" fill="#3fae7a" stroke="#1f5c3f" stroke-width="5" stroke-linejoin="round"/>
+  <line x1="256" y1="180" x2="256" y2="332" stroke="#3a352f" stroke-width="3"/>
+  <!-- motion trail off the green half -->
+  <path d="M300,240 Q322,256 300,272" fill="none" stroke="#3fae7a" stroke-width="5" stroke-linecap="round" opacity="0.55"/>
+  <!-- precision node on the amber half -->
+  <circle cx="222" cy="256" r="6" fill="#ffe6a3" stroke="#7a5c1a" stroke-width="2"/>
+  <!-- shared core node -->
+  <circle cx="256" cy="256" r="10" fill="#f4ede0" stroke="#3a352f" stroke-width="3"/>
+</svg>
