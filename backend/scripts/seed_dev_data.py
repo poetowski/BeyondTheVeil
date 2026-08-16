@@ -378,7 +378,7 @@ CONSUMABLE_TEMPLATES = [
         heal_flat=450,
         heal_vitality_multiplier=7,
         price=950,
-        level_requirement=10,
+        level_requirement=15,
     ),
 ]
 for _consumable in CONSUMABLE_TEMPLATES:
@@ -436,7 +436,7 @@ CRAFTING_RECIPES = [
     dict(
         name="Health Elixir (Veilbloom Blend)",
         category=CraftingCategory.ALCHEMY,
-        level_requirement=10,
+        level_requirement=15,
         output_consumable_slug=slugify("Health Elixir"),
         output_quantity=1,
         ingredients=[dict(material_slug=slugify("Veilbloom"), quantity_required=5)],
