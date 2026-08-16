@@ -236,6 +236,58 @@ MONSTER_TEMPLATES = [
         spell_attack_min=6,
         spell_attack_max=18,
     ),
+    # Level 10-15: the tier just past Mage Adept - also the first content
+    # to reach past level 12 at all. Carries tier3 gear + the new
+    # materials (see MONSTER_LOOT_ENTRIES/MONSTER_MATERIAL_LOOT_ENTRIES
+    # below), weighted differently per monster to match its concept.
+    dict(
+        name="Bandit",
+        level_range_min=10,
+        level_range_max=15,
+        base_stats={"strength": 40, "dexterity": 55, "intelligence": 8, "vitality": 50, "agility": 48, "spirit": 15},
+        flavor_text="He stopped running a long time ago - now you're the one who should.",
+        no_drop_weight=60,
+        no_material_drop_weight=30,
+        gold_min=160,
+        gold_max=320,
+        weapon_attack_min=10,
+        weapon_attack_max=18,
+        defense=3,
+        spell_attack_min=0,
+        spell_attack_max=0,
+    ),
+    dict(
+        name="Broodmother",
+        level_range_min=10,
+        level_range_max=15,
+        base_stats={"strength": 35, "dexterity": 50, "intelligence": 10, "vitality": 55, "agility": 50, "spirit": 15},
+        flavor_text="Everything in this hollow that used to move now just feeds her.",
+        no_drop_weight=65,
+        no_material_drop_weight=25,
+        gold_min=90,
+        gold_max=180,
+        weapon_attack_min=12,
+        weapon_attack_max=20,
+        defense=5,
+        spell_attack_min=0,
+        spell_attack_max=4,
+    ),
+    dict(
+        name="Imp",
+        level_range_min=10,
+        level_range_max=15,
+        base_stats={"strength": 15, "dexterity": 35, "intelligence": 60, "vitality": 35, "agility": 45, "spirit": 35},
+        flavor_text="It laughs first, then it burns you, then it laughs again.",
+        no_drop_weight=60,
+        no_material_drop_weight=28,
+        gold_min=120,
+        gold_max=240,
+        weapon_attack_min=6,
+        weapon_attack_max=14,
+        defense=1,
+        spell_attack_min=14,
+        spell_attack_max=28,
+    ),
 ]
 for _monster in MONSTER_TEMPLATES:
     _monster["slug"] = slugify(_monster["name"])
@@ -553,6 +605,43 @@ MONSTER_LOOT_ENTRIES = [
     dict(monster_slug=slugify("Mage Adept"), item_slug=slugify("Agility Talisman"), drop_weight=4),
     # Frozen Spark is exclusive to Mage Adept - no other monster's loot table.
     dict(monster_slug=slugify("Mage Adept"), item_slug=slugify("Frozen Spark"), drop_weight=3),
+    # Bandit, Broodmother, and Imp (level 10-15) all carry the full tier3
+    # set, weighted per-monster to match concept: Bandit favors mundane
+    # Steel gear (practical, looted from past victims), Imp favors the
+    # arcane Adept's line, Broodmother is roughly even (both lines just
+    # read as "things dragged into the lair").
+    dict(monster_slug=slugify("Bandit"), item_slug=slugify("Steel Cleaver"), drop_weight=6),
+    dict(monster_slug=slugify("Bandit"), item_slug=slugify("Steel Bulwark"), drop_weight=6),
+    dict(monster_slug=slugify("Bandit"), item_slug=slugify("Steel Helm"), drop_weight=6),
+    dict(monster_slug=slugify("Bandit"), item_slug=slugify("Steel Plate"), drop_weight=6),
+    dict(monster_slug=slugify("Bandit"), item_slug=slugify("Steel Signet"), drop_weight=6),
+    dict(monster_slug=slugify("Bandit"), item_slug=slugify("Adept's Fang"), drop_weight=3),
+    dict(monster_slug=slugify("Bandit"), item_slug=slugify("Adept's Ward"), drop_weight=3),
+    dict(monster_slug=slugify("Bandit"), item_slug=slugify("Adept's Circlet"), drop_weight=3),
+    dict(monster_slug=slugify("Bandit"), item_slug=slugify("Adept's Scale"), drop_weight=3),
+    dict(monster_slug=slugify("Bandit"), item_slug=slugify("Adept's Pendant"), drop_weight=3),
+
+    dict(monster_slug=slugify("Broodmother"), item_slug=slugify("Adept's Fang"), drop_weight=4),
+    dict(monster_slug=slugify("Broodmother"), item_slug=slugify("Adept's Ward"), drop_weight=4),
+    dict(monster_slug=slugify("Broodmother"), item_slug=slugify("Adept's Circlet"), drop_weight=4),
+    dict(monster_slug=slugify("Broodmother"), item_slug=slugify("Adept's Scale"), drop_weight=4),
+    dict(monster_slug=slugify("Broodmother"), item_slug=slugify("Adept's Pendant"), drop_weight=4),
+    dict(monster_slug=slugify("Broodmother"), item_slug=slugify("Steel Cleaver"), drop_weight=4),
+    dict(monster_slug=slugify("Broodmother"), item_slug=slugify("Steel Bulwark"), drop_weight=4),
+    dict(monster_slug=slugify("Broodmother"), item_slug=slugify("Steel Helm"), drop_weight=4),
+    dict(monster_slug=slugify("Broodmother"), item_slug=slugify("Steel Plate"), drop_weight=4),
+    dict(monster_slug=slugify("Broodmother"), item_slug=slugify("Steel Signet"), drop_weight=4),
+
+    dict(monster_slug=slugify("Imp"), item_slug=slugify("Adept's Fang"), drop_weight=6),
+    dict(monster_slug=slugify("Imp"), item_slug=slugify("Adept's Ward"), drop_weight=6),
+    dict(monster_slug=slugify("Imp"), item_slug=slugify("Adept's Circlet"), drop_weight=6),
+    dict(monster_slug=slugify("Imp"), item_slug=slugify("Adept's Scale"), drop_weight=6),
+    dict(monster_slug=slugify("Imp"), item_slug=slugify("Adept's Pendant"), drop_weight=6),
+    dict(monster_slug=slugify("Imp"), item_slug=slugify("Steel Cleaver"), drop_weight=3),
+    dict(monster_slug=slugify("Imp"), item_slug=slugify("Steel Bulwark"), drop_weight=3),
+    dict(monster_slug=slugify("Imp"), item_slug=slugify("Steel Helm"), drop_weight=3),
+    dict(monster_slug=slugify("Imp"), item_slug=slugify("Steel Plate"), drop_weight=3),
+    dict(monster_slug=slugify("Imp"), item_slug=slugify("Steel Signet"), drop_weight=3),
 ]
 
 # Young Wolf: no_material_drop_weight 70, Chamomile 20, Plantago 10 -> 70%
@@ -645,6 +734,25 @@ MONSTER_MATERIAL_LOOT_ENTRIES = [
     dict(monster_slug=slugify("Mage Adept"), material_slug=slugify("Gem"), drop_weight=15),
     dict(monster_slug=slugify("Mage Adept"), material_slug=slugify("Silverleaf"), drop_weight=15),
     dict(monster_slug=slugify("Mage Adept"), material_slug=slugify("Ancient Porcelain"), drop_weight=30),
+    # Bandit, Broodmother, and Imp (level 10-15) - all 4 new materials plus
+    # Ancient Porcelain, weighted per-monster to match concept.
+    dict(monster_slug=slugify("Bandit"), material_slug=slugify("Silver Ore"), drop_weight=20),
+    dict(monster_slug=slugify("Bandit"), material_slug=slugify("Ancient Porcelain"), drop_weight=15),
+    dict(monster_slug=slugify("Bandit"), material_slug=slugify("Steelhide"), drop_weight=10),
+    dict(monster_slug=slugify("Bandit"), material_slug=slugify("Soul Part"), drop_weight=5),
+    dict(monster_slug=slugify("Bandit"), material_slug=slugify("Veilbloom"), drop_weight=5),
+
+    dict(monster_slug=slugify("Broodmother"), material_slug=slugify("Steelhide"), drop_weight=20),
+    dict(monster_slug=slugify("Broodmother"), material_slug=slugify("Soul Part"), drop_weight=15),
+    dict(monster_slug=slugify("Broodmother"), material_slug=slugify("Veilbloom"), drop_weight=12),
+    dict(monster_slug=slugify("Broodmother"), material_slug=slugify("Ancient Porcelain"), drop_weight=8),
+    dict(monster_slug=slugify("Broodmother"), material_slug=slugify("Silver Ore"), drop_weight=5),
+
+    dict(monster_slug=slugify("Imp"), material_slug=slugify("Soul Part"), drop_weight=20),
+    dict(monster_slug=slugify("Imp"), material_slug=slugify("Veilbloom"), drop_weight=15),
+    dict(monster_slug=slugify("Imp"), material_slug=slugify("Ancient Porcelain"), drop_weight=12),
+    dict(monster_slug=slugify("Imp"), material_slug=slugify("Steelhide"), drop_weight=5),
+    dict(monster_slug=slugify("Imp"), material_slug=slugify("Silver Ore"), drop_weight=5),
 ]
 
 

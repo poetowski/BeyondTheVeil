@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#e8e4d0"/>
+      <stop offset="100%" stop-color="#d4c8a8"/>
+    </linearGradient>
+  </defs>
+
+  <!-- dusty cliffside sky -->
+  <rect x="0" y="0" width="512" height="340" fill="url(#sky)"/>
+  <!-- rocky camp ground -->
+  <rect x="0" y="340" width="512" height="172" fill="#8a7a5c"/>
+
+  <!-- distant cliff face -->
+  <polygon points="0,340 0,220 60,180 130,240 180,190 240,250 300,340" fill="#857c6e"/>
+  <polygon points="512,340 512,200 440,160 380,230 320,340" fill="#6b6258"/>
+
+  <!-- rock outcrops framing the scene -->
+  <polygon points="0,512 0,300 40,260 70,340 50,512" fill="#6b6258" stroke="#3a352f" stroke-width="4" stroke-linejoin="round"/>
+  <polygon points="512,512 512,280 470,240 442,340 460,512" fill="#5c544a" stroke="#3a352f" stroke-width="4" stroke-linejoin="round"/>
+
+  <!-- small camp fire, his -->
+  <g>
+    <ellipse cx="380" cy="412" rx="26" ry="8" fill="#3a352f" opacity="0.5"/>
+    <path d="M362,406 L398,406 L392,392 L368,392 Z" fill="#5b4636" stroke="#3a352f" stroke-width="3"/>
+    <ellipse cx="380" cy="382" rx="9" ry="14" fill="#e8622c"/>
+    <ellipse cx="380" cy="378" rx="5" ry="8" fill="#ffcf6b"/>
+  </g>
+
+  <!-- ground shadow -->
+  <ellipse cx="210" cy="452" rx="90" ry="16" fill="#5c503a" opacity="0.5"/>
+
+  <!-- legs, planted wide, holding ground -->
+  <rect x="180" y="392" width="24" height="66" rx="8" fill="#3a352f" stroke="#2b2823" stroke-width="4"/>
+  <rect x="228" y="392" width="24" height="66" rx="8" fill="#454540" stroke="#2b2823" stroke-width="4"/>
+
+  <!-- rough leather coat -->
+  <path d="M154,270 Q156,238 214,222 Q272,238 274,270
+           L286,410 Q278,432 214,432 Q150,432 142,410 Z"
+        fill="#5b4d3f" stroke="#3a352f" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M214,242 Q230,300 224,410 L200,410 Q194,300 202,242 Z" fill="#453a2e" opacity="0.85"/>
+  <!-- belt -->
+  <rect x="146" y="336" width="136" height="16" fill="#2b2823" stroke="#3a352f" stroke-width="2"/>
+
+  <!-- off arm, resting -->
+  <rect x="270" y="290" width="20" height="66" rx="9" fill="#5b4d3f" stroke="#3a352f" stroke-width="4"/>
+
+  <!-- sword arm, held low and ready, not raised -->
+  <rect x="140" y="288" width="20" height="68" rx="9" fill="#5b4d3f" stroke="#3a352f" stroke-width="4"/>
+  <circle cx="150" cy="360" r="13" fill="#454540" stroke="#3a352f" stroke-width="3"/>
+  <g transform="rotate(6 150 360)">
+    <rect x="144" y="358" width="12" height="24" rx="4" fill="#5b4636" stroke="#3a352f" stroke-width="3"/>
+    <rect x="132" y="352" width="36" height="8" rx="2" fill="#454540" stroke="#3a352f" stroke-width="3"/>
+    <polygon points="150,412 162,358 138,358" fill="#8a939c" stroke="#3a352f" stroke-width="3" stroke-linejoin="round"/>
+    <polygon points="150,412 154,358 150,358" fill="#c9d1d8" opacity="0.8"/>
+  </g>
+
+  <!-- neck -->
+  <rect x="196" y="212" width="36" height="30" fill="#c79e78" stroke="#3a352f" stroke-width="3"/>
+
+  <!-- head, unhooded - he isn't hiding -->
+  <circle cx="214" cy="176" r="46" fill="#c79e78" stroke="#3a352f" stroke-width="5"/>
+  <path d="M254,140 Q276,176 258,210 Q270,176 250,146 Z" fill="#a8805c" opacity="0.7"/>
+
+  <!-- short, rough hair -->
+  <path d="M172,158 Q178,128 214,124 Q250,128 256,158 Q234,144 214,144 Q194,144 172,158 Z"
+        fill="#2b2823" stroke="#3a352f" stroke-width="4" stroke-linejoin="round"/>
+
+  <!-- a scar, and a look that isn't running from anything -->
+  <path d="M234,158 L246,196" stroke="#8a5a4a" stroke-width="3" opacity="0.8"/>
+  <ellipse cx="198" cy="178" rx="7" ry="6" fill="#2b2823"/>
+  <ellipse cx="230" cy="178" rx="7" ry="6" fill="#2b2823"/>
+  <path d="M188,164 Q198,158 210,164" fill="none" stroke="#3a352f" stroke-width="3" stroke-linecap="round"/>
+  <path d="M218,166 Q230,158 240,166" fill="none" stroke="#3a352f" stroke-width="3" stroke-linecap="round"/>
+  <path d="M198,200 Q214,206 230,198" fill="none" stroke="#3a352f" stroke-width="3" stroke-linecap="round"/>
+</svg>

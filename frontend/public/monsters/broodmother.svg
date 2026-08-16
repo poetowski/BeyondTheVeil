@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="cave-wall" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#241f2a"/>
+      <stop offset="100%" stop-color="#332c38"/>
+    </linearGradient>
+  </defs>
+
+  <!-- shadowy hollow -->
+  <rect x="0" y="0" width="512" height="340" fill="url(#cave-wall)"/>
+  <rect x="0" y="340" width="512" height="172" fill="#1c1720"/>
+
+  <!-- hanging stalactites -->
+  <g fill="#3a3340">
+    <polygon points="70,0 60,50 82,50"/>
+    <polygon points="200,0 192,36 212,36"/>
+    <polygon points="360,0 350,44 372,44"/>
+    <polygon points="450,0 440,54 462,54"/>
+  </g>
+
+  <!-- webbing strung across the hollow -->
+  <g stroke="#c9c2d4" stroke-width="1.5" opacity="0.4" fill="none">
+    <path d="M0,60 L200,180 M512,50 L280,190 M0,180 L512,150"/>
+    <path d="M60,0 L200,180 M420,0 L280,190"/>
+  </g>
+
+  <!-- a wrapped, forgotten shape in the corner -->
+  <ellipse cx="440" cy="380" rx="30" ry="16" fill="#4a4350" stroke="#3a352f" stroke-width="3" opacity="0.8"/>
+  <path d="M416,380 L464,380 M420,372 L460,388 M420,388 L460,372" stroke="#3a352f" stroke-width="1.5" opacity="0.5"/>
+
+  <!-- ground shadow -->
+  <ellipse cx="246" cy="420" rx="130" ry="20" fill="#100d14" opacity="0.6"/>
+
+  <!-- back legs, both sides -->
+  <g stroke="#2b2436" stroke-width="8" fill="none" stroke-linecap="round">
+    <path d="M180,340 Q120,320 80,270"/>
+    <path d="M188,360 Q116,368 66,340"/>
+    <path d="M312,340 Q372,320 412,270"/>
+    <path d="M304,360 Q376,368 426,340"/>
+  </g>
+  <!-- front legs -->
+  <g stroke="#4a4058" stroke-width="8" fill="none" stroke-linecap="round">
+    <path d="M196,320 Q150,270 158,214"/>
+    <path d="M296,320 Q342,270 334,214"/>
+  </g>
+  <!-- leg tips -->
+  <g fill="#2b2436">
+    <circle cx="80" cy="270" r="6"/>
+    <circle cx="66" cy="340" r="6"/>
+    <circle cx="412" cy="270" r="6"/>
+    <circle cx="426" cy="340" r="6"/>
+    <circle cx="158" cy="214" r="6"/>
+    <circle cx="334" cy="214" r="6"/>
+  </g>
+
+  <!-- bulbous abdomen -->
+  <ellipse cx="256" cy="330" rx="98" ry="82" fill="#4a3550" stroke="#3a352f" stroke-width="5"/>
+  <path d="M256,254 Q320,270 322,340 Q320,390 270,404 Q300,340 256,254 Z" fill="#382642" opacity="0.8"/>
+  <!-- marking -->
+  <path d="M256,278 L272,320 L256,362 L240,320 Z" fill="#7a5a90" opacity="0.6"/>
+
+  <!-- head/cephalothorax -->
+  <ellipse cx="256" cy="228" rx="52" ry="44" fill="#5a4460" stroke="#3a352f" stroke-width="5"/>
+
+  <!-- fangs -->
+  <path d="M232,258 L222,282" stroke="#2b2436" stroke-width="6" stroke-linecap="round"/>
+  <path d="M280,258 L290,282" stroke="#2b2436" stroke-width="6" stroke-linecap="round"/>
+
+  <!-- eye cluster -->
+  <g fill="#d99a3d">
+    <circle cx="234" cy="216" r="8"/>
+    <circle cx="278" cy="216" r="8"/>
+    <circle cx="220" cy="232" r="5"/>
+    <circle cx="292" cy="232" r="5"/>
+    <circle cx="256" cy="204" r="5"/>
+  </g>
+  <g fill="#2b2823">
+    <circle cx="234" cy="216" r="3"/>
+    <circle cx="278" cy="216" r="3"/>
+    <circle cx="220" cy="232" r="2"/>
+    <circle cx="292" cy="232" r="2"/>
+    <circle cx="256" cy="204" r="2"/>
+  </g>
+</svg>

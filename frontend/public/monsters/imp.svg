@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="veil-sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2c1f4a"/>
+      <stop offset="100%" stop-color="#1c1430"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Veil-touched backdrop -->
+  <rect x="0" y="0" width="512" height="340" fill="url(#veil-sky)"/>
+  <rect x="0" y="340" width="512" height="172" fill="#120c20"/>
+
+  <!-- cracked, scorched ground -->
+  <g stroke="#0a0714" stroke-width="3" opacity="0.7" fill="none">
+    <path d="M120,380 L160,400 L140,430"/>
+    <path d="M360,390 L330,410 L350,440"/>
+    <path d="M256,420 L256,460"/>
+  </g>
+
+  <!-- drifting veil motes -->
+  <g fill="#b98aff">
+    <circle cx="90" cy="120" r="3" opacity="0.7"/>
+    <circle cx="420" cy="100" r="2.5" opacity="0.6"/>
+    <circle cx="440" cy="220" r="2" opacity="0.5"/>
+    <circle cx="70" cy="240" r="2.5" opacity="0.6"/>
+  </g>
+
+  <!-- ground shadow -->
+  <ellipse cx="256" cy="430" rx="80" ry="16" fill="#0a0714" opacity="0.6"/>
+
+  <!-- tail, curling and barbed -->
+  <path d="M290,370 Q340,390 336,340 Q332,310 358,300" fill="none" stroke="#7a2e28" stroke-width="10" stroke-linecap="round"/>
+  <polygon points="358,300 372,292 366,312" fill="#7a2e28" stroke="#3a352f" stroke-width="3" stroke-linejoin="round"/>
+
+  <!-- bat wings, spread -->
+  <path d="M198,300 L120,260 L100,210 L140,232 L128,196 L166,232 L182,268 Z"
+        fill="#5a2438" stroke="#3a352f" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M314,300 L392,260 L412,210 L372,232 L384,196 L346,232 L330,268 Z"
+        fill="#5a2438" stroke="#3a352f" stroke-width="4" stroke-linejoin="round"/>
+
+  <!-- legs, crouched and ready to spring -->
+  <path d="M226,378 Q220,404 232,420" fill="none" stroke="#8a2e28" stroke-width="14" stroke-linecap="round"/>
+  <path d="M286,378 Q292,404 280,420" fill="none" stroke="#7a2620" stroke-width="14" stroke-linecap="round"/>
+  <g fill="#3a352f">
+    <polygon points="232,420 224,432 238,430"/>
+    <polygon points="280,420 288,432 274,430"/>
+  </g>
+
+  <!-- small, wiry body -->
+  <ellipse cx="256" cy="336" rx="46" ry="52" fill="#8a2e28" stroke="#3a352f" stroke-width="5"/>
+  <path d="M256,290 Q294,306 292,350 Q288,378 260,388 Q280,350 256,290 Z" fill="#6b2420" opacity="0.8"/>
+
+  <!-- free hand, clawed -->
+  <path d="M212,320 Q182,332 172,314" fill="none" stroke="#8a2e28" stroke-width="10" stroke-linecap="round"/>
+
+  <!-- fire-juggling hand, arm raised -->
+  <path d="M300,320 Q332,304 340,278" fill="none" stroke="#8a2e28" stroke-width="10" stroke-linecap="round"/>
+  <circle cx="344" cy="266" r="16" fill="#ffab5e" opacity="0.3"/>
+  <circle cx="344" cy="266" r="10" fill="#e8622c" stroke="#3a352f" stroke-width="3"/>
+  <circle cx="344" cy="266" r="5" fill="#ffe27a"/>
+
+  <!-- head -->
+  <circle cx="256" cy="256" r="42" fill="#9a3830" stroke="#3a352f" stroke-width="5"/>
+  <path d="M290,224 Q312,256 296,286 Q306,254 284,230 Z" fill="#7a2620" opacity="0.75"/>
+
+  <!-- small curled horns -->
+  <path d="M232,222 Q222,204 232,190" fill="none" stroke="#2b2823" stroke-width="6" stroke-linecap="round"/>
+  <path d="M280,222 Q290,204 280,190" fill="none" stroke="#2b2823" stroke-width="6" stroke-linecap="round"/>
+
+  <!-- wide, mischievous grin -->
+  <path d="M232,270 Q256,288 280,270 Q272,282 256,284 Q240,282 232,270 Z"
+        fill="#2b0f0c" stroke="#3a352f" stroke-width="3" stroke-linejoin="round"/>
+  <g fill="#f4ede0">
+    <polygon points="238,270 244,270 241,278"/>
+    <polygon points="250,272 256,272 253,280"/>
+    <polygon points="262,272 268,272 265,280"/>
+    <polygon points="274,270 280,270 277,278"/>
+  </g>
+
+  <!-- sly, narrow eyes -->
+  <ellipse cx="240" cy="248" rx="7" ry="5" fill="#ffcf6b" transform="rotate(10 240 248)"/>
+  <ellipse cx="272" cy="248" rx="7" ry="5" fill="#ffcf6b" transform="rotate(-10 272 248)"/>
+  <circle cx="240" cy="248" r="2.5" fill="#2b0f0c"/>
+  <circle cx="272" cy="248" r="2.5" fill="#2b0f0c"/>
+  <path d="M226,236 Q240,228 252,236" fill="none" stroke="#3a352f" stroke-width="3" stroke-linecap="round"/>
+  <path d="M260,236 Q272,228 286,236" fill="none" stroke="#3a352f" stroke-width="3" stroke-linecap="round"/>
+</svg>
