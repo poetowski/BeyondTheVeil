@@ -42,6 +42,12 @@ class ConsumableNotOwnedError(CraftingServiceError):
     pass
 
 
+# A single-purpose special case, not a generic "consumable unlocks avatar"
+# system - there's exactly one such pairing right now (see use_consumable).
+HERBALIST_HELL_SLUG = "herbalist-hell"
+FLOWER_KID_AVATAR_SLUG = "flower-kid-avatar"
+
+
 @dataclass
 class CraftResult:
     consumable: ConsumableInstance | None
@@ -194,7 +200,13 @@ def craft(db: Session, hero: Hero, recipe_slug: str) -> CraftResult:
 def use_consumable(db: Session, hero: Hero, consumable_instance_id: uuid.UUID) -> Hero:
     """Applies a consumable's heal effect immediately (a synchronous action,
     not a delayed veil-run outcome, so there's no entry/claim split to
-    respect here - current_hp/hp_updated_at are written right away)."""
+    respect here - current_hp/hp_updated_at are written right away).
+
+    One consumable carries a side effect beyond healing: drinking Herbalist
+    Hell (a heal_flat=0/heal_vitality_multiplier=0 potion - it does nothing
+    to HP) unlocks Flower Kid Avatar (see hero_service.grant_avatar_unlock,
+    which is idempotent - drinking a second one is a no-op beyond depleting
+    the stack, same as any other consumable)."""
     consumable = db.get(ConsumableInstance, consumable_instance_id)
     if consumable is None:
         raise ConsumableNotFoundError(f"consumable {consumable_instance_id} not found")
@@ -216,6 +228,9 @@ def use_consumable(db: Session, hero: Hero, consumable_instance_id: uuid.UUID) -
     hero.current_hp = min(max_hp, current_hp + heal_amount)
     hero.hp_updated_at = datetime.now(timezone.utc)
     db.add(hero)
+
+    if consumable.template.slug == HERBALIST_HELL_SLUG:
+        hero_service.grant_avatar_unlock(db, hero, FLOWER_KID_AVATAR_SLUG)
 
     consumable.quantity -= 1
     if consumable.quantity == 0:

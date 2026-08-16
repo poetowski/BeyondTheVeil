@@ -38,6 +38,19 @@ AVATAR_TEMPLATES = [
     # defaults to 1 - available from the start, gold-gated only), just a
     # steeper price for a pure vanity/joke portrait.
     dict(name="Fat Avatar", price=9999, sort_order=4),
+    # price=0 but NOT free-at-level (see AvatarTemplate's docstring) -
+    # unlock_hint being set is what gates it behind actually drinking a
+    # Herbalist Hell potion (see crafting_service.use_consumable) instead
+    # of gold or level alone. level_requirement=15 mirrors the potion's
+    # own level gate for display consistency, though in practice a hero
+    # can't have crafted the potion below that level anyway.
+    dict(
+        name="Flower Kid Avatar",
+        price=0,
+        level_requirement=15,
+        sort_order=5,
+        unlock_hint="Craft a Herbalist Hell potion in Alchemy (level 15) and drink it.",
+    ),
 ]
 for _avatar in AVATAR_TEMPLATES:
     _avatar["slug"] = slugify(_avatar["name"])
@@ -397,6 +410,16 @@ CONSUMABLE_TEMPLATES = [
         price=950,
         level_requirement=15,
     ),
+    # No healing at all (heal_flat/heal_vitality_multiplier both default to
+    # 0) - this isn't a potion for HP, it's the unlock item for Flower Kid
+    # Avatar (see crafting_service.use_consumable's Herbalist Hell special
+    # case). Sixty Veilbloom is a deliberately steep ask - see its recipe.
+    dict(
+        name="Herbalist Hell",
+        description="Sixty Veilbloom, boiled down to a single cup. Whoever finishes it stops seeing the Veil and starts seeing flowers.",
+        price=11000,
+        level_requirement=15,
+    ),
 ]
 for _consumable in CONSUMABLE_TEMPLATES:
     _consumable["slug"] = slugify(_consumable["name"])
@@ -457,6 +480,14 @@ CRAFTING_RECIPES = [
         output_consumable_slug=slugify("Health Elixir"),
         output_quantity=1,
         ingredients=[dict(material_slug=slugify("Veilbloom"), quantity_required=5)],
+    ),
+    dict(
+        name="Herbalist Hell (Veilbloom Overdose)",
+        category=CraftingCategory.ALCHEMY,
+        level_requirement=15,
+        output_consumable_slug=slugify("Herbalist Hell"),
+        output_quantity=1,
+        ingredients=[dict(material_slug=slugify("Veilbloom"), quantity_required=60)],
     ),
     dict(
         name="Vrelka Rune of Vigor",

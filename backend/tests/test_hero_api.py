@@ -215,3 +215,78 @@ def test_avatar_auto_unlocks_once_hero_reaches_its_level_requirement(client, db_
     )
     assert select_response.status_code == 200
     assert select_response.json()["avatar_slug"] == "warrior-avatar"
+
+
+def test_unlock_hint_avatar_stays_locked_even_past_its_level_requirement(client, db_session):
+    # price=0 alone isn't enough once unlock_hint is set - see
+    # AvatarTemplate's docstring and hero_service.is_avatar_unlocked. Unlike
+    # Warrior Avatar above, reaching the level must NOT be sufficient here.
+    from app.models.avatar import AvatarTemplate
+    from app.models.hero import Hero
+
+    db_session.add(
+        AvatarTemplate(
+            slug="flower-kid-avatar",
+            name="Flower Kid Avatar",
+            level_requirement=15,
+            sort_order=5,
+            unlock_hint="Craft a Herbalist Hell potion in Alchemy (level 15) and drink it.",
+        )
+    )
+    db_session.flush()
+
+    token = _signup(client, email="hero-api-flower-kid-locked@test.com")
+    me = client.get("/api/v1/users/me", headers=_auth(token)).json()
+    hero = db_session.get(Hero, me["hero"]["id"])
+    hero.level = 15
+    db_session.flush()
+
+    avatars = client.get("/api/v1/avatars", headers=_auth(token)).json()
+    flower_kid = next(a for a in avatars if a["slug"] == "flower-kid-avatar")
+    assert flower_kid["unlocked"] is False
+    assert flower_kid["unlock_hint"] == "Craft a Herbalist Hell potion in Alchemy (level 15) and drink it."
+
+    select_response = client.post(
+        "/api/v1/hero/avatar", json={"avatar_slug": "flower-kid-avatar"}, headers=_auth(token)
+    )
+    assert select_response.status_code == 403
+
+    unlock_response = client.post("/api/v1/avatars/flower-kid-avatar/unlock", headers=_auth(token))
+    assert unlock_response.status_code == 403, "price=0 avatars are never purchasable, unlock_hint or not"
+
+
+def test_unlock_hint_is_null_for_ordinary_avatars(client, db_session):
+    from app.models.avatar import AvatarTemplate
+
+    db_session.add(AvatarTemplate(slug="militia-avatar", name="Militia Avatar", price=2000, sort_order=1))
+    db_session.flush()
+
+    token = _signup(client, email="hero-api-unlock-hint-null@test.com")
+    avatars = client.get("/api/v1/avatars", headers=_auth(token)).json()
+    militia = next(a for a in avatars if a["slug"] == "militia-avatar")
+    assert militia["unlock_hint"] is None
+
+
+def test_grant_avatar_unlock_is_idempotent(db_session, hero_factory):
+    from app.models.avatar import AvatarTemplate, HeroAvatarUnlock
+
+    hero = hero_factory()
+    avatar = AvatarTemplate(
+        slug="flower-kid-avatar", name="Flower Kid Avatar", level_requirement=15, sort_order=5,
+        unlock_hint="Craft a Herbalist Hell potion in Alchemy (level 15) and drink it.",
+    )
+    db_session.add(avatar)
+    db_session.flush()
+
+    hero_service.grant_avatar_unlock(db_session, hero, "flower-kid-avatar")
+    hero_service.grant_avatar_unlock(db_session, hero, "flower-kid-avatar")
+    db_session.flush()
+
+    unlocks = db_session.query(HeroAvatarUnlock).filter_by(hero_id=hero.id).all()
+    assert len(unlocks) == 1
+
+
+def test_grant_avatar_unlock_on_unknown_slug_is_a_silent_no_op(db_session, hero_factory):
+    hero = hero_factory()
+    hero_service.grant_avatar_unlock(db_session, hero, "nonexistent-avatar")
+    db_session.flush()

@@ -264,13 +264,15 @@ def is_avatar_unlocked(db: Session, hero: Hero, avatar: AvatarTemplate) -> bool:
     """Two independent gates, both must pass:
     - level_requirement: hero.level must meet it (no purchase involved -
       e.g. Warrior Avatar just needs level 10).
-    - price: a price=0 avatar is free once the level gate above passes;
-      a price>0 avatar additionally needs a HeroAvatarUnlock row (see
-      unlock_avatar).
+    - price/unlock_hint: a price=0 avatar with no unlock_hint is free once
+      the level gate above passes; a price>0 avatar, or a price=0 avatar
+      with unlock_hint set (gated behind a specific action instead of
+      gold or level - see AvatarTemplate's docstring), additionally needs
+      a HeroAvatarUnlock row (see unlock_avatar and grant_avatar_unlock).
     """
     if hero.level < avatar.level_requirement:
         return False
-    if avatar.price == 0:
+    if avatar.price == 0 and avatar.unlock_hint is None:
         return True
     existing = db.execute(
         select(HeroAvatarUnlock).where(
@@ -279,6 +281,31 @@ def is_avatar_unlocked(db: Session, hero: Hero, avatar: AvatarTemplate) -> bool:
         )
     ).scalar_one_or_none()
     return existing is not None
+
+
+def grant_avatar_unlock(db: Session, hero: Hero, avatar_slug: str) -> None:
+    """Idempotently grants a hero a HeroAvatarUnlock row for an
+    unlock_hint-gated avatar (see AvatarTemplate's docstring), bypassing
+    gold/unlock_avatar entirely - for game actions that unlock an avatar
+    directly (e.g. crafting_service.use_consumable's Herbalist Hell
+    special case) rather than a player purchase. No-op if the avatar
+    doesn't exist or the hero already has it unlocked - safe to call on
+    every use of whatever action triggers it, not just the first. Does
+    not commit; the caller controls the transaction."""
+    avatar = db.execute(
+        select(AvatarTemplate).where(AvatarTemplate.slug == avatar_slug)
+    ).scalar_one_or_none()
+    if avatar is None:
+        return
+    existing = db.execute(
+        select(HeroAvatarUnlock).where(
+            HeroAvatarUnlock.hero_id == hero.id,
+            HeroAvatarUnlock.avatar_template_id == avatar.id,
+        )
+    ).scalar_one_or_none()
+    if existing is not None:
+        return
+    db.add(HeroAvatarUnlock(hero_id=hero.id, avatar_template_id=avatar.id))
 
 
 def unlock_avatar(db: Session, hero: Hero, avatar_slug: str) -> Hero:
@@ -297,9 +324,8 @@ def unlock_avatar(db: Session, hero: Hero, avatar_slug: str) -> Hero:
         return hero
 
     if avatar.price == 0:
-        raise AvatarNotUnlockedError(
-            f"avatar requires level {avatar.level_requirement}: {avatar_slug}"
-        )
+        detail = avatar.unlock_hint or f"requires level {avatar.level_requirement}"
+        raise AvatarNotUnlockedError(f"avatar not purchasable ({detail}): {avatar_slug}")
 
     if hero.gold < avatar.price:
         raise InsufficientGoldError("not enough gold to unlock this avatar")
